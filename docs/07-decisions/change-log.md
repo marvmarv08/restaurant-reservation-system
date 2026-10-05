@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-05 — Phase 3 transactional booking engine
+
+- Change: Added database-driven availability, scoped blackouts, room/notice/turn/close rules, ten-minute owned holds, transactional confirmation, code collision retries, and idempotent confirmation. All joined members are locked and saved. A per-date lock protects pacing across different tables. Guest API mutations require the guest session and CSRF token. Cancellation remains an internal service for future authorized controllers; notifications stay in the demo outbox.
+- Evidence: 36 isolated MySQL tests and 11 HTTP tests passed, including separate-process races for the final VIP table, overlapping starts, joined members, pacing, and confirmation. Expiry while waiting for locks was rejected. PHP lint passed on 26 files; main/test smoke and main database safeguards passed. The additive upgrade and protected seeder preserved 185 main demo rows and added 0 on rerun.
+- Lesson: A transaction groups related database writes so they either all save or all roll back. Physical-table locks protect seats, while the date lock protects the restaurant's shared pacing limit. A successful availability search is provisional; the transaction checks it again before holding or booking.
+- Next: P4 connects the browser screens and adds secure management links, modification, and cancellation cutoff enforcement.
+
 ## 2026-10-05 — Phase 2 database and repeatable seed
 
 - Change: Added executable MySQL tables and foreign keys for room inventory, policy, staff, guests, reservations, holds, orders, history, and demo outbox. Imported the prototype's 25 tables and 36 menu items; a one-shot PHP seed supplies date-relative reservations. Staff profiles are inactive until secure login is implemented.

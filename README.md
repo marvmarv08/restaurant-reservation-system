@@ -2,7 +2,7 @@
 
 Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaScript, CSS, MySQL 8.4, and Docker Compose.
 
-This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application foundation. The PHP page currently proves startup and database connectivity. Phase 2 adds a populated database; the guest booking flow begins in Phase 3.
+This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The starter page proves connectivity; the backend now provides real availability, expiring holds, and transactional booking. Phase 4 connects the guest screens to that API.
 
 ## Start the PHP application
 
@@ -16,7 +16,7 @@ docker compose ps
 
 Open [http://localhost:8080](http://localhost:8080) for the PHP starter page. Open [http://localhost:8080/health](http://localhost:8080/health) to check the database connection; a working stack returns `{"ok":true,"db":true}`. Adminer is at [http://localhost:8081](http://localhost:8081); choose MySQL, server `db`, and the `DB_USERNAME`, `DB_PASSWORD`, and `DB_DATABASE` values from your local `.env`. On a fresh volume, MySQL loads the schema, rooms, tables, menu, and inactive demo staff; a one-shot PHP seed adds date-relative sample reservations before the web app starts.
 
-If your MySQL volume already existed before Phase 2, the MySQL image will not rerun its init SQL. Start only the database, then apply the non-destructive upgrade and start the full stack:
+If your MySQL volume already existed before the latest schema files were added, the MySQL image will not rerun its init SQL. Start only the database, then apply the additive upgrade and start the full stack:
 
 ```bash
 docker compose up -d db
@@ -25,6 +25,11 @@ docker compose up -d --build
 ```
 
 The setup script keeps existing rows and does not reset your volume. Never copy `.env.example` over an existing `.env`: its database credentials must continue matching your current volume.
+
+Phase 3 adds `booking_days` for pacing locks and `hold_reservations` for confirmation retries.
+See [the booking API guide](docs/booking-api.md) for routes, rules, and the isolated verification commands.
+Availability can be inspected at `/api/availability?date=YYYY-MM-DD&party_size=2&room_type=common`
+using a valid upcoming service date. The guest booking UI is connected in Phase 4.
 
 To check the seed and database safeguards:
 
@@ -62,7 +67,7 @@ browser simulation; it is not connected to the new PHP foundation or MySQL yet. 
 
 ## Why the booking engine comes first
 
-Most reservation projects double-book under concurrency. This one is designed not to:
+Reservation requests share the same table inventory. The engine protects it with:
 
 - Short-lived expiring holds so a slot is reserved while the guest completes the form
 - `SELECT ... FOR UPDATE` inside a transaction to serialise the check-and-insert
@@ -103,6 +108,7 @@ After a phase passes its completion check, update the phase progress in `PLAN.md
 ## Documents
 
 - [`PLAN.md`](PLAN.md) - the consolidated implementation plan
+- [`docs/booking-api.md`](docs/booking-api.md) - live booking API, transaction safety, and isolated tests
 - [`research/01_reference_repos.md`](research/01_reference_repos.md) - open-source references and anti-patterns
 - [`research/02_booking_engine.md`](research/02_booking_engine.md) - schema DDL, availability SQL, concurrency, state machine
 - [`research/03_ux_flows.md`](research/03_ux_flows.md) - guest flow, floor plan picker, accessibility

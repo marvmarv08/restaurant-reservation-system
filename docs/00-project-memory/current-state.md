@@ -6,11 +6,11 @@ Skip when: Only reading historical decisions or one-off command output.
 
 ## Phase
 
-P0–P2 complete; P3 next. See `PLAN.md` for the authoritative progress table and completion checks.
+P0–P3 complete; P4 next. See `PLAN.md` for the authoritative progress table and completion checks.
 
 ## Current Top Objective
 
-Build the safe booking engine on the executable MySQL schema for P3.
+Connect the guest screens to the verified booking engine and implement secure guest management for P4.
 
 ## Stable Facts
 
@@ -21,24 +21,24 @@ Build the safe booking engine on the executable MySQL schema for P3.
 
 ## What Exists
 
-Planning/research documents, an in-memory browser prototype, a Docker/PHP foundation, and executable Phase 2 MySQL schema plus repeatable reference and demo seed. The Windows Desktop roadmap is generated from `PLAN.md` by `scripts/export_roadmap.py`.
+Planning/research documents, an in-memory browser prototype, executable MySQL schema, repeatable demo seed, and PHP booking services/API. `docs/booking-api.md` documents the contract, locks, rules, and tests. The Windows Desktop roadmap is generated from `PLAN.md` by `scripts/export_roadmap.py`.
 
 ## What Works
 
-An isolated empty Compose volume auto-loaded 4 rooms, 25 physical tables, 36 menu items, 30 demo guests, and 179 date-relative reservations; rerun added 0. The existing P1 volume was upgraded without reset. Eight early demo rows exceeding pacing were cancelled with history retained. `bin/verify-db.php` proved foreign keys, unique codes, active-slot uniqueness, cancelled-slot reuse with retained history, joined membership, pacing, and no live seed overlaps; `bin/smoke.sh` passed on both stacks.
+P3 passed 36 isolated real-MySQL scenarios and 11 HTTP scenarios. Multi-process races proved final-table, interval overlap, joined members, shared pacing, and idempotent confirmation. Tests covered expiry while waiting for locks, policy/blackouts, code collisions, history, ownership, and CSRF. PHP lint passed across 26 files. Main/test smoke and main DB safeguards passed; the main availability API returned 18 slots. The additive upgrade preserved 185 demo records; seed reruns added 0 and now respect live holds/booking locks.
 
 ## Known Issues
 
-The browser prototype is still a simulation. The PHP application does not yet offer real availability, hold creation, booking, or guest self-service. The active-slot unique index guards identical starts; P3 must add transactional interval overlap checks.
+The browser prototype is still a simulation; the PHP guest screens do not yet call the API. Secure guest management/modification and cancellation cutoff are P4. Staff roles, seating/no-show workflows, and waitlist promotion are P5. The internal cancellation service must be called only after caller authorization; no public cancellation route exists.
 
 ## Current Blockers
 
-No P3 blocker is known. A fresh Ubuntu process has Docker group access; older terminal sessions may need to be reopened to refresh their group list.
+No P4 blocker is known. A fresh Ubuntu process has Docker group access; older terminal sessions may need to be reopened to refresh their group list.
 
 ## Next Recommended Actions
 
-1. Implement transactional availability, holds, and bookings using P0 rules and every joined-table member.
-2. Prove overlap, expiry, blackout, pacing, and concurrent final-table behavior before guest UI integration.
+1. Connect the guest flow using the session/CSRF and API contract in `docs/booking-api.md`.
+2. Implement secure management links, modification, cancellation cutoff, refresh persistence, and two-browser acceptance.
 
 ## Last Updated
 

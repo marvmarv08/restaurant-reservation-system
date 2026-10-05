@@ -1,7 +1,7 @@
 # Best-in-Class Restaurant Table Reservation System - Implementation Plan
 
 Project: class competition deliverable. Stack mandated: JavaScript (vanilla), PHP (vanilla), CSS, HTML, Docker.
-Status: Clickable browser prototype exists. The PHP/MySQL application has not been built. The delivery roadmap below is the current source of truth for future sessions.
+Status: PHP/MySQL startup, schema, and transactional booking engine are implemented and verified. The clickable browser prototype exists; its guest screens are connected to the backend in P4. The delivery roadmap below is the current source of truth for future sessions.
 
 Backing research (read these for detail, all in `research/`):
 - `01_reference_repos.md` - open-source repos worth stealing from, and anti-patterns
@@ -51,7 +51,7 @@ Required by the brief: sample food data, functional website, table reservation s
 | P0 | Done | 10-minute hold, 2-hour cancellation cutoff, 1–16 party policy, room rules, 22 acceptance scenarios, and schema corrections documented; consistency checks and `git diff --check` passed. SQL execution belongs to P2/P3. |
 | P1 | Done | Fresh Ubuntu `docker compose ps` shows healthy PHP/MySQL containers; `/health` returns `{"ok":true,"db":true}`, Adminer returns HTTP 200, and `bash bin/smoke.sh` passes. Compose config and PHP syntax checks passed. |
 | P2 | Done | Fresh isolated Compose volume auto-loaded 4 rooms, 25 tables, 36 menu items, 5 inactive staff profiles, 30 demo guests, and 179 date-relative reservations; rerun added 0. Existing P1 volume kept 185 demo rows while 8 over-limit bookings were cancelled with history. Database verifier passed foreign keys, unique references, active-slot conflict, cancelled-slot reuse, joined members, pacing, and no live overlaps; app smoke passed. |
-| P3 | Not started | — |
+| P3 | Done | 36 isolated MySQL scenarios and 11 HTTP API scenarios passed. Separate PHP processes proved final-table, overlapping-start, joined-member, pacing, and duplicate-confirmation races. Expiry after lock waits, blackouts, policy settings, code collision retries, cancellation history, guest ownership, and CSRF passed. PHP lint (26 files), main/test smoke, live availability, and main DB safeguards passed; main seed rerun added 0. |
 | P4 | Not started | — |
 | P5 | Not started | — |
 | P6 | Not started | — |
@@ -59,9 +59,9 @@ Required by the brief: sample food data, functional website, table reservation s
 
 After a phase passes its completion check, update its status and brief verification evidence here, then update the current checkpoint and next concrete action below. Run `python3 scripts/export_roadmap.py` to refresh the Windows Desktop copy. A phase is not complete merely because its code was written.
 
-**Current checkpoint (2026-10-05):** P0–P2 are complete. A fresh Docker volume auto-loads the executable schema, P0 policy, 25 physical tables, 36 menu items, inactive staff profiles, and date-relative sample reservations (179 in the final rehearsal). The existing P1 volume was upgraded without reset; eight early demo rows exceeding pacing were cancelled with history retained. A repeat seed adds no duplicates on the same day; `bin/verify-db.php` and `bin/smoke.sh` pass. The browser prototype remains separate from the PHP/MySQL app; no real reservation flow exists yet.
+**Current checkpoint (2026-10-05):** P0–P3 are complete. The local PHP/MySQL app now has live availability, owned ten-minute holds, transactional confirmation, idempotent retries, and retained cancellation history. P0 policy and concurrency are verified by isolated MySQL and HTTP tests. The existing volume was upgraded additively and keeps 185 demo records; manual seed reruns now use the engine's locks and respect live inventory/pacing. The browser prototype is still separate; guest UI and secure self-service management are P4. Staff profiles remain inactive until P5.
 
-**Next concrete action:** Start P3: implement availability from the P0 settings and opening hours, then transactional holds and booking with ascending physical-table locks, expiry checks, joined-member assignment, and concurrency tests. Prove R01–R14, R17, R19, and R20 before connecting the guest UI.
+**Next concrete action:** Start P4: connect guest search, table selection, hold countdown, details, and confirmation to the real API. Add secure expiring management links, modification, and the two-hour cancellation cutoff. Verify refresh persistence and visibility in a second browser, plus inventory release, invalid/expired management links, and R18/R21. Use docs/booking-api.md for the backend contract.
 
 Older phase numbers and hour estimates elsewhere in the research are historical planning notes. Use this roadmap when resuming work. Protect P0–P4 before adding polish or stretch features.
 

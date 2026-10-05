@@ -40,7 +40,12 @@ function slotHasCapacity(PDO $pdo, DateTimeImmutable $start, int $party, int $ma
         WHERE starts_at = ? AND status IN ('pending','confirmed','seated')");
     $query->execute([$start->format('Y-m-d H:i:s')]);
     [$bookings, $covers] = $query->fetch(PDO::FETCH_NUM);
-    return (int) $bookings < $maxBookings && (int) $covers + $party <= $maxCovers;
+    $query = $pdo->prepare("SELECT COUNT(*), COALESCE(SUM(party_size), 0) FROM holds
+        WHERE starts_at = ? AND status = 'active' AND expires_at > NOW()");
+    $query->execute([$start->format('Y-m-d H:i:s')]);
+    [$heldBookings, $heldCovers] = $query->fetch(PDO::FETCH_NUM);
+    return (int) $bookings + (int) $heldBookings < $maxBookings
+        && (int) $covers + (int) $heldCovers + $party <= $maxCovers;
 }
 
 function reconcileDemoPacing(PDO $pdo, DateTimeImmutable $now, int $maxBookings, int $maxCovers): int
@@ -103,6 +108,24 @@ function seedReservation(
     $approval = $party >= 13 ? 'awaiting' : 'not_required';
     $released = in_array($status, ['completed', 'cancelled', 'no_show'], true)
         ? $block->format('Y-m-d H:i:s') : null;
+    if ($released === null) {
+        foreach ($memberIds as $tableId) {
+            $conflict = $pdo->prepare("SELECT COUNT(*) FROM reservation_tables rt
+                JOIN reservations r ON r.id = rt.reservation_id WHERE rt.table_id = ? AND rt.released_at IS NULL
+                AND r.status IN ('pending','confirmed','seated') AND r.starts_at < ? AND r.blocks_until > ?");
+            $conflict->execute([$tableId, $block->format('Y-m-d H:i:s'), $start->format('Y-m-d H:i:s')]);
+            if ((int) $conflict->fetchColumn() !== 0) {
+                return false;
+            }
+            $conflict = $pdo->prepare("SELECT COUNT(*) FROM hold_tables ht JOIN holds h ON h.id = ht.hold_id
+                WHERE ht.table_id = ? AND h.status = 'active' AND h.expires_at > NOW()
+                AND h.starts_at < ? AND h.blocks_until > ?");
+            $conflict->execute([$tableId, $block->format('Y-m-d H:i:s'), $start->format('Y-m-d H:i:s')]);
+            if ((int) $conflict->fetchColumn() !== 0) {
+                return false;
+            }
+        }
+    }
     for ($attempt = 0; $attempt < 20; $attempt++) {
         $code = 'LUM-' . strtoupper(substr(hash('sha256', $key . ':' . $attempt), 0, 6));
         try {
@@ -138,8 +161,19 @@ function seedReservation(
     return true;
 }
 
+$pdo->exec('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
 $pdo->beginTransaction();
 try {
+    // Use the engine's lock order so manual demo reruns cannot race real holds/bookings.
+    for ($offset = -10; $offset <= 10; $offset++) {
+        $date = $today->modify(($offset >= 0 ? '+' : '') . $offset . ' days')->format('Y-m-d');
+        $pdo->prepare('INSERT INTO booking_days (service_date) VALUES (?) ON DUPLICATE KEY UPDATE service_date = service_date')->execute([$date]);
+        $pdo->prepare('SELECT service_date FROM booking_days WHERE service_date = ? FOR UPDATE')->execute([$date]);
+    }
+    $tableIds = $pdo->query('SELECT id FROM `tables` ORDER BY id')->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($tableIds as $id) {
+        $pdo->prepare('SELECT id FROM `tables` WHERE id = ? FOR UPDATE')->execute([$id]);
+    }
     $guestIds = [];
     $guestInsert = $pdo->prepare('INSERT INTO guests (seed_key, full_name, phone, email) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)');
     foreach ($names as $index => $name) {
