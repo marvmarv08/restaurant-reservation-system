@@ -1,0 +1,388 @@
+.service-body {
+  background: #141311;
+  color: #eae5db;
+  min-width: 320px;
+}
+.service-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 32px;
+  border-bottom: 1px solid #39362f;
+  flex-wrap: wrap;
+}
+.service-header .brand {
+  font-size: 1.15rem;
+  letter-spacing: 0.13em;
+  display: grid;
+  gap: 5px;
+}
+.service-header .brand span {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: #b7ac98;
+}
+.service-header nav {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-size: 0.83rem;
+}
+.service-header nav a[aria-current] {
+  color: #e6bb78;
+}
+#service-user {
+  color: #b7ac98;
+  font-size: 0.78rem;
+}
+#service-main {
+  max-width: 1600px;
+  padding: 36px 32px;
+  margin: auto;
+}
+.service-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.service-title h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 6px 0 0;
+}
+#service-filters {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+.service-body label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #c6bcab;
+  min-width: 0;
+}
+.service-body input,
+.service-body select,
+.service-body textarea {
+  min-width: 0;
+  width: 100%;
+  padding: 12px;
+  background: #1c1a17;
+  border: 1px solid #514b40;
+  border-radius: 3px;
+  color: #f1e9dc;
+  font: inherit;
+}
+.service-body textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.service-body .muted,
+.service-body .help {
+  color: #b7ac98;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.service-body .button {
+  min-height: 44px;
+  white-space: normal;
+}
+.service-body button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.service-grid,
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+  gap: 20px;
+}
+.order-card,
+.ticket,
+.service-panel {
+  padding: 24px;
+  background: #1e1b17;
+  border: 1px solid #494031;
+  border-radius: 5px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.order-card h2,
+.ticket h2 {
+  font-size: 1.6rem;
+  margin: 8px 0;
+}
+.service-badge {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid #74624a;
+  color: #e6bb78;
+  padding: 5px 9px;
+  display: inline-block;
+}
+.service-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.empty-service {
+  padding: 64px 28px;
+  border: 1px dashed #514b40;
+  text-align: center;
+}
+.empty-service h2 {
+  font-size: 2rem;
+}
+#service-feedback,
+#service-dialog-feedback {
+  padding: 15px;
+  background: #3c241d;
+  border: 1px solid #b26749;
+  overflow-wrap: anywhere;
+}
+.service-body dialog {
+  max-width: calc(100vw - 24px);
+  width: min(820px, calc(100vw - 24px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  border: 1px solid #65543b;
+  border-radius: 5px;
+  padding: 24px;
+  color: #eae5db;
+  background: #1c1915;
+}
+.service-body dialog::backdrop {
+  background: rgb(0 0 0 / 0.72);
+}
+.service-body dialog > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.service-body dialog h2 {
+  font-size: 1.8rem;
+}
+.order-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  border-top: 1px solid #514b40;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+.order-form .wide {
+  grid-column: 1/-1;
+}
+.order-lines {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.order-line {
+  padding: 16px 0;
+  border-bottom: 1px solid #514b40;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: start;
+}
+.order-line > div {
+  min-width: 0;
+}
+.order-line .service-actions {
+  margin: 0;
+}
+.order-line.void {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+.order-total {
+  font-size: 1.2rem;
+  text-align: right;
+  margin: 20px 0;
+}
+.service-history {
+  font-size: 0.8rem;
+  color: #c6bcab;
+  line-height: 1.7;
+}
+.kitchen-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 24px;
+  align-items: start;
+}
+.ticket {
+  border: 2px solid #609469;
+  position: relative;
+}
+.ticket.age-working {
+  border: 3px solid #c7ae4d;
+}
+.ticket.age-late {
+  border: 4px solid #dd8953;
+}
+.ticket.age-critical {
+  border: 6px solid #d76b60;
+}
+.ticket.held {
+  background: #292319;
+}
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+.ticket-timer {
+  font-size: 3.5rem;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.ticket-age {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+.ticket-lines {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+}
+.ticket-lines li {
+  padding: 12px 0;
+  border-top: 1px solid #514b40;
+}
+.ticket-lines strong {
+  font-size: 1.15rem;
+}
+.ticket-lines small {
+  display: block;
+  color: #c9bba4;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.ticket-lines .ready strong {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.ticket-lines .station-match {
+  border-left: 3px solid #e6bb78;
+  padding-left: 10px;
+}
+.ticket-allergy {
+  background: #46251f;
+  border-left: 4px solid #f19b85;
+  padding: 14px;
+  margin: 16px 0;
+  line-height: 1.5;
+  font-weight: 600;
+  white-space: pre-wrap;
+}
+.ticket-notes {
+  padding: 12px;
+  background: #29241b;
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.ticket .primary-action {
+  width: 100%;
+  font-size: 1rem;
+  min-height: 52px;
+}
+.kitchen-rail {
+  display: grid;
+  gap: 18px;
+}
+.kitchen-rail h2 {
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+}
+.kitchen-rail ul {
+  padding: 0;
+  list-style: none;
+  font-size: 0.86rem;
+}
+.kitchen-rail li {
+  padding: 10px 0;
+  border-bottom: 1px solid #514b40;
+  overflow-wrap: anywhere;
+}
+.recall-button {
+  width: 100%;
+  margin-top: 10px;
+}
+.staff-workspace-links {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+  color: #e6bb78;
+  font-size: 0.85rem;
+}
+@media (max-width: 1000px) {
+  .kitchen-layout {
+    grid-template-columns: 1fr;
+  }
+  .kitchen-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .service-header {
+    padding: 18px;
+    gap: 18px;
+  }
+  .service-header > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  #service-main {
+    padding: 26px 16px;
+  }
+  .service-title {
+    align-items: start;
+  }
+  #service-filters {
+    width: 100%;
+  }
+  #service-filters label {
+    flex: 1;
+  }
+  .order-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .order-form > label:first-child {
+    grid-column: 1/-1;
+  }
+  .order-line {
+    flex-direction: column;
+  }
+  .kitchen-rail {
+    grid-template-columns: 1fr;
+  }
+  .order-card,
+  .ticket,
+  .service-panel {
+    padding: 20px;
+  }
+  .service-body dialog {
+    padding: 18px;
+  }
+  .ticket-timer {
+    font-size: 3rem;
+  }
+}

@@ -14,6 +14,7 @@ while (microtime(true) < $job['at']) {
 }
 try {
     $result = match ($job['op']) {
+        'order_mutate' => (new App\Service\OrderService($pdo, new App\Service\BookingClock($pdo)))->mutate($job['actor'], $job['id'], $job['version'], $job['action'], $job['key'], $job['data'] ?? []),
         'staff_activate' => (new App\Service\StaffAuthService($pdo, new App\Service\BookingClock($pdo)))->activate($job['token'], $job['password']),
         'staff_create' => (new App\Service\StaffReservationService($pdo, new App\Service\BookingClock($pdo)))->create($job['actor'], $job['input'], $job['waitlist'] ?? false),
         'staff_transition' => (new App\Service\StaffReservationService($pdo, new App\Service\BookingClock($pdo)))->transition($job['actor'], $job['code'], $job['version'], $job['action'], 'Isolated race test'),

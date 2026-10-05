@@ -182,6 +182,10 @@
   function authenticated(activeUser) {
     if (activeUser.permissions.includes("reservations.read"))
       location.assign("/admin");
+    else if (activeUser.permissions.includes("orders.read"))
+      location.assign("/server");
+    else if (activeUser.permissions.includes("kitchen.read"))
+      location.assign("/kitchen");
     else welcome(activeUser);
   }
   if (view === "activate" && location.hash) {
@@ -1960,6 +1964,14 @@
       $("#staff-user").textContent = user.full_name + " · " + user.role;
       $("#staff-logout").hidden = false;
       $("#staff-sidebar").hidden = false;
+      const workspaceLinks = node("div", { class: "staff-workspace-links" });
+      if (allowed("orders.read"))
+        workspaceLinks.append(node("a", { href: "/server" }, "Food orders ↗"));
+      if (allowed("kitchen.read"))
+        workspaceLinks.append(
+          node("a", { href: "/kitchen" }, "Kitchen tickets ↗"),
+        );
+      $("#staff-sidebar").append(workspaceLinks);
       for (const control of $("#staff-sidebar nav").children) {
         const needed = {
           settings: "settings.read",

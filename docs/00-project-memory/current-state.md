@@ -6,11 +6,11 @@ Skip when: Only reading historical decisions or one-off command output.
 
 ## Phase
 
-P0–P5 complete; P6 next. `PLAN.md` is the authoritative roadmap.
+P0–P6 complete; P7 next. `PLAN.md` is the authoritative roadmap.
 
 ## Current Top Objective
 
-Connect seated orders to real menu selections and kitchen tickets with dedicated server/kitchen permissions in P6.
+Polish accessibility/mobile behavior, document fresh setup and safe demo rehearsal, and verify offline readiness in P7.
 
 ## Stable Facts
 
@@ -18,9 +18,10 @@ Connect seated orders to real menu selections and kitchen tickets with dedicated
 - Fictional venue policy, room limits, 1–16 party size, and R01–R22 are in `PLAN.md`.
 - No real email/SMS delivery or payment collection is authorized.
 - A reference is a public label. A private booking link authorizes access; only its hash is stored in MySQL, with binding, expiry, and revocation support.
-- Menu browsing works; ordering and kitchen tickets remain P6. Staff start inactive and activate through private one-use invitations with their own passwords.
-- Staff roles are admin, manager, host, server, and kitchen. Server/kitchen currently have no host/admin permissions. Reuse `StaffAccess` and `StaffSession` in P6.
-- No account is activated automatically in the main stack. Marvin must run the README invitation command in his own terminal and choose a password. This app password is separate from Ubuntu/GitHub.
+- Guests browse the menu; staff place orders for seated parties. Staff start inactive and activate through private one-use invitations with their own passwords.
+- Staff roles are admin, manager, host, server, and kitchen. Server claims and edits its own orders; kitchen prepares tickets; neither gets host/admin access. Admin/manager can use all three workspaces. Reuse `StaffAccess` and `StaffSession`.
+- The main checkpoint has one privately activated staff account. Use the existing sign-in; new staff choose their own passwords through private invitations. App passwords are separate from Ubuntu/GitHub.
+- Order service closure uses `closed`, never invented `paid`. Kitchen marks ready; server confirms delivery. Host completion is separate and refuses unfinished food.
 
 ## What Exists and Works
 
@@ -28,13 +29,15 @@ The live guest website runs at http://localhost:8080. It uses current availabili
 
 The live staff workspace runs at `/staff/login` and `/admin`: one-use activation, throttled login, separate revocable sessions, actual reservations/floor/counts, phone/walk-in creation, pending approval, seating with one open order, completion/reset buffers, cancellation/no-show, atomic future edits, ranked waitlist offers, settings/blackouts, staff accounts, and audit/outbox. Role and expiry checks are refreshed after locks. Account changes increment `auth_version`, permanently invalidating old sessions even after role restoration/reactivation. Waitlist claims are accepted by staff; notifications follow a real ten-minute inventory hold.
 
-Verification: 36 booking, 14 management, and 31 staff MySQL scenarios; 11 booking, 7 management, and 13 staff HTTP scenarios; 12 guest and 10 staff browser scenarios. Total 134. Independent PHP workers prove inventory, request replay, waitlist promotion/claim, revocation, and expiry races. Browsers prove real host workflows, role denials, settings/staff/outbox, stored-markup escaping, and desktop/mobile overflow. PHP lint passed on 47 files; main/test smoke and main DB safeguards passed. The additive P5 upgrade retained the 186 reservations, 31 guests, and 195 status-history rows present immediately before it, including 31 cancelled reservations. Five existing staff profiles remain inactive; seed added zero. Main Compose ports bind to loopback.
+P6 adds `/server` and `/kitchen`, server assignment, real menu lines with quantity/course/price/name/station/tag snapshots, dietary and booking notes, one ticket per sent order, explicit prepare/item-ready/ready, hold/resume, server delivery, recall, unpaid service closure, and later food rounds. An account-bound request UUID prevents repeated effects; stale versions are denied. Sent lines are frozen; manager/admin can void with a reason. Current service remains visible across midnight, and old archived rows cannot hide active work. Kitchen polls every two seconds and orders every six while visible/idle.
 
-`docs/booking-api.md` and `docs/staff-api.md` document routes, security, lock order, and isolated verification. `scripts/export_roadmap.py` generates the Windows Desktop roadmap from `PLAN.md`; update it after every verified phase.
+Verification: 36 booking, 14 management, 31 staff, and 28 order MySQL scenarios; 11 booking, 7 management, 13 staff, and 12 order HTTP scenarios; 12 guest, 10 staff, and 10 order browser scenarios. Total 184. Independent PHP workers prove inventory/pacing, assignment/fire/request/state races, and revocation/expiry after locks. Browsers prove actual multi-workspace ordering, persistence, interrupted-response recovery, inert markup, server clocks, station filters, mobile/320px layouts, and logout. PHP lint passed on 53 files; main/test smoke and main DB safeguards passed. Fresh isolated P6 SQL/seed verification passed. The initial P6 seed added 12 calendar-relative sample reservations; recovery found and retained 198 reservations, 31 guests, 208 status-history rows, six staff profiles including one active account, and no main orders/tickets yet. No main volume reset or account activation occurred during recovery. Running main source hashes matched all ten changed runtime files. Main ports bind to loopback.
+
+`docs/booking-api.md`, `docs/staff-api.md`, and `docs/orders-api.md` document routes, security, lock order, and isolated verification. `scripts/export_roadmap.py` generates the Windows Desktop roadmap from `PLAN.md`; update it after every verified phase.
 
 ## Known Limitations
 
-The separate kitchen prototype still simulates orders. P5 creates an empty open order on seating; completion refuses unfinished orders and voids an empty order rather than inventing payment. Food ordering, kitchen ticket states, server/kitchen operational permissions, and order closure are P6. Seated table moves, public guest waitlist claims, password recovery, room editing, and advanced reports are not implemented. Guests must save their private booking link because no real notification arrives. Local HTTP setup is for the demo; HTTPS hosting review belongs to P7. Application audit writes append records; database operators retain write access.
+The separate prototype remains simulated; live PHP workspaces use MySQL. Menu/room editors, partial post-send order changes, guest food ordering, payment collection, seated table moves, public guest waitlist claims, password recovery, and advanced reports are not implemented. Guests save their private booking link because notifications are simulated. Outstanding work takes priority in bounded lists; archived orders are limited to 100 displayed rows and kitchen results to 200, with the last 20 served tickets in recall. A browser reload discards an unresolved request held in memory; review persisted lines/status before continuing. Local HTTP is for the laptop demo; HTTPS/public hosting needs a separate P7 deployment review. Application audit/event writes append records; database operators retain write access.
 
 ## Current Blockers
 
@@ -42,9 +45,9 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Define P6 server/kitchen permissions and legal order/ticket transitions around the existing open orders and menu schema.
-2. Persist menu selections, quantity/price snapshots, allergy notes, and order history; connect real server and kitchen screens with controlled polling.
-3. Verify duplicate submissions, state races, role denials, and unfinished-order completion protection. Keep P3–P5 regressions passing, then refresh the Desktop roadmap.
+1. Review accessibility, keyboard/focus behavior, and mobile layouts across all four real workspaces.
+2. Finish diagrams, the demo walkthrough, offline asset checks, fresh-checkout verification, and a safe disposable reset/rehearsal procedure. Preserve the main `.env` and database volume.
+3. Keep P3–P6 regression gates passing and refresh the Desktop roadmap after verified phase completion. Deployment/publication is not authorized by local polish work.
 
 ## Last Updated
 

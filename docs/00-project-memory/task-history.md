@@ -79,3 +79,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: PASS: 31 staff MySQL + 13 staff HTTP + 10 staff browser scenarios; P3/P4 regressions 36 booking MySQL + 14 management MySQL + 11 booking HTTP + 7 management HTTP + 12 guest browser = 134 total. Final PHP lint 47 files, main/test smoke, main DB safeguards and diff checks passed. Main additive upgrade preserved 186 reservations, 31 cancelled, 31 guests, 195 status-history rows, five inactive staff; zero seed additions. Healthy loopback containers and anonymous admin redirect verified. README, API guides, PLAN, memory and Windows Desktop roadmap updated. Remaining: owner privately chooses first admin password; real ordering/kitchen P6; HTTPS hosting review P7. No external messages/payments or push.
 - Closed At: 2026-10-05T16:00:22Z
+
+## 2026-10-05 phase6-menu-kitchen
+
+<!-- pmm-task-id: phase6-menu-kitchen -->
+
+- Status: done
+- Parent Task: none
+- Title: Connect real menu orders and kitchen service workflow
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: PASS: 28 order MySQL, 12 order HTTP and 10 order browser scenarios; P3-P5 regressions 36 booking MySQL, 14 management MySQL, 31 staff MySQL, 11 booking HTTP, 7 management HTTP, 13 staff HTTP, 12 guest browser and 10 staff browser, total 184. PHP lint 53 files, final script syntax, main/test smoke, main DB safeguards and staged diff checks passed. Separate fresh SQL/seed rehearsal passed before interruption and its disposable volume removed. Recovery restored Docker Desktop and browser libraries; main retained 198 reservations, 31 guests, 208 history rows and existing staff account. Runtime hashes matched saved source; final staff status wording was rebuilt and browser-tested. PLAN/README/API/memory/learning log and Windows Desktop P6 Done/P7 next verified. No main fixture reset, password activation, real messages/payments or push. Remaining scope: P7 polish/offline/demo, separate HTTPS deployment review.
+- Closed At: 2026-10-05T22:15:45Z

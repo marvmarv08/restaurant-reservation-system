@@ -17,6 +17,11 @@ final class StaffAccess
             "settings.service",
             "staff.manage",
             "audit.read",
+            "orders.read",
+            "orders.write",
+            "kitchen.read",
+            "kitchen.write",
+            "orders.void",
         ],
         "manager" => [
             "reservations.read",
@@ -25,10 +30,15 @@ final class StaffAccess
             "settings.read",
             "settings.service",
             "audit.read",
+            "orders.read",
+            "orders.write",
+            "kitchen.read",
+            "kitchen.write",
+            "orders.void",
         ],
         "host" => ["reservations.read", "reservations.write"],
-        "server" => [],
-        "kitchen" => [],
+        "server" => ["orders.read", "orders.write"],
+        "kitchen" => ["kitchen.read", "kitchen.write"],
     ];
 
     public static function stamp(array $user): string

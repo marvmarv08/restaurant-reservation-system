@@ -2,7 +2,7 @@
 
 Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaScript, CSS, MySQL 8.4, and Docker Compose.
 
-This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The guest website uses real MySQL availability, expiring holds, transactional confirmation, and private links for changing or cancelling a booking. The live staff workspace provides secure sign-in, reservation management, seating, waitlist offers, settings, and audit history. Ordering and kitchen tickets are the next phase.
+This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The guest website uses real MySQL availability, expiring holds, transactional confirmation, and private links for changing or cancelling a booking. Staff workspaces provide secure sign-in, reservation management, seating, waitlist offers, settings, audit history, food ordering, and persistent kitchen tickets.
 
 ## Start the PHP application
 
@@ -29,7 +29,7 @@ The setup script keeps existing rows and does not reset your volume. Never copy 
 Phase 3 adds `booking_days` for pacing locks and `hold_reservations` for confirmation retries.
 See [the booking API guide](docs/booking-api.md) for routes, rules, and the isolated verification commands.
 Availability can be inspected at `/api/availability?date=YYYY-MM-DD&party_size=2&room_type=common`
-using a valid upcoming service date. Phase 4 adds hash-only private management credentials and before/after change history. Phase 5 adds `06_staff_admin.sql` for secure activation, session revocation, login limits, waitlist offers, staff request retries, and audit records.
+using a valid upcoming service date. Phase 4 adds hash-only private management credentials and before/after change history. Phase 5 adds `06_staff_admin.sql` for secure activation, session revocation, login limits, waitlist offers, staff request retries, and audit records. Phase 6 adds `07_menu_kitchen.sql` for order versions, server assignment, item snapshots, kitchen tickets, and safe action retries.
 
 To check the seed and database safeguards:
 
@@ -40,7 +40,7 @@ docker compose run --rm seed
 
 The verification rolls back its temporary writes. Rerunning the seed on the same day should report `0 new reservations`. The date-relative demo rows are added for new calendar days; they do not erase or rewrite existing booking history. To inspect data, use Adminer or `docker compose exec db` with your private `.env` credentials. Demo staff profiles start inactive; activate staff using the instructions below. No real messages or payments are sent.
 
-After the containers are healthy, run `bash bin/smoke.sh` to check the guest/staff pages, CSS/JS, catalog, protected staff data, database health, and basic route errors. If you changed `APP_PORT`, pass its URL, for example `bash bin/smoke.sh http://localhost:8090`.
+After the containers are healthy, run `bash bin/smoke.sh` to check guest/staff/service assets, catalog, protected host/order/kitchen routes, database health, and basic route errors. If you changed `APP_PORT`, pass its URL, for example `bash bin/smoke.sh http://localhost:8090`.
 
 The `.env.example` passwords are local demo placeholders. Edit them in your private `.env` before sharing a running stack; never commit `.env`. To stop containers while keeping database data, run `docker compose down`. If a port is already in use, change `APP_PORT`, `ADMINER_PORT`, or `DB_PORT_HOST` in `.env`, then run `docker compose up -d` again.
 
@@ -58,7 +58,7 @@ If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu a
 
 Treat the private link like a password: anyone with it can manage that booking until it expires. The reference code alone cannot open guest details. There is no guest account requirement. Staff handle manager approval, seating, no-shows, and waitlist offers in the live admin workspace. Email/SMS are simulated, so save the private link yourself; no real notification will arrive.
 
-The menu is a read-only catalog in this phase. Ordering and kitchen tickets arrive in Phase 6. All fonts, scripts, and styles are served locally.
+Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. All fonts, scripts, and styles are served locally.
 
 ## Activate the first admin and try the staff workflow
 
@@ -73,13 +73,28 @@ The command prints a private activation link valid for 24 hours. Open it, choose
 1. Open [Staff sign-in](http://localhost:8080/staff/login), then the [admin workspace](http://localhost:8080/admin).
 2. Select a service date and inspect real reservations and floor availability. Create a phone booking or walk-in using the actual available tables.
 3. Open a reservation to review its details and history. Admin/manager can approve a pending request. Host, manager, and admin can seat a confirmed party within its seating window, record a no-show after the grace period, or cancel with a reason.
-4. Seating creates one open order. Completion releases the tables with a reset buffer; in P5, an empty order is voided rather than marked paid. Food ordering follows in P6.
+4. Seating creates one open order. Use the food ordering and kitchen flow below. Host completion refuses unfinished food, then releases tables with a reset buffer. An empty open order is voided rather than marked paid.
 5. Add a waitlist party or recheck the queue. An offer reserves every physical member for ten minutes before a simulated notification is recorded. The host accepts the offer when the guest agrees; there is no public guest claim page yet.
 6. Admin/manager can review settings, blackouts, audit records, and the simulated outbox. Admin can invite staff and change roles; sign out and back in if account management asks for recent sign-in.
 
-Roles are enforced by the server. Host cannot approve requests, change settings, or manage staff. Manager cannot change global rules or staff accounts. Server/kitchen profiles have no host/admin access until P6 adds their workspaces. See [the staff API and security guide](docs/staff-api.md).
+Roles are enforced by the server. Host cannot approve requests, change settings, manage staff, or place food orders. Manager cannot change global rules or staff accounts. Server and kitchen profiles use their own workspaces and cannot open the host dashboard. Admin/manager can operate all three workspaces. See [the staff API and security guide](docs/staff-api.md).
 
 The Compose app, MySQL, and Adminer ports bind to `127.0.0.1` by default, making this a local laptop setup. HTTPS hosting and deployment review belong to P7. Do not expose this local HTTP stack to a network for real staff use.
+
+## Try food ordering and the kitchen
+
+Use your existing activated staff account. Admin/manager can test the whole flow in two tabs; individual server and kitchen accounts have separate permissions.
+
+1. In the [host dashboard](http://localhost:8080/admin), seat a confirmed booking on its service date, from 30 minutes before start until its dining interval ends. This creates the party's first open order. Future reservations cannot be seated early just to create a demo ticket.
+2. Open [Food orders](http://localhost:8080/server). A server claims an unassigned order before editing it; another server cannot take that assigned order. Add dishes, quantity, course, preparation notes, and confirmed allergy instructions. Prices come from MySQL and are saved with each line.
+3. Choose **Send to kitchen**. Open [Kitchen tickets](http://localhost:8080/kitchen) in the second tab. A real ticket appears with table members, quantities, notes, station, and a server-based elapsed timer. Sent lines are frozen; manager/admin can void a mistaken order with a reason.
+4. Kitchen staff choose **Start preparation**, mark individual items ready if useful, then **Mark entire ticket ready**. Hold/resume requires a reason. Station filters keep the full matching ticket visible because a ticket action applies to every station on it.
+5. The server chooses **Mark served** after delivery. A served ticket can be recalled to preparation while its food round remains open; recall retains its original timer and history.
+6. Choose **Close service** to finish that food round. This records `closed`, with no payment collected or `paid` status invented. Start another round if needed. When all food rounds are finished, the host completes the reservation and begins the table reset buffer.
+
+Outstanding orders and tickets stay visible across midnight. The date filter selects archived rounds/recent served tickets; it does not hide unfinished service. Kitchen refreshes every two seconds and food orders every six seconds while visible and idle. Refresh pauses while editing or a ticket control has focus. If a response is interrupted, **Retry same request** recovers the saved operation without adding a duplicate dish or ticket.
+
+See [the order API and verification guide](docs/orders-api.md). Menu editing, payments, guest food ordering, and external notifications are outside this phase.
 
 ## Explore the browser prototype
 
@@ -143,6 +158,7 @@ After a phase passes its completion check, update the phase progress in `PLAN.md
 - [`PLAN.md`](PLAN.md) - the consolidated implementation plan
 - [`docs/booking-api.md`](docs/booking-api.md) - live booking API, transaction safety, and isolated tests
 - [`docs/staff-api.md`](docs/staff-api.md) - staff activation, permissions, host workflow, settings, and isolated verification
+- [`docs/orders-api.md`](docs/orders-api.md) - server assignment, food orders, kitchen tickets, service closure, and isolated verification
 - [`research/01_reference_repos.md`](research/01_reference_repos.md) - open-source references and anti-patterns
 - [`research/02_booking_engine.md`](research/02_booking_engine.md) - schema DDL, availability SQL, concurrency, state machine
 - [`research/03_ux_flows.md`](research/03_ux_flows.md) - guest flow, floor plan picker, accessibility

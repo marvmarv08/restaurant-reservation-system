@@ -16,7 +16,7 @@ Authentication proves who signed in; authorization decides what that person may 
 | Invite staff or change roles/active state | Yes | No | No | No |
 | Read audit records and simulated outbox | Yes | Yes | No | No |
 
-Server/kitchen accounts can activate and sign in, but their operational permissions and screens belong to P6. The last active admin cannot be deactivated or demoted through account management.
+The table covers host/admin permissions. Phase 6 adds separate `/server` and `/kitchen` workspaces: server can claim and manage its own food orders; kitchen can prepare, ready, hold/resume, and recall tickets. Neither role gains host/admin access. Admin/manager can use both workspaces and void orders. See [the order permission map](orders-api.md#permissions). The last active admin cannot be deactivated or demoted through account management.
 
 ## Activation, password, and session handling
 
@@ -107,4 +107,4 @@ Run these sequentially: the suites intentionally reset isolated fixtures. See [b
 
 Executed P5 evidence: 31 real MySQL staff scenarios, 13 staff HTTP scenarios, and 10 staff browser scenarios; regressions 36 booking MySQL, 14 management MySQL, 11 booking HTTP, 7 management HTTP, and 12 guest browser scenarios. Total: **134 scenarios**, plus PHP lint on 47 files, main/test smoke, and main database safeguards. Tests include independent-process races, expiry and revocation after locks, last-admin protection, idempotent creation, queue fairness, actual offers, desktop/mobile layouts, and inert stored markup. PHP formatting must explicitly target version 8.3.
 
-The local additive upgrade kept all 186 reservations, 31 guests, and 195 status-history rows present immediately before migration; five existing staff profiles remain inactive until their owners choose passwords. Recovery uses the preserved `.env` and volume with `bin/setup-db.sh`; never reset the main volume or reuse the destructive isolated fixture tools there. Ordering, kitchen tickets, payment closure, password recovery, room editing, and production deployment remain later work.
+The P5 additive upgrade kept all 186 reservations, 31 guests, and 195 status-history rows present immediately before it; five original demo staff profiles started inactive. Recovery uses the preserved `.env` and volume with `bin/setup-db.sh`; never reset the main volume or reuse the destructive isolated fixture tools there. [Phase 6](orders-api.md) implements ordering and kitchen tickets with service closure. Payment collection, password recovery, room editing, and production deployment remain later work.

@@ -7,6 +7,13 @@
   align-items: center;
   gap: 20px;
 }
+.staff-workspace-links {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
 .staff-identity {
   display: flex;
   align-items: center;

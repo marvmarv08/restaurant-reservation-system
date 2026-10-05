@@ -6,8 +6,16 @@ use App\Controller\HomeController;
 use App\Controller\BookingController;
 use App\Controller\ManagementController;
 use App\Controller\StaffController;
+use App\Controller\OrderController;
 
 return [
+    ['GET', '/server', [OrderController::class, 'serverPage']],
+    ['GET', '/kitchen', [OrderController::class, 'kitchenPage']],
+    ['GET', '/api/service/menu', [OrderController::class, 'menu']],
+    ['GET', '/api/service/orders', [OrderController::class, 'orders']],
+    ['GET', '/api/service/order', [OrderController::class, 'detail']],
+    ['GET', '/api/kitchen/tickets', [OrderController::class, 'kitchen']],
+    ['POST', '/api/service/orders/action', [OrderController::class, 'mutate']],
     ['GET', '/', [HomeController::class, 'index']],
     ['GET', '/manage', [HomeController::class, 'manage']],
     ['GET', '/health', [HealthController::class, 'show']],

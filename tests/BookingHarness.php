@@ -35,7 +35,7 @@ final class BookingHarness
         $this->owner = hash('sha256', 'test-owner');
         $this->tables = array_column($this->pdo->query('SELECT * FROM `tables`')->fetchAll(), null, 'code');
         foreach (['settings' => 'skey', 'room_types' => 'id', 'rooms' => 'id', 'tables' => 'id',
-            'opening_hours' => 'id', 'turn_times' => 'id', 'pacing_rules' => 'id'] as $table => $key) {
+            'opening_hours' => 'id', 'turn_times' => 'id', 'pacing_rules' => 'id', 'menu_categories' => 'id', 'menu_items' => 'id'] as $table => $key) {
             $this->snapshots[$table] = [$key, $this->pdo->query("SELECT * FROM `{$table}`")->fetchAll()];
         }
         $this->members = $this->pdo->query('SELECT * FROM table_group_members')->fetchAll();
@@ -43,7 +43,7 @@ final class BookingHarness
 
     public function reset(): void
     {
-        foreach (['audit_log', 'staff_requests', 'waitlist_offers', 'reservation_change_history', 'reservation_manage_tokens', 'hold_reservations', 'hold_tables', 'holds', 'order_status_history', 'order_items', 'orders', 'outbox',
+        foreach (['audit_log', 'order_actions', 'order_events', 'kitchen_tickets', 'staff_requests', 'waitlist_offers', 'reservation_change_history', 'reservation_manage_tokens', 'hold_reservations', 'hold_tables', 'holds', 'order_status_history', 'order_items', 'orders', 'outbox',
             'reservation_status_history', 'reservation_tables', 'reservations', 'guests', 'blackout_dates', 'booking_days'] as $table) {
             $this->pdo->exec("DELETE FROM `{$table}`");
         }

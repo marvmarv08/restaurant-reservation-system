@@ -560,7 +560,7 @@ final class StaffReservationService
             }
             if ($action === "complete") {
                 $q = $this->pdo->prepare(
-                    "SELECT COUNT(*) FROM orders WHERE reservation_id = ? AND status NOT IN ('open','paid','void')",
+                    "SELECT COUNT(*) FROM orders WHERE reservation_id = ? AND status NOT IN ('open','paid','void','closed')",
                 );
                 $q->execute([$row["id"]]);
                 if ((int) $q->fetchColumn()) {
