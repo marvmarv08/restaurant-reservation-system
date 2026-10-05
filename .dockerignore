@@ -1,0 +1,11 @@
+.git
+.github
+.env
+.project-runtime
+.svl
+docs
+prototype
+research
+scripts
+*.log
+__pycache__

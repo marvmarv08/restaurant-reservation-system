@@ -1,0 +1,23 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  background: #17130f;
+  color: #f2e9da;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+main {
+  width: min(34rem, calc(100% - 3rem));
+  padding: 3rem 0;
+}
+
+.eyebrow, .note { color: #d4a96e; }
+h1 { font-family: Georgia, serif; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.08; }
+p { line-height: 1.6; }
+a { color: #f0c787; }

@@ -1,15 +1,33 @@
 # Restaurant Table Reservation System
 
-Design and implementation plan for a full-stack restaurant table reservation platform, built with vanilla PHP 8, vanilla JavaScript, CSS and MySQL, orchestrated with Docker Compose.
+Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaScript, CSS, MySQL 8.4, and Docker Compose.
 
-This repository contains the **engineering plan**, the research that backs it, and a **clickable front-end prototype** that simulates every screen. Application code lands in the phases described below.
+This repository contains the engineering plan, research, a clickable browser prototype, and the first PHP application foundation. The PHP page currently proves startup and database connectivity; reservation features are planned for later phases.
 
-## See it running
+## Start the PHP application
+
+You need Docker Desktop with WSL integration enabled if you use this repo from WSL. From the repository folder:
+
+```bash
+cp .env.example .env
+docker compose up -d --build
+docker compose ps
+```
+
+Open [http://localhost:8080](http://localhost:8080) for the PHP starter page. Open [http://localhost:8080/health](http://localhost:8080/health) to check the database connection; a working stack returns `{"ok":true,"db":true}`. Adminer is at [http://localhost:8081](http://localhost:8081); choose MySQL, server `db`, and the `DB_USERNAME`, `DB_PASSWORD`, and `DB_DATABASE` values from your local `.env`. The database is intentionally empty until P2 adds its schema and seed data.
+
+After the containers are healthy, run `bash bin/smoke.sh` to check the page, CSS, database health, and basic route errors. If you changed `APP_PORT`, pass its URL, for example `bash bin/smoke.sh http://localhost:8090`.
+
+The `.env.example` passwords are local demo placeholders. Edit them in your private `.env` before sharing a running stack; never commit `.env`. To stop containers while keeping database data, run `docker compose down`. If a port is already in use, change `APP_PORT`, `ADMINER_PORT`, or `DB_PORT_HOST` in `.env`, then run `docker compose up -d` again.
+
+If `docker` is not found in WSL, start Docker Desktop in Windows and enable this WSL distribution under **Settings → Resources → WSL Integration**. Check again with `docker compose version`. If `/health` reports `{"ok":false,"db":false}`, inspect `docker compose ps` and `docker compose logs db app`.
+
+## Explore the browser prototype
 
 Open [`prototype/index.html`](prototype/index.html) in a browser. No server, no build step, no install.
 It simulates the guest booking flow, the interactive floor plan, the admin dashboard and the kitchen
 display against generated reservations, 25 tables and 36 menu items. Its booking behavior is a
-browser simulation; the PHP service layer and database still need to be built. See
+browser simulation; it is not connected to the new PHP foundation or MySQL yet. See
 [`prototype/README.md`](prototype/README.md) for what to click.
 
 ## Scope
@@ -42,7 +60,7 @@ bin/         seeding, demo reset, tests, smoke checks
 docs/        ER diagram, architecture diagram, API reference
 ```
 
-Single `php:8.3-apache` container plus `mysql:8.4` with a healthcheck and auto-loaded init SQL, and Adminer for data inspection. Cold start is one command.
+Single `php:8.3-apache` container plus `mysql:8.4` with a healthcheck and an init-SQL mount for P2, and Adminer for data inspection. After copying `.env.example`, start with one Compose command.
 
 ## Delivery phases
 
