@@ -6,9 +6,9 @@ Skip when: You only need the active task or current state.
 
 ## 2026-10-05 — Phase 1 checkpoint
 
-- Change: Added the Docker Compose stack, PHP front controller and health endpoint, starter page, quickstart, and smoke script. P1 remains in progress.
-- Evidence: Official Docker Compose `config --quiet`, PHP 8.3 syntax parsing for 10 files, Bash syntax, and `git diff --check` passed.
-- Remaining risk: Docker Desktop is absent on the Windows machine, so no live container, MySQL connection, or fresh-checkout smoke result exists yet.
+- Change: Added the Docker Compose stack, PHP front controller and health endpoint, starter page, quickstart, and smoke script. P1 is complete.
+- Evidence: Real PHP/MySQL/Adminer containers run and are reachable; fresh Ubuntu `docker compose ps` shows healthy PHP/MySQL, `/health` returns DB true, Adminer returns HTTP 200, and `bin/smoke.sh` passes. Compose config, PHP syntax, Bash syntax, and `git diff --check` passed.
+- Remaining risk: The database has no P2 application schema or seed data yet; the starter page does not book tables.
 
 ## 2026-10-05
 

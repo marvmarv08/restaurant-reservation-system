@@ -49,7 +49,7 @@ Required by the brief: sample food data, functional website, table reservation s
 | Phase | Status | Evidence |
 |---|---|---|
 | P0 | Done | 10-minute hold, 2-hour cancellation cutoff, 1–16 party policy, room rules, 22 acceptance scenarios, and schema corrections documented; consistency checks and `git diff --check` passed. SQL execution belongs to P2/P3. |
-| P1 | In progress | Docker/PHP/MySQL files, `/health`, and quickstart written; official Compose config, PHP 8.3 syntax parse, and shell syntax pass. Live boot and smoke check await Docker Desktop on Windows. |
+| P1 | Done | Fresh Ubuntu `docker compose ps` shows healthy PHP/MySQL containers; `/health` returns `{"ok":true,"db":true}`, Adminer returns HTTP 200, and `bash bin/smoke.sh` passes. Compose config and PHP syntax checks passed. |
 | P2 | Not started | — |
 | P3 | Not started | — |
 | P4 | Not started | — |
@@ -59,9 +59,9 @@ Required by the brief: sample food data, functional website, table reservation s
 
 After a phase passes its completion check, update its status and brief verification evidence here, then update the current checkpoint and next concrete action below. Run `python3 scripts/export_roadmap.py` to refresh the Windows Desktop copy. A phase is not complete merely because its code was written.
 
-**Current checkpoint (2026-10-05):** P0 booking rules and schema design are complete. P1 application files are written, but Docker Desktop is not installed on Marvin's Windows PC, so a fresh checkout and live MySQL connection have not been verified. The browser prototype remains separate from the PHP/MySQL app. The P0 scenarios are future automated-test targets, not passing backend tests.
+**Current checkpoint (2026-10-05):** P0 and P1 are complete. The PHP/MySQL/Adminer Docker stack runs on Marvin's Windows/Ubuntu machine, Ubuntu can use `docker compose`, and the live smoke checks pass. The database is empty by design until P2. The browser prototype remains separate from the PHP/MySQL app; no real reservation flow exists yet.
 
-**Next concrete action:** Install and start Docker Desktop on Windows, enable WSL integration for this distribution, then run `cp .env.example .env`, `docker compose up -d --build`, `docker compose ps`, and `bash bin/smoke.sh` from the repo. Only mark P1 Done after the live checks pass.
+**Next concrete action:** Start P2: turn the reviewed schema sketch into executable MySQL migrations and repeatable sample data, then verify foreign keys, unique reservation codes, retained cancelled-slot history, and safe seed reruns. Keep the P0 booking rules as the source of truth.
 
 Older phase numbers and hour estimates elsewhere in the research are historical planning notes. Use this roadmap when resuming work. Protect P0–P4 before adding polish or stretch features.
 

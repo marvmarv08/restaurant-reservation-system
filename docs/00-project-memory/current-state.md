@@ -6,11 +6,11 @@ Skip when: Only reading historical decisions or one-off command output.
 
 ## Phase
 
-P0 complete; P1 in progress. See `PLAN.md` for the authoritative progress table and completion checks.
+P0 and P1 complete; P2 next. See `PLAN.md` for the authoritative progress table and completion checks.
 
 ## Current Top Objective
 
-Verify the new PHP 8.3 + MySQL 8.4 application through Docker Compose on Marvin's Windows/WSL machine.
+Build the executable MySQL schema and repeatable sample data for P2.
 
 ## Stable Facts
 
@@ -25,7 +25,7 @@ Planning/research documents, an in-memory browser prototype, and a P1 Docker/PHP
 
 ## What Works
 
-Phase 0 documentation checks and prototype validator passed earlier. For P1, official Docker Compose CLI `config --quiet`, PHP 8.3 syntax parsing, Bash syntax, and `git diff --check` passed. Live backend startup is still unverified.
+Phase 0 documentation checks and prototype validator passed earlier. P1's PHP/MySQL/Adminer containers run through Ubuntu Docker Compose. `/health` returns `{"ok":true,"db":true}`, Adminer returns HTTP 200, and `bin/smoke.sh` passes from a fresh Ubuntu process. PHP lint, Compose config, PHP 8.3 syntax parsing, and Bash syntax also passed.
 
 ## Known Issues
 
@@ -33,13 +33,12 @@ The prototype can create duplicate holds/references, does not reserve all joined
 
 ## Current Blockers
 
-Docker Desktop is not installed on Marvin's Windows PC. Windows Package Manager's catalog returned `0x8a15000f`, so install Docker Desktop through the official Windows installer. Live Compose and MySQL checks cannot run yet.
+No P2 blocker is known. The database exists but has no application schema or seed rows yet. A fresh Ubuntu process has Docker group access; older terminal sessions may need to be reopened to refresh their group list.
 
 ## Next Recommended Actions
 
-1. Install/start Docker Desktop and enable this WSL distribution, then run the README quickstart and `bash bin/smoke.sh`.
-2. If successful, mark P1 Done and refresh the Windows Desktop roadmap.
-3. Implement and execute the schema in P2, then prove the P0 scenarios in P3/P4.
+1. Implement and execute the P2 schema and repeatable seed data.
+2. Prove the P0 booking scenarios in P3/P4.
 
 ## Last Updated
 

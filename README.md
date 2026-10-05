@@ -6,7 +6,7 @@ This repository contains the engineering plan, research, a clickable browser pro
 
 ## Start the PHP application
 
-You need Docker Desktop with WSL integration enabled if you use this repo from WSL. From the repository folder:
+You need Docker Desktop with WSL integration enabled if you use this repo from WSL. On a **fresh checkout only**, copy the example configuration; if `.env` already exists, keep it because it holds the credentials used by your current MySQL volume. From the repository folder:
 
 ```bash
 cp .env.example .env
@@ -21,6 +21,8 @@ After the containers are healthy, run `bash bin/smoke.sh` to check the page, CSS
 The `.env.example` passwords are local demo placeholders. Edit them in your private `.env` before sharing a running stack; never commit `.env`. To stop containers while keeping database data, run `docker compose down`. If a port is already in use, change `APP_PORT`, `ADMINER_PORT`, or `DB_PORT_HOST` in `.env`, then run `docker compose up -d` again.
 
 If `docker` is not found in WSL, start Docker Desktop in Windows and enable this WSL distribution under **Settings → Resources → WSL Integration**. Check again with `docker compose version`. If `/health` reports `{"ok":false,"db":false}`, inspect `docker compose ps` and `docker compose logs db app`.
+
+If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu account to the local Docker group with `sudo usermod -aG docker "$USER"`, then close and reopen Ubuntu before retrying `docker compose ps`. Enter your password only in your own terminal. Docker group membership grants control over local containers, so use it only on a machine you trust.
 
 ## Explore the browser prototype
 
