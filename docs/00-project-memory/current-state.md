@@ -6,11 +6,11 @@ Skip when: Only reading historical decisions or one-off command output.
 
 ## Phase
 
-P0–P6 complete; P7 next. `PLAN.md` is the authoritative roadmap.
+P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadmap.
 
 ## Current Top Objective
 
-Polish accessibility/mobile behavior, document fresh setup and safe demo rehearsal, and verify offline readiness in P7.
+Marvin's hands-on presentation rehearsal with the delivered demo guide; GitHub delivery or hosting needs its own requested scope.
 
 ## Stable Facts
 
@@ -31,13 +31,19 @@ The live staff workspace runs at `/staff/login` and `/admin`: one-use activation
 
 P6 adds `/server` and `/kitchen`, server assignment, real menu lines with quantity/course/price/name/station/tag snapshots, dietary and booking notes, one ticket per sent order, explicit prepare/item-ready/ready, hold/resume, server delivery, recall, unpaid service closure, and later food rounds. An account-bound request UUID prevents repeated effects; stale versions are denied. Sent lines are frozen; manager/admin can void with a reason. Current service remains visible across midnight, and old archived rows cannot hide active work. Kitchen polls every two seconds and orders every six while visible/idle.
 
-Verification: 36 booking, 14 management, 31 staff, and 28 order MySQL scenarios; 11 booking, 7 management, 13 staff, and 12 order HTTP scenarios; 12 guest, 10 staff, and 10 order browser scenarios. Total 184. Independent PHP workers prove inventory/pacing, assignment/fire/request/state races, and revocation/expiry after locks. Browsers prove actual multi-workspace ordering, persistence, interrupted-response recovery, inert markup, server clocks, station filters, mobile/320px layouts, and logout. PHP lint passed on 53 files; main/test smoke and main DB safeguards passed. Fresh isolated P6 SQL/seed verification passed. The initial P6 seed added 12 calendar-relative sample reservations; recovery found and retained 198 reservations, 31 guests, 208 status-history rows, six staff profiles including one active account, and no main orders/tickets yet. No main volume reset or account activation occurred during recovery. Running main source hashes matched all ten changed runtime files. Main ports bind to loopback.
+Regression gates: 36 booking, 14 management, 31 staff and 28 order MySQL scenarios; 11 booking, 7 management, 13 staff and 12 order HTTP scenarios; 12 guest, 10 staff and 10 order browser scenarios. Total 184, all rerun successfully in P7. Independent workers cover inventory/pacing, assignment/fire/request/state races and expiry/revocation after locks. Browser suites cover persistence, interrupted-response recovery, stored markup, station filters and role-specific service flows. Current runtime and P7 readiness evidence follow.
+
+P7 improves menu contrast, labels the service dialog, restores its opener focus after asynchronous actions, and makes guest-management/service skip-link targets focusable. All 184 existing regressions and 36 new readiness checks passed, with zero automated A/AA violations in tested states, 320/390/768/1440px layouts and keyboard navigation. External browser requests were blocked throughout a real guest-created booking → host seating → server ordering → kitchen preparation/readiness → delivery/closure → host completion. A guarded isolated arrival fixture moves only that fake booking's interval to skip the waiting period; production clock and rules are unchanged. The suite passed in the isolated stack and a fresh disposable demo.
+
+A clean source snapshot without main credentials started healthy PHP/MySQL/Adminer on this laptop, seeded 177 reservations and added 0 on rerun. Demo cached-image restart retained completed food records. Reset refused a tampered main-volume target before deletion; the actual main database rejected the fixture before connecting/writing. PHP lint (54 files), main/test smoke, DB safeguards and running-source hashes passed. Main retained 198 reservations, 31 guests, 208 history rows, six staff including one active account, and zero orders/tickets. Disposable demo/fresh volumes were removed; main/test storage remains. Main is rebuilt; sign in again if container recreation cleared the browser session.
+
+`docs/architecture.md`, `docs/demo-guide.md` and `docs/verification.md` provide actual diagrams, the eight-minute walkthrough and readiness commands. `bin/demo.sh` fixes project `tablebookdemo`, database `tablebook_demo`, localhost:8082 and volume `tablebookdemo_demo_dbdata`, validates storage, creates ignored private `.env.demo` and requires an explicit disposable reset argument. It does not activate staff automatically.
 
 `docs/booking-api.md`, `docs/staff-api.md`, and `docs/orders-api.md` document routes, security, lock order, and isolated verification. `scripts/export_roadmap.py` generates the Windows Desktop roadmap from `PLAN.md`; update it after every verified phase.
 
 ## Known Limitations
 
-The separate prototype remains simulated; live PHP workspaces use MySQL. Menu/room editors, partial post-send order changes, guest food ordering, payment collection, seated table moves, public guest waitlist claims, password recovery, and advanced reports are not implemented. Guests save their private booking link because notifications are simulated. Outstanding work takes priority in bounded lists; archived orders are limited to 100 displayed rows and kitchen results to 200, with the last 20 served tickets in recall. A browser reload discards an unresolved request held in memory; review persisted lines/status before continuing. Local HTTP is for the laptop demo; HTTPS/public hosting needs a separate P7 deployment review. Application audit/event writes append records; database operators retain write access.
+The separate prototype remains simulated; live PHP workspaces use MySQL. Menu/room editors, partial post-send order changes, guest food ordering, payment collection, seated table moves, public guest waitlist claims, password recovery, and advanced reports are not implemented. Guests save their private booking link because notifications are simulated. Outstanding work takes priority in bounded lists; archived orders are limited to 100 displayed rows and kitchen results to 200, with the last 20 served tickets in recall. A browser reload discards an unresolved request held in memory; review persisted lines/status before continuing. Local HTTP is for the laptop demo; HTTPS/public hosting needs a separate deployment review. Application audit/event writes append records; database operators retain write access.
 
 ## Current Blockers
 
@@ -45,9 +51,9 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Review accessibility, keyboard/focus behavior, and mobile layouts across all four real workspaces.
-2. Finish diagrams, the demo walkthrough, offline asset checks, fresh-checkout verification, and a safe disposable reset/rehearsal procedure. Preserve the main `.env` and database volume.
-3. Keep P3–P6 regression gates passing and refresh the Desktop roadmap after verified phase completion. Deployment/publication is not authorized by local polish work.
+1. Marvin follows `docs/demo-guide.md` and privately activates separate demo staff. Prepare a booking at least 60 minutes ahead and present during its real seating window; a new future booking cannot immediately enter service.
+2. Use a separate browser profile for main/demo because cookies share a hostname across ports. Prepare Docker images online before the offline run. Automated accessibility checks do not certify full WCAG conformance; perform a hands-on keyboard/zoom rehearsal.
+3. Local commits are ready for review. GitHub publication and HTTPS hosting are separate requested work. Preserve main `.env` and storage.
 
 ## Last Updated
 

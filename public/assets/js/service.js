@@ -14,7 +14,8 @@
     pending = null,
     clockEpoch = 0,
     clockAt = 0,
-    pollBusy = false;
+    pollBusy = false,
+    dialogOpener = null;
   const permitted = (p) => user?.permissions.includes(p);
   const el = (tag, attrs = {}, ...children) => {
     const n = document.createElement(tag);
@@ -32,7 +33,10 @@
       { type: "button", class: "button ghost", ...attrs },
       label,
     );
-    b.addEventListener("click", () => execute(fn, b));
+    b.addEventListener("click", () => {
+      if (!dialog.open) dialogOpener = b;
+      execute(fn, b);
+    });
     return b;
   };
   const money = (c) =>
@@ -436,7 +440,9 @@
               : "Unassigned · ready to claim",
           ),
           el("p", {}, money(o.total_cents)),
-          btn("Open order #" + o.id, () => openOrder(Number(o.id))),
+          btn("Open order #" + o.id, () => openOrder(Number(o.id)), {
+            "data-order-id": o.id,
+          }),
         ),
       );
     root.replaceChildren(
@@ -679,6 +685,13 @@
     }
   }
   $("#service-dialog-close").addEventListener("click", () => dialog.close());
+  dialog.addEventListener("close", () => {
+    // Async actions disable/recreate the opener, so native restoration can lose it.
+    const target = dialogOpener?.isConnected
+      ? dialogOpener
+      : root.querySelector(`[data-order-id="${selected}"]`) || $("#service-main");
+    target.focus();
+  });
   $("#service-logout").addEventListener("click", () =>
     execute(async () => {
       await api("/api/auth/logout", {});

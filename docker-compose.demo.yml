@@ -1,0 +1,59 @@
+name: tablebookdemo
+
+services:
+  app:
+    image: tablebook-demo:local
+    ports:
+      - "127.0.0.1:8082:80"
+    environment:
+      APP_ENV: demo
+      APP_URL: http://localhost:8082
+      APP_TZ: Asia/Manila
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: tablebook_demo
+      DB_USERNAME: tablebook_demo
+      DB_PASSWORD: ${DEMO_DB_PASSWORD:?Run bash bin/demo.sh up first}
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://127.0.0.1/health') === false ? 1 : 0);"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  seed:
+    build: .
+    image: tablebook-demo:local
+    command: ["php", "bin/seed.php"]
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: tablebook_demo
+      DB_USERNAME: tablebook_demo
+      DB_PASSWORD: ${DEMO_DB_PASSWORD:?Run bash bin/demo.sh up first}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--default-time-zone=+08:00"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DEMO_DB_ROOT_PASSWORD:?Run bash bin/demo.sh up first}
+      MYSQL_DATABASE: tablebook_demo
+      MYSQL_USER: tablebook_demo
+      MYSQL_PASSWORD: ${DEMO_DB_PASSWORD:?Run bash bin/demo.sh up first}
+    volumes:
+      - demo_dbdata:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$$MYSQL_PASSWORD\" mysql --protocol=tcp -h 127.0.0.1 -u \"$$MYSQL_USER\" \"$$MYSQL_DATABASE\" -e 'SELECT 1' >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+volumes:
+  demo_dbdata:

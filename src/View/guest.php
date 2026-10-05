@@ -46,7 +46,7 @@
         <div id="menu-categories" class="category-tabs" role="group" aria-label="Menu categories"></div><div id="menu-items" class="menu-grid"></div>
       </div></section>
     </div>
-    <section class="manage-content wrap" id="manage-workspace" aria-labelledby="manage-title" hidden>
+    <section class="manage-content wrap" id="manage-workspace" aria-labelledby="manage-title" tabindex="-1" hidden>
       <p class="eyebrow">Your reservation</p><h1 id="manage-title">Your evening,<br><em>all in one place.</em></h1>
       <p id="manage-feedback" class="feedback" role="alert" tabindex="-1" hidden></p><div id="management"><p class="loading">Loading your booking…</p></div>
     </section>

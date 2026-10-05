@@ -10,7 +10,7 @@ You need Docker Desktop with WSL integration enabled if you use this repo from W
 
 ```bash
 cp .env.example .env
-docker compose up -d --build
+docker compose up -d --build --wait --wait-timeout 120
 docker compose ps
 ```
 
@@ -58,7 +58,7 @@ If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu a
 
 Treat the private link like a password: anyone with it can manage that booking until it expires. The reference code alone cannot open guest details. There is no guest account requirement. Staff handle manager approval, seating, no-shows, and waitlist offers in the live admin workspace. Email/SMS are simulated, so save the private link yourself; no real notification will arrive.
 
-Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. All fonts, scripts, and styles are served locally.
+Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. Styles and scripts are local, fonts use the system, and graphics use CSS/inline SVG. The live app does not need a CDN or internet connection once Docker images are prepared.
 
 ## Activate the first admin and try the staff workflow
 
@@ -79,7 +79,7 @@ The command prints a private activation link valid for 24 hours. Open it, choose
 
 Roles are enforced by the server. Host cannot approve requests, change settings, manage staff, or place food orders. Manager cannot change global rules or staff accounts. Server and kitchen profiles use their own workspaces and cannot open the host dashboard. Admin/manager can operate all three workspaces. See [the staff API and security guide](docs/staff-api.md).
 
-The Compose app, MySQL, and Adminer ports bind to `127.0.0.1` by default, making this a local laptop setup. HTTPS hosting and deployment review belong to P7. Do not expose this local HTTP stack to a network for real staff use.
+The Compose app, MySQL, and Adminer ports bind to `127.0.0.1` by default, making this a local laptop setup. Public hosting and HTTPS require a separate deployment review. Do not expose this local HTTP stack to a network for real staff use.
 
 ## Try food ordering and the kitchen
 
@@ -95,6 +95,14 @@ Use your existing activated staff account. Admin/manager can test the whole flow
 Outstanding orders and tickets stay visible across midnight. The date filter selects archived rounds/recent served tickets; it does not hide unfinished service. Kitchen refreshes every two seconds and food orders every six seconds while visible and idle. Refresh pauses while editing or a ticket control has focus. If a response is interrupted, **Retry same request** recovers the saved operation without adding a duplicate dish or ticket.
 
 See [the order API and verification guide](docs/orders-api.md). Menu editing, payments, guest food ordering, and external notifications are outside this phase.
+
+## Rehearse safely and offline
+
+Use `bash bin/demo.sh up` to create a disposable demo at [localhost:8082](http://localhost:8082), with its own private configuration, database volume and staff activation. `bash bin/demo.sh stop` keeps demo data; `start` uses cached images without downloads. Reset only this stack with `bash bin/demo.sh reset disposable-demo`. The script validates the demo storage target and never accepts the main project as a reset target.
+
+Follow [the demo guide](docs/demo-guide.md) for private activation, timing preparation, the eight-minute presentation, offline checks and troubleshooting. Use a separate browser profile because cookies are shared across ports on the same hostname. Prepare an eligible reservation before the presentation; future guest bookings cannot be seated immediately.
+
+See [architecture and database diagrams](docs/architecture.md) and [verification commands](docs/verification.md). Initial setup downloads require internet; the prepared live app runs locally without it. Automated accessibility checks supplement a hands-on keyboard and zoom rehearsal.
 
 ## Explore the browser prototype
 
@@ -126,12 +134,12 @@ Reservation requests share the same table inventory. The engine protects it with
 ## Architecture
 
 ```
-public/      front controller, assets, uploads
-src/         Core, Controller, Domain, Repository, Service, View
+public/      front controller, local CSS/JS assets, uploads
+src/         Core, Controller, Domain, Service, View
 config/      app, database, routes
 database/    schema, reference data, demo seed
-bin/         seeding, demo reset, tests, smoke checks
-docs/        ER diagram, architecture diagram, API reference
+bin/         seeding, guarded demo stack/reset, tests, smoke checks
+docs/        diagrams, API references, demo and verification guides
 ```
 
 The stack uses `php:8.3-apache`, `mysql:8.4`, one-shot seed, and Adminer. MySQL loads the init SQL on a new volume; the seed container exits successfully before the app starts. After copying `.env.example`, start with one Compose command.
@@ -156,6 +164,9 @@ After a phase passes its completion check, update the phase progress in `PLAN.md
 ## Documents
 
 - [`PLAN.md`](PLAN.md) - the consolidated implementation plan
+- [`docs/demo-guide.md`](docs/demo-guide.md) - safe demo setup, offline rehearsal and eight-minute walkthrough
+- [`docs/architecture.md`](docs/architecture.md) - actual request flow, database relationships and stack boundaries
+- [`docs/verification.md`](docs/verification.md) - regression, accessibility and offline verification commands
 - [`docs/booking-api.md`](docs/booking-api.md) - live booking API, transaction safety, and isolated tests
 - [`docs/staff-api.md`](docs/staff-api.md) - staff activation, permissions, host workflow, settings, and isolated verification
 - [`docs/orders-api.md`](docs/orders-api.md) - server assignment, food orders, kitchen tickets, service closure, and isolated verification

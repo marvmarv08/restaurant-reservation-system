@@ -92,3 +92,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: PASS: 28 order MySQL, 12 order HTTP and 10 order browser scenarios; P3-P5 regressions 36 booking MySQL, 14 management MySQL, 31 staff MySQL, 11 booking HTTP, 7 management HTTP, 13 staff HTTP, 12 guest browser and 10 staff browser, total 184. PHP lint 53 files, final script syntax, main/test smoke, main DB safeguards and staged diff checks passed. Separate fresh SQL/seed rehearsal passed before interruption and its disposable volume removed. Recovery restored Docker Desktop and browser libraries; main retained 198 reservations, 31 guests, 208 history rows and existing staff account. Runtime hashes matched saved source; final staff status wording was rebuilt and browser-tested. PLAN/README/API/memory/learning log and Windows Desktop P6 Done/P7 next verified. No main fixture reset, password activation, real messages/payments or push. Remaining scope: P7 polish/offline/demo, separate HTTPS deployment review.
 - Closed At: 2026-10-05T22:15:45Z
+
+## 2026-10-05 phase7-demo-readiness
+
+<!-- pmm-task-id: phase7-demo-readiness -->
+
+- Status: done
+- Parent Task: none
+- Title: Polish accessibility and verify offline demo readiness
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 184 regression scenarios (109 MySQL, 43 HTTP, 32 browser) passed; 36 readiness checks passed on isolated and fresh demo stacks, with zero automated A/AA violations in tested states, 320/390/768/1440 reflow, keyboard focus and external-network-blocked same-record booking-to-kitchen-to-completion. Clean setup seeded 177 and rerun 0; smoke/Adminer200/DB safeguards passed. Validated demo reset, unsafe-main-volume refusal, cached-image restart and retained closed order/served ticket. Actual main fixture refused before connection/writes. PHP54 lint, shell/JS syntax, main/test smoke, source hashes and PMM doctor passed. Main198 reservations/31 guests/208 history/one active staff/zero orders retained. Disposable volumes removed; roadmap/Desktop and learning notes updated; staged diff clean without private env.
+- Closed At: 2026-10-05T22:48:45Z

@@ -4,6 +4,16 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — Phase 7 accessibility and offline demo readiness
+
+- Change: Improved menu-label contrast, named the service dialog, restored keyboard focus to order openers after asynchronous actions, and made management/service skip targets focusable. Added a separately configured disposable demo stack, validated reset targets, real architecture/schema diagrams, verification commands and an eight-minute walkthrough.
+- Evidence: All 184 P3–P6 regressions and 36 new readiness checks passed. The same guest-created booking completed all host/server/kitchen stages in isolated and fresh demo stacks with external browser networking blocked. Tested A/AA states had zero automated violations; 320/390/768/1440px reflow and keyboard focus passed. Fresh source setup on this laptop started PHP/MySQL/Adminer, seeded 177 reservations and added 0 on rerun. Cached-image restart retained service records. Unsafe-volume reset configuration and main fixture execution were refused before writes. PHP lint (54 files), main/test smoke, DB safeguards and running-source hashes passed. Main retained its 198 reservations, 31 guests, 208 history rows and active account; disposable rehearsal volumes were removed.
+- Decision: Keep live booking and seating rules unchanged. Only guarded disposable verification data skips the waiting interval. The eight-minute manual presentation uses an earlier prepared eligible booking for service and a separate new future guest booking. No fake clock or preset main staff password was introduced.
+- Lesson: An app running offline and an initial installation without internet are different checks. Cache Docker images first; then verify the live pages and actions make no external requests. Separate demo storage permits safe resets without touching retained project data.
+- Lesson: A keyboard user needs a clear return point after closing a dialog. An asynchronous action may disable or replace the original button, so explicit restoration must handle the new rendered control.
+- Lesson: Cookies are shared across ports on a hostname, even when databases are separate. Use separate browser profiles to prevent demo sign-in from replacing the main session.
+- Limits: Automated accessibility checks cover tested states and do not certify all WCAG requirements. Marvin still rehearses by hand, using real service timing. Public hosting/HTTPS, real notifications, payments, password recovery and stretch features remain separate work.
+
 ## 2026-10-06 — Phase 6 real food orders and kitchen service
 
 - Change: Added dedicated server/kitchen permissions and workspaces, server-owned assignment, menu lines with quantity/course/price/name/station/tag snapshots, allergy and booking notes, one persistent ticket per sent order, explicit prepare/item-ready/ready, hold/resume, server delivery, recall, service closure, subsequent rounds, and event/audit identity. Every action uses a version and account-bound request UUID. Main host completion recognizes closed food rounds while refusing unfinished food.

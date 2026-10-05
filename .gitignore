@@ -1,4 +1,5 @@
 .env
+.env.demo
 .svl/node_modules/
 .svl/package-lock.json
 .svl/probe*.js
