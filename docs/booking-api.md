@@ -66,6 +66,8 @@ Every hold, confirmation, release, and internal cancellation follows this lock o
 4. Refresh server time, validate current policy, and recheck reservations, holds, and blackouts.
 5. Save all physical memberships and related records, then commit.
 
+P5 cancellation and modification paths lock all physical tables before promoting the waitlist inside the transaction. Cross-date edits lock both service dates in sorted order. Staff paths use the same inventory discipline and recheck their current role/session after locks; see [the staff guide](staff-api.md#inventory-and-workflow-rules).
+
 Transactions use READ COMMITTED and retry deadlocks/lock timeouts up to three attempts.
 Different overlapping starts are prevented by table locks and the interval predicate
 `existing.start < requested.block_end AND existing.block_end > requested.start`.
@@ -94,7 +96,7 @@ invalid booking window; 409 means a slot/conflict or state has changed; 410 mean
 has ended; 404 also covers another guest's hold; 403 means session/CSRF validation failed.
 Malformed JSON returns 400, and unsupported request content type returns 415.
 
-The API requires a private capability for guest management; the public code alone never authorizes an action. Phase 5 adds staff roles, waitlist promotion, seating/no-show workflows, and staff audit identity.
+The API requires a private capability for guest management; the public code alone never authorizes an action. [Phase 5 staff routes](staff-api.md) implement current server-side roles, waitlist promotion, seating/no-show workflows, and staff audit identity. Guest cancellation and modification promote eligible waiting parties after releasing inventory. R15/R16 are verified with real claim holds and concurrent promotion; acceptance is handled by authorized staff.
 Confirmation messages are written only to the demo `outbox`; no email/SMS is delivered.
 
 ## Private booking links and change safety
@@ -105,7 +107,7 @@ The secret is derived with HMAC-SHA-256 from a cryptographically random, server-
 
 All management mutations also require session CSRF protection. Both modification and cancellation close two hours before the current start; exactly 120 minutes remains allowed, while 119 is refused. Applying the same cutoff to modification prevents moving a last-minute booking solely to bypass the cancellation rule. Pending/confirmed reservations can be changed; terminal or seated bookings cannot. Valid links can still read a cancelled booking until link expiry.
 
-Modification does not release the original while the guest searches and creates no temporary replacement hold. Save locks both service dates in sorted order and the union of old/new physical tables in ascending order, then rechecks authorization, expiry, cutoff, policy, inventory, and the submitted version. The transaction releases old memberships, saves the replacement, increments the version, and appends before/after JSON snapshots and status history. Failure rolls everything back. A competing tab receives `booking_changed` and must review the current details.
+Modification does not release the original while the guest searches and creates no temporary replacement hold. Save locks both service dates in sorted order and all physical tables in ascending order, then rechecks authorization, expiry, cutoff, policy, inventory, and the submitted version. The transaction releases old memberships, saves the replacement, increments the version, and appends before/after JSON snapshots and status history. P5 also promotes eligible entries for the released service date. Failure rolls everything back. A competing tab receives `booking_changed` and must review the current details.
 
 Same-table moves reuse the unique reservation/table membership row. The immutable change snapshots preserve its previous time and physical IDs; switched tables retain released membership rows. Joined groups always release every old member. Cancellation reauthorizes after waiting for locks, is idempotent after success, and preserves assignments/history.
 

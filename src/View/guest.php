@@ -51,7 +51,7 @@
       <p id="manage-feedback" class="feedback" role="alert" tabindex="-1" hidden></p><div id="management"><p class="loading">Loading your booking…</p></div>
     </section>
   </main>
-  <footer class="wrap site-footer"><div><span class="eyebrow">Lumina Kitchen & Terrace</span><p>17 Harbour Crescent, Makati<br>Tuesday–Sunday · 17:30–23:30</p></div><div><a href="/manage">Manage your booking</a><a href="tel:+63288914420">+63 2 8891 4420</a><p class="fine-print">Fictional demo venue. Notifications are simulated.<br>No payments are collected.</p></div></footer>
+  <footer class="wrap site-footer"><div><span class="eyebrow">Lumina Kitchen & Terrace</span><p>17 Harbour Crescent, Makati<br>Tuesday–Sunday · 17:30–23:30</p></div><div><a href="/manage">Manage your booking</a><a href="/staff/login">Staff sign-in</a><a href="tel:+63288914420">+63 2 8891 4420</a><p class="fine-print">Fictional demo venue. Notifications are simulated.<br>No payments are collected.</p></div></footer>
   <dialog id="cancel-dialog" aria-labelledby="cancel-title"><h2 id="cancel-title">Cancel your reservation?</h2><p id="cancel-description"></p><p>Your table will be released. No payment or cancellation charge is collected.</p><div class="actions"><button class="button ghost" id="keep-booking" autofocus>Keep reservation</button><button class="button danger" id="confirm-cancel">Confirm cancellation</button></div></dialog>
 </body>
 </html>

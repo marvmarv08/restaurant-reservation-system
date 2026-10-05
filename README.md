@@ -2,7 +2,7 @@
 
 Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaScript, CSS, MySQL 8.4, and Docker Compose.
 
-This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The guest website uses real MySQL availability, expiring holds, transactional confirmation, and private links for changing or cancelling a booking. The separate prototype also illustrates the future staff and kitchen screens.
+This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The guest website uses real MySQL availability, expiring holds, transactional confirmation, and private links for changing or cancelling a booking. The live staff workspace provides secure sign-in, reservation management, seating, waitlist offers, settings, and audit history. Ordering and kitchen tickets are the next phase.
 
 ## Start the PHP application
 
@@ -29,7 +29,7 @@ The setup script keeps existing rows and does not reset your volume. Never copy 
 Phase 3 adds `booking_days` for pacing locks and `hold_reservations` for confirmation retries.
 See [the booking API guide](docs/booking-api.md) for routes, rules, and the isolated verification commands.
 Availability can be inspected at `/api/availability?date=YYYY-MM-DD&party_size=2&room_type=common`
-using a valid upcoming service date. Phase 4 adds hash-only private management credentials and before/after change history.
+using a valid upcoming service date. Phase 4 adds hash-only private management credentials and before/after change history. Phase 5 adds `06_staff_admin.sql` for secure activation, session revocation, login limits, waitlist offers, staff request retries, and audit records.
 
 To check the seed and database safeguards:
 
@@ -38,9 +38,9 @@ docker compose exec app php bin/verify-db.php
 docker compose run --rm seed
 ```
 
-The verification rolls back its temporary writes. Rerunning the seed on the same day should report `0 new reservations`. The date-relative demo rows are added for new calendar days; they do not erase or rewrite existing booking history. To inspect data, use Adminer or `docker compose exec db` with your private `.env` credentials. Demo staff profiles are inactive until Phase 5 creates secure login activation. No real messages or payments are sent.
+The verification rolls back its temporary writes. Rerunning the seed on the same day should report `0 new reservations`. The date-relative demo rows are added for new calendar days; they do not erase or rewrite existing booking history. To inspect data, use Adminer or `docker compose exec db` with your private `.env` credentials. Demo staff profiles start inactive; activate staff using the instructions below. No real messages or payments are sent.
 
-After the containers are healthy, run `bash bin/smoke.sh` to check the guest page, CSS/JS, catalog, database health, and basic route errors. If you changed `APP_PORT`, pass its URL, for example `bash bin/smoke.sh http://localhost:8090`.
+After the containers are healthy, run `bash bin/smoke.sh` to check the guest/staff pages, CSS/JS, catalog, protected staff data, database health, and basic route errors. If you changed `APP_PORT`, pass its URL, for example `bash bin/smoke.sh http://localhost:8090`.
 
 The `.env.example` passwords are local demo placeholders. Edit them in your private `.env` before sharing a running stack; never commit `.env`. To stop containers while keeping database data, run `docker compose down`. If a port is already in use, change `APP_PORT`, `ADMINER_PORT`, or `DB_PORT_HOST` in `.env`, then run `docker compose up -d` again.
 
@@ -56,9 +56,30 @@ If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu a
 4. Save **Copy private link** at confirmation. Open that link in another browser to see the same database booking. Refreshing the original tab also restores its hold or confirmation.
 5. In **My booking**, change the date, party, or table, or cancel after confirming the dialog. The original reservation stays reserved until a replacement is saved. Online changes and cancellation close two hours before the booking.
 
-Treat the private link like a password: anyone with it can manage that booking until it expires. The reference code alone cannot open guest details. There is no guest account requirement. Staff login, manager approval actions, seating, and waitlist promotion arrive in Phase 5. Email/SMS are simulated, so save the private link yourself; no real notification will arrive.
+Treat the private link like a password: anyone with it can manage that booking until it expires. The reference code alone cannot open guest details. There is no guest account requirement. Staff handle manager approval, seating, no-shows, and waitlist offers in the live admin workspace. Email/SMS are simulated, so save the private link yourself; no real notification will arrive.
 
 The menu is a read-only catalog in this phase. Ordering and kitchen tickets arrive in Phase 6. All fonts, scripts, and styles are served locally.
+
+## Activate the first admin and try the staff workflow
+
+Run this from the repository folder in your own Ubuntu terminal:
+
+```bash
+docker compose exec app php bin/invite-staff.php marvin@lumina.test Marvin admin
+```
+
+The command prints a private activation link valid for 24 hours. Open it, choose your own password (15–72 bytes; ordinary English characters use one byte each), and keep the link private. No email is sent. `marvin@lumina.test` is a local demo sign-in name, not a mailbox. The app password is separate from your Ubuntu, Docker, or GitHub password. There is no preset staff password. Reissuing an invitation invalidates older unused links; the command rejects accounts already active.
+
+1. Open [Staff sign-in](http://localhost:8080/staff/login), then the [admin workspace](http://localhost:8080/admin).
+2. Select a service date and inspect real reservations and floor availability. Create a phone booking or walk-in using the actual available tables.
+3. Open a reservation to review its details and history. Admin/manager can approve a pending request. Host, manager, and admin can seat a confirmed party within its seating window, record a no-show after the grace period, or cancel with a reason.
+4. Seating creates one open order. Completion releases the tables with a reset buffer; in P5, an empty order is voided rather than marked paid. Food ordering follows in P6.
+5. Add a waitlist party or recheck the queue. An offer reserves every physical member for ten minutes before a simulated notification is recorded. The host accepts the offer when the guest agrees; there is no public guest claim page yet.
+6. Admin/manager can review settings, blackouts, audit records, and the simulated outbox. Admin can invite staff and change roles; sign out and back in if account management asks for recent sign-in.
+
+Roles are enforced by the server. Host cannot approve requests, change settings, or manage staff. Manager cannot change global rules or staff accounts. Server/kitchen profiles have no host/admin access until P6 adds their workspaces. See [the staff API and security guide](docs/staff-api.md).
+
+The Compose app, MySQL, and Adminer ports bind to `127.0.0.1` by default, making this a local laptop setup. HTTPS hosting and deployment review belong to P7. Do not expose this local HTTP stack to a network for real staff use.
 
 ## Explore the browser prototype
 
@@ -121,6 +142,7 @@ After a phase passes its completion check, update the phase progress in `PLAN.md
 
 - [`PLAN.md`](PLAN.md) - the consolidated implementation plan
 - [`docs/booking-api.md`](docs/booking-api.md) - live booking API, transaction safety, and isolated tests
+- [`docs/staff-api.md`](docs/staff-api.md) - staff activation, permissions, host workflow, settings, and isolated verification
 - [`research/01_reference_repos.md`](research/01_reference_repos.md) - open-source references and anti-patterns
 - [`research/02_booking_engine.md`](research/02_booking_engine.md) - schema DDL, availability SQL, concurrency, state machine
 - [`research/03_ux_flows.md`](research/03_ux_flows.md) - guest flow, floor plan picker, accessibility

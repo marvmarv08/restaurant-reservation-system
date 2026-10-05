@@ -127,8 +127,8 @@ final class AvailabilityService
             }
             $query = $this->pdo->prepare('SELECT COUNT(*) FROM reservation_tables rt JOIN reservations r ON r.id = rt.reservation_id
                 WHERE rt.table_id = ? AND rt.released_at IS NULL AND r.status IN (' . ReservationState::occupyingSql() . ')
-                AND r.starts_at < ? AND r.blocks_until > ? AND r.id <> ?');
-            $query->execute([$id, $interval['blocks_until'], $interval['starts_at'], $excludeReservation ?? 0]);
+                AND r.starts_at < ? AND (r.blocks_until > ? OR (r.status = \'seated\' AND DATE(r.starts_at) = ?)) AND r.id <> ?');
+            $query->execute([$id, $interval['blocks_until'], $interval['starts_at'], substr($interval['starts_at'], 0, 10), $excludeReservation ?? 0]);
             if ((int) $query->fetchColumn() > 0) {
                 return false;
             }

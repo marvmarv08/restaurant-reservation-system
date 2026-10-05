@@ -43,7 +43,7 @@ final class BookingHarness
 
     public function reset(): void
     {
-        foreach (['reservation_change_history', 'reservation_manage_tokens', 'hold_reservations', 'hold_tables', 'holds', 'order_status_history', 'order_items', 'orders', 'outbox',
+        foreach (['audit_log', 'staff_requests', 'waitlist_offers', 'reservation_change_history', 'reservation_manage_tokens', 'hold_reservations', 'hold_tables', 'holds', 'order_status_history', 'order_items', 'orders', 'outbox',
             'reservation_status_history', 'reservation_tables', 'reservations', 'guests', 'blackout_dates', 'booking_days'] as $table) {
             $this->pdo->exec("DELETE FROM `{$table}`");
         }

@@ -174,9 +174,8 @@ final class BookingService
                 throw new BookingError('booking_not_found', 'Booking not found.', 404);
             }
             $this->lockDay(substr((string) $start, 0, 10));
-            $query = $this->pdo->prepare('SELECT table_id FROM reservation_tables WHERE reservation_id = ? ORDER BY table_id');
-            $query->execute([$reservationId]);
-            $this->lockTables(array_map('intval', $query->fetchAll(PDO::FETCH_COLUMN)), false);
+            $waitlist = new WaitlistService($this->pdo, $this->clock);
+            $this->lockTables($waitlist->tableIds(), false);
             $query = $this->pdo->prepare('SELECT status FROM reservations WHERE id = ? FOR UPDATE');
             $query->execute([$reservationId]);
             $status = (string) $query->fetchColumn();
@@ -193,6 +192,7 @@ final class BookingService
                 $this->pdo->prepare('UPDATE reservation_tables SET released_at = ? WHERE reservation_id = ? AND released_at IS NULL')
                     ->execute([$now, $reservationId]);
                 $this->history($reservationId, $status, 'cancelled', $reason);
+                $waitlist->promoteLocked(substr((string) $start, 0, 10));
             }
             return $this->booking($reservationId, false);
         });
@@ -272,6 +272,11 @@ final class BookingService
     private function transaction(Closure $action): array
     {
         return $this->transactions->run($action);
+    }
+
+    public function validateGuest(array $details): array
+    {
+        return $this->guestDetails($details);
     }
 
     private function guestDetails(array $details): array

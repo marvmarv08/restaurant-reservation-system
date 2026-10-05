@@ -97,7 +97,8 @@ final class ManagementService
             $options = $this->availability->options($start, $party, $room, $now, null, null, $policy, false, (int) $current['id']);
             $option = $this->choose($options, $kind, $optionId);
             $before = $this->snapshot((int) $current['id']);
-            $this->transactions->lockTables(array_merge($before['table_ids'], $option['table_ids']), false);
+            $waitlist = new WaitlistService($this->pdo, $this->clock);
+            $this->transactions->lockTables($waitlist->tableIds(), false);
             $current = $this->authorize($code, $token, true);
             $this->requireVersion($current, $version);
             $this->requireChangeAllowed($current);
@@ -128,6 +129,7 @@ final class ManagementService
             $expires = (new DateTimeImmutable($option['blocks_until'], $policy->timezone))->modify('+1 day');
             $this->pdo->prepare('UPDATE reservation_manage_tokens SET expires_at = ? WHERE reservation_id = ?')
                 ->execute([$expires->format('Y-m-d H:i:s'), $current['id']]);
+            $waitlist->promoteLocked($oldDate);
             return $this->details($this->authorize($code, $token));
         });
     }
