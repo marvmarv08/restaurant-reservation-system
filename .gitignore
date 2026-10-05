@@ -1,4 +1,7 @@
 .env
+.svl/node_modules/
+.svl/package-lock.json
+.svl/probe*.js
 vendor/
 public/uploads/*
 !public/uploads/.gitkeep

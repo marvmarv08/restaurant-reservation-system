@@ -1,0 +1,39 @@
+/* Lumina Kitchen & Terrace - design tokens
+   Warm-ember dark luxe. Single amber accent, hairlines over shadows. */
+:root{
+  --ink-950:#0B0A09; --ink-900:#121010; --ink-850:#171413; --ink-800:#1D1917;
+  --ink-700:#272220; --ink-600:#352E2A; --ink-500:#4A423C;
+  --line:rgba(244,239,230,.10); --line-strong:rgba(244,239,230,.18);
+  --bone-50:#F4EFE6; --bone-200:#DED6C8; --bone-400:#A99E8C; --bone-500:#8A8073; --bone-600:#6B6358;
+  --amber-300:#F0C77E; --amber-400:#E0A84E; --amber-500:#C98F33; --amber-600:#A3701F;
+  --amber-glow:rgba(224,168,78,.14);
+  --ok:#5BBE7E; --warn:#EAB308; --late:#F97316; --crit:#EF4444; --info:#6AA6D6;
+  /* readable text tints of the status colours, for use on dark surfaces */
+  --ok-text:#8BD9A5; --warn-text:#F5D76B; --late-text:#FDBA74; --crit-text:#FCA5A5; --info-text:#9CC6E3;
+  --bg:var(--ink-950); --surface:var(--ink-900); --surface-2:var(--ink-850); --surface-3:var(--ink-800);
+  --text:var(--bone-50); --text-dim:var(--bone-400); --text-mute:var(--bone-600); --accent:var(--amber-400);
+  --step--2:clamp(.69rem,.68rem + .05vw,.73rem);
+  --step--1:clamp(.83rem,.8rem + .13vw,.91rem);
+  --step-0:clamp(1rem,.96rem + .2vw,1.13rem);
+  --step-1:clamp(1.2rem,1.13rem + .35vw,1.4rem);
+  --step-2:clamp(1.44rem,1.33rem + .57vw,1.76rem);
+  --step-3:clamp(1.73rem,1.55rem + .88vw,2.2rem);
+  --step-4:clamp(2.07rem,1.81rem + 1.32vw,2.75rem);
+  --step-5:clamp(2.49rem,2.1rem + 1.94vw,3.43rem);
+  --display-hero:clamp(2.8rem,9vw,7.5rem);
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px; --s10:128px;
+  --r-sm:4px; --r-md:8px; --r-lg:14px; --r-xl:22px; --r-full:999px;
+  --sh-1:0 1px 2px rgba(0,0,0,.4);
+  --sh-2:0 8px 24px -8px rgba(0,0,0,.6);
+  --sh-3:0 24px 64px -16px rgba(0,0,0,.7);
+  --sh-glow:0 0 0 1px var(--amber-glow),0 8px 32px -12px rgba(224,168,78,.35);
+  --ease-out-expo:cubic-bezier(.16,1,.3,1);
+  --ease-out-quint:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --d-fast:140ms; --d-mid:280ms; --d-slow:520ms; --d-reveal:800ms;
+  --z-base:0; --z-sticky:50; --z-nav:100; --z-overlay:200; --z-modal:300; --z-toast:400;
+  --font-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,monospace;
+  --maxw:1240px;
+}

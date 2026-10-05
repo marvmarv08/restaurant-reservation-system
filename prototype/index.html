@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lumina Kitchen &amp; Terrace - Reservation System Prototype</title>
+<meta name="description" content="Clickable prototype of a restaurant table reservation system: guest booking, interactive floor plan, admin dashboard and kitchen display.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/shell.css">
+<link rel="stylesheet" href="assets/css/guest.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+<link rel="stylesheet" href="assets/css/kitchen.css">
+</head>
+<body>
+
+<a class="skip" href="#stage">Skip to content</a>
+
+<div id="simbar">
+  <span class="simbar-tag">Prototype</span>
+  <span class="simbar-txt">Front-end simulation of the planned system. Sample data is generated relative to today, so every screen is live.</span>
+  <button class="simbar-x" id="simbar-x" aria-label="Dismiss notice">Dismiss</button>
+</div>
+
+<header id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#/home" data-nav="#/home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="30" height="30">
+          <circle cx="16" cy="16" r="14.5" fill="none" stroke="var(--amber-400)" stroke-width="1.2"/>
+          <path d="M16 6.5 C 19.6 11, 21.4 13.6, 21.4 17 a5.4 5.4 0 0 1-10.8 0 c0-3.4 1.8-6 5.4-10.5z"
+                fill="var(--amber-400)" opacity=".92"/>
+          <path d="M16 13.5 c1.6 2.1 2.4 3.2 2.4 4.6 a2.4 2.4 0 0 1-4.8 0 c0-1.4.8-2.5 2.4-4.6z"
+                fill="var(--ink-950)"/>
+        </svg>
+      </span>
+      <span class="brand-txt">
+        <b>Lumina</b>
+        <i>Kitchen &amp; Terrace</i>
+      </span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#/home"    data-nav="#/home">Home</a>
+      <a href="#/menu"    data-nav="#/menu">Menu</a>
+      <a href="#/manage"  data-nav="#/manage">My booking</a>
+      <span class="nav-div" aria-hidden="true"></span>
+      <a href="#/admin"   data-nav="#/admin" class="nav-staff">Admin</a>
+      <a href="#/kitchen" data-nav="#/kitchen" class="nav-staff">Kitchen</a>
+    </nav>
+
+    <div class="nav-right">
+      <span id="svc-clock" class="mono nav-clock" aria-live="off">--:--</span>
+      <a class="btn btn-sm" href="#/book" data-nav="#/book">Reserve</a>
+      <button class="nav-burger" id="burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="stage" tabindex="-1"></main>
+
+<footer id="foot">
+  <div class="wrap foot-in">
+    <div>
+      <div class="eyebrow">Lumina Kitchen &amp; Terrace</div>
+      <p class="muted" style="margin-top:8px;max-width:38ch">17 Harbour Crescent, Makati. Tuesday to Sunday, 17:30 until 23:30. Last seating 21:45.</p>
+    </div>
+    <div class="foot-cols">
+      <div>
+        <h4>Guest</h4>
+        <a href="#/home">Home</a><a href="#/menu">Menu</a><a href="#/book">Reserve a table</a><a href="#/manage">Manage booking</a>
+      </div>
+      <div>
+        <h4>Staff</h4>
+        <a href="#/admin">Admin dashboard</a><a href="#/kitchen">Kitchen display</a>
+      </div>
+      <div>
+        <h4>Prototype</h4>
+        <span class="muted">Vanilla JS, no framework</span>
+        <span class="muted">Sample data only</span>
+        <span class="muted">No server attached</span>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <span class="mute2">&copy; <span id="yr"></span> Lumina. Fictional venue built to visualise the reservation system plan.</span>
+  </div>
+</footer>
+
+<div id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/floorplan.js"></script>
+<script src="assets/js/guest.js"></script>
+<script src="assets/js/admin.js"></script>
+<script src="assets/js/kitchen.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function(){
+  var b=document.getElementById("burger"), n=document.getElementById("nav");
+  b.addEventListener("click",function(){
+    var open=n.classList.toggle("is-open");
+    b.setAttribute("aria-expanded",open?"true":"false");
+  });
+  document.querySelectorAll(".nav-links a").forEach(function(a){
+    a.addEventListener("click",function(){ n.classList.remove("is-open"); b.setAttribute("aria-expanded","false"); });
+  });
+  var x=document.getElementById("simbar-x");
+  x.addEventListener("click",function(){ document.getElementById("simbar").remove(); document.body.classList.add("no-simbar"); });
+  addEventListener("scroll",function(){ n.classList.toggle("is-stuck", scrollY>24); },{passive:true});
+})();
+</script>
+</body>
+</html>

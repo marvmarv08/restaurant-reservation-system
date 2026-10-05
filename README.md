@@ -2,7 +2,15 @@
 
 Design and implementation plan for a full-stack restaurant table reservation platform, built with vanilla PHP 8, vanilla JavaScript, CSS and MySQL, orchestrated with Docker Compose.
 
-This repository currently contains the **engineering plan and the research that backs it**. Application code lands in the phases described below.
+This repository contains the **engineering plan**, the research that backs it, and a **clickable front-end prototype** that simulates every screen. Application code lands in the phases described below.
+
+## See it running
+
+Open [`prototype/index.html`](prototype/index.html) in a browser. No server, no build step, no install.
+It simulates the guest booking flow, the interactive floor plan, the admin dashboard and the kitchen
+display against roughly 700 generated reservations, 25 tables and 36 menu items. The availability
+engine, hold TTLs and reservation state machine in the prototype are the real logic, ported to the
+PHP service layer in phase 2. See [`prototype/README.md`](prototype/README.md) for what to click.
 
 ## Scope
 
