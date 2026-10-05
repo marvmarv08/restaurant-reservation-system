@@ -6,11 +6,11 @@ Skip when: Only reading historical decisions or one-off command output.
 
 ## Phase
 
-P0 and P1 complete; P2 next. See `PLAN.md` for the authoritative progress table and completion checks.
+P0–P2 complete; P3 next. See `PLAN.md` for the authoritative progress table and completion checks.
 
 ## Current Top Objective
 
-Build the executable MySQL schema and repeatable sample data for P2.
+Build the safe booking engine on the executable MySQL schema for P3.
 
 ## Stable Facts
 
@@ -21,24 +21,24 @@ Build the executable MySQL schema and repeatable sample data for P2.
 
 ## What Exists
 
-Planning/research documents, an in-memory browser prototype, and a P1 Docker/PHP foundation with `/health`, Adminer, a quickstart, and `bin/smoke.sh`. The Windows Desktop roadmap is generated from `PLAN.md` by `scripts/export_roadmap.py`.
+Planning/research documents, an in-memory browser prototype, a Docker/PHP foundation, and executable Phase 2 MySQL schema plus repeatable reference and demo seed. The Windows Desktop roadmap is generated from `PLAN.md` by `scripts/export_roadmap.py`.
 
 ## What Works
 
-Phase 0 documentation checks and prototype validator passed earlier. P1's PHP/MySQL/Adminer containers run through Ubuntu Docker Compose. `/health` returns `{"ok":true,"db":true}`, Adminer returns HTTP 200, and `bin/smoke.sh` passes from a fresh Ubuntu process. PHP lint, Compose config, PHP 8.3 syntax parsing, and Bash syntax also passed.
+An isolated empty Compose volume auto-loaded 4 rooms, 25 physical tables, 36 menu items, 30 demo guests, and 179 date-relative reservations; rerun added 0. The existing P1 volume was upgraded without reset. Eight early demo rows exceeding pacing were cancelled with history retained. `bin/verify-db.php` proved foreign keys, unique codes, active-slot uniqueness, cancelled-slot reuse with retained history, joined membership, pacing, and no live seed overlaps; `bin/smoke.sh` passed on both stacks.
 
 ## Known Issues
 
-The prototype can create duplicate holds/references, does not reserve all joined-table members, and does not enforce all planned rules or settings. The schema sketch has not been executed against MySQL.
+The browser prototype is still a simulation. The PHP application does not yet offer real availability, hold creation, booking, or guest self-service. The active-slot unique index guards identical starts; P3 must add transactional interval overlap checks.
 
 ## Current Blockers
 
-No P2 blocker is known. The database exists but has no application schema or seed rows yet. A fresh Ubuntu process has Docker group access; older terminal sessions may need to be reopened to refresh their group list.
+No P3 blocker is known. A fresh Ubuntu process has Docker group access; older terminal sessions may need to be reopened to refresh their group list.
 
 ## Next Recommended Actions
 
-1. Implement and execute the P2 schema and repeatable seed data.
-2. Prove the P0 booking scenarios in P3/P4.
+1. Implement transactional availability, holds, and bookings using P0 rules and every joined-table member.
+2. Prove overlap, expiry, blackout, pacing, and concurrent final-table behavior before guest UI integration.
 
 ## Last Updated
 

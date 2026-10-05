@@ -50,7 +50,7 @@ Required by the brief: sample food data, functional website, table reservation s
 |---|---|---|
 | P0 | Done | 10-minute hold, 2-hour cancellation cutoff, 1–16 party policy, room rules, 22 acceptance scenarios, and schema corrections documented; consistency checks and `git diff --check` passed. SQL execution belongs to P2/P3. |
 | P1 | Done | Fresh Ubuntu `docker compose ps` shows healthy PHP/MySQL containers; `/health` returns `{"ok":true,"db":true}`, Adminer returns HTTP 200, and `bash bin/smoke.sh` passes. Compose config and PHP syntax checks passed. |
-| P2 | Not started | — |
+| P2 | Done | Fresh isolated Compose volume auto-loaded 4 rooms, 25 tables, 36 menu items, 5 inactive staff profiles, 30 demo guests, and 179 date-relative reservations; rerun added 0. Existing P1 volume kept 185 demo rows while 8 over-limit bookings were cancelled with history. Database verifier passed foreign keys, unique references, active-slot conflict, cancelled-slot reuse, joined members, pacing, and no live overlaps; app smoke passed. |
 | P3 | Not started | — |
 | P4 | Not started | — |
 | P5 | Not started | — |
@@ -59,9 +59,9 @@ Required by the brief: sample food data, functional website, table reservation s
 
 After a phase passes its completion check, update its status and brief verification evidence here, then update the current checkpoint and next concrete action below. Run `python3 scripts/export_roadmap.py` to refresh the Windows Desktop copy. A phase is not complete merely because its code was written.
 
-**Current checkpoint (2026-10-05):** P0 and P1 are complete. The PHP/MySQL/Adminer Docker stack runs on Marvin's Windows/Ubuntu machine, Ubuntu can use `docker compose`, and the live smoke checks pass. The database is empty by design until P2. The browser prototype remains separate from the PHP/MySQL app; no real reservation flow exists yet.
+**Current checkpoint (2026-10-05):** P0–P2 are complete. A fresh Docker volume auto-loads the executable schema, P0 policy, 25 physical tables, 36 menu items, inactive staff profiles, and date-relative sample reservations (179 in the final rehearsal). The existing P1 volume was upgraded without reset; eight early demo rows exceeding pacing were cancelled with history retained. A repeat seed adds no duplicates on the same day; `bin/verify-db.php` and `bin/smoke.sh` pass. The browser prototype remains separate from the PHP/MySQL app; no real reservation flow exists yet.
 
-**Next concrete action:** Start P2: turn the reviewed schema sketch into executable MySQL migrations and repeatable sample data, then verify foreign keys, unique reservation codes, retained cancelled-slot history, and safe seed reruns. Keep the P0 booking rules as the source of truth.
+**Next concrete action:** Start P3: implement availability from the P0 settings and opening hours, then transactional holds and booking with ascending physical-table locks, expiry checks, joined-member assignment, and concurrency tests. Prove R01–R14, R17, R19, and R20 before connecting the guest UI.
 
 Older phase numbers and hour estimates elsewhere in the research are historical planning notes. Use this roadmap when resuming work. Protect P0–P4 before adding polish or stretch features.
 

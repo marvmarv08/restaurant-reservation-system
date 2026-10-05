@@ -2,7 +2,7 @@ name: tablebook
 
 services:
   app:
-    build: .
+    image: tablebook-app:local
     restart: unless-stopped
     ports:
       - "${APP_PORT:-8080}:80"
@@ -18,14 +18,28 @@ services:
     volumes:
       - uploads:/var/www/html/public/uploads
     depends_on:
-      db:
-        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "php", "-r", "exit(@file_get_contents('http://127.0.0.1/health') === false ? 1 : 0);"]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
+
+  seed:
+    build: .
+    image: tablebook-app:local
+    command: ["php", "bin/seed.php"]
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: ${DB_DATABASE:?Copy .env.example to .env first}
+      DB_USERNAME: ${DB_USERNAME:?Copy .env.example to .env first}
+      DB_PASSWORD: ${DB_PASSWORD:?Copy .env.example to .env first}
+    depends_on:
+      db:
+        condition: service_healthy
 
   db:
     image: mysql:8.4
