@@ -4,6 +4,15 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — Table showcase research and clickable study
+
+- Request: Marvin wants per-table picture previews and sliding browsing. The screenshot shows four room cards; clicking one should open its room showcase, while a floor-table click should open the exact table.
+- Decision: Recommend a named modal with large table visual, seating/top/room views, thumbnails, arrows and touch scrolling. Use original perspective illustrations first or later static renders from CC0 models. Keep browsing separate from booking selection and preserve existing holds/rules.
+- Sources/assets: Primary W3C dialog/carousel/gesture guidance, OpenTable dining-area behavior, Baymard gallery findings and image-performance documentation. Downloaded and inspected three licensed Unsplash/Pexels references and a CC0 Kenney overview; credits, licenses and hashes saved with the study.
+- Evidence: All 25 public table entries and the one declared joined group are mapped. The standalone study passed 29 checks for exact-table/room opening, named views, mobile reflow, keyboard/focus, zero automated A/AA violations in tested states, loaded local images and no external requests/JS errors. Live booking code and main data were unchanged. S1 visuals, S2 integration and S3 live verification are planned, not delivered.
+- Lesson: A room card is a category; a specific table is inventory. Stock pictures can convey atmosphere, but cannot establish an exact table's real appearance or accessibility. Consistent illustrations can show known shape and capacity while the server remains responsible for availability.
+- Resume: `research/07_table_showcase_research.md`; concept at localhost:8092/table-showcase/concept.html during the local research-server session. P0–P7 remain Done.
+
 ## 2026-10-06 — Phase 7 accessibility and offline demo readiness
 
 - Change: Improved menu-label contrast, named the service dialog, restored keyboard focus to order openers after asynchronous actions, and made management/service skip targets focusable. Added a separately configured disposable demo stack, validated reset targets, real architecture/schema diagrams, verification commands and an eight-minute walkthrough.

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lumina · Table showcase design study</title>
+  <link rel="stylesheet" href="concept.css">
+  <script src="inventory.js" defer></script><script src="concept.js" defer></script>
+</head>
+<body>
+<header><a href="#rooms-title" class="brand">LUMINA <span>Kitchen &amp; Terrace</span></a><span class="study">Interactive design study · no bookings</span></header>
+<main>
+  <section aria-labelledby="rooms-title">
+    <p class="eyebrow">Four ways to spend the evening</p>
+    <div class="section-heading"><h1 id="rooms-title">Find your corner.</h1><p>A quiet suite, a place by the hearth,<br>or the last light over the harbour.</p></div>
+    <p class="hint">Choose a room to explore its tables. Every table has its own seating illustration.</p>
+    <div id="room-cards" class="room-cards"></div>
+  </section>
+  <section class="inventory" aria-labelledby="all-title">
+    <div class="section-heading"><div><p class="eyebrow">A closer look at every seat</p><h2 id="all-title">All 25 tables.</h2></div><p>Click a table to open its showcase.<br>Availability is checked during booking.</p></div>
+    <div id="table-grid" class="table-grid"></div>
+    <p id="selection" role="status">No table chosen in this design study.</p>
+  </section>
+  <footer><p>Table drawings are illustrative. Stock photographs show atmosphere references from other venues.</p><a href="../07_table_showcase_research.md">Research, sources and implementation plan ↗</a></footer>
+</main>
+<dialog id="showcase" aria-labelledby="showcase-title">
+  <div class="dialog-heading"><div><p id="room-name" class="eyebrow"></p><h2 id="showcase-title" tabindex="-1"></h2></div><button id="close" type="button" class="ghost" aria-label="Close table showcase">Close ×</button></div>
+  <div class="showcase-layout">
+    <section class="visual" aria-label="Table pictures"><div id="hero"></div><p id="image-caption" class="image-caption"></p><div class="view-controls" role="group" aria-label="Views of this table"><button data-view="angle" type="button">Seating view</button><button data-view="top" type="button">From above</button><button data-view="photo" type="button">Room inspiration</button></div></section>
+    <section class="details" aria-label="Table details"><p class="eyebrow">Your place for the evening</p><h3 id="table-label"></h3><dl id="facts"></dl><div class="notice"><strong>Explore first. Reserve when ready.</strong><p>Choose a date, time and party size in the booking flow to check whether this table fits and is available.</p></div><button id="choose" type="button" class="primary">Choose this table</button><p class="fine">This study saves a visual choice only. No table is held and no booking is created.</p></section>
+  </div>
+  <section class="table-navigation" aria-label="Browse tables in this room"><div class="navigation-heading"><span id="position" role="status"></span><div><button id="previous" type="button" aria-label="Previous table">← Previous</button><button id="next" type="button" aria-label="Next table">Next →</button></div></div><div id="thumbnails" class="thumbnails" aria-label="Choose a table preview"></div><p class="fine">Swipe the table strip or use the arrows. Browsing does not change your chosen table.</p></section>
+</dialog>
+</body></html>

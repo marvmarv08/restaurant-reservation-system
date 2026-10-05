@@ -164,6 +164,7 @@ After a phase passes its completion check, update the phase progress in `PLAN.md
 ## Documents
 
 - [`PLAN.md`](PLAN.md) - the consolidated implementation plan
+- [`research/07_table_showcase_research.md`](research/07_table_showcase_research.md) - click-to-open table showcase research, licensed pictures, interactive design study and planned integration
 - [`docs/demo-guide.md`](docs/demo-guide.md) - safe demo setup, offline rehearsal and eight-minute walkthrough
 - [`docs/architecture.md`](docs/architecture.md) - actual request flow, database relationships and stack boundaries
 - [`docs/verification.md`](docs/verification.md) - regression, accessibility and offline verification commands

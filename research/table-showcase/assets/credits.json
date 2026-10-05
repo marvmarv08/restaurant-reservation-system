@@ -1,0 +1,49 @@
+[
+  {
+    "file": "main-dining-reference.jpg",
+    "author": "Michel Stockman",
+    "source": "https://unsplash.com/photos/shallow-focus-photography-of-rectangular-brown-wooden-table-with-chairs-set-QrOoMocamu0",
+    "download": "https://images.unsplash.com/photo-1572988003368-c2068d1af2ff?auto=format&fit=max&w=1200&q=80",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "checked": "2026-10-06",
+    "use": "Illustrative research reference; not an actual Lumina table",
+    "bytes": 135210,
+    "sha256": "9eafa69a351e2bb5c487c22b55948ea510a458a46491cf1a9fc43bff36b5e467"
+  },
+  {
+    "file": "round-table-reference.jpg",
+    "author": "Mustafa Fatemi",
+    "source": "https://unsplash.com/photos/a-dining-room-with-a-table-chairs-and-pictures-on-the-wall-ZZwUrJlmRTU",
+    "download": "https://images.unsplash.com/photo-1729394404997-c95e5c5dd736?auto=format&fit=max&w=1200&q=80",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "checked": "2026-10-06",
+    "use": "Illustrative research reference; not an actual Lumina table",
+    "bytes": 139161,
+    "sha256": "c42c6417797e00417e7093f56e1169017df17c6760ec1f56c21ffc3cdb9fd2c1"
+  },
+  {
+    "file": "terrace-reference.jpg",
+    "author": "pipop kunachon",
+    "source": "https://www.pexels.com/photo/table-and-chairs-on-restaurant-terrace-18675120/",
+    "download": "https://images.pexels.com/photos/18675120/pexels-photo-18675120.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "checked": "2026-10-06",
+    "use": "Illustrative research reference; not an actual Lumina table",
+    "bytes": 505582,
+    "sha256": "7bc11e0e5a1bc3cd19001012b54b58a1e28960943934fd61a025f72d8216d202"
+  },
+  {
+    "file": "kenney-furniture-preview.png",
+    "author": "Kenney",
+    "source": "https://kenney.nl/assets/furniture-kit",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "checked": "2026-10-06",
+    "use": "Official pack overview extracted from Preview.png; prospective models, not a rendered Lumina table",
+    "bytes": 149661,
+    "sha256": "ab3fa2afbe045ea1de12883231a877148145fc8d33fed7337a0aefe93d59ccd8"
+  }
+]

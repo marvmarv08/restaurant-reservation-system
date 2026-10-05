@@ -105,3 +105,29 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: 184 regression scenarios (109 MySQL, 43 HTTP, 32 browser) passed; 36 readiness checks passed on isolated and fresh demo stacks, with zero automated A/AA violations in tested states, 320/390/768/1440 reflow, keyboard focus and external-network-blocked same-record booking-to-kitchen-to-completion. Clean setup seeded 177 and rerun 0; smoke/Adminer200/DB safeguards passed. Validated demo reset, unsafe-main-volume refusal, cached-image restart and retained closed order/served ticket. Actual main fixture refused before connection/writes. PHP54 lint, shell/JS syntax, main/test smoke, source hashes and PMM doctor passed. Main198 reservations/31 guests/208 history/one active staff/zero orders retained. Disposable volumes removed; roadmap/Desktop and learning notes updated; staged diff clean without private env.
 - Closed At: 2026-10-05T22:48:45Z
+
+## 2026-10-05 table-showcase-research
+
+<!-- pmm-task-id: table-showcase-research -->
+
+- Status: done
+- Parent Task: none
+- Title: Research table-specific previews and an accessible showcase
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Primary W3C dialog/carousel/gesture guidance, OpenTable dining-area behavior, Baymard gallery research and image performance docs checked; verified free Unsplash/Pexels photo pages and official Kenney CC0 pack/license. Three photos and one CC0 preview downloaded/visually inspected with credits and hashes. All25 public physical tables/four rooms/declared G1-G2 group documented; JSON/JS snapshot mapping and report links checked. Concept passed29 exact-table/room, mobile320/390/768/1440, keyboard/focus, zero automated A/AA violations in tested states and offline/no-JS-error checks. Local preview and assets HTTP200. Live booking/backend/data unchanged; S1-S3 explicitly planned. Desktop P7Done and S1 resume verified. Syntax, staged diff and PMM doctor passed.
+- Closed At: 2026-10-05T23:27:59Z
+
+## 2026-10-05 table-showcase-final-review
+
+<!-- pmm-task-id: table-showcase-final-review -->
+
+- Status: done
+- Parent Task: none
+- Title: Finalize research asset formatting and local delivery
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Corrected prior research closure: original downloaded Kenney License.txt CRLF/trailing whitespace caused staged diff check failure. Normalized whitespace only and compared all wording tokens to the official zip License.txt; identical. All four image hashes intact. Actual git diff --cached --check and working diff check now pass; PMM doctor zero warnings/failures. Prior29 concept checks remain applicable (no concept behavior changes); final local inventory/source links and served assets HTTP200 checked. No live code/data edits or external publication.
+- Closed At: 2026-10-05T23:29:16Z

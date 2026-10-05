@@ -10,7 +10,7 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
-Marvin's hands-on presentation rehearsal with the delivered demo guide; GitHub delivery or hosting needs its own requested scope.
+Resume the table-showcase extension at S1 using research/07_table_showcase_research.md. Research and a standalone clickable concept are complete; live integration is still planned.
 
 ## Stable Facts
 
@@ -41,6 +41,12 @@ A clean source snapshot without main credentials started healthy PHP/MySQL/Admin
 
 `docs/booking-api.md`, `docs/staff-api.md`, and `docs/orders-api.md` document routes, security, lock order, and isolated verification. `scripts/export_roadmap.py` generates the Windows Desktop roadmap from `PLAN.md`; update it after every verified phase.
 
+## Requested Table Showcase
+
+Marvin's screenshot identifies the four “Find your corner” room cards. Desired flow: click room card → room-specific showcase; click a physical floor table → its exact preview. Browse with thumbnails, arrows and a touch-scrolled strip; browsing must not start a hold or change the committed selection. The research report and static study are under `research/07_table_showcase_research.md` and `research/table-showcase/`. Three licensed stock references and the official CC0 Kenney furniture overview are local with source credits/hashes. Original illustrations use the public catalog's 25 table shapes/capacities; G1–G2 remains the only declared joined group. No actual table photographs or access-clearance measurements are claimed.
+
+The standalone concept passed 29 exact-table/room, mobile, keyboard, A/AA and offline checks; asset hashes/mapping/links passed. During this session it is served at localhost:8092/table-showcase/concept.html, from the research folder only. Restart with `python3 -m http.server 8092 --bind 127.0.0.1 --directory research`. Live PHP/booking code, main database and credentials were not changed by this research. S1 artwork, S2 live click-to-open integration and S3 verification remain planned.
+
 ## Known Limitations
 
 The separate prototype remains simulated; live PHP workspaces use MySQL. Menu/room editors, partial post-send order changes, guest food ordering, payment collection, seated table moves, public guest waitlist claims, password recovery, and advanced reports are not implemented. Guests save their private booking link because notifications are simulated. Outstanding work takes priority in bounded lists; archived orders are limited to 100 displayed rows and kitchen results to 200, with the last 20 served tickets in recall. A browser reload discards an unresolved request held in memory; review persisted lines/status before continuing. Local HTTP is for the laptop demo; HTTPS/public hosting needs a separate deployment review. Application audit/event writes append records; database operators retain write access.
@@ -51,9 +57,9 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Marvin follows `docs/demo-guide.md` and privately activates separate demo staff. Prepare a booking at least 60 minutes ahead and present during its real seating window; a new future booking cannot immediately enter service.
-2. Use a separate browser profile for main/demo because cookies share a hostname across ports. Prepare Docker images online before the offline run. Automated accessibility checks do not certify full WCAG conformance; perform a hands-on keyboard/zoom rehearsal.
-3. Local commits are ready for review. GitHub publication and HTTPS hosting are separate requested work. Preserve main `.env` and storage.
+1. Resume S1 in the showcase research report: finalize coherent images/illustrations for all 25 table IDs and the joined option, using local assets and retained credits.
+2. Integrate the shared viewer at the screenshot's room cards and booking floor plan. Keep previewed table separate from selected/held inventory; only explicit eligible selection calls the existing handler.
+3. Verify the guest flow, modal focus, 320px layouts, failed images, joined selection and offline behavior. Keep P0–P7 intact; no main resets or publication. Presentation preparation remains in the demo guide.
 
 ## Last Updated
 
