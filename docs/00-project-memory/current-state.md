@@ -6,39 +6,41 @@ Skip when: Only reading historical decisions or one-off command output.
 
 ## Phase
 
-P0–P3 complete; P4 next. See `PLAN.md` for the authoritative progress table and completion checks.
+P0–P4 complete; P5 next. `PLAN.md` is the authoritative roadmap.
 
 ## Current Top Objective
 
-Connect the guest screens to the verified booking engine and implement secure guest management for P4.
+Implement staff authentication, server-side roles, and the host/admin workflow in P5.
 
 ## Stable Facts
 
-- Marvin selected a 10-minute server-side hold and a 2-hour guest cancellation cutoff.
-- Fictional demo venue policy, room limits, 1–16 online party size, and acceptance scenarios R01–R22 are in `PLAN.md`.
-- `research/02_booking_engine.md` is the schema and concurrency sketch. The P0 design uses `hold_tables` for every physical member, `CHAR(10)` references, and active-only slot uniqueness with retained released rows.
-- No real email/SMS delivery or payment collection is in the current scope.
+- Marvin selected a ten-minute server-side hold and two-hour self-service cancellation cutoff. Modification uses the same cutoff to prevent a move-then-cancel bypass.
+- Fictional venue policy, room limits, 1–16 party size, and R01–R22 are in `PLAN.md`.
+- No real email/SMS delivery or payment collection is authorized.
+- A reference is a public label. A private booking link authorizes access; only its hash is stored in MySQL, with binding, expiry, and revocation support.
+- Menu browsing works; ordering and kitchen tickets remain P6. Staff profiles are inactive until P5 securely activates them.
 
-## What Exists
+## What Exists and Works
 
-Planning/research documents, an in-memory browser prototype, executable MySQL schema, repeatable demo seed, and PHP booking services/API. `docs/booking-api.md` documents the contract, locks, rules, and tests. The Windows Desktop roadmap is generated from `PLAN.md` by `scripts/export_roadmap.py`.
+The live guest website runs at http://localhost:8080. It uses current availability, a physical-table floor plan with radio fallback, owned holds with server-clock countdown, guest details, and transactional confirmation. Refresh restores holds/confirmation; private links open the same booking in a second browser. Modification locks old/new dates and inventory, preserves the original on failure, and archives changes. Cancellation retains history and releases every member.
 
-## What Works
+Verification: 36 booking and 14 management MySQL scenarios; 11 booking and 7 management HTTP scenarios; 12 real browser scenarios including 320px/mobile, keyboard selection, interrupted response recovery, two-tab rejection, joined highlights, pending approval, countdown expiry, and invalid links. PHP lint passed on 35 files, main/test smoke and main DB safeguards passed. The additive upgrade retained 185 reservations, 30 guests, and 193 status-history rows; seed rerun added 0.
 
-P3 passed 36 isolated real-MySQL scenarios and 11 HTTP scenarios. Multi-process races proved final-table, interval overlap, joined members, shared pacing, and idempotent confirmation. Tests covered expiry while waiting for locks, policy/blackouts, code collisions, history, ownership, and CSRF. PHP lint passed across 26 files. Main/test smoke and main DB safeguards passed; the main availability API returned 18 slots. The additive upgrade preserved 185 demo records; seed reruns added 0 and now respect live holds/booking locks.
+`docs/booking-api.md` documents routes, security, lock order, and isolated verification. `scripts/export_roadmap.py` generates the Windows Desktop roadmap from `PLAN.md`.
 
-## Known Issues
+## Known Limitations
 
-The browser prototype is still a simulation; the PHP guest screens do not yet call the API. Secure guest management/modification and cancellation cutoff are P4. Staff roles, seating/no-show workflows, and waitlist promotion are P5. The internal cancellation service must be called only after caller authorization; no public cancellation route exists.
+The separate prototype still simulates staff and kitchen behavior. Staff authentication, manager approval actions, seating/no-show, waitlist promotion, and staff audit identity are P5. Guests must save their private link because no real notification arrives; losing the link and original session requires venue assistance. Change/cancellation messages are not delivered externally. Local HTTP setup is for the demo; hosting hardening belongs to P7.
 
 ## Current Blockers
 
-No P4 blocker is known. A fresh Ubuntu process has Docker group access; older terminal sessions may need to be reopened to refresh their group list.
+None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker socket access.
 
 ## Next Recommended Actions
 
-1. Connect the guest flow using the session/CSRF and API contract in `docs/booking-api.md`.
-2. Implement secure management links, modification, cancellation cutoff, refresh persistence, and two-browser acceptance.
+1. Plan the P5 role permissions and secure staff activation/login around the existing schema.
+2. Implement authorized host/admin transitions and audit identity; verify allowed and denied actions through the server.
+3. Keep P3/P4 regression suites passing and refresh the Desktop roadmap after phase completion.
 
 ## Last Updated
 

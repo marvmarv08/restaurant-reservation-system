@@ -1,7 +1,7 @@
 # Best-in-Class Restaurant Table Reservation System - Implementation Plan
 
 Project: class competition deliverable. Stack mandated: JavaScript (vanilla), PHP (vanilla), CSS, HTML, Docker.
-Status: PHP/MySQL startup, schema, and transactional booking engine are implemented and verified. The clickable browser prototype exists; its guest screens are connected to the backend in P4. The delivery roadmap below is the current source of truth for future sessions.
+Status: P0–P4 are implemented and verified. The live guest website books and manages real MySQL reservations; staff and kitchen workflows remain in the separate prototype until P5/P6. The delivery roadmap below is the current source of truth for future sessions.
 
 Backing research (read these for detail, all in `research/`):
 - `01_reference_repos.md` - open-source repos worth stealing from, and anti-patterns
@@ -52,16 +52,16 @@ Required by the brief: sample food data, functional website, table reservation s
 | P1 | Done | Fresh Ubuntu `docker compose ps` shows healthy PHP/MySQL containers; `/health` returns `{"ok":true,"db":true}`, Adminer returns HTTP 200, and `bash bin/smoke.sh` passes. Compose config and PHP syntax checks passed. |
 | P2 | Done | Fresh isolated Compose volume auto-loaded 4 rooms, 25 tables, 36 menu items, 5 inactive staff profiles, 30 demo guests, and 179 date-relative reservations; rerun added 0. Existing P1 volume kept 185 demo rows while 8 over-limit bookings were cancelled with history. Database verifier passed foreign keys, unique references, active-slot conflict, cancelled-slot reuse, joined members, pacing, and no live overlaps; app smoke passed. |
 | P3 | Done | 36 isolated MySQL scenarios and 11 HTTP API scenarios passed. Separate PHP processes proved final-table, overlapping-start, joined-member, pacing, and duplicate-confirmation races. Expiry after lock waits, blackouts, policy settings, code collision retries, cancellation history, guest ownership, and CSRF passed. PHP lint (26 files), main/test smoke, live availability, and main DB safeguards passed; main seed rerun added 0. |
-| P4 | Not started | — |
+| P4 | Done | Live guest search, SVG/radio table picker, server-clock countdown, details, confirmation, private management links, atomic modification, and cancellation. 14 management MySQL tests, 7 management HTTP tests, and 12 browser scenarios passed; P3 regression (36 MySQL + 11 HTTP), PHP lint (35 files), main/test smoke, and main DB safeguards passed. Refresh, second browser, interrupted confirmation recovery, two-tab edits, joined inventory, pending approval, R18/R21, and 320px/mobile layout verified. Existing 185 main reservations and history were retained; seed rerun added 0. |
 | P5 | Not started | — |
 | P6 | Not started | — |
 | P7 | Not started | — |
 
 After a phase passes its completion check, update its status and brief verification evidence here, then update the current checkpoint and next concrete action below. Run `python3 scripts/export_roadmap.py` to refresh the Windows Desktop copy. A phase is not complete merely because its code was written.
 
-**Current checkpoint (2026-10-05):** P0–P3 are complete. The local PHP/MySQL app now has live availability, owned ten-minute holds, transactional confirmation, idempotent retries, and retained cancellation history. P0 policy and concurrency are verified by isolated MySQL and HTTP tests. The existing volume was upgraded additively and keeps 185 demo records; manual seed reruns now use the engine's locks and respect live inventory/pacing. The browser prototype is still separate; guest UI and secure self-service management are P4. Staff profiles remain inactive until P5.
+**Current checkpoint (2026-10-05):** P0–P4 are complete; the guest MVP runs at http://localhost:8080. Search and table selection use current MySQL policy/inventory; ten-minute owned holds restore after refresh. Confirmation returns a private management link that opens the same reservation in another browser. Modification preserves the original until an atomic replacement succeeds, archives prior assignments/times, and rejects stale tabs. Both modification and cancellation enforce the two-hour cutoff on the server. Link hashes, binding, expiry/revocation, joined release, and race conditions are verified. The additive upgrade retains 185 main demo reservations, 30 guests, and 193 status-history rows. Notifications remain simulated, menu browsing is read-only, and staff profiles stay inactive.
 
-**Next concrete action:** Start P4: connect guest search, table selection, hold countdown, details, and confirmation to the real API. Add secure expiring management links, modification, and the two-hour cancellation cutoff. Verify refresh persistence and visibility in a second browser, plus inventory release, invalid/expired management links, and R18/R21. Use docs/booking-api.md for the backend contract.
+**Next concrete action:** Start P5: implement staff authentication and server-side roles, then the host/admin reservation workflow (approve pending requests, seating, cancellation, no-show, waitlist promotion, and audit identity). Use the existing schema and P0 rules. Do not activate demo staff with shared passwords or expose an admin route before server authorization is enforced. Verify permitted host actions, denied cross-role actions, login/session security, and real inventory/history transitions. P6 will connect ordering and kitchen tickets.
 
 Older phase numbers and hour estimates elsewhere in the research are historical planning notes. Use this roadmap when resuming work. Protect P0–P4 before adding polish or stretch features.
 
@@ -83,7 +83,7 @@ This table resolves conflicting values in the pushed research using the consolid
 | Hold | **10 minutes**, measured by server expiry; one hold covers every member of a joined group | Marvin's choice; current prototype and UX draft |
 | Joined tables | Only predeclared adjacent combinations; try only when no single table fits; hold and reserve every member | Booking-engine spec, with prototype's one-table gap corrected |
 | Blackout | Venue, room type, room, or table scope; an “Any room” search may still offer unaffected rooms | Booking-engine spec |
-| Self-service cancellation cutoff | Two hours before start; show the exact `Asia/Manila` deadline and route later requests to staff; no automatic charge or forfeiture | Marvin's choice and demo-only payment scope |
+| Self-service change/cancellation cutoff | Two hours before the current start for both modification and cancellation (P4 decision prevents move-then-cancel bypass); show the exact `Asia/Manila` deadline and route later requests to staff; no automatic charge or forfeiture | Marvin's choice and demo-only payment scope |
 | Waitlist | Ranked per requested date/time; offer only to a party fitting the freed inventory; create a 10-minute claim hold before notifying | Booking-engine and UX plans; no simulated “held” message without a real hold |
 | No-show | Staff or scheduled process may mark no-show 20 minutes after start; release inventory and record history | Current prototype and booking-engine settings |
 | Notification and payment | Email/SMS go to the demo outbox; no real messages or charges. VIP deposit state may be shown, but no payment is collected | Pushed PLAN.md demo decision D5 and Phase 0 scope |
@@ -248,7 +248,7 @@ Documentation is cheap rubric points: README with one-command start, ER diagram,
 ## 10. Top risks
 
 1. **Docker fails on the demo machine.** Mitigate with the fallback tiers and a pre-recorded backup video.
-2. **Scope creep into effects before the engine works.** Mitigate with the hard MVP line at P3.
+2. **Scope creep into effects before the engine works.** Mitigate with the verified guest MVP line at P4.
 3. **The floor plan swallows a week.** Mitigate by shipping the radio-list fallback first and treating SVG as an enhancement.
 4. **Realtime chosen wrong and the kitchen screen freezes mid-demo.** Mitigate by making polling primary.
 5. **Seed data looks fake and undermines everything.** Mitigate by seeding relative to CURDATE and using real food photography.
@@ -257,4 +257,4 @@ Documentation is cheap rubric points: README with one-command start, ER diagram,
 
 ## 11. Confidence
 
-Confidence 82 of 100. The architecture, Docker mechanics, security patterns, MySQL concurrency semantics and browser-support claims are standard and source-backed. The hour estimates, seed volumes and visual direction are engineering judgment and have not been validated against your team's velocity. Nothing in this plan has been executed against a live server. Competitor UX rows in `03_ux_flows.md` are marked UNVERIFIED because OpenTable, Resy, Tock, SevenRooms and Yelp all blocked programmatic reads this session; the recommended flow is labelled DESIGN rather than cited.
+Confidence 82 of 100. The architecture, Docker mechanics, security patterns, MySQL concurrency semantics and browser-support claims are standard and source-backed. The hour estimates, seed volumes and visual direction are engineering judgment and have not been validated against your team's velocity. The phase-progress table above records executed local PHP/MySQL and browser verification; later phases remain planned. Competitor UX rows in `03_ux_flows.md` are marked UNVERIFIED because OpenTable, Resy, Tock, SevenRooms and Yelp all blocked programmatic reads this session; the recommended flow is labelled DESIGN rather than cited.

@@ -2,7 +2,7 @@
 
 Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaScript, CSS, MySQL 8.4, and Docker Compose.
 
-This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The starter page proves connectivity; the backend now provides real availability, expiring holds, and transactional booking. Phase 4 connects the guest screens to that API.
+This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The guest website uses real MySQL availability, expiring holds, transactional confirmation, and private links for changing or cancelling a booking. The separate prototype also illustrates the future staff and kitchen screens.
 
 ## Start the PHP application
 
@@ -14,7 +14,7 @@ docker compose up -d --build
 docker compose ps
 ```
 
-Open [http://localhost:8080](http://localhost:8080) for the PHP starter page. Open [http://localhost:8080/health](http://localhost:8080/health) to check the database connection; a working stack returns `{"ok":true,"db":true}`. Adminer is at [http://localhost:8081](http://localhost:8081); choose MySQL, server `db`, and the `DB_USERNAME`, `DB_PASSWORD`, and `DB_DATABASE` values from your local `.env`. On a fresh volume, MySQL loads the schema, rooms, tables, menu, and inactive demo staff; a one-shot PHP seed adds date-relative sample reservations before the web app starts.
+Open [http://localhost:8080](http://localhost:8080) for the live guest website. Open [http://localhost:8080/health](http://localhost:8080/health) to check the database connection; a working stack returns `{"ok":true,"db":true}`. Adminer is at [http://localhost:8081](http://localhost:8081); choose MySQL, server `db`, and the `DB_USERNAME`, `DB_PASSWORD`, and `DB_DATABASE` values from your local `.env`. On a fresh volume, MySQL loads the schema, rooms, tables, menu, and inactive demo staff; a one-shot PHP seed adds date-relative sample reservations before the web app starts.
 
 If your MySQL volume already existed before the latest schema files were added, the MySQL image will not rerun its init SQL. Start only the database, then apply the additive upgrade and start the full stack:
 
@@ -29,7 +29,7 @@ The setup script keeps existing rows and does not reset your volume. Never copy 
 Phase 3 adds `booking_days` for pacing locks and `hold_reservations` for confirmation retries.
 See [the booking API guide](docs/booking-api.md) for routes, rules, and the isolated verification commands.
 Availability can be inspected at `/api/availability?date=YYYY-MM-DD&party_size=2&room_type=common`
-using a valid upcoming service date. The guest booking UI is connected in Phase 4.
+using a valid upcoming service date. Phase 4 adds hash-only private management credentials and before/after change history.
 
 To check the seed and database safeguards:
 
@@ -40,13 +40,25 @@ docker compose run --rm seed
 
 The verification rolls back its temporary writes. Rerunning the seed on the same day should report `0 new reservations`. The date-relative demo rows are added for new calendar days; they do not erase or rewrite existing booking history. To inspect data, use Adminer or `docker compose exec db` with your private `.env` credentials. Demo staff profiles are inactive until Phase 5 creates secure login activation. No real messages or payments are sent.
 
-After the containers are healthy, run `bash bin/smoke.sh` to check the page, CSS, database health, and basic route errors. If you changed `APP_PORT`, pass its URL, for example `bash bin/smoke.sh http://localhost:8090`.
+After the containers are healthy, run `bash bin/smoke.sh` to check the guest page, CSS/JS, catalog, database health, and basic route errors. If you changed `APP_PORT`, pass its URL, for example `bash bin/smoke.sh http://localhost:8090`.
 
 The `.env.example` passwords are local demo placeholders. Edit them in your private `.env` before sharing a running stack; never commit `.env`. To stop containers while keeping database data, run `docker compose down`. If a port is already in use, change `APP_PORT`, `ADMINER_PORT`, or `DB_PORT_HOST` in `.env`, then run `docker compose up -d` again.
 
 If `docker` is not found in WSL, start Docker Desktop in Windows and enable this WSL distribution under **Settings → Resources → WSL Integration**. Check again with `docker compose version`. If `/health` reports `{"ok":false,"db":false}`, inspect `docker compose ps` and `docker compose logs db app`.
 
 If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu account to the local Docker group with `sudo usermod -aG docker "$USER"`, then close and reopen Ubuntu before retrying `docker compose ps`. Enter your password only in your own terminal. Docker group membership grants control over local containers, so use it only on a machine you trust.
+
+## Try the guest booking flow
+
+1. Open [localhost:8080](http://localhost:8080), choose a date in the next 60 days, guests, and room preference. Monday is closed; VIP needs 48 hours and Group needs 24 hours of notice.
+2. Select an available time. The floor plan and radio list show the same eligible tables. Continue to hold the selection for ten minutes.
+3. Enter your name, phone, and email. Confirm the reservation. Parties of 13–16 submit a request awaiting manager approval.
+4. Save **Copy private link** at confirmation. Open that link in another browser to see the same database booking. Refreshing the original tab also restores its hold or confirmation.
+5. In **My booking**, change the date, party, or table, or cancel after confirming the dialog. The original reservation stays reserved until a replacement is saved. Online changes and cancellation close two hours before the booking.
+
+Treat the private link like a password: anyone with it can manage that booking until it expires. The reference code alone cannot open guest details. There is no guest account requirement. Staff login, manager approval actions, seating, and waitlist promotion arrive in Phase 5. Email/SMS are simulated, so save the private link yourself; no real notification will arrive.
+
+The menu is a read-only catalog in this phase. Ordering and kitchen tickets arrive in Phase 6. All fonts, scripts, and styles are served locally.
 
 ## Explore the browser prototype
 

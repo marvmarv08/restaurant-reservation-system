@@ -1,3 +1,5 @@
+SET NAMES utf8mb4;
+
 -- Generated from prototype/assets/js/data.js by node scripts/export_seed_catalog.mjs.
 
 -- Natural keys and no-op duplicate handling make this safe to rerun.

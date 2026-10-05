@@ -7,12 +7,12 @@ Skip when: The active task already has a complete verifier.
 ## Default Checks
 
 - Code: `docker compose exec -T app php bin/lint.php`; `git diff --check`; apply additive SQL on existing and fresh isolated volumes.
-- Frontend:
-- Backend/API: isolated `bin/test-booking.php`, `tests/http-booking.mjs`, and `bin/smoke.sh`; see `docs/booking-api.md` for exact commands.
+- Frontend: real `tests/browser-booking.mjs` against the isolated app; desktop/mobile/320px overflow, keyboard SVG/radios, refresh, second browser, network recovery, countdown expiry, joined highlights, and approval status. See `docs/booking-api.md`.
+- Backend/API: isolated `bin/test-booking.php`, `bin/test-management.php`, `tests/http-booking.mjs`, `tests/http-management.mjs`, and `bin/smoke.sh`; see `docs/booking-api.md` for exact commands.
 - Docs/skills:
 - Recovery:
 - Release:
-- Security/high risk: confirm/release ownership, CSRF, input/state validation, transaction rollback, and actual multi-process inventory/pacing races.
+- Security/high risk: confirm/release ownership, bound hash-only management capabilities, expiry/revocation, cutoff after lock waits, CSRF, input/state validation, transaction rollback, and actual multi-process inventory/pacing races.
 
 ## Required Evidence
 

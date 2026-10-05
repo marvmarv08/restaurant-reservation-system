@@ -27,6 +27,11 @@ final class Response
     {
         http_response_code($this->status);
         header('Content-Type: ' . $this->contentType);
+        header('Cache-Control: no-store');
+        header('X-Content-Type-Options: nosniff');
+        header('Referrer-Policy: no-referrer');
+        header('X-Frame-Options: DENY');
+        header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
         foreach ($this->headers as $name => $value) {
             header($name . ': ' . $value);
         }

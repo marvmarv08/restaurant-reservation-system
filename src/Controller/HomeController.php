@@ -10,24 +10,17 @@ final class HomeController
 {
     public function index(Request $request): Response
     {
-        return new Response(<<<'HTML'
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lumina Kitchen & Terrace</title>
-  <link rel="stylesheet" href="/assets/css/app.css">
-</head>
-<body>
-  <main>
-    <p class="eyebrow">Lumina Kitchen & Terrace</p>
-    <h1>The reservation platform is starting here.</h1>
-    <p>The PHP application is running. The database connection can be checked at <a href="/health">/health</a>. Guest booking is planned for later phases.</p>
-    <p class="note">Phase 1 · Application foundation</p>
-  </main>
-</body>
-</html>
-HTML);
+        return $this->page('guest');
+    }
+
+    public function manage(Request $request): Response
+    {
+        return $this->page('manage');
+    }
+
+    private function page(string $page): Response
+    {
+        $html = file_get_contents(dirname(__DIR__) . '/View/guest.php');
+        return new Response(str_replace('{{page}}', $page, $html), 200, 'text/html; charset=utf-8', ['Cache-Control' => 'no-store']);
     }
 }

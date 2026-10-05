@@ -10,16 +10,17 @@ use DateTimeZone;
 use PDO;
 use PDOException;
 use RuntimeException;
-use Throwable;
 
 final class BookingService
 {
     private AvailabilityService $availability;
+    private BookingTransaction $transactions;
 
     public function __construct(private readonly PDO $pdo, private readonly BookingClock $clock,
         private readonly ?Closure $testCodeGenerator = null)
     {
         $this->availability = new AvailabilityService($pdo, $clock);
+        $this->transactions = new BookingTransaction($pdo);
     }
 
     public function hold(string $date, string $time, int $party, string $roomType, string $session,
@@ -63,7 +64,8 @@ final class BookingService
             foreach ($option['table_ids'] as $id) {
                 $insert->execute([$holdId, $id]);
             }
-            return ['hold_token' => $token, 'expires_at' => $expires, 'timezone' => 'Asia/Manila',
+            return ['hold_token' => $token, 'expires_at' => $expires, 'expires_at_epoch' => $now->getTimestamp() + $ttl,
+                'server_time_epoch' => $now->getTimestamp(), 'status' => 'active', 'timezone' => 'Asia/Manila',
                 'party_size' => $party, 'option' => $option];
         });
     }
@@ -162,9 +164,9 @@ final class BookingService
     }
 
     // Internal domain operation. P4/P5 controllers must authorize the caller before invoking it.
-    public function cancel(int $reservationId, string $reason): array
+    public function cancel(int $reservationId, string $reason, ?Closure $authorize = null): array
     {
-        return $this->transaction(function () use ($reservationId, $reason): array {
+        return $this->transaction(function () use ($reservationId, $reason, $authorize): array {
             $query = $this->pdo->prepare('SELECT starts_at FROM reservations WHERE id = ?');
             $query->execute([$reservationId]);
             $start = $query->fetchColumn();
@@ -178,6 +180,9 @@ final class BookingService
             $query = $this->pdo->prepare('SELECT status FROM reservations WHERE id = ? FOR UPDATE');
             $query->execute([$reservationId]);
             $status = (string) $query->fetchColumn();
+            if ($authorize !== null) {
+                $authorize();
+            }
             if ($status !== 'cancelled') {
                 if (!in_array($status, ['pending', 'confirmed', 'waitlisted'], true)) {
                     throw new BookingError('invalid_transition', 'This booking cannot be cancelled in its current state.', 409);
@@ -198,6 +203,25 @@ final class BookingService
         $query = $this->pdo->prepare("UPDATE holds SET status = 'expired' WHERE status = 'active' AND expires_at <= ?");
         $query->execute([$this->clock->now()->format('Y-m-d H:i:s')]);
         return $query->rowCount();
+    }
+
+    public function inspectHold(string $token, string $session): array
+    {
+        return $this->transaction(function () use ($token, $session): array {
+            $hold = $this->lockOwnedHold($token, $session);
+            $now = $this->clock->now();
+            $expires = new DateTimeImmutable($hold['expires_at'], new DateTimeZone('Asia/Manila'));
+            $result = ['hold_token' => $token, 'status' => $hold['status'] === 'active' && $expires <= $now ? 'expired' : $hold['status'],
+                'expires_at' => $hold['expires_at'], 'expires_at_epoch' => $expires->getTimestamp(),
+                'server_time_epoch' => $now->getTimestamp(), 'party_size' => (int) $hold['party_size'],
+                'starts_at' => $hold['starts_at'], 'table_ids' => $hold['members']];
+            if ($hold['status'] === 'consumed') {
+                $query = $this->pdo->prepare('SELECT reservation_id FROM hold_reservations WHERE hold_id = ?');
+                $query->execute([$hold['id']]);
+                $result['booking'] = $this->booking((int) $query->fetchColumn(), false);
+            }
+            return $result;
+        });
     }
 
     private function lockOwnedHold(string $token, string $session): array
@@ -227,21 +251,12 @@ final class BookingService
 
     private function lockDay(string $date): void
     {
-        $this->pdo->prepare('INSERT INTO booking_days (service_date) VALUES (?) ON DUPLICATE KEY UPDATE service_date = service_date')->execute([$date]);
-        $this->pdo->prepare('SELECT service_date FROM booking_days WHERE service_date = ? FOR UPDATE')->execute([$date]);
+        $this->transactions->lockDays([$date]);
     }
 
     private function lockTables(array $ids, bool $requireActive = true): void
     {
-        sort($ids, SORT_NUMERIC);
-        $query = $this->pdo->prepare('SELECT is_active FROM `tables` WHERE id = ? FOR UPDATE');
-        foreach ($ids as $id) {
-            $query->execute([$id]);
-            $active = $query->fetchColumn();
-            if ($active === false || ($requireActive && (int) $active !== 1)) {
-                throw new BookingError('inventory_changed', 'Table inventory changed. Search again.', 409);
-            }
-        }
+        $this->transactions->lockTables($ids, $requireActive);
     }
 
     private function choose(array $options, ?string $kind, ?int $id): array
@@ -256,29 +271,7 @@ final class BookingService
 
     private function transaction(Closure $action): array
     {
-        for ($attempt = 0; $attempt < 3; $attempt++) {
-            try {
-                $this->pdo->exec('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
-                $this->pdo->beginTransaction();
-                $result = $action();
-                $this->pdo->commit();
-                return $result;
-            } catch (Throwable $error) {
-                if ($this->pdo->inTransaction()) {
-                    $this->pdo->rollBack();
-                }
-                $number = $error instanceof PDOException ? (int) ($error->errorInfo[1] ?? 0) : 0;
-                if (in_array($number, [1213, 1205], true) && $attempt < 2) {
-                    usleep(random_int(10000, 40000));
-                    continue;
-                }
-                if (in_array($number, [1213, 1205, 1062], true)) {
-                    throw new BookingError('booking_conflict', 'Inventory is busy. Search again and retry.', 409);
-                }
-                throw $error;
-            }
-        }
-        throw new RuntimeException('Transaction retry exhausted');
+        return $this->transactions->run($action);
     }
 
     private function guestDetails(array $details): array

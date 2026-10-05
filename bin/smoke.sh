@@ -9,8 +9,10 @@ if [[ "$health" != '{"ok":true,"db":true}' ]]; then
   exit 1
 fi
 
-curl -fsS "${base_url}/" | grep -qF 'The reservation platform is starting here'
+curl -fsS "${base_url}/" | grep -qF 'Reserve a table'
 curl -fsS "${base_url}/assets/css/app.css" >/dev/null
+curl -fsS "${base_url}/assets/js/guest.js" >/dev/null
+curl -fsS "${base_url}/api/catalog" >/dev/null
 
 if [[ "$(curl -s -o /dev/null -w '%{http_code}' "${base_url}/missing-page")" != '404' ]]; then
   printf 'Missing pages must return HTTP 404\n' >&2
@@ -22,4 +24,4 @@ if [[ "$(curl -s -o /dev/null -w '%{http_code}' -X POST "${base_url}/health")" !
   exit 1
 fi
 
-printf 'PHP page, static CSS, database health, 404, and 405 checks passed.\n'
+printf 'Guest page, CSS/JS, catalog, database health, 404, and 405 checks passed.\n'

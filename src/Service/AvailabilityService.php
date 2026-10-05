@@ -13,7 +13,7 @@ final class AvailabilityService
     {
     }
 
-    public function search(string $date, int $party, string $roomType = 'any'): array
+    public function search(string $date, int $party, string $roomType = 'any', ?int $excludeReservation = null): array
     {
         $policy = new BookingPolicy($this->pdo);
         $now = $this->clock->now();
@@ -22,7 +22,7 @@ final class AvailabilityService
         $types = $policy->types($roomType);
         $slots = [];
         foreach ($policy->starts($day, $types) as $start) {
-            $options = $this->options($start, $party, $roomType, $now, null, null, $policy);
+            $options = $this->options($start, $party, $roomType, $now, null, null, $policy, false, $excludeReservation);
             if ($options !== []) {
                 $slots[] = ['time' => $start->format('H:i'), 'options' => $options];
             }
@@ -33,11 +33,12 @@ final class AvailabilityService
     }
 
     public function options(DateTimeImmutable $start, int $party, string $roomType, DateTimeImmutable $now,
-        ?int $excludeHold = null, ?DateTimeImmutable $eligibleAt = null, ?BookingPolicy $policy = null, bool $includeGroups = false): array
+        ?int $excludeHold = null, ?DateTimeImmutable $eligibleAt = null, ?BookingPolicy $policy = null,
+        bool $includeGroups = false, ?int $excludeReservation = null): array
     {
         $policy ??= new BookingPolicy($this->pdo);
         $policy->validateParty($party);
-        if ($start <= $now || !$this->hasPacing($start, $party, $now, $excludeHold, $policy)) {
+        if ($start <= $now || !$this->hasPacing($start, $party, $now, $excludeHold, $policy, $excludeReservation)) {
             return [];
         }
         $singles = [];
@@ -52,7 +53,7 @@ final class AvailabilityService
                 AND t.capacity_min <= ? AND t.capacity_max >= ?');
             $query->execute([$type['id'], $party, $party]);
             foreach ($query as $table) {
-                if ($this->membersFree([(int) $table['id']], (int) $table['room_id'], (int) $type['id'], $interval, $now, $excludeHold)) {
+                if ($this->membersFree([(int) $table['id']], (int) $table['room_id'], (int) $type['id'], $interval, $now, $excludeHold, $excludeReservation)) {
                     $singles[] = $this->option('table', $table, [(int) $table['id']], $type, $party, $interval, $policy);
                 }
             }
@@ -76,7 +77,7 @@ final class AvailabilityService
                     continue;
                 }
                 $ids = array_map(static fn (array $t): int => (int) $t['id'], $members);
-                if ($this->membersFree($ids, (int) $group['room_id'], (int) $type['id'], $joinedInterval, $now, $excludeHold)) {
+                if ($this->membersFree($ids, (int) $group['room_id'], (int) $type['id'], $joinedInterval, $now, $excludeHold, $excludeReservation)) {
                     $groups[] = $this->option('group', $group, $ids, $type, $party, $joinedInterval, $policy);
                 }
             }
@@ -96,11 +97,12 @@ final class AvailabilityService
             'approval_required' => $party >= $policy->number('manager_approval_party_min') || (int) $type['requires_approval'] === 1];
     }
 
-    private function hasPacing(DateTimeImmutable $start, int $party, DateTimeImmutable $now, ?int $excludeHold, BookingPolicy $policy): bool
+    private function hasPacing(DateTimeImmutable $start, int $party, DateTimeImmutable $now, ?int $excludeHold,
+        BookingPolicy $policy, ?int $excludeReservation): bool
     {
         $query = $this->pdo->prepare('SELECT COUNT(*), COALESCE(SUM(party_size), 0) FROM reservations
-            WHERE starts_at = ? AND status IN (' . ReservationState::occupyingSql() . ')');
-        $query->execute([$start->format('Y-m-d H:i:s')]);
+            WHERE starts_at = ? AND status IN (' . ReservationState::occupyingSql() . ') AND id <> ?');
+        $query->execute([$start->format('Y-m-d H:i:s'), $excludeReservation ?? 0]);
         [$bookings, $covers] = $query->fetch(PDO::FETCH_NUM);
         $query = $this->pdo->prepare("SELECT COUNT(*), COALESCE(SUM(party_size), 0) FROM holds
             WHERE starts_at = ? AND status = 'active' AND expires_at > ? AND id <> ?");
@@ -111,7 +113,8 @@ final class AvailabilityService
             && (int) $covers + (int) $heldCovers + $party <= $maxCovers;
     }
 
-    private function membersFree(array $ids, int $roomId, int $typeId, array $interval, DateTimeImmutable $now, ?int $excludeHold): bool
+    private function membersFree(array $ids, int $roomId, int $typeId, array $interval, DateTimeImmutable $now,
+        ?int $excludeHold, ?int $excludeReservation): bool
     {
         foreach ($ids as $id) {
             $query = $this->pdo->prepare("SELECT COUNT(*) FROM blackout_dates WHERE blocks_booking = 1
@@ -124,8 +127,8 @@ final class AvailabilityService
             }
             $query = $this->pdo->prepare('SELECT COUNT(*) FROM reservation_tables rt JOIN reservations r ON r.id = rt.reservation_id
                 WHERE rt.table_id = ? AND rt.released_at IS NULL AND r.status IN (' . ReservationState::occupyingSql() . ')
-                AND r.starts_at < ? AND r.blocks_until > ?');
-            $query->execute([$id, $interval['blocks_until'], $interval['starts_at']]);
+                AND r.starts_at < ? AND r.blocks_until > ? AND r.id <> ?');
+            $query->execute([$id, $interval['blocks_until'], $interval['starts_at'], $excludeReservation ?? 0]);
             if ((int) $query->fetchColumn() > 0) {
                 return false;
             }

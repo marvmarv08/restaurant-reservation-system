@@ -8,6 +8,7 @@ if (getenv('BOOKING_TEST_MODE') !== 'isolated' || getenv('DB_DATABASE') !== 'tab
 $job = json_decode(stream_get_contents(STDIN), true, 8, JSON_THROW_ON_ERROR);
 $pdo = \App\Core\Database::connect(require dirname(__DIR__) . '/config/database.php');
 $service = new \App\Service\BookingService($pdo, new \App\Service\BookingClock($pdo));
+$management = new \App\Service\ManagementService($pdo, new \App\Service\BookingClock($pdo));
 while (microtime(true) < $job['at']) {
     usleep(1000);
 }
@@ -15,6 +16,9 @@ try {
     $result = match ($job['op']) {
         'hold' => $service->hold($job['date'], $job['time'], $job['party'], $job['room'], $job['owner'], $job['kind'] ?? null, $job['id'] ?? null),
         'confirm' => $service->confirm($job['token'], ['full_name' => 'Race Guest', 'phone' => '+639000000002'], $job['owner']),
+        'modify' => $management->modify($job['code'], $job['token'], $job['version'], $job['date'], $job['time'],
+            $job['party'], $job['room'], $job['kind'] ?? null, $job['id'] ?? null, ''),
+        'cancel' => $management->cancel($job['code'], $job['token'], $job['version']),
         default => throw new RuntimeException('Unknown race operation'),
     };
     // Test output intentionally excludes hold tokens and guest details.

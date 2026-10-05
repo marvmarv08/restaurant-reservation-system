@@ -8,7 +8,8 @@ use RuntimeException;
 
 final class GuestSession
 {
-    private function __construct(public readonly string $ownerHash, public readonly string $csrfToken)
+    private function __construct(public readonly string $ownerHash, public readonly string $csrfToken,
+        public readonly string $managementSeed)
     {
     }
 
@@ -22,7 +23,8 @@ final class GuestSession
             throw new RuntimeException('Cannot start guest session');
         }
         $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
-        $session = new self(hash('sha256', session_id()), $_SESSION['csrf']);
+        $_SESSION['management_seed'] ??= bin2hex(random_bytes(32));
+        $session = new self(hash('sha256', session_id()), $_SESSION['csrf'], $_SESSION['management_seed']);
         // Release the PHP file lock so concurrent requests reach the database race checks.
         session_write_close();
         return $session;

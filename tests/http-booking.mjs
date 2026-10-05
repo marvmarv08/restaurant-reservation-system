@@ -133,7 +133,7 @@ await check('Release frees inventory and prevents confirmation of the released h
   await error(b, '/api/reservations', 410, 'hold_expired', { method: 'POST', data: { hold_token: releasedToken, guest } });
 });
 await check('Mutation routes reject unsupported methods', async () => {
-  const { response } = await request(a, '/api/holds');
+  const { response } = await request(a, '/api/reservations');
   assert.equal(response.status, 405);
   assert.equal(response.headers.get('allow'), 'POST');
 });

@@ -11,6 +11,8 @@ use App\Domain\BookingError;
 use App\Service\AvailabilityService;
 use App\Service\BookingClock;
 use App\Service\BookingService;
+use App\Service\CatalogService;
+use App\Service\ManagementService;
 use Closure;
 use InvalidArgumentException;
 use JsonException;
@@ -34,6 +36,28 @@ final class BookingController
         });
     }
 
+    public function catalog(Request $request): Response
+    {
+        $pdo = Database::connect(require dirname(__DIR__, 2) . '/config/database.php');
+        return Response::json(['ok' => true, 'catalog' => (new CatalogService($pdo, new BookingClock($pdo)))->get()]);
+    }
+
+    public function inspect(Request $request): Response
+    {
+        return $this->respond(function () use ($request): Response {
+            $session = GuestSession::open();
+            $pdo = Database::connect(require dirname(__DIR__, 2) . '/config/database.php');
+            $clock = new BookingClock($pdo);
+            $token = $request->header('X-Hold-Token');
+            $hold = (new BookingService($pdo, $clock))->inspectHold($token, $session->ownerHash);
+            if (isset($hold['booking'])) {
+                $hold['booking']['manage_path'] = (new ManagementService($pdo, $clock))
+                    ->issueForHold($token, $session->ownerHash, $session->managementSeed);
+            }
+            return Response::json(['ok' => true, 'hold' => $hold]);
+        });
+    }
+
     public function hold(Request $request): Response
     {
         return $this->respond(function () use ($request): Response {
@@ -53,11 +77,13 @@ final class BookingController
     public function confirm(Request $request): Response
     {
         return $this->respond(function () use ($request): Response {
-            [$session, $data, $service] = $this->mutation($request);
+            [$session, $data, $service, $pdo] = $this->mutation($request);
             if (!isset($data['guest']) || !is_array($data['guest'])) {
                 throw new BookingError('invalid_guest', 'Provide guest details.');
             }
             $booking = $service->confirm($this->string($data, 'hold_token'), $data['guest'], $session->ownerHash);
+            $booking['manage_path'] = (new ManagementService($pdo, new BookingClock($pdo)))
+                ->issueForHold($this->string($data, 'hold_token'), $session->ownerHash, $session->managementSeed);
             return Response::json(['ok' => true, 'booking' => $booking], $booking['created'] ? 201 : 200);
         });
     }
@@ -79,7 +105,7 @@ final class BookingController
         }
         $data = $request->json();
         $pdo = Database::connect(require dirname(__DIR__, 2) . '/config/database.php');
-        return [$session, $data, new BookingService($pdo, new BookingClock($pdo))];
+        return [$session, $data, new BookingService($pdo, new BookingClock($pdo)), $pdo];
     }
 
     private function respond(Closure $action): Response

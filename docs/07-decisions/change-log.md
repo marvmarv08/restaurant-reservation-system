@@ -4,6 +4,15 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-05 — Phase 4 live guest MVP
+
+- Change: Connected the responsive guest site and menu to MySQL, with real availability, SVG/radio selection, server-clock hold countdown, details, confirmation, refresh recovery, and private self-service management. Private secrets travel in URL fragments and request headers; MySQL stores hashes with expiry/revocation. Atomic modification locks both dates and all old/new physical tables, preserves the original on failure, and records before/after snapshots. Versions reject stale tabs. Cancellation releases inventory with history retained.
+- Decision: Modification shares the two-hour cancellation cutoff so a last-minute guest cannot move a booking solely to bypass the cancellation rule. The reusable management link expires one day after the booking's blocked interval, updated when the date/time changes. No real notification or payment is sent; guests save their private link. Staff/manager actions remain P5.
+- Evidence: 14 management MySQL, 7 management HTTP, and 12 browser scenarios passed; the 36 MySQL/11 HTTP booking regressions remained passing. Actual browsers verified refresh, second-browser access, interrupted confirmation recovery, conflicting tabs, cancellation confirmation, joined highlights, pending approval, countdown expiry, keyboard selection, and 320px/mobile layout. PHP lint passed on 35 files; main/test smoke and main DB safeguards passed. The additive upgrade retained 185 main reservations, 30 guests, and 193 status-history rows; seed rerun added 0. The known demo menu encoding error was repaired without replacing edited data.
+- Lesson: A reference such as `LUM-XXXXXX` identifies a booking; it does not prove permission. A private link acts like a password and must be protected. The server checks expiry and cutoff after waiting for database locks, because a browser timer or disabled button cannot enforce those rules.
+- Lesson: Searching for a replacement must leave the original reserved. An atomic save either completes all inventory changes or rolls them back. A version number tells the server when another tab changed the booking, avoiding an accidental overwrite.
+- Next: P5 staff authentication, permissions, host/admin workflow, and audit identity; P6 ordering/kitchen integration follows.
+
 ## 2026-10-05 — Phase 3 transactional booking engine
 
 - Change: Added database-driven availability, scoped blackouts, room/notice/turn/close rules, ten-minute owned holds, transactional confirmation, code collision retries, and idempotent confirmation. All joined members are locked and saved. A per-date lock protects pacing across different tables. Guest API mutations require the guest session and CSRF token. Cancellation remains an internal service for future authorized controllers; notifications stay in the demo outbox.
