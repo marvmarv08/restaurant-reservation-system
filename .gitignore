@@ -6,4 +6,7 @@ vendor/
 public/uploads/*
 !public/uploads/.gitkeep
 *.log
+__pycache__/
+*.pyc
+.project-runtime/pmm/backups/
 .DS_Store

@@ -1,7 +1,7 @@
 # Best-in-Class Restaurant Table Reservation System - Implementation Plan
 
 Project: class competition deliverable. Stack mandated: JavaScript (vanilla), PHP (vanilla), CSS, HTML, Docker.
-Status: PLAN ONLY. No application code has been written or executed.
+Status: Clickable browser prototype exists. The PHP/MySQL application has not been built. The delivery roadmap below is the current source of truth for future sessions.
 
 Backing research (read these for detail, all in `research/`):
 - `01_reference_repos.md` - open-source repos worth stealing from, and anti-patterns
@@ -13,7 +13,11 @@ Backing research (read these for detail, all in `research/`):
 
 ---
 
-## 0. Decisions that need your confirmation
+## 0. Project setup assumptions
+
+Marvin asked us to use the recommendations. D1, D2, D3, and D5 are selected for the plan;
+D4 remains an estimate and can be adjusted when the actual team size is known. No real email/SMS
+or payment integrations are authorized by these assumptions.
 
 | # | Decision | Recommendation | Why it matters |
 |---|---|---|---|
@@ -25,23 +29,93 @@ Backing research (read these for detail, all in `research/`):
 
 ---
 
-## 1. Scope and MVP line
+## 1. Delivery roadmap and MVP line
 
 Required by the brief: sample food data, functional website, table reservation system covering VIP / common / group / other room types, admin dashboard, kitchen dashboard.
 
-| Phase | Deliverable | Hours (3 ppl) |
+| Phase | Work | Completion check |
 |---|---|---|
-| P0 | Skeleton boots: Compose up, front controller, routing, DB connection, health page | 6-8 |
-| P1 | Full schema + reference data + demo seed, loaded automatically on first `up` | 6-8 |
-| P2 | Availability engine + holds + unit tests for the overlap/concurrency logic | 10-14 |
-| P3 | Guest booking end-to-end: search, availability, hold, details, confirmation, manage-by-token | 12-16 |
-| **MVP LINE** | **A guest books a real table and the system provably cannot double-book. ~34-46h cumulative.** | |
-| P4 | Auth, roles, admin dashboard (KPIs, reservation management, table/room CRUD) | 12-16 |
-| P5 | Interactive SVG floor plan (guest picker + live admin status) | 8-12 |
-| P6 | Menu CRUD + kitchen display system with live ticket flow | 10-14 |
-| P7 | Visual polish, docs, seed refresh, demo hardening, timed rehearsal | 10-14 |
+| **P0 — Lock booking rules** | Decide opening days/hours, lead time, blackout scope, party and room limits, joined-table policy, hold TTL, cancellation and waitlist behavior. Correct the schema design before implementation. | One consistent rule set and test cases exist. The confirmation-code column fits the code format; cancelled slots can be booked again without losing history. |
+| **P1 — Boot the application** | Create Docker Compose, PHP front controller/routing, MySQL connection, and health endpoint. | A fresh checkout starts with documented commands and the app connects to MySQL. |
+| **P2 — Database and seed** | Create rooms, tables, guests, reservations, holds, staff, orders, and history tables; load repeatable sample data. | Foreign keys and unique booking references validate; seed can be rerun safely. |
+| **P3 — Safe booking engine** | Implement availability, business rules, joined tables, expiring holds, and transactional booking. | Automated overlap, expiry, blackout, pacing, and simultaneous-booking tests pass; only one guest gets the final table. |
+| **P4 — Guest booking MVP** | Connect search, hold, details, confirmation, and secure self-service management to the backend. | A booking survives refresh and appears in a second browser; modification and cancellation release inventory correctly. **MVP line.** |
+| **P5 — Staff and admin** | Add staff authentication, server-side roles, reservations, seating, waitlist, settings, and audit history. | Authorized staff can complete the host workflow; restricted actions are denied by the server. |
+| **P6 — Menu and kitchen** | Connect real menu selections and orders to kitchen tickets, allergy notes, and ticket states. | A real seated order appears on the kitchen screen and status changes persist. |
+| **P7 — Polish and demo readiness** | Review mobile layout and accessibility; self-host assets; finish docs, smoke checks, reset procedure, and rehearsal. | Fresh setup and the full demo flow work on the target laptop, including without network access. |
 
-Cutting rule: cut from P5/P6/P7 inward, never from P0-P3. A beautiful site that double-books loses to a plain site that does not.
+### Phase progress
+
+| Phase | Status | Evidence |
+|---|---|---|
+| P0 | Done | 10-minute hold, 2-hour cancellation cutoff, 1–16 party policy, room rules, 22 acceptance scenarios, and schema corrections documented; consistency checks and `git diff --check` passed. SQL execution belongs to P2/P3. |
+| P1 | Not started | — |
+| P2 | Not started | — |
+| P3 | Not started | — |
+| P4 | Not started | — |
+| P5 | Not started | — |
+| P6 | Not started | — |
+| P7 | Not started | — |
+
+After a phase passes its completion check, update its status and brief verification evidence here, then update the current checkpoint and next concrete action below. Run `python3 scripts/export_roadmap.py` to refresh the Windows Desktop copy. A phase is not complete merely because its code was written.
+
+**Current checkpoint (2026-10-05):** P0 booking rules and schema design are complete. The browser prototype and research exist; no PHP/MySQL phase has passed its completion check. The prototype still has duplicate-hold and reference-code risks, incomplete joined-table booking, and unenforced rules/settings. The P0 scenarios are future automated-test targets, not passing backend tests.
+
+**Next concrete action:** Start P1: add Docker Compose with PHP 8.3 and MySQL 8.4, a PHP front controller, database connection, health endpoint, and a fresh-checkout startup guide. Leave the prototype as reference material until the backend exists.
+
+Older phase numbers and hour estimates elsewhere in the research are historical planning notes. Use this roadmap when resuming work. Protect P0–P4 before adding polish or stretch features.
+
+### P0 booking policy (locked for the fictional demo venue)
+
+This table resolves conflicting values in the pushed research using the consolidated plan and current prototype where possible. Marvin chose the 10-minute hold and two-hour cancellation cutoff, and asked us to use the remaining recommendations. The venue is fictional; these are demo rules, not claims about a real restaurant.
+
+| Rule | P0 value | Basis |
+|---|---|---|
+| Venue time and service | `Asia/Manila`; closed Monday; dinner Tuesday–Sunday, 17:30–23:30 | Prototype venue and restaurant-local-time plan |
+| Guest slot grid | Every 15 minutes; global last-seating cap 21:45 | Booking-engine spec and current prototype |
+| Actual final slot | Earlier of 21:45 and `closing time - turn time - 15-minute reset` for the requested party/room | Prevents a long booking from running past close |
+| Online lead time | At least 60 minutes before start; up to 60 calendar days ahead | Booking-engine settings; older UX draft says 90 minutes/90 days |
+| Turn and reset | 1–2 guests: 75 min; 3–4: 90; 5–6: 105; 7–10: 120; 11–16: 150; plus 15 min reset | Booking-engine spec |
+| Pacing | At most 40 covers and 8 new reservations per 15-minute slot, configurable by service window | Booking-engine spec; prototype's higher figures are sample-only |
+| Room fit | Main Dining: 1–4; VIP: 2–10; Group: 5–16; Terrace: 1–6. Match each assigned physical table's capacity; “Any room” checks each room separately | Current prototype and booking-engine spec |
+| VIP and group notice | VIP: 48 hours; Group: 24 hours; show the prototype's ₱6,500 VIP and ₱3,200 Group minimum spends before selection | Current prototype room cards; minimum spend is informational in v1 |
+| Group size and approval | Online party size 1–16; parties 13–16 stay pending for manager approval; no online booking above 16 | Prototype group capacity and recommended approval rule |
+| Hold | **10 minutes**, measured by server expiry; one hold covers every member of a joined group | Marvin's choice; current prototype and UX draft |
+| Joined tables | Only predeclared adjacent combinations; try only when no single table fits; hold and reserve every member | Booking-engine spec, with prototype's one-table gap corrected |
+| Blackout | Venue, room type, room, or table scope; an “Any room” search may still offer unaffected rooms | Booking-engine spec |
+| Self-service cancellation cutoff | Two hours before start; show the exact `Asia/Manila` deadline and route later requests to staff; no automatic charge or forfeiture | Marvin's choice and demo-only payment scope |
+| Waitlist | Ranked per requested date/time; offer only to a party fitting the freed inventory; create a 10-minute claim hold before notifying | Booking-engine and UX plans; no simulated “held” message without a real hold |
+| No-show | Staff or scheduled process may mark no-show 20 minutes after start; release inventory and record history | Current prototype and booking-engine settings |
+| Notification and payment | Email/SMS go to the demo outbox; no real messages or charges. VIP deposit state may be shown, but no payment is collected | Pushed PLAN.md demo decision D5 and Phase 0 scope |
+
+All availability and mutation paths must use the same policy values. The prototype remains a demonstration and is not evidence that these rules are implemented in PHP/MySQL.
+
+### P0 acceptance scenarios for later automated tests
+
+| ID | Scenario | Expected result |
+|---|---|---|
+| R01 | Search on Monday or outside dinner hours | No bookable slots; explain closure. |
+| R02 | Search 59 minutes ahead, then 60 minutes ahead | First is rejected; second may be offered if a slot fits. |
+| R03 | Search beyond 60 days | Reject with a clear advance-window message. |
+| R04 | Search 21:45 with a two-person versus a six-person turn | Two-person slot may fit; six-person slot ends after close and is not offered. |
+| R05 | Search a room below its minimum or above its maximum party size | Exclude that room and explain the limit. |
+| R06 | Search “Any room” during a terrace-only blackout | Exclude terrace; unaffected rooms remain available. |
+| R07 | Search during a venue-wide blackout | No room is offered. |
+| R08 | The next booking exceeds either pacing cap | Reject the slot even if a physical table is free. |
+| R09 | Two clients request the final same table at once | Exactly one 10-minute hold succeeds; the other receives a conflict. |
+| R10 | A hold expires, then its token is submitted | Reject the booking; inventory becomes available again. |
+| R11 | Only a predeclared two-table group fits | Both members are held and assigned; another booking cannot claim either member. |
+| R12 | A single table fits when a combination also fits | Offer the single table first. |
+| R13 | Cancel a booking and reserve the same table and start time again | Replacement succeeds while the cancelled booking and history remain queryable. |
+| R14 | Generate a duplicate human reference | Retry code generation; existing guest lookup still identifies exactly one booking. |
+| R15 | Cancel a booking with a matching waitlist entry | Create a real claim hold for the highest eligible rank, then queue the notification. |
+| R16 | Two concurrent cancellations target one waitlist guest | Promote that guest once; preserve rank and status history. |
+| R17 | Change buffer, lead-time, or opening-hours settings | Guest availability and server validation use the new value together. |
+| R18 | Use a manage link after its expiry or for another reservation | Deny the action without exposing that guest's data. |
+| R19 | Book 13 guests, then 17 guests | 13 stays pending for manager approval; 17 is rejected online. |
+| R20 | Search VIP 47 hours ahead, then Group 23 hours ahead | Each is rejected for its room notice rule even if tables are free. |
+| R21 | Cancel 119 minutes before start, then at exactly 120 minutes | Self-service is refused at 119 and permitted at 120 minutes. |
+| R22 | Book a joined pair, then cancel and rebook one member at the same start | Both members release with the old history retained; the new booking succeeds. |
 
 ---
 
@@ -76,13 +150,13 @@ Cold start must be exactly: `cp .env.example .env && docker compose up -d` then 
 This is where every student project fails and where you can be provably better.
 
 **Concurrency, layered defence:**
-1. Guest selects a slot. Transaction opens, locks the candidate table row `SELECT ... FOR UPDATE`, re-runs the overlap check against reservations *and* live holds, inserts a `holds` row with `expires_at = NOW() + 300s`, commits, returns a UUID hold token.
-2. Guest submits details. Transaction locks the hold `FOR UPDATE`, verifies `status='active' AND expires_at > NOW()`, inserts the reservation, marks the hold consumed.
-3. Backstop: `UNIQUE KEY uq_table_slot (table_id, slot_start)` on `reservation_tables`. An identical double-book is physically impossible; error 1062 maps to HTTP 409.
+1. Guest selects a slot. A `READ COMMITTED` transaction locks every candidate physical table in ascending ID order with `SELECT ... FOR UPDATE`, re-runs overlap and policy checks against reservations and live holds, inserts one `holds` row with `expires_at = NOW() + 600s` plus one `hold_tables` row per member, commits, and returns a UUID hold token.
+2. Guest submits details. A transaction locks the hold and every member table, verifies `status='active' AND expires_at > NOW()`, rechecks policy and overlap, inserts the reservation and each `reservation_tables` membership, then marks the hold consumed.
+3. Backstop: `UNIQUE KEY uq_table_active_slot (table_id, active_slot_start)` on `reservation_tables`; the generated start is `NULL` after `released_at` is set. Identical live starts conflict (1062 → HTTP 409), while cancelled history remains and the slot can be reused. Different overlapping starts are prevented by the lock and interval check.
 4. Expiry via `CREATE EVENT ev_expire_holds EVERY 1 MINUTE`, but correctness never depends on it because every read filters `expires_at > NOW()`.
 5. Deadlock discipline: always lock `ORDER BY table_id ASC`, retry 3x on 1213/1205.
 
-Failure mode this prevents: under REPEATABLE READ, plain reads take no locks, so two guests both read "VIP-1 is free" and both insert. The row lock serialises check-and-insert; the hold covers the 60-90 seconds of guest think time, which is the race that actually happens in real life.
+Failure mode this prevents: plain reads can show two guests the same last table. The row lock serialises check-and-insert; the 10-minute hold protects the time spent completing the form.
 
 **Availability algorithm:** half-open interval overlap (Allen's `overlaps`). Reservations store `starts_at`, `ends_at` (= start + turn time looked up by party size), `blocks_until` (= ends_at + buffer). All overlap tests use `blocks_until`. Candidate tables filtered by `capacity_max >= :party AND capacity_min <= :party`, then three `NOT EXISTS` blocks (live reservations, live holds from other sessions, blackout dates), then `ORDER BY (capacity_max - :party), priority` for best-fit so a 10-seat VIP room is never handed to a party of 2. Table combinations are attempted only when no single table fits. Pacing caps (covers per slot, reservations per slot) applied last.
 
@@ -90,7 +164,7 @@ Failure mode this prevents: under REPEATABLE READ, plain reads take no locks, so
 
 **Rules worth demoing:** VIP minimum party size or deposit, group bookings above N require manager approval, lead-time limits, auto-no-show after a grace period, waitlist auto-promotion.
 
-**Core tables:** room_types, rooms, tables, table_groups, table_group_members, settings, opening_hours, turn_times, pacing_rules, blackout_dates, roles, users, guests, reservations, reservation_tables, reservation_status_history, holds, menu_categories, menu_items, orders, order_items, order_status_history, outbox.
+**Core tables:** room_types, rooms, tables, table_groups, table_group_members, settings, opening_hours, turn_times, pacing_rules, blackout_dates, roles, users, guests, reservations, reservation_tables, reservation_status_history, holds, hold_tables, menu_categories, menu_items, orders, order_items, order_status_history, outbox.
 
 ---
 

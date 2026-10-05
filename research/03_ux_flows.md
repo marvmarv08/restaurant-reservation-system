@@ -2,6 +2,10 @@
 
 Scope: guest-facing booking flow for a vanilla PHP + vanilla JS + CSS restaurant reservation site, judged by live demo.
 
+**Current implementation policy:** Use `PLAN.md` P0 for service hours, lead time, party and room limits,
+hold duration, and cancellation cutoff. Historical screen copy below is illustrative where it differs.
+Email/SMS messages are demo outbox entries in v1.
+
 ## Evidence status (read first)
 
 Verification was limited by the corporate TLS proxy and by bot protection on the vendor sites. What happened, per source:
@@ -58,21 +62,21 @@ All of this section is DESIGN (our opinionated recommendation), grounded where n
 
 DESIGN decision: **party size first**.
 1. Party size is the only input that changes the *shape* of inventory. A 2-top, a 6-top and a 10-top are different table sets and different rooms (group room, private dining). Date-first forces a re-query and often a dead end.
-2. Verified policy evidence: venues commonly gate reservations by party size ("Some will only reserve for large parties of six or more", https://en.wikipedia.org/wiki/Table_reservation). Party-size-first lets us branch to "9+ is a group enquiry" before the guest invests effort.
+2. Verified policy evidence: venues commonly gate reservations by party size ("Some will only reserve for large parties of six or more", https://en.wikipedia.org/wiki/Table_reservation). Party-size-first lets us show room fit and manager approval for 13–16 before the guest invests effort.
 3. It enables the strongest demo moment: changing party size live re-renders both the time pills and the floor plan.
 Counter-case: for an occasion booking the date is the fixed constraint. Mitigation: all three controls sit in one persistent search bar, so order is an emphasis, not a wall.
 
 ### Screen 1 - Landing / search bar (not a modal)
-1. **Party size** - select, 1..8 plus "9+ (group enquiry)". Default **2**.
-2. **Date** - native `<input type="date">`, `min`=today, `max`=today+90d. Default **today**.
-3. **Time** - select, 30-min steps across service hours. Default = next bookable slot rounded up to 30 min, at least 90 min from now; if service is over, tomorrow 19:00.
+1. **Party size** - select 1–16. Default **2**; 13–16 clearly says manager approval required.
+2. **Date** - native `<input type="date">`, `min`=today, `max`=today+60 calendar days. Default **today**, with closed days disabled or explained.
+3. **Time** - select from real 15-minute slots, at least 60 minutes from now; show only starts that fit the party turn and reset before close.
 4. **Room preference** - optional, default "Any room", visually secondary.
 5. Primary button **Find a table**.
 No name, email, phone or occasion here. Every field asked before a table is known to exist is a drop-off point.
 
 ### Screen 2 - Availability
 1. Query echoed as editable chips: "2 guests - Sat 14 Mar - 19:00 - Any room". Editing a chip re-queries in place (fetch to `availability.php`), no reload.
-2. **Time pills** as a radio group, grouped by service period (Lunch / Dinner). The requested time is anchored centre of its row and labeled "closest to your time".
+2. **Time pills** as a radio group for dinner service. The requested time is anchored centre of its row and labeled "closest to your time".
 3. Pill secondary line only when meaningful: "VIP", "Terrace", "last table".
 4. With "Any room", pills are grouped under room headers so the guest sees 19:00 exists in Common and Terrace but not VIP.
 5. Truthful scarcity line under a room header only: "2 of 3 VIP rooms left for this date".
@@ -103,7 +107,7 @@ Never render an empty "no availability" screen. This is the most common failure 
 Items 4-7 stay optional: they are operational nice-to-haves, and making them mandatory while a hold timer runs is how bookings get abandoned.
 
 ### Screen 5 - Confirmation
-Order: status badge "Reservation confirmed"; short human reference (`R-7K42`); date, time, party size, room, table number; mini floor-plan thumbnail with the assigned table highlighted; **Add to calendar** (.ics download, no third party); **QR code** encoding the manage token for door check-in; **Modify** and **Cancel**; "A confirmation was sent to <email>"; directions, parking, dress code; cancellation deadline as an absolute time ("free until Sat 14 Mar, 17:00").
+Order: accurate status badge ("Pending manager approval" for 13–16, otherwise "Reservation confirmed"); `LUM-XXXXXX` reference; date, time, party size, room and assigned table(s); mini floor-plan thumbnail; **Add to calendar** (.ics); **QR code** for door check-in; **Modify** and **Cancel**; simulated notification status; directions and phone; cancellation deadline as an absolute `Asia/Manila` time, exactly two hours before seating.
 
 ### Screen 6 - Self-service manage (token link, no account)
 - `/manage.php?t=<64-hex random token>`, one token per reservation, not enumerable, same token inside the QR.
@@ -210,7 +214,7 @@ All DESIGN unless marked. Source context: late reservations genuinely carry back
 Reference code; date/time with day name; party size; room and table; mini plan thumbnail; what to do on arrival; cancellation deadline as an absolute time; Add to calendar (.ics); QR code; Modify / Cancel buttons; restaurant address with map link and phone; dress code and parking; "We'll text you a reminder at 17:00" only if the guest opted in.
 
 ### Email confirmation (plain-text-first, table-based HTML fallback)
-Subject: `Confirmed: 2 guests, Sat 14 Mar 19:00 - [Restaurant]`. Pre-header: `Reference R-7K42 - Table 12, Terrace`.
+Subject: `Confirmed: 2 guests, Sat 14 Mar 19:00 - [Restaurant]`. Pre-header: `Reference LUM-ABC123 - Table 12, Terrace` (demo outbox only).
 Body order: confirmation line, the five facts (date, time, guests, room, table), Manage/Cancel token button, .ics attachment, address and phone, cancellation deadline, and the requests we recorded echoed back ("You told us: nut allergy, birthday") so the guest trusts the kitchen received it.
 
 ### SMS confirmation (160-char discipline)
@@ -237,7 +241,7 @@ Verified requirements quoted from source:
 ### Native input vs custom picker (DESIGN)
 - Use **native `<input type="date">`** for the date: free mobile wheel/calendar UI, free locale formatting, free keyboard support, zero JS weight. Trade-off: styling the native calendar popup is largely impossible and desktop Safari/Firefox rendering differs. Accept it. Build a custom APG-style date-picker dialog only if the demo needs the per-day availability heat map painted into the calendar grid, and even then keep the native input as the fallback input method.
 - Never use three separate day/month/year selects, and never free-text time entry; **time is always pills** derived from real inventory so an unavailable time is simply not typeable.
-- Party size is a **stepper with +/- buttons plus a native select**, not a spinner only; the select carries the 9+ branch.
+- Party size is a **stepper with +/- buttons plus a native select**, not a spinner only; the select covers 1–16 and explains approval for 13–16.
 - Other mobile specifics: 16px minimum font on inputs to stop iOS zoom-on-focus; `inputmode="tel"` and `autocomplete="tel"` on phone, `autocomplete="name"`/`"email"` on the others; sticky bottom action bar with safe-area insets; one column below 640px; floor plan collapsed to the list view by default on phones with "View floor plan" as an explicit opt-in; `prefers-reduced-motion` disabling the fade transitions; all status conveyed with shape/hatch/label as well as colour.
 
 ## Flow-level wow moments
@@ -255,7 +259,5 @@ Honourable mentions: no-availability recovery that always offers a next-best opt
 - Google Actions Center dining reservation and waitlist **field-level schemas**: NOT_FOUND (docs render an integration chooser).
 - NN/g, Baymard and Smashing article bodies on date pickers and scarcity: NOT_FOUND (paywall/JS). Date-picker and scarcity recommendations above are DESIGN, grounded only in WCAG 2.2 and APG, which were verified.
 - GitHub search coverage is partial: unauthenticated search is capped at 10 requests/minute and two queries returned empty after the cap.
-
-
 
 

@@ -8,9 +8,9 @@ This repository contains the **engineering plan**, the research that backs it, a
 
 Open [`prototype/index.html`](prototype/index.html) in a browser. No server, no build step, no install.
 It simulates the guest booking flow, the interactive floor plan, the admin dashboard and the kitchen
-display against roughly 700 generated reservations, 25 tables and 36 menu items. The availability
-engine, hold TTLs and reservation state machine in the prototype are the real logic, ported to the
-PHP service layer in phase 2. See [`prototype/README.md`](prototype/README.md) for what to click.
+display against generated reservations, 25 tables and 36 menu items. Its booking behavior is a
+browser simulation; the PHP service layer and database still need to be built. See
+[`prototype/README.md`](prototype/README.md) for what to click.
 
 ## Scope
 
@@ -46,15 +46,19 @@ Single `php:8.3-apache` container plus `mysql:8.4` with a healthcheck and auto-l
 
 ## Delivery phases
 
+The current roadmap, completion checks, and resume checkpoint are in [`PLAN.md`](PLAN.md#1-delivery-roadmap-and-mvp-line).
+After a phase passes its completion check, update the phase progress in `PLAN.md` and run
+`python3 scripts/export_roadmap.py` to refresh the Windows Desktop text copy.
+
 | Phase | Deliverable |
 |---|---|
-| P0 | Skeleton boots: Compose, routing, database connection |
-| P1 | Schema, reference data and demo seed |
-| P2 | Availability engine, holds and unit tests |
-| P3 | Guest booking end to end **(MVP line)** |
-| P4 | Authentication, roles and admin dashboard |
-| P5 | Interactive SVG floor plan |
-| P6 | Menu management and kitchen display |
+| P0 | Lock booking rules and correct the schema plan |
+| P1 | Boot PHP, MySQL, and Docker Compose |
+| P2 | Schema, reference data, and repeatable demo seed |
+| P3 | Safe availability, holds, and concurrency tests |
+| P4 | Persistent guest booking end to end **(MVP line)** |
+| P5 | Staff authentication, roles, and admin dashboard |
+| P6 | Real menu orders and kitchen display |
 | P7 | Visual polish, documentation and demo hardening |
 
 ## Documents

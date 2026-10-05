@@ -1,6 +1,8 @@
 # 06 - Stack, Architecture, Docker, Security, Delivery
 
 Mandated stack: vanilla PHP 8.3, vanilla JS, CSS, HTML, MySQL 8, Docker. Judged on a live demo; code quality secondary but visible.
+The phase order and P0 venue policy in `PLAN.md` govern implementation. Seed examples and older milestones
+below are exploratory and must be adjusted to that policy before P2 seed data is written.
 Labels: **DESIGN** = our proposal. **SOURCED** = backed by a cited URL.
 
 Verified references (HTTP 200 checked this session):

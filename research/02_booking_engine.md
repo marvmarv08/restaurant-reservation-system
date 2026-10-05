@@ -3,6 +3,10 @@
 Stack: vanilla PHP 8 + MySQL 8 (InnoDB, utf8mb4) + vanilla JS. All times stored as `DATETIME` in a single
 restaurant-local timezone (set `date_default_timezone_set()` once in bootstrap; no per-user TZ in v1).
 
+**Implementation authority (P0, 2026-10-05):** `PLAN.md` is the current booking policy. This engineering
+sketch uses its 10-minute holds, 2-hour guest cancellation cutoff, 1–16 online party size, and active-only
+table-slot uniqueness. Historical examples elsewhere in research are illustrative.
+
 Labels used throughout:
 - **CITED** = pattern verified in an external source, URL given.
 - **DESIGN** = our proposal, not citable to an external source.
@@ -76,9 +80,9 @@ the guest sees an honest "your table until 20:30" while the engine protects the 
 
 ### 1.4 Pacing / covers per slot - DESIGN
 Even with free tables, a kitchen cannot absorb 60 covers at 19:00. Two independent caps, both in `settings`
-and both overridable per 30-min window in `pacing_rules`:
+and both overridable per service window in `pacing_rules`:
 - `max_covers_per_slot` - sum of `party_size` of reservations starting in the same slot.
-- `max_reservations_per_slot` - head count of reservations starting in the same slot.
+- `max_reservations_per_slot` - count of reservations starting in the same 15-minute slot.
 
 Pacing is evaluated **after** table availability and before a slot is offered. This is the rule the kitchen
 dashboard benefits from, and it is cheap to demo (drop the cap to 2 and watch slots disappear).
@@ -89,8 +93,8 @@ in the general case, so we do **not** solve it at request time. Instead:
 - `tables.is_joinable` marks tables that may be merged.
 - `table_groups` / `table_group_members` pre-declare **physically valid** combinations
   (e.g. T4+T5 = 4 seats, same room, adjacent). Admin curates them from the floor plan.
-- At request time a combination is just another candidate "virtual table" whose capacity is
-  `SUM(capacity_max) + settings.join_bonus_seats` and which is available only if **every** member table is free
+- At request time a combination is just another candidate "virtual table" whose curated capacity is
+  `table_groups.capacity_max` and which is available only if **every** member table is free
   for the whole blocking window.
 - Combinations are ranked strictly **below** any single table that fits (penalty in the ranking score), because
   merging costs staff effort.
@@ -117,7 +121,7 @@ The guard must be a write-side constraint or a lock.
 
 | Strategy | Mechanism | Prevents double-book? | Cost | Verdict |
 |---|---|---|---|---|
-| A. Unique composite index `(table_id, slot_start)` | DB rejects the 2nd INSERT (https://dev.mysql.com/doc/refman/8.0/en/create-index.html) | Yes, absolutely, for **identical** slot starts | Near zero | Keep as the final safety net, but it cannot express *overlap* (19:00 vs 19:15 with a 90-min turn both pass) |
+| A. Unique composite index `(table_id, active_slot_start)` | DB rejects a second active INSERT at the same start; released history has a NULL generated key (https://dev.mysql.com/doc/refman/8.4/en/create-index.html) | Yes, for identical active starts | Near zero | Final safety net; interval overlap still needs the lock and recheck |
 | B. `SELECT ... FOR UPDATE` in a transaction | Pessimistic row/next-key lock (https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html) | Yes, serialises the check+insert on the candidate table row | Lock wait; deadlock risk needs retry (https://dev.mysql.com/doc/refman/8.0/en/innodb-deadlocks.html) | **Core of the recommendation** |
 | C. Optimistic versioning | `version` column, UPDATE ... WHERE version = n (https://martinfowler.com/eaaCatalog/optimisticOfflineLock.html) | Detects conflict *after* the fact; loser must be told "gone" | Cheap, no locks | Good for **editing** an existing reservation, bad UX for creation |
 | D. Short-lived hold row with TTL | Pessimistic Offline Lock with timeout (https://martinfowler.com/eaaCatalog/pessimisticOfflineLock.html) | Yes, and it also protects the **think time** while the guest types their name | Needs expiry sweep (https://dev.mysql.com/doc/refman/8.0/en/create-event.html) | **Core of the recommendation** |
@@ -126,12 +130,18 @@ The guard must be a write-side constraint or a lock.
 
 Rationale: the real-world race is not two `INSERT`s 1 ms apart, it is two guests both staring at a form for
 90 seconds after both saw "1 VIP room left". Only a hold with a TTL fixes that; `FOR UPDATE` makes hold
-acquisition atomic; the unique index is the last line of defence against application bugs.
+acquisition atomic; the active-only unique index is the last line of defence against application bugs.
+
+Use `READ COMMITTED` for booking transactions. Lock every physical member table in ascending ID order,
+then recheck overlapping reservations and holds with a fresh read under the locks. A joined hold owns every
+member through `hold_tables`; `holds.table_id` alone is insufficient. Keep the same lock discipline for
+hold acquisition, direct staff booking, booking changes, release, and waitlist claim. Retry deadlocks with a
+bounded three-attempt loop; a retry always starts a new transaction.
 
 Flow:
 1. Guest clicks a slot -> `POST /api/holds` -> **transaction**: lock the candidate table row `FOR UPDATE`,
    re-run the overlap check (reservations + live holds), `INSERT` a hold with
-   `expires_at = NOW() + settings.hold_ttl_sec` (default 300), commit. Return `hold_token`.
+   `expires_at = NOW() + settings.hold_ttl_sec` (default 600), commit. Return `hold_token`.
 2. Guest submits the form within the TTL -> `POST /api/reservations` with `hold_token` -> transaction:
    lock the hold `FOR UPDATE`, verify `status='active' AND expires_at > NOW()`, insert the reservation,
    mark the hold `consumed`, commit.
@@ -144,19 +154,30 @@ Flow:
 CREATE TABLE holds (
   id             BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   hold_token     CHAR(36)        NOT NULL,              -- UUIDv4 handed to the browser; never expose hold.id
-  table_id       INT UNSIGNED    NOT NULL,
+  table_id       INT UNSIGNED    NULL,                  -- single-table convenience; membership is authoritative
   table_group_id INT UNSIGNED    NULL,                  -- set when the hold is for a joined combination
   starts_at      DATETIME        NOT NULL,
   ends_at        DATETIME        NOT NULL,              -- starts_at + turn_time
   blocks_until   DATETIME        NOT NULL,              -- ends_at + buffer; this is what overlap tests use
   party_size     SMALLINT UNSIGNED NOT NULL,
-  session_id     CHAR(64)        NOT NULL,              -- PHP session, so a guest can re-enter their own hold
+  session_id     CHAR(64)        NULL,                  -- guest session; NULL for a system-created waitlist offer
+  waitlist_reservation_id BIGINT UNSIGNED NULL,        -- set for a waitlist claim; add FK after reservations exists
   status         ENUM('active','consumed','expired','released') NOT NULL DEFAULT 'active',
   expires_at     DATETIME        NOT NULL,
   created_at     DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY uq_holds_token (hold_token),
-  KEY ix_holds_live (table_id, status, expires_at, starts_at, blocks_until),
-  CONSTRAINT fk_holds_table FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE CASCADE
+  KEY ix_holds_live (status, expires_at, starts_at, blocks_until),
+  CONSTRAINT fk_holds_table FOREIGN KEY (table_id) REFERENCES `tables`(id),
+  CONSTRAINT fk_holds_group FOREIGN KEY (table_group_id) REFERENCES table_groups(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE hold_tables (
+  hold_id        BIGINT UNSIGNED NOT NULL,
+  table_id       INT UNSIGNED NOT NULL,
+  PRIMARY KEY (hold_id, table_id),
+  KEY ix_ht_table (table_id, hold_id),
+  CONSTRAINT fk_ht_hold FOREIGN KEY (hold_id) REFERENCES holds(id) ON DELETE CASCADE,
+  CONSTRAINT fk_ht_table FOREIGN KEY (table_id) REFERENCES `tables`(id)
 ) ENGINE=InnoDB;
 ```
 
@@ -164,12 +185,13 @@ Step 1, acquire the hold atomically (CITED primitive: `FOR UPDATE`,
 https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html):
 
 ```sql
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 START TRANSACTION;
 
--- (a) take an exclusive lock on the candidate table row: all competing hold
---     attempts for THIS table now serialise behind us.
+-- (a) For a joined group, repeat this locking read for each member ID in ASC order.
+--     Locking one physical row at a time makes the order explicit.
 SELECT id, capacity_min, capacity_max
-FROM tables
+FROM `tables`
 WHERE id = :table_id AND is_active = 1
 FOR UPDATE;
 
@@ -178,22 +200,27 @@ SELECT
   (SELECT COUNT(*) FROM reservation_tables rt
      JOIN reservations r ON r.id = rt.reservation_id
     WHERE rt.table_id = :table_id
+      AND rt.released_at IS NULL
       AND r.status IN ('pending','confirmed','seated')
       AND :starts_at < r.blocks_until
       AND :blocks_until > r.starts_at) AS res_conflicts,
-  (SELECT COUNT(*) FROM holds h
-    WHERE h.table_id = :table_id
+  (SELECT COUNT(*) FROM hold_tables ht
+    JOIN holds h ON h.id = ht.hold_id
+    WHERE ht.table_id = :table_id
       AND h.status   = 'active'
       AND h.expires_at > NOW()
       AND :starts_at < h.blocks_until
       AND :blocks_until > h.starts_at) AS hold_conflicts;
 
--- (c) if both counts are 0:
-INSERT INTO holds (hold_token, table_id, starts_at, ends_at, blocks_until,
+-- (c) Validate all policy rules and every member; if each count is 0:
+INSERT INTO holds (hold_token, table_id, table_group_id, starts_at, ends_at, blocks_until,
                    party_size, session_id, expires_at)
-VALUES (:uuid, :table_id, :starts_at, :ends_at, :blocks_until,
+VALUES (:uuid, :single_table_id, :table_group_id, :starts_at, :ends_at, :blocks_until,
         :party_size, :session_id,
         DATE_ADD(NOW(), INTERVAL :hold_ttl_sec SECOND));
+SET @hid = LAST_INSERT_ID();
+-- Repeat for EACH locked physical table (one for a single-table hold).
+INSERT INTO hold_tables (hold_id, table_id) VALUES (@hid, :table_id);
 
 COMMIT;   -- else ROLLBACK and return 409 SLOT_TAKEN
 ```
@@ -203,19 +230,24 @@ Step 2, convert the hold into a reservation:
 ```sql
 START TRANSACTION;
 
-SELECT id, table_id, starts_at, ends_at, blocks_until, party_size
+SELECT id, table_id, table_group_id, starts_at, ends_at, blocks_until, party_size
 FROM holds
 WHERE hold_token = :token AND status = 'active' AND expires_at > NOW()
 FOR UPDATE;                      -- 0 rows => 410 HOLD_EXPIRED, restart the search
 
-INSERT INTO reservations (code, guest_id, room_type_id, party_size,
-                          starts_at, ends_at, blocks_until, status, source, created_by)
-VALUES (:code, :guest_id, :room_type_id, :party_size,
-        :starts_at, :ends_at, :blocks_until, 'pending', 'web', :user_id);
+-- Lock every member table in ascending ID order, recheck policy and overlaps, then insert.
+-- Generate a LUM-XXXXXX code and retry a duplicate-code error with a NEW code.
+INSERT INTO reservations (code, guest_id, room_type_id, table_group_id, party_size,
+                          starts_at, ends_at, blocks_until, turn_time_min,
+                          status, source, created_by)
+VALUES (:code, :guest_id, :room_type_id, :table_group_id, :party_size,
+        :starts_at, :ends_at, :blocks_until, :turn_time_min,
+        'pending', 'web', :user_id);
 SET @rid = LAST_INSERT_ID();
 
+-- Insert every hold_tables member, each with the same reservation_id and starts_at.
 INSERT INTO reservation_tables (reservation_id, table_id, slot_start)
-VALUES (@rid, :table_id, :starts_at);     -- the unique index below fires here if anything slipped through
+SELECT @rid, table_id, :starts_at FROM hold_tables WHERE hold_id = :hold_id;
 
 INSERT INTO reservation_status_history (reservation_id, from_status, to_status, actor_user_id, reason)
 VALUES (@rid, NULL, 'pending', :user_id, 'created via web');
@@ -225,17 +257,11 @@ UPDATE holds SET status='consumed' WHERE id = :hold_id;
 COMMIT;
 ```
 
-Final safety net (CITED primitive: unique composite index,
-https://dev.mysql.com/doc/refman/8.0/en/create-index.html). It lives on the join table:
-
-```sql
-ALTER TABLE reservation_tables
-  ADD UNIQUE KEY uq_table_slot (table_id, slot_start);
-```
-
-This makes a byte-identical duplicate booking **physically impossible** (duplicate key 1062 -> map to HTTP 409),
-independent of any application logic. It does not catch *overlapping but non-identical* starts; that is what the
-interval predicate plus the row lock are for. Both layers are kept on purpose.
+Final safety net: `reservation_tables.uq_table_active_slot` below. A generated column gives released rows
+`NULL` as the indexed start, so MySQL's unique index allows historical rows and rejects only a duplicate
+**active** assignment at the same start (1062 -> HTTP 409). Overlapping different starts still require the
+physical-table lock and fresh interval check. Release sets `released_at` in the same transaction as the
+status transition; never delete the membership or history row.
 
 Hold expiry sweep (CITED primitive: https://dev.mysql.com/doc/refman/8.0/en/create-event.html):
 
@@ -278,10 +304,12 @@ CREATE TABLE room_types (
   code          VARCHAR(32)  NOT NULL,   -- machine key: vip, standard, large_group, terrace, private_dining, bar
   name          VARCHAR(80)  NOT NULL,
   description   TEXT         NULL,
-  min_party     SMALLINT UNSIGNED NOT NULL DEFAULT 1,  -- business rule: VIP refuses parties of 2
+  min_party     SMALLINT UNSIGNED NOT NULL DEFAULT 1,
   max_party     SMALLINT UNSIGNED NULL,                -- NULL = no cap beyond table capacity
-  deposit_cents INT UNSIGNED NOT NULL DEFAULT 0,       -- >0 means a deposit is demanded at booking time
-  requires_approval TINYINT(1) NOT NULL DEFAULT 0,     -- 1 => reservation stays 'pending' until a manager acts
+  min_notice_hours SMALLINT UNSIGNED NOT NULL DEFAULT 0, -- VIP 48, Group 24
+  min_spend_cents INT UNSIGNED NOT NULL DEFAULT 0,      -- informational only; no payment collection in v1
+  deposit_cents INT UNSIGNED NOT NULL DEFAULT 0,       -- historical extension; seed 0 in v1
+  requires_approval TINYINT(1) NOT NULL DEFAULT 0,     -- optional room-wide override; 13–16 rule is separate
   default_turn_time_min SMALLINT UNSIGNED NULL,        -- per-type override of the global turn time
   sort_order    SMALLINT NOT NULL DEFAULT 0,
   is_active     TINYINT(1) NOT NULL DEFAULT 1,
@@ -350,12 +378,13 @@ INSERT INTO settings (skey, svalue, value_type) VALUES
   ('slot_interval_min','15','int'),
   ('default_turn_time_min','90','int'),
   ('buffer_min','15','int'),
-  ('hold_ttl_sec','300','int'),
+  ('hold_ttl_sec','600','int'),
   ('min_lead_time_min','60','int'),      -- cannot book less than 1h out online
   ('max_lead_time_days','60','int'),     -- cannot book further than 60 days out
-  ('max_party_online','10','int'),       -- above this it becomes an event request
+  ('max_party_online','16','int'),       -- above this it becomes an event request
   ('max_covers_per_slot','40','int'),
   ('max_reservations_per_slot','8','int'),
+  ('cancel_cutoff_min','120','int'),
   ('last_seating_before_close_min','60','int'),
   ('waitlist_promote_window_min','120','int'),
   ('no_show_grace_min','20','int');
@@ -444,7 +473,7 @@ CREATE TABLE guests (
 
 CREATE TABLE reservations (
   id             BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  code           CHAR(8)      NOT NULL,   -- human-readable confirmation code shown to the guest
+  code           CHAR(10)     NOT NULL,   -- LUM-XXXXXX; unique index below, retry collision
   guest_id       INT UNSIGNED NOT NULL,
   room_type_id   INT UNSIGNED NOT NULL,   -- what the guest ASKED for; table assignment may change, this must not
   table_group_id INT UNSIGNED NULL,       -- set when seated on a joined combination
@@ -456,14 +485,16 @@ CREATE TABLE reservations (
   status         ENUM('pending','confirmed','seated','completed','cancelled','no_show','waitlisted')
                  NOT NULL DEFAULT 'pending',
   source         ENUM('web','phone','walk_in','admin') NOT NULL DEFAULT 'web',
-  deposit_cents  INT UNSIGNED NOT NULL DEFAULT 0,
-  deposit_status ENUM('none','required','paid','refunded','forfeited') NOT NULL DEFAULT 'none',
+  deposit_cents  INT UNSIGNED NOT NULL DEFAULT 0, -- seed 0; no payments in v1
+  deposit_status ENUM('none','required','paid','refunded','forfeited') NOT NULL DEFAULT 'none', -- future extension
   approval_state ENUM('not_required','awaiting','approved','rejected') NOT NULL DEFAULT 'not_required',
   special_requests TEXT NULL,
   seated_at      DATETIME NULL,
   completed_at   DATETIME NULL,
   cancelled_at   DATETIME NULL,
   waitlist_rank  INT UNSIGNED NULL,       -- FIFO position inside the requested date+window
+  waitlist_offer_state ENUM('none','offered','accepted','expired') NOT NULL DEFAULT 'none',
+  waitlist_offer_expires_at DATETIME NULL,
   version        INT UNSIGNED NOT NULL DEFAULT 1, -- optimistic lock for admin edits
   created_by     INT UNSIGNED NULL,
   created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -479,13 +510,17 @@ CREATE TABLE reservations (
   CONSTRAINT fk_res_creator FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
--- One reservation can occupy N tables (combination). This is where the hard uniqueness lives.
+-- One reservation can occupy N tables. Released assignments remain for history.
 CREATE TABLE reservation_tables (
+  id             BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   reservation_id BIGINT UNSIGNED NOT NULL,
   table_id       INT UNSIGNED    NOT NULL,
-  slot_start     DATETIME        NOT NULL, -- denormalised copy of reservations.starts_at, enables the unique key
-  PRIMARY KEY (reservation_id, table_id),
-  UNIQUE KEY uq_table_slot (table_id, slot_start),   -- hard anti-double-book guard
+  slot_start     DATETIME        NOT NULL,
+  released_at    DATETIME        NULL,
+  active_slot_start DATETIME GENERATED ALWAYS AS
+    (CASE WHEN released_at IS NULL THEN slot_start ELSE NULL END) STORED,
+  UNIQUE KEY uq_res_table (reservation_id, table_id),
+  UNIQUE KEY uq_table_active_slot (table_id, active_slot_start),
   KEY ix_rt_table (table_id),
   CONSTRAINT fk_rt_res   FOREIGN KEY (reservation_id) REFERENCES reservations(id) ON DELETE CASCADE,
   CONSTRAINT fk_rt_table FOREIGN KEY (table_id)       REFERENCES `tables`(id)
@@ -505,7 +540,10 @@ CREATE TABLE reservation_status_history (
 ) ENGINE=InnoDB;
 ```
 
-(The `holds` DDL is in section 2.4; add `CONSTRAINT fk_holds_group FOREIGN KEY (table_group_id) REFERENCES table_groups(id)`.)
+(The `holds` and `hold_tables` DDL is in section 2.4. In the P2 migration, create their tables
+after `reservations`, then add `fk_holds_waitlist_reservation` on `waitlist_reservation_id`.
+The P4 claim link uses a separate one-time secret checked server-side; a public hold token alone
+does not authorize acceptance of a waitlist offer.)
 
 ### 3.3 Menu, orders, kitchen
 
@@ -602,12 +640,12 @@ function findAvailability(date, desired_time, party_size, room_type_id, exclude_
 
   # ---- 0. guard rails (fail fast, cheapest checks first) ----
   cfg = settings_all()
-  if party_size > cfg.max_party_online:        return ERROR('EVENT_REQUEST_REQUIRED')
+  if party_size < 1 or party_size > cfg.max_party_online: return ERROR('PARTY_SIZE_OUT_OF_RANGE')
   rt = room_type(room_type_id)
   if party_size < rt.min_party:                return ERROR('BELOW_ROOM_TYPE_MIN', rt.min_party)
   if rt.max_party and party_size > rt.max_party:return ERROR('ABOVE_ROOM_TYPE_MAX')
   if date > today + cfg.max_lead_time_days:    return ERROR('TOO_FAR_AHEAD')
-  if venueBlackedOut(date, room_type_id):      return ERROR('BLACKOUT', reason)
+  # Evaluate blackout for each candidate interval and each physical member below.
 
   # ---- 1. candidate slot grid from opening_hours ----
   slots = []
@@ -615,13 +653,13 @@ function findAvailability(date, desired_time, party_size, room_type_id, exclude_
      if svc.is_closed: continue
      open_dt  = datetime(date, svc.open_time)
      close_dt = datetime(date, svc.close_time); if close_dt <= open_dt: close_dt += 1 day
-     last_seating = close_dt - cfg.last_seating_before_close_min
+     last_seating = min(datetime(date, '21:45'), close_dt - cfg.last_seating_before_close_min)
      t = ceilToInterval(open_dt, cfg.slot_interval_min)
      while t <= last_seating:
         slots.push(t); t += cfg.slot_interval_min minutes
 
   # ---- 2. lead time (CITED analogue: consider_book_advance_timeout) ----
-  earliest = now() + cfg.min_lead_time_min minutes
+  earliest = max(now() + cfg.min_lead_time_min minutes, now() + rt.min_notice_hours hours)
   slots = [s for s in slots if s >= earliest]
 
   # ---- 3. window per slot, using the party-size-resolved turn time ----
@@ -630,6 +668,7 @@ function findAvailability(date, desired_time, party_size, room_type_id, exclude_
   for s in slots:
      s.ends_at      = s + turn
      s.blocks_until = s.ends_at + buffer
+     if s.blocks_until > close_dt: skip this slot
 
   # ---- 4. table-level exclusion, ONE query per slot batch (see 4.3) ----
   for s in slots:
@@ -642,13 +681,14 @@ function findAvailability(date, desired_time, party_size, room_type_id, exclude_
      # ---- 6. best-fit ranking: never burn a 10-seat VIP on a party of 2 ----
      for t in s.options:
         waste       = t.capacity_max - party_size
-        t.fit_score = waste * 10 + (t.priority / 100) + (t.kind == 'group' ? 1000 : 0)
+        t.fit_score = waste * 10 + (t.priority / 100)
      sort s.options by fit_score ASC            # lowest waste wins; single tables beat combinations
 
      # ---- 7. combinations only if nothing single fits ----
      if s.options is empty:
         s.options = freeGroupsForWindow(room_type_id, party_size, s, s.blocks_until, exclude_id)
-        # a group is free only if EVERY member table is free for the window; blocks_until += group.setup_min
+        # a group is free only if EVERY member is free, active, joinable, and not blacked out;
+        # its interval includes setup_min, and the result must still fit before close.
 
      # ---- 8. pacing / covers cap (independent of physical capacity) ----
      p = pacingFor(date, s)
@@ -689,6 +729,7 @@ WHERE   t.is_active = 1
         FROM   reservation_tables rsvt
         JOIN   reservations res ON res.id = rsvt.reservation_id
         WHERE  rsvt.table_id = t.id
+          AND  rsvt.released_at IS NULL
           AND  res.status IN ('pending','confirmed','seated')
           AND  res.id <> COALESCE(:exclude_reservation_id, 0)
           AND  :win_start  < res.blocks_until      --  a1 < b2
@@ -698,11 +739,12 @@ WHERE   t.is_active = 1
   -- (b) no overlapping LIVE hold (someone is mid-form right now)
   AND NOT EXISTS (
         SELECT 1
-        FROM   holds h
-        WHERE  h.table_id   = t.id
+        FROM   hold_tables ht
+        JOIN   holds h ON h.id = ht.hold_id
+        WHERE  ht.table_id  = t.id
           AND  h.status     = 'active'
           AND  h.expires_at > NOW()
-          AND  h.session_id <> :my_session_id      -- my own hold must not hide my own slot
+          AND  (h.session_id IS NULL OR h.session_id <> :my_session_id)
           AND  :win_start < h.blocks_until
           AND  :win_end   > h.starts_at
   )
@@ -723,7 +765,7 @@ ORDER BY (t.capacity_max - :party_size) ASC, t.priority ASC, t.id ASC;   -- best
 ```
 
 Index support: `reservation_tables(table_id)` drives (a) and `reservations.ix_res_window(starts_at, blocks_until)`
-bounds it; `holds.ix_holds_live(table_id, status, expires_at, starts_at, blocks_until)` makes (b) index-only;
+bounds it; `hold_tables.ix_ht_table` and `holds.ix_holds_live` support (b);
 `blackout_dates.ix_blackout_range` bounds (c).
 
 Batched variant for a whole day (one round trip, bucket in PHP): drop the `:win_*` params, instead select every
@@ -733,12 +775,13 @@ live reservation and hold for the date and subtract in PHP.
 SELECT rsvt.table_id, res.starts_at, res.blocks_until
 FROM   reservation_tables rsvt
 JOIN   reservations res ON res.id = rsvt.reservation_id
-WHERE  res.status IN ('pending','confirmed','seated')
+WHERE  rsvt.released_at IS NULL
+  AND  res.status IN ('pending','confirmed','seated')
   AND  res.starts_at    < :day_end
   AND  res.blocks_until > :day_start
 UNION ALL
-SELECT h.table_id, h.starts_at, h.blocks_until
-FROM   holds h
+SELECT ht.table_id, h.starts_at, h.blocks_until
+FROM   hold_tables ht JOIN holds h ON h.id = ht.hold_id
 WHERE  h.status='active' AND h.expires_at > NOW()
   AND  h.starts_at < :day_end AND h.blocks_until > :day_start;
 ```
@@ -757,19 +800,25 @@ WHERE   g.is_active = 1 AND r.room_type_id = :room_type_id
         JOIN   reservation_tables rsvt ON rsvt.table_id = m.table_id
         JOIN   reservations res        ON res.id = rsvt.reservation_id
         WHERE  m.table_group_id = g.id
+          AND  rsvt.released_at IS NULL
           AND  res.status IN ('pending','confirmed','seated')
           AND  :win_start < res.blocks_until AND :win_end > res.starts_at
   )
   AND   NOT EXISTS (
         SELECT 1
         FROM   table_group_members m
-        JOIN   holds h ON h.table_id = m.table_id
+        JOIN   hold_tables ht ON ht.table_id = m.table_id
+        JOIN   holds h ON h.id = ht.hold_id
         WHERE  m.table_group_id = g.id
           AND  h.status='active' AND h.expires_at > NOW()
           AND  :win_start < h.blocks_until AND :win_end > h.starts_at
   )
 ORDER BY (g.capacity_max - :party_size) ASC, g.id ASC;
 ```
+
+Also reject groups with no members, inactive or non-joinable members, room/type/venue/table blackouts,
+or `blocks_until + setup_min` after closing. Use the same interval and physical-member checks when
+acquiring the hold; the availability query is only a preview.
 
 Pacing check:
 
@@ -802,11 +851,11 @@ WHERE  status IN ('pending','confirmed','seated')
 | (new) | `waitlisted` | guest, host | no table held; `waitlist_rank = MAX(rank)+1` for that date+window |
 | (new) | `confirmed` | host, manager, admin (phone/walk-in) | skips pending when staff books directly |
 | `pending` | `confirmed` | manager (if `requires_approval`), system (auto, if deposit paid / no approval needed) | table assignment becomes firm; guest notified; counts toward pacing |
-| `pending` | `cancelled` | guest, host, manager, system (deposit/approval timeout) | `reservation_tables` rows released; **waitlist auto-promotion triggered** |
-| `pending`/`confirmed` | `cancelled` | guest (until `cancel_cutoff`), host, manager | deposit -> `refunded` if before cutoff, `forfeited` after; waitlist promotion triggered |
+| `pending` | `cancelled` | guest, host, manager, system (approval timeout) | Set `reservation_tables.released_at`; **waitlist auto-promotion triggered** |
+| `pending`/`confirmed` | `cancelled` | guest until 2 hours before start; host, manager | Release assignments; no real refund or forfeiture in v1; waitlist promotion triggered |
 | `confirmed` | `seated` | host, server | `seated_at = NOW()`; **an `orders` row is auto-created** (`status='open'`, bound to `table_id`) so the kitchen dashboard sees the table; floor plan turns the table red |
-| `confirmed` | `no_show` | host, manager, system (after `no_show_grace_min` past `starts_at`) | `guests.no_show_count + 1`; deposit `forfeited`; table released immediately; waitlist promotion triggered |
-| `seated` | `completed` | server, host, manager | `completed_at = NOW()`; order must be `paid` or `void`; table freed early, which can free a slot for the waitlist |
+| `confirmed` | `no_show` | host, manager, system (after `no_show_grace_min` past `starts_at`) | `guests.no_show_count + 1`; set `released_at`; waitlist promotion triggered |
+| `seated` | `completed` | server, host, manager | `completed_at = NOW()`; order must be `paid` or `void`; set `released_at` when table is actually freed |
 | `waitlisted` | `pending`/`confirmed` | system (auto-promotion), host | hold created for the freed table, guest notified with a TTL to accept |
 | any | `cancelled` | admin | audit row mandatory with `reason` |
 
@@ -819,6 +868,8 @@ Rules that make the machine safe:
 - Only `pending`, `confirmed`, `seated` occupy a table. This exact list is hardcoded in every overlap query
   (section 4.3) - keep it in one PHP constant `Reservation::BLOCKING_STATUSES` and interpolate it, so the set
   can never drift between queries.
+- A release changes reservation status and sets each `reservation_tables.released_at` in one transaction,
+  after locking the physical members in ascending order. The row and its audit history stay queryable.
 
 ```sql
 -- Seating side effect, one transaction
@@ -828,7 +879,7 @@ UPDATE reservations
  WHERE id=:id AND status='confirmed' AND version=:seen_version;   -- 0 rows => 409, reload
 INSERT INTO orders (reservation_id, table_id, opened_by, status)
 SELECT :id, rt.table_id, :user_id, 'open'
-FROM   reservation_tables rt WHERE rt.reservation_id = :id LIMIT 1;
+FROM   reservation_tables rt WHERE rt.reservation_id = :id AND rt.released_at IS NULL LIMIT 1;
 INSERT INTO reservation_status_history (reservation_id, from_status, to_status, actor_user_id)
 VALUES (:id, 'confirmed', 'seated', :user_id);
 COMMIT;
@@ -840,15 +891,15 @@ COMMIT;
 
 | # | Rule | Implementation | Demo moment |
 |---|---|---|---|
-| 1 | **VIP minimum party / deposit** | `room_types.min_party`, `room_types.deposit_cents`; availability returns `BELOW_ROOM_TYPE_MIN` before any SQL scan; deposit sets `deposit_status='required'` and holds the reservation in `pending` | Try to book VIP for 2 -> instant, explained refusal |
-| 2 | **Group bookings need manager approval** | `room_types.requires_approval=1` on `large_group`/`private_dining`, or `party_size >= 8`; sets `approval_state='awaiting'`, stays `pending`, appears in an admin approvals queue | Book a 9-top, switch to manager login, approve, guest view flips to confirmed |
+| 1 | **VIP notice and minimum spend** | VIP allows 2–10, requires 48-hour notice, and shows ₱6,500 minimum spend; no payment is collected | Try a VIP booking 47 hours ahead -> explained refusal |
+| 2 | **Large group approval** | Group allows 5–16 with 24-hour notice; party sizes 13–16 set `approval_state='awaiting'` and stay `pending` for manager review | Book a 13-top, switch to manager login, approve |
 | 3 | **Lead time limits** | `settings.min_lead_time_min` (60) and `max_lead_time_days` (60); applied in pseudocode step 2 (CITED analogue: Easy!Appointments `consider_book_advance_timeout`) | Slots inside the next hour simply are not offered |
-| 4 | **Last seating before close** | `settings.last_seating_before_close_min`; grid stops early so no party is seated 10 min before close | 21:45 slot missing even though the venue closes at 22:00 |
-| 5 | **Max party before it becomes an event** | `settings.max_party_online` (10) -> `EVENT_REQUEST_REQUIRED`, routes to an event-enquiry form instead of the booking flow | Enter 24 guests -> different, graceful path |
+| 4 | **Last seating before close** | Cap starts at 21:45 and require `blocks_until <= 23:30` for that party and room | A six-person party cannot take a slot that a two-person party can still finish before close |
+| 5 | **Online party size** | `settings.max_party_online` (16); reject 0 and 17+; 13–16 need manager approval | Enter 17 guests -> explained limit |
 | 6 | **Pacing cap** | `pacing_rules` / `settings.max_covers_per_slot`; slot hidden when the kitchen is saturated even though tables are free | Set cap to 2 live, refresh, 19:00 vanishes |
 | 7 | **Hold TTL countdown** | `holds.expires_at`, JS timer on the form, 410 on expiry | Open two browsers, both see 1 VIP left, one wins, the other gets a clean "slot just taken" |
 | 8 | **Waitlist auto-promotion** | On any transition to `cancelled`/`no_show`, run the promoter: find the lowest `waitlist_rank` waitlisted reservation for that date whose `party_size` fits the freed table and whose requested time is within `settings.waitlist_promote_window_min`; create a hold for it, notify, and give the guest a TTL to accept | Cancel a VIP booking -> a waitlisted party is promoted on screen within one poll |
-| 9 | **Repeat no-show friction** | `guests.no_show_count >= 2` forces `deposit_status='required'` regardless of room type | Shows the data model earning its keep |
+| 9 | **Repeat no-show review** | `guests.no_show_count >= 2` flags a manager review; do not demand or collect a deposit in v1 | Shows the data model earning its keep |
 | 10 | **Blackout dates** | `blackout_dates` with scope venue/room_type/room/table; `blocks_booking=0` variant shows an informational banner | Black out the terrace for rain, terrace disappears, rest of the venue unaffected |
 
 ```sql
@@ -856,6 +907,7 @@ COMMIT;
 SELECT r.id, r.code, r.party_size, r.starts_at
 FROM   reservations r
 WHERE  r.status = 'waitlisted'
+  AND  r.waitlist_offer_state IN ('none','expired')
   AND  r.room_type_id = :freed_room_type_id
   AND  r.party_size BETWEEN :freed_capacity_min AND :freed_capacity_max
   AND  r.starts_at BETWEEN DATE_SUB(:freed_slot, INTERVAL :win MINUTE)
@@ -865,6 +917,12 @@ LIMIT 1
 FOR UPDATE SKIP LOCKED;   -- SKIP LOCKED: two concurrent cancellations never promote the same party twice
 ```
 `SKIP LOCKED` semantics per https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html .
+Promotion must also validate the entire freed physical-table set, room notice, blackout, pacing, and
+closing time. Lock the waitlist row and candidate table members, create a real 600-second hold linked
+by `waitlist_reservation_id`, then change `waitlist_offer_state` to `offered` before queuing the demo
+outbox notification. The promoter must select only `waitlist_offer_state IN ('none','expired')` and
+atomically claim an entry; a uniqueness rule on active offer identity or guarded status update prevents
+two concurrent releases from sending duplicate offers. `SKIP LOCKED` alone is not the complete guarantee.
 
 ---
 
@@ -903,4 +961,3 @@ WHERE ra.status IN ('pending','confirmed','seated')
 4. No `seated` reservation without an `orders` row.
 5. Covers starting in any slot never exceed the effective pacing cap.
 6. A load test of N parallel `POST /api/holds` for the same last VIP room yields exactly 1 success and N-1 409s.
-
