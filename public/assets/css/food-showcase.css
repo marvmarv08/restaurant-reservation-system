@@ -114,7 +114,8 @@
   .food-photo figcaption { font-size: .8rem; padding: 40px 16px 16px; }
   .food-gallery .food-track { animation: none !important; }
   .food-swipe-hint { display: inline; }
-  .food-motion-toggle { display: none; }
+  .food-controls { gap: 12px; flex-wrap: wrap; }
+  .food-showcase[data-mobile-motion="true"] .food-gallery { scroll-snap-type: none; }
   .food-credits { margin-top: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {

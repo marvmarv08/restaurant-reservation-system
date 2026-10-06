@@ -40,6 +40,32 @@ async function transforms(page) {
   return page.locator('.food-track').evaluateAll(nodes => nodes.map(e => getComputedStyle(e).transform));
 }
 try {
+  await check('Phone photos autoplay horizontally, pause for touch, resume, and stop for reduced motion', async () => {
+    const mobile = await open({viewport: {width: 390, height: 844}, hasTouch: true, isMobile: true});
+    const mobileRegion = await gallery(mobile);
+    const strip = mobileRegion.locator('.food-gallery');
+    await mobile.waitForFunction(() => document.querySelector('#food-showcase').dataset.running === 'true');
+    const before = await strip.evaluate(e => e.scrollLeft);
+    await mobile.waitForFunction(start => document.querySelector('.food-gallery').scrollLeft > start + 4, before);
+    assert.ok(await mobileRegion.getByRole('button', {name: 'Pause motion', exact: true}).isVisible());
+    await strip.dispatchEvent('pointerdown', {pointerType: 'touch'});
+    const stopped = await strip.evaluate(e => e.scrollLeft);
+    await mobile.waitForTimeout(250);
+    assert.equal(await strip.evaluate(e => e.scrollLeft), stopped);
+    await mobileRegion.getByRole('button', {name: 'Resume motion', exact: true}).click();
+    await mobile.waitForFunction(start => document.querySelector('.food-gallery').scrollLeft > start + 4, stopped);
+    await mobile.emulateMedia({reducedMotion: 'reduce'});
+    const reduced = await strip.evaluate(e => e.scrollLeft);
+    await mobile.waitForTimeout(250);
+    assert.equal(await strip.evaluate(e => e.scrollLeft), reduced);
+    assert.equal(await mobileRegion.getByRole('button', {name: /motion/}).count(), 0);
+    await mobile.emulateMedia({reducedMotion: 'no-preference'});
+    await mobile.locator('#menu').scrollIntoViewIfNeeded();
+    await mobile.waitForFunction(() => document.querySelector('#food-showcase').dataset.running === 'false');
+    const offscreen = await strip.evaluate(e => e.scrollLeft);
+    await mobile.waitForTimeout(250);
+    assert.equal(await strip.evaluate(e => e.scrollLeft), offscreen);
+  });
   const page = await open();
   let region;
   await check('Guests can discover a labelled food gallery and locally loaded food photographs', async () => {
