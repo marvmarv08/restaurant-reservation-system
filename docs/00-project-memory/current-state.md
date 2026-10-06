@@ -10,7 +10,7 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
-E0 research and E1 shared response states are delivered locally. E1 passed 26 focused and 143 existing browser checks; main app/source/smoke/lint and unchanged aggregate records were verified. Next UI phase is E2 scoped guest transitions; E3/E4 remain proposed. Resume from research/08_ui_motion_research.md section 12 while retaining S0–S3 showcase and booking/service safeguards.
+E0–E2 UI effects are delivered locally. E2 passed 31 focused guest-motion and 149 relevant regression checks; main delivery/source/smoke/lint, read-only mobile behavior and unchanged aggregate records were verified. Next phase is E3 operational feedback, then E4 final review. Resume from research/08_ui_motion_research.md section 13 and keep the existing booking/service safeguards.
 
 ## Stable Facts
 
@@ -26,6 +26,8 @@ E0 research and E1 shared response states are delivered locally. E1 passed 26 fo
 - Order service closure uses `closed`, never invented `paid`. Kitchen marks ready; server confirms delivery. Host completion is separate and refuses unfinished food.
 
 ## What Exists and Works
+
+E2 adds a native, cancellable guest motion module: 220 ms hero entrance, 180 ms deliberate booking/management transitions, and 140 ms menu/results/disclosure feedback. Logical heading focus is immediate and visible; passive management refresh preserves control focus without entrance replay. Guest contact drafts survive choosing another table in the same page, are cleared on completion/new reservation, and are not newly stored. Explicit showcase selection focuses its new radio; existing picture guards/fallback remain intact. Reduced motion and unavailable animation APIs keep the UI static and usable.
 
 E1 adds a local shared feedback module to guest/staff/service pages: stable pending button labels, reduced-motion-aware surface/press feedback, stationary delayed search placeholders, persistent error messages and polite success statuses. Successful order saves followed by read-refresh failure are identified as saved without a mutation retry. Polling does not create skeletons or replay entrances. Existing credentials and main data are retained.
 

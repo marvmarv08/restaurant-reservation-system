@@ -123,7 +123,7 @@
       if(current()&&(announce||prior!==tableState(current()).join(':')))ui.announcement.textContent=current().code+': '+tableState(current())[1]+' for this search.';
       if(apply){
         const option=optionFor(current());
-        if(option){const choose=captured.choose;dialog.close();choose(option,captured.slot);}
+        if(option){const choose=captured.choose;dialog.close();opener=choose(option,captured.slot)||opener;}
         else ui.announcement.textContent='That table is no longer available for this search. Choose another table or time.';
       }
     }catch{
@@ -173,6 +173,7 @@
     document.body.append(dialog);
     if(document.body.dataset.page!=='manage'){
       const disclosure=el('details',{class:'showcase-inventory'});disclosure.append(el('summary',{},`View all ${catalog.tables.length} table previews`));
+      disclosure.addEventListener('toggle',()=>{const grid=disclosure.querySelector('.showcase-grid');if(disclosure.open)window.LuminaGuestMotion?.enter(grid,'menu');else if(grid)window.LuminaGuestMotion?.stop(grid);});
       const grid=el('div',{class:'showcase-grid'});grid.append(...catalog.tables.map(t=>tile(t,'showcase-tile')));disclosure.append(grid);document.querySelector('#rooms').append(disclosure);
     }
     syncStatus();

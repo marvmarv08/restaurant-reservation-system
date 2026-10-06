@@ -4,6 +4,14 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — E2 guest transitions and navigation focus
+
+- Change: Added native cancellable guest motion using E1 tokens: one 220 ms hero entrance, 180 ms deliberate booking/management transitions and 140 ms menu/results/disclosure feedback. Headings focus and reveal immediately; menu focus stays on its category; passive management refresh restores its control without replaying an entrance. Explicit table selection acknowledges the choice and focuses its new radio.
+- Input handling: Choosing another table preserves typed contact details in page memory. Completion/new reservation clears the draft; this adds no new browser-storage persistence. Existing hold/confirmation recovery remains intact. Existing image fade/revision guards/fallback are preserved. No auth, policy, schema or transaction changes were made.
+- Evidence: 31 focused guest-motion checks passed, including paused/interrupted/disabled/unsupported motion, visible focus, input preservation/clearing, real confirmation/pending approval, private management, late/reopened/missing pictures and verified capability-based fake-booking cleanup. Relevant 149 regressions passed (26 E1, 12 guest, 34 capacity, 41 showcase, 36 readiness); tested automated A/AA states were clear. Main health, 54-file PHP lint, smoke, rollback DB safeguards, exact source and read-only 390px browser checks passed. Main 198 reservations/31 guests/208 history rows, 6 users including 1 active, 0 orders/tickets retained.
+- Lesson: The animation explains a change; it must not control when the booking saves or where focus goes. Cancelling an animation should leave usable final content. Keep typed details through a same-page Back flow without adding unnecessary contact-data persistence.
+- Next: E3 feedback tied to genuine operational data changes, then E4 cross-browser/mobile/motion/performance review.
+
 ## 2026-10-06 — E1 shared response states
 
 - Change: Added local shared response CSS/JS to guest, staff and service pages. Existing action guards expose specific pending labels and aria-busy while preserving button size and restoring attributes. Slow guest/host table searches get static placeholders after 200 ms; fast completion cancels the placeholder timer. Success messages use polite status semantics; errors persist and background host refresh does not take focus.

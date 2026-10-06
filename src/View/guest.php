@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/assets/css/table-showcase.css">
   <link rel="stylesheet" href="/assets/css/ui-feedback.css">
   <script src="/assets/js/ui-feedback.js" defer></script>
+  <script src="/assets/js/guest-motion.js" defer></script>
   <script src="/assets/js/table-showcase.js" defer></script>
   <script src="/assets/js/guest.js" defer></script>
 </head>
@@ -34,7 +35,7 @@
         </div>
         <section class="booking-card" id="booking" aria-label="Reserve a table" tabindex="-1">
           <div class="card-heading"><span class="eyebrow">Your evening starts here</span><span class="live-tag"><i aria-hidden="true"></i>Live availability</span></div>
-          <h2 id="flow-title">Reserve a table</h2>
+          <h2 id="flow-title" tabindex="-1">Reserve a table</h2>
           <ol class="steps" aria-label="Booking steps"><li id="step-search" class="current">1 <span>Find a table</span></li><li id="step-details">2 <span>Your details</span></li><li id="step-confirmation">3 <span>Confirmation</span></li></ol>
           <p id="feedback" class="feedback" role="alert" tabindex="-1" hidden></p>
           <div id="flow"><p class="loading">Loading booking rules…</p></div>
@@ -51,7 +52,7 @@
       </div></section>
     </div>
     <section class="manage-content wrap" id="manage-workspace" aria-labelledby="manage-title" tabindex="-1" hidden>
-      <p class="eyebrow">Your reservation</p><h1 id="manage-title">Your evening,<br><em>all in one place.</em></h1>
+      <p class="eyebrow">Your reservation</p><h1 id="manage-title" tabindex="-1">Your evening,<br><em>all in one place.</em></h1>
       <p id="manage-feedback" class="feedback" role="alert" tabindex="-1" hidden></p><div id="management"><p class="loading">Loading your booking…</p></div>
     </section>
   </main>

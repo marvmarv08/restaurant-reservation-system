@@ -222,3 +222,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: 26 focused feedback checks and 143 existing browser checks passed sequentially (12 guest, 10 staff, 10 orders, 41 showcase, 34 capacity, 36 readiness). Covered actual delayed requests/saved orders, duplicate guards, stable buttons, fast completion/timer cleanup, persistent errors/recovery, touch, reduced motion, four widths and tested A/AA rules. JS syntax, 54-file PHP lint, isolated/main smoke, served-source match, read-only main mobile check, rollback DB safeguards and unchanged main aggregates passed. Documentation links, Desktop E1 export, diff check and PMM doctor passed; E2-E4 remain proposed, no new runtime library/backend policy/schema/auth changes.
 - Closed At: 2026-10-06T04:47:21Z
+
+## 2026-10-06 e2-guest-transitions
+
+<!-- pmm-task-id: e2-guest-transitions -->
+
+- Status: done
+- Parent Task: none
+- Title: Add scoped guest transitions and reliable navigation focus
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 31 focused guest-motion checks plus 149 relevant regressions passed (26 E1 feedback, 12 guest, 34 capacity, 41 showcase, 36 readiness). Verified paused/interrupted/missing-API/reduced motion, visible heading focus, menu focus/count, same-page draft preservation/clearing, actual confirmed/pending bookings, passive private-management focus, late/reopened/missing pictures and capability-verified fake-booking cleanup. JS syntax, 54-file PHP lint, isolated/main smoke, rollback DB guards, exact served source, read-only390px main check with zero booking POSTs, retained aggregate records, doc links, Desktop export, diff check and PMM doctor passed. Chromium automated states only; E3-E4 remain proposed; no backend/schema/auth/credential changes.
+- Closed At: 2026-10-06T05:17:51Z

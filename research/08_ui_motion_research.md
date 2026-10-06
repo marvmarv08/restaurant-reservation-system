@@ -2,7 +2,7 @@
 
 Research date: 2026-10-06. Owner: Marvin. Scope: recommendations for the guest, booking, showcase, management, authentication, host, admin, server and kitchen interfaces.
 
-**Delivery status: E0 research and E1 shared response states are complete locally; E2–E4 remain proposed.** Section 12 records the E1 implementation and evidence. The remaining screen-specific effects below are recommendations. “Best fit” means a design recommendation based on this application's workflows and the reviewed guidance; it is not a measured usability result or a universal ranking.
+**Delivery status: E0 research, E1 shared response states and E2 guest transitions are complete locally; E3–E4 remain proposed.** Sections 12–13 record implementation and evidence. The remaining screen-specific effects below are recommendations. “Best fit” means a design recommendation based on this application's workflows and the reviewed guidance; it is not a measured usability result or a universal ranking.
 
 ## 1. Recommendation
 
@@ -55,7 +55,7 @@ Protected host/admin/server/kitchen behavior was reviewed from source, not throu
 
 ## 4. Effects mapped to every major UI workflow
 
-Except for the E1 shared settings recorded in section 12, timings and distances in this section are **proposed project defaults**. They are not prescribed WCAG values and have not been validated with restaurant guests or staff. “Instant” means the information/control changes without a decorative delay. Every motion effect has an instant alternative when reduced motion is requested.
+Except for the delivered E1/E2 settings recorded in sections 12–13, timings and distances in this section are **proposed project defaults**. They are not prescribed WCAG values and have not been validated with restaurant guests or staff. “Instant” means the information/control changes without a decorative delay. Every motion effect has an instant alternative when reduced motion is requested.
 
 ### Guest presentation and browsing
 
@@ -200,17 +200,17 @@ These exclusions are design judgments for this repository, informed by the restr
 
 ## 9. Implementation phases
 
-E0 research and E1 shared response states are complete locally. E2–E4 are **proposed**, with no new step, hero or operational data-change animations delivered by E1. Keep existing booking rules, authorization, inventory transactions, private-link handling and order state machines intact.
+E0 research, E1 shared response states and E2 guest transitions are complete locally. E3–E4 are **proposed**. E2 adds scoped guest motion; operational data-change animations are still future work. Keep existing booking rules, authorization, inventory transactions, private-link handling and order state machines intact.
 
 | Phase | Priority / scope | Completion evidence |
 |---|---|---|
 | E0 — Research | Done: screen inventory, source review, effect decisions and implementation map | This report, source anchors, read-only browser observations and documentation verification. |
 | E1 — Shared response states | Done locally: shared tokens/styles, pending labels, stationary loading regions and persistent success/error feedback | 26 focused checks plus 143 existing browser checks passed; main source/smoke/lint and unchanged record counts verified. See section 12. |
-| E2 — Guest flow polish | Scoped step/menu transitions; optional initial hero; image handling; explicit selection acknowledgment | Existing 34 capacity, 12 booking/management and 41 showcase regressions rerun on the changed app; interrupted animation and slow-image checks. Historical passes are not new evidence. |
+| E2 — Guest flow polish | Done locally: scoped booking/menu entrances, one hero entrance, logical focus, same-page contact draft and explicit table-choice acknowledgment | 31 focused guest-motion checks plus 149 relevant regressions passed; main source/smoke/lint, read-only mobile check and retained records verified. See section 13. |
 | E3 — Operational feedback | Host/admin dialog/action consistency; server/kitchen changes tracked by ID; no polling animation replay | Isolated staff/order browser regressions, two-second poll observation, stable focus/scroll, real saved status and stale-data behavior. |
 | E4 — Accessibility and performance | Desktop/mobile review, motion-disabled operation, contrast/status review and target-browser profiling | 320/390/768/1440px; keyboard; actual touch browser where available; reduced motion; offline flow; targeted DevTools recording. Record browser limitations and measured results. |
 
-**Next implementation: E2.** Shared response states are delivered; next add scoped guest transitions and verify interruption/focus behavior. E3 requires deliberate data-change handling; a global `.ticket { animation: ... }` patch is insufficient.
+**Next implementation: E3.** Guest transitions are delivered; next add operational feedback tied to genuine saved data changes. E3 requires deliberate data-change handling; a global `.ticket { animation: ... }` patch is insufficient.
 
 ### Verification scenarios for implementation
 
@@ -273,3 +273,15 @@ This is desk research plus source review and a limited read-only browser inspect
 - Verification: 26 focused feedback checks and 143 existing browser checks passed (12 guest/management, 10 staff, 10 orders, 41 showcase, 34 capacity, 36 readiness). Focused checks cover real delayed GET/POST responses, duplicate guards, fast completion with a paused placeholder clock, timer cleanup, failure/recovery, touch, reduced motion,320/390/768/1440px and zero automated A/AA violations in tested states. The cancellation regression now checks polite success status while retaining the actual cancelled-record check; errors keep alert semantics.
 - Main delivery: rebuilt and recreated only app with `--no-deps`; no seed/reset. Health, 54-file PHP lint, smoke and exact served source checks passed. Aggregate records stayed 198 reservations, 31 guests, 208 status-history rows, 6 users including 1 active staff, 0 orders and0 kitchen tickets. The main mobile pending/error check issued zero booking POSTs, and the database safeguard verifier passed using rolled-back temporary writes. Existing credentials remain valid; app recreation may require signing in again.
 - These checks do not constitute a full accessibility certification, performance benchmark or user study. E2–E4 remain unfinished. Use [the verification guide](../docs/verification.md) to rerun current evidence.
+
+## 13. E2 local delivery — 2026-10-06
+
+- Added [guest motion helper](../public/assets/js/guest-motion.js), loaded before the guest/showcase scripts. It uses native Web Animations with the existing E1 timing tokens. An unavailable animation API leaves the final UI static and usable; no dependency was installed.
+- The hero copy/art enters once per page load over 220 ms with 6px travel and opacity from 0.85 to 1. The booking form stays usable as soon as its data is ready. Deliberate booking/management changes use 180 ms and up to 4px travel; menu/results/disclosure feedback uses 140 ms with no travel. No dish stagger, page curtain or autoplay was added.
+- Rapid updates cancel the earlier effect on the same region. Changing the motion preference cancels active effects. Focus, requests, DOM updates and booking state never wait for animation completion; final content remains visible if an effect is interrupted.
+- Booking headings describe the current step and receive focus immediately on deliberate navigation, with an instant reveal only when outside the viewport. An active control elsewhere is preserved. Menu category focus remains on its button, with one category/count announcement. Passive management refresh skips entrances and restores the corresponding control when its DOM node is replaced.
+- Guest details entered before choosing another table are retained in page memory and restored on returning to details. This new draft is not written to sessionStorage. Successful completion or starting another reservation clears it; refresh creates a new page memory context. Existing hold/confirmation/private-link recovery storage remains unchanged.
+- Explicit Use this table selection adds a truthful acknowledgment and returns focus to the new selected radio after the dialog closes. It still rechecks availability and creates no hold until Continue. Existing picture fade-in, revision guards and seating fallback are preserved; E2 does not claim a new overlapping image crossfade.
+- Verification: 31 focused guest-motion checks passed, including paused/interrupted animation, changing motion preference, unsupported API, visible heading focus, preserved/cleared inputs, actual confirmed and pending bookings, private management refresh, late/reopened/missing images, four widths and zero automated A/AA violations in tested states. The guarded fixture runs only against disposable verification data; owned fake bookings are cancelled with verified private-capability responses.
+- Relevant regression: 149 checks passed sequentially (26 E1 feedback, 12 guest/management, 34 capacity, 41 showcase, 36 readiness). Main app-only rebuild/recreation passed health, 54-file PHP lint, smoke, rollback-based DB safeguards and exact source matching. A read-only 390px main browser check verified hero/menu/search/motion/pictures/Escape behavior with zero booking POSTs. Main 198 reservations, 31 guests, 208 history rows, 6 users including 1 active staff, 0 orders and 0 tickets were retained.
+- Limits: Automated verification used Chromium, not a full cross-browser performance benchmark or accessibility certification. E3 operational feedback and E4 final review remain proposed.

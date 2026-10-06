@@ -49,8 +49,29 @@
     });
   }
   const ui = window.LuminaFeedback;
+  const motion = window.LuminaGuestMotion;
   const showcase = window.LuminaTableShowcase;
+  let flowReady = false;
+  let guestDraft = {};
+  function presentStep(name, transition = true) {
+    const heading = $(managePage ? "#manage-title" : "#flow-title");
+    const titles = managePage
+      ? { search: "Change reservation", management: "Your booking", link: "Open your booking" }
+      : { search: "Reserve a table", details: "Your details", confirmation: "Your reservation" };
+    heading.textContent = titles[name] || "Your reservation";
+    motion?.stop(root);
+    if (!flowReady || !transition) return;
+    const active = document.activeElement;
+    if (active === document.body || root.contains(active) || active === heading) {
+      const bounds = heading.getBoundingClientRect();
+      if (bounds.top < 0 || bounds.bottom > innerHeight)
+        heading.scrollIntoView({ block: "nearest", behavior: "instant" });
+      heading.focus({ preventScroll: true });
+    }
+    motion?.enter(root);
+  }
   function step(name) {
+    motion?.stop(root);
     showcase?.setContext(null);
     clearInterval(timer);
     for (const id of ["search", "details", "confirmation"])
@@ -203,6 +224,7 @@
       party_size: 2,
       room_type: "any",
     },
+    { transition = true } = {},
   ) {
     step("search");
     selection = null;
@@ -351,6 +373,7 @@
       ),
       results,
     );
+    presentStep("search", transition);
   }
   function renderResults(container, availability, query) {
     const fetchedAt = Date.now();
@@ -369,6 +392,7 @@
           node("a", { href: "tel:+63288914420" }, "Contact the restaurant"),
         ),
       );
+      motion?.enter(container, "menu");
       return;
     }
     container.append(
@@ -415,6 +439,7 @@
       );
     container.append(slots, picker);
     selectSlot(selectedSlot);
+    motion?.enter(container, "menu");
   }
   function renderPicker(container, slot, query, preferred = null, fetchedAt = Date.now()) {
     container.replaceChildren();
@@ -628,7 +653,18 @@
         const path = editing ? "/api/manage/availability?" + queryString({...query, code:access.code}) : "/api/availability?" + queryString(query);
         return (await api(path, {headers:editing ? authHeaders() : {}, signal})).availability;
       },
-      choose: (option, latest) => renderPicker(container, latest, query, option),
+      choose: (option, latest) => {
+        renderPicker(container, latest, query, option);
+        const chosen = container.querySelector("input:checked");
+        const bounds = chosen?.getBoundingClientRect();
+        if (bounds && (bounds.top < 0 || bounds.bottom > innerHeight))
+          chosen.scrollIntoView({ block: "nearest", behavior: "instant" });
+        const acknowledgment = node("p", { class: "form-note", role: "status" },
+          `${option.label} selected. ${editing ? "Save to update your booking." : "Continue to hold these seats for ten minutes."}`);
+        container.append(acknowledgment);
+        motion?.enter(acknowledgment, "menu");
+        return chosen;
+      },
       update: latest => {
         const available = latest?.options || [];
         for (const [id, shape] of shapes) {
@@ -730,6 +766,7 @@
       "Choose another table",
       () =>
         busy(back, async () => {
+          guestDraft = Object.fromEntries(new FormData(form));
           await api("/api/holds/release", {
             body: { hold_token: hold.hold_token },
           });
@@ -740,6 +777,12 @@
         }),
       "button ghost full",
     );
+    for (const [name, value] of Object.entries(guestDraft)) {
+      if (form.elements[name]) form.elements[name].value = value;
+    }
+    form.addEventListener("input", () => {
+      guestDraft = Object.fromEntries(new FormData(form));
+    });
     const cutoff = new Intl.DateTimeFormat("en-PH", {
       timeZone: "Asia/Manila",
       month: "short",
@@ -821,8 +864,10 @@
     }
     tick();
     timer = setInterval(tick, 1000);
+    presentStep("details");
   }
   async function complete(booking) {
+    guestDraft = {};
     state.confirmation = booking;
     state.managePath = booking.manage_path;
     delete state.hold;
@@ -923,12 +968,14 @@
         "Make another reservation",
         () => {
           delete state.confirmation;
+          guestDraft = {};
           persist();
           renderSearch();
         },
         "button ghost full",
       ),
     );
+    presentStep("confirmation");
   }
   async function refreshManaged() {
     managed = (
@@ -938,6 +985,7 @@
     ).booking;
   }
   function renderLinkEntry() {
+    motion?.stop(root);
     root.replaceChildren();
     const form = node(
       "form",
@@ -974,8 +1022,13 @@
       });
     });
     root.append(form);
+    presentStep("link");
   }
-  function renderManagement() {
+  function renderManagement({ transition = true } = {}) {
+    const active = document.activeElement;
+    const restore = !transition && root.contains(active)
+      ? { text: active.textContent, href: active.getAttribute("href") } : null;
+    motion?.stop(root);
     clearInterval(timer);
     editing = false;
     root.replaceChildren();
@@ -1066,6 +1119,12 @@
       ),
     );
     root.append(card);
+    presentStep("management", transition);
+    if (restore && document.activeElement === document.body) {
+      [...root.querySelectorAll("button,a")].find(control =>
+        control.textContent === restore.text && control.getAttribute("href") === restore.href
+      )?.focus({ preventScroll: true });
+    }
   }
   $("#keep-booking").addEventListener("click", () =>
     $("#cancel-dialog").close(),
@@ -1136,8 +1195,10 @@
         ),
       );
     const categories = $("#menu-categories");
+    const menuStatus = node("p", { class: "response-announcement", role: "status", "aria-atomic": "true" });
+    categories.after(menuStatus);
     const all = { id: 0, name: "All dishes" };
-    function showMenu(category) {
+    function showMenu(category, transition = true) {
       for (const control of categories.children)
         control.setAttribute(
           "aria-pressed",
@@ -1177,6 +1238,10 @@
           ),
         );
       }
+      if (transition) {
+        menuStatus.textContent = `${category.name}: ${items.children.length} dishes shown.`;
+        motion?.enter(items, "menu");
+      }
     }
     for (const category of [all, ...catalog.categories])
       categories.append(
@@ -1191,7 +1256,7 @@
           category.name,
         ),
       );
-    showMenu(all);
+    showMenu(all, false);
   }
   async function restoreHold() {
     const data = await api("/api/holds", {
@@ -1291,7 +1356,7 @@
         } else {
           delete state.hold;
           persist();
-          renderSearch();
+          renderSearch(undefined, { transition: false });
           message("Your table hold has ended. Search again to choose a table.");
         }
       } else if (
@@ -1301,7 +1366,7 @@
         !$("#cancel-dialog").open
       ) {
         await refreshManaged();
-        renderManagement();
+        renderManagement({ transition: false });
       }
     } catch (error) {
       message(error.message);
@@ -1311,5 +1376,5 @@
     if (event.persisted) location.reload();
   });
   const finishBoot = ui.loading(root, managePage ? "Loading your booking…" : "Loading booking rules…");
-  boot().finally(finishBoot);
+  boot().finally(() => { finishBoot(); flowReady = true; });
 })();

@@ -20,6 +20,8 @@ Skip when: The active task already has a complete verifier.
 
 - Shared response states: tests/browser-feedback.mjs checks real delayed responses, pending labels and restored dimensions, request guards, loading cancellation, fast/failed/recovered requests, touch/motion/reflow, saved-then-refresh-failed order feedback and tested status/contrast semantics. Run with existing guest/staff/order/showcase/capacity/readiness suites sequentially; fixture resets stay isolated.
 
+- Guest transitions: tests/browser-guest-motion.mjs verifies deliberate scoped motion, interruptions, immediate visible heading focus, same-page input preservation/clearing, passive management refresh, delayed-image safety, motion preference changes and static fallback. Rerun guest/capacity/showcase/E1 feedback/readiness suites sequentially. All fake mutations and resets remain on the guarded isolated origin.
+
 ## Required Evidence
 
 - Command output summary:

@@ -36,6 +36,7 @@ node tests/browser-readiness.mjs
 node tests/browser-showcase.mjs
 node tests/browser-capacity.mjs
 node tests/browser-feedback.mjs
+node tests/browser-guest-motion.mjs
 ```
 
 Chromium needs operating-system libraries. On Marvin's current Ubuntu laptop the temporary extraction is `/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu`; prefix browser commands with `LD_LIBRARY_PATH=/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu` if needed. A new machine must install the libraries Playwright reports missing using its documented setup. Temporary tooling may disappear after a reboot; reinstall it for development verification. The actual application needs neither Node nor Playwright.
@@ -76,3 +77,9 @@ Accessibility references: [W3C reflow guidance](https://www.w3.org/WAI/WCAG22/Un
 `tests/browser-feedback.mjs` runs only on the fixed isolated origin using the browser environment above. It holds genuine HTTP responses to inspect pending search, sign-in and order actions; it does not substitute fake successful availability or save results. It checks stable button dimensions, stationary delayed placeholders, duplicate guards, immediate fast-response completion, cancelled loading timers, persistent network errors/recovery, touch, reduced motion, four viewport widths and automated A/AA checks in tested states. A successful isolated order save followed by a failed read refresh must report that the change was saved, without offering a mutation retry.
 
 The suite's guarded staff/order fixtures reset disposable verification data and activate fake staff. Run it sequentially with the other fixture suites. Main credentials and records are not used. Its screenshots/logs are temporary files under `/tmp/ui-effects-e1`; rerun the suite for current evidence. Success notifications now use `role=status` with polite announcements; errors retain alert semantics. The booking regression explicitly checks the cancellation status and actual cancelled record.
+
+## Scoped guest transitions (E2)
+
+`tests/browser-guest-motion.mjs` uses the fixed isolated origin and the browser environment above. Its guarded order fixture prepares disposable booking/order data before the suite; run it sequentially with all other fixtures. Native animations are observed and intentionally paused to verify that forms, focus, real booking confirmation and pending approval work before an animation finishes. Checks cover rapid menu interruption, changed motion preference, missing animation API, heading visibility, same-page draft preservation/clearing, private management focus, passive refresh, delayed/reopened/missing pictures and four viewport widths. It verifies cancellation of its owned fake bookings through actual private capabilities rather than silently skipping cleanup.
+
+The guest motion module has no effect on backend eligibility or transaction rules. Guest contact drafts live in page memory, are cleared after successful booking/new reservation, and are not newly stored in sessionStorage. Existing confirmation/private-link storage behavior remains intact. Screenshots/logs are temporary under `/tmp/ui-effects-e2`; automated Chromium checks do not establish cross-browser performance or accessibility certification.

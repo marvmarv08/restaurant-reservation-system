@@ -13,6 +13,7 @@ curl -fsS "${base_url}/" | grep -qF 'Reserve a table'
 curl -fsS "${base_url}/assets/css/app.css" >/dev/null
 curl -fsS "${base_url}/assets/css/ui-feedback.css" >/dev/null
 curl -fsS "${base_url}/assets/js/ui-feedback.js" >/dev/null
+curl -fsS "${base_url}/assets/js/guest-motion.js" >/dev/null
 curl -fsS "${base_url}/assets/js/guest.js" >/dev/null
 curl -fsS "${base_url}/api/catalog" >/dev/null
 curl -fsS "${base_url}/staff/login" >/dev/null
