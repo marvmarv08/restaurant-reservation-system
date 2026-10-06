@@ -37,6 +37,8 @@ node tests/browser-showcase.mjs
 node tests/browser-capacity.mjs
 node tests/browser-feedback.mjs
 node tests/browser-guest-motion.mjs
+node tests/browser-food-showcase.mjs
+node tests/browser-menu.mjs
 ```
 
 Chromium needs operating-system libraries. On Marvin's current Ubuntu laptop the temporary extraction is `/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu`; prefix browser commands with `LD_LIBRARY_PATH=/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu` if needed. A new machine must install the libraries Playwright reports missing using its documented setup. Temporary tooling may disappear after a reboot; reinstall it for development verification. The actual application needs neither Node nor Playwright.
@@ -83,3 +85,17 @@ The suite's guarded staff/order fixtures reset disposable verification data and 
 `tests/browser-guest-motion.mjs` uses the fixed isolated origin and the browser environment above. Its guarded order fixture prepares disposable booking/order data before the suite; run it sequentially with all other fixtures. Native animations are observed and intentionally paused to verify that forms, focus, real booking confirmation and pending approval work before an animation finishes. Checks cover rapid menu interruption, changed motion preference, missing animation API, heading visibility, same-page draft preservation/clearing, private management focus, passive refresh, delayed/reopened/missing pictures and four viewport widths. It verifies cancellation of its owned fake bookings through actual private capabilities rather than silently skipping cleanup.
 
 The guest motion module has no effect on backend eligibility or transaction rules. Guest contact drafts live in page memory, are cleared after successful booking/new reservation, and are not newly stored in sessionStorage. Existing confirmation/private-link storage behavior remains intact. Screenshots/logs are temporary under `/tmp/ui-effects-e2`; automated Chromium checks do not establish cross-browser performance or accessibility certification.
+
+## Curated food showcase
+
+`tests/browser-food-showcase.mjs` uses the fixed isolated origin and the browser environment above. Twenty checks cover local photo loading, real desktop movement, keyboard Pause/Resume and visible gallery focus, hover/offscreen pauses, changed reduced-motion preferences, explicit-pause persistence, four viewport widths, keyboard mobile browsing, real menu category selection, failed pictures, absent observer support, JavaScript-disabled browsing, hidden management content, and no food-browsing mutation or external asset request. Hidden-page handling is tested with controlled document-visibility events; this is not a physical background-tab or cross-browser certification.
+
+The suite makes no database mutations or fixture resets. Its screenshots are temporary under `/tmp/lumina-food-showcase`, including the focus indicator that automated axe checks did not detect. The independent review found that a CSS fade mask hid that outline; the acceptance regression failed before the focus-specific mask override and passed afterward. Photo selection/provenance and adaptation limits are in `research/09_food_showcase_research.md`.
+
+## Menu photographs and category navigation
+
+`tests/browser-menu.mjs` uses the fixed isolated origin and browser environment above. Its 21 checks compare the actual catalog names, descriptions, prices and dietary tags, decode every local thumbnail, exercise all seven categories and All dishes, retain exact button focus, and inspect selected states/counts. Desktop sidebar, native mobile strip, keyboard auto-scrolling, 320/390/768/1440px reflow and automated A/AA rules in tested states are verified. It also checks failed images, stable geometry, an unavailable dish, rejected external/`__proto__` image keys, reduced motion, credits, and absence of browsing mutations/external requests/JavaScript errors.
+
+The unknown-key/unavailable case deliberately changes a fetched catalog response inside that one browser context; it does not update MySQL. All normal category/data checks use the real HTTP catalog. The suite makes no database mutations or fixture resets. Screenshots are temporary under `/tmp/lumina-menu`; they supplement automated checks rather than certify accessibility. Public photo provenance and checksums are in `public/assets/images/menu/credits.json` and `research/09_food_showcase_research.md`.
+
+The readiness harness awaits the restored Refresh label before opening a result, genuine service success messages before the next action, and dialog closure before checking focus or moving on. This prevents pending refreshes/saves from replacing an opener or reopening a just-closed dialog. Exact opener-focus and final database lifecycle assertions remain unchanged; staff/service product behavior was not modified for this menu extension.

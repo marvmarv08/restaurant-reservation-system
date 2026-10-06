@@ -1,11 +1,11 @@
 :root {
   color-scheme: dark;
-  --bg: #0c0b09;
-  --surface: #15120f;
-  --raised: #1d1915;
+  --bg: #100e0c;
+  --surface: #191510;
+  --raised: #211c16;
   --text: #f4efe6;
-  --muted: #b9ab97;
-  --accent: #e0a84e;
+  --muted: #c5b8a6;
+  --accent: #d7b078;
   --line: #ffffff1c;
   --green: #91d8a6;
   --red: #ffb5a7;
@@ -117,6 +117,7 @@ small,
     1.7rem Georgia,
     serif;
   letter-spacing: 0.02em;
+  font-style: italic;
 }
 .brand small {
   display: block;
@@ -191,26 +192,52 @@ small,
   color: var(--accent);
   font-weight: 600;
 }
-.hero {
+.hero.wrap {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
-  gap: 75px;
-  padding-top: 65px;
-  padding-bottom: 60px;
-  align-items: start;
+  gap: clamp(32px, 5.2vw, 75px);
+  width: 100%;
+  min-height: 740px;
+  padding: 80px max(40px, calc((100% - 1200px) / 2));
+  align-items: center;
+  position: relative;
+  isolation: isolate;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.hero-backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #100e0cd9, #100e0c99 50%, #100e0cbf),
+    linear-gradient(0deg, var(--bg), transparent 48%, #100e0c66);
 }
 .hero-copy {
-  padding-top: 27px;
+  min-width: 0;
+  padding-block: 16px;
 }
 .hero h1 {
   font-size: clamp(4.5rem, 6.9vw, 7.1rem);
-  line-height: 1.01;
+  font-style: italic;
+  line-height: 1.08;
   letter-spacing: -0.055em;
   margin: 28px 0;
 }
 .hero-description {
   font-size: 1rem;
-  color: var(--muted);
+  color: var(--text);
   margin-bottom: 24px;
 }
 .hero-service {
@@ -230,58 +257,20 @@ small,
 .hero-service p {
   line-height: 1.65;
 }
-.hearth-art {
-  height: 175px;
-  position: relative;
-  overflow: hidden;
-  opacity: 0.8;
-  margin-top: 10px;
-  background: radial-gradient(ellipse at 50% 110%, #b558203d, transparent 66%);
-}
-.hearth-ring {
-  position: absolute;
-  width: 250px;
-  height: 250px;
-  border: 1px solid #b57c3e45;
-  border-radius: 50%;
-  left: calc(50% - 125px);
-  top: 38px;
-}
-.hearth-ring.second {
-  width: 185px;
-  height: 185px;
-  left: calc(50% - 92.5px);
-  top: 70px;
-  border-color: #e0a84e75;
-}
-.hearth-core {
-  position: absolute;
-  width: 90px;
-  height: 115px;
-  top: 109px;
-  left: calc(50% - 45px);
-  border-radius: 65% 35% 50% 50%;
-  background: linear-gradient(135deg, #e0a84e, #7f311a);
-  transform: rotate(35deg);
-}
-.hearth-art i {
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  letter-spacing: 0.2em;
-  font-style: normal;
-  font-size: 0.5rem;
+.hero-photo-note {
+  max-width: 32ch;
+  margin: 26px 0 0;
+  font-size: 0.68rem;
+  line-height: 1.6;
   color: var(--muted);
 }
 .booking-card {
   background: var(--surface);
   border: 1px solid #b5884855;
-  border-radius: 12px;
+  border-radius: 3px;
   padding: 28px;
   min-width: 0;
-  box-shadow: 0 24px 60px #0003;
+  box-shadow: 0 24px 60px #0005;
 }
 .card-heading {
   display: flex;
@@ -894,9 +883,10 @@ dialog h2 {
   .site-header {
     padding-inline: 24px;
   }
-  .hero {
+  .hero.wrap {
     gap: 35px;
     grid-template-columns: 0.85fr 1.15fr;
+    padding-inline: 24px;
   }
   .booking-card {
     padding: 22px;
@@ -950,9 +940,11 @@ dialog h2 {
     min-height: 38px;
     font-size: 0.7rem;
   }
-  .hero {
+  .hero.wrap {
     grid-template-columns: 1fr;
     gap: 30px;
+    min-height: 0;
+    padding-inline: 16px;
     padding-top: 32px;
     padding-bottom: 40px;
   }
@@ -970,8 +962,8 @@ dialog h2 {
   .hero-service {
     margin-top: 25px;
   }
-  .hearth-art {
-    display: none;
+  .hero-photo-note {
+    margin-top: 16px;
   }
   .booking-card {
     padding: 22px;

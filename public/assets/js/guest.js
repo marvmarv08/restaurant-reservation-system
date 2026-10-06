@@ -51,6 +51,7 @@
   const ui = window.LuminaFeedback;
   const motion = window.LuminaGuestMotion;
   const showcase = window.LuminaTableShowcase;
+  const menuPhotos = window.LuminaMenuPhotos;
   let flowReady = false;
   let guestDraft = {};
   function presentStep(name, transition = true) {
@@ -1206,10 +1207,13 @@
         );
       const items = $("#menu-items");
       items.replaceChildren();
-      for (const item of catalog.menu.filter(
-        (item) =>
-          !category.id || Number(item.category_id) === Number(category.id),
-      )) {
+      const dishes = catalog.menu.filter(
+        (item) => !category.id || Number(item.category_id) === Number(category.id),
+      );
+      $("#menu-category-title").textContent = category.name;
+      $("#menu-category-note").textContent = category.note || "From opening bites to one last glass.";
+      $("#menu-result-count").textContent = `${dishes.length} ${dishes.length === 1 ? "item" : "items"}`;
+      for (const item of dishes) {
         let tags = [];
         try {
           tags = JSON.parse(item.tags_json || "[]");
@@ -1220,20 +1224,25 @@
           node(
             "article",
             { class: "menu-item" },
-            node(
-              "header",
-              {},
-              node("h3", {}, item.name),
-              node("span", { class: "menu-price" }, money(item.price_cents)),
-            ),
-            node("p", {}, item.description),
+            menuPhotos?.create(item.image_path) || node("div", {class: "menu-image", "aria-hidden": "true"}, "Photo pending"),
             node(
               "div",
-              { class: "menu-tags" },
-              [
-                ...tags,
-                ...(Number(item.is_available) ? [] : ["Currently unavailable"]),
-              ].join(" · "),
+              { class: "menu-item-copy" },
+              node(
+                "header",
+                {},
+                node("h3", {}, item.name),
+                node("span", { class: "menu-price" }, money(item.price_cents)),
+              ),
+              node("p", {}, item.description),
+              node(
+                "div",
+                { class: "menu-tags" },
+                [
+                  ...tags,
+                  ...(Number(item.is_available) ? [] : ["Currently unavailable"]),
+                ].join(" · "),
+              ),
             ),
           ),
         );
@@ -1241,6 +1250,7 @@
       if (transition) {
         menuStatus.textContent = `${category.name}: ${items.children.length} dishes shown.`;
         motion?.enter(items, "menu");
+        $(".menu-results-heading").scrollIntoView({block: "nearest", behavior: "auto"});
       }
     }
     for (const category of [all, ...catalog.categories])
@@ -1250,6 +1260,7 @@
           {
             type: "button",
             "data-category": category.id,
+            "aria-controls": "menu-items",
             "aria-pressed": String(!category.id),
             onclick: () => showMenu(category),
           },

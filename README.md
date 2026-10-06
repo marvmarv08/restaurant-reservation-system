@@ -4,6 +4,12 @@ Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaSc
 
 This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The guest website uses real MySQL availability, expiring holds, transactional confirmation, and private links for changing or cancelling a booking. Staff workspaces provide secure sign-in, reservation management, seating, waitlist offers, settings, audit history, food ordering, and persistent kitchen tickets.
 
+## Working from the Windows Desktop
+
+The working project is saved in `C:\Users\burgo_w8uuyg3\OneDrive\Desktop\restaurant-reservation-system`. Open this folder in File Explorer or VS Code for future work. The complete source, plans, research, Git history and existing ignored `.env` are retained. Open `.env` with Notepad to view the local database connection values; keep them private.
+
+From PowerShell in that folder, existing configuration is ready for Docker Compose. Keep `.env`; the example-copy step below applies only to a fresh checkout without it. The current app remains at http://localhost:8080 and Adminer at http://localhost:8081. MySQL records remain in Docker's existing named volume; moving source files is not a database export. The original Linux project is retained as a dated recovery backup, and its old entry now points to the Desktop folder.
+
 ## Start the PHP application
 
 You need Docker Desktop with WSL integration enabled if you use this repo from WSL. On a **fresh checkout only**, copy the example configuration; if `.env` already exists, keep it because it holds the credentials used by your current MySQL volume. From the repository folder:
@@ -61,6 +67,14 @@ Treat the private link like a password: anyone with it can manage that booking u
 Buttons show a specific pending label while a request runs, then restore their original label. Slow table searches show stationary placeholders; fast responses finish immediately. Success messages use polite status feedback, while errors stay visible with a recovery action. Motion follows the device’s reduced-motion preference. Guest booking panels use a short entrance after deliberate navigation, menu changes keep focus on the chosen category, and the hero enters once per page load. Typed guest details survive choosing another table within the same page; completion or a new reservation clears the draft. The draft is not added to browser storage.
 
 Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. Styles and scripts are local, fonts use the system, and graphics use CSS/inline SVG and locally stored rendered images with source credits. The live app does not need a CDN or internet connection once Docker images are prepared.
+
+## Explore the food showcase
+
+Below the booking hero, the food inspiration gallery uses six locally saved, credited photographs selected for Lumina's coastal/hearth menu and warm palette. Desktop columns move gently with Pause/Resume; hover or keyboard focus stops movement. On a phone, swipe through a static strip. Reduced-motion settings keep the gallery still. Explore the menu opens the real database catalog; the stock photographs illustrate the atmosphere rather than exact menu dishes. Open Photography credits for the original sources.
+
+## Browse menu photos and categories
+
+Open [the menu](http://localhost:8080/#menu). All 36 catalog dishes have locally stored illustrative thumbnails. Choose a category from the desktop sidebar or swipe the category buttons on a phone; All dishes restores the full list. The heading and count show the selected group. Names, descriptions, prices, dietary tags and availability come from the database. Photographs may differ from exact recipes or presentation; read the dish details and expand Menu photo credits for authors, original sources and licenses. If an image fails, its dish details and category controls remain usable.
 
 ## Activate the first admin and try the staff workflow
 
@@ -166,6 +180,7 @@ After a phase passes its completion check, update the phase progress in `PLAN.md
 ## Documents
 
 - [`PLAN.md`](PLAN.md) - the consolidated implementation plan
+- [`research/09_food_showcase_research.md`](research/09_food_showcase_research.md) - selected food photographs, candidate comparisons, licenses, motion design and verification
 - [`research/08_ui_motion_research.md`](research/08_ui_motion_research.md) - current UI effects recommendations for every major guest/staff workflow, sources, timings and implementation phases
 - [`research/07_table_showcase_research.md`](research/07_table_showcase_research.md) - click-to-open table showcase research, licensed pictures, interactive design study and planned integration
 - [`docs/demo-guide.md`](docs/demo-guide.md) - safe demo setup, offline rehearsal and eight-minute walkthrough

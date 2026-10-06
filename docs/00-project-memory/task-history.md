@@ -235,3 +235,55 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: 31 focused guest-motion checks plus 149 relevant regressions passed (26 E1 feedback, 12 guest, 34 capacity, 41 showcase, 36 readiness). Verified paused/interrupted/missing-API/reduced motion, visible heading focus, menu focus/count, same-page draft preservation/clearing, actual confirmed/pending bookings, passive private-management focus, late/reopened/missing pictures and capability-verified fake-booking cleanup. JS syntax, 54-file PHP lint, isolated/main smoke, rollback DB guards, exact served source, read-only390px main check with zero booking POSTs, retained aggregate records, doc links, Desktop export, diff check and PMM doctor passed. Chromium automated states only; E3-E4 remain proposed; no backend/schema/auth/credential changes.
 - Closed At: 2026-10-06T05:17:51Z
+
+## 2026-10-06 restaurant-video-ui
+
+<!-- pmm-task-id: restaurant-video-ui -->
+
+- Status: done
+- Parent Task: none
+- Title: Adapt the restaurant video reference across application surfaces
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: Reference adaptation from the inspected Horai cover preview: all 200 existing browser checks passed (12 guest, 10 staff, 10 orders, 41 showcase, 34 capacity, 26 feedback, 31 motion, 36 readiness). Eight read-only main checks passed: local hero image, 320/390/768/1440px reflow and automated A/AA rules in tested states, missing-image layout/form fallback, Reserve navigation, zero mutations/JS errors. Guest and authenticated staff/server/kitchen screenshots reviewed. Main/test smoke, 54-file PHP lint, rollback DB safeguards, all five delivered visual/credit hashes, Desktop export equality and diff check passed. Main retained 198 reservations, 31 guests, 208 history rows, six staff/one active and zero orders/tickets. Full stream HTTP 403; exact unseen video motion is not claimed. E3/E4 remain deferred; no backend or polling changes.
+- Closed At: 2026-10-06T06:00:31Z
+
+## 2026-10-06 table-reserve-desktop-location
+
+<!-- pmm-task-id: table-reserve-desktop-location -->
+
+- Status: done
+- Parent Task: none
+- Title: Move the working Table Reserve project to the Windows Desktop
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: Complete Desktop source/configuration copy verified byte-for-byte across 1641 files before final location-note completion; Git HEAD, branch, all references and Marvin author identity matched, Git fsck passed, .env remains ignored, Windows sees both folder and configuration. Canonical Desktop working folder is active; former Linux entry resolves to it and the original is retained in a dated recovery backup. Main smoke passed from the Desktop folder and counts remained 198 reservations, 31 guests, 208 status-history rows, six staff/one active, zero orders/tickets. PMM doctor and diff check passed. No database reset/seed, credential change, GitHub operation or publication.
+- Closed At: 2026-10-06T09:00:25Z
+
+## 2026-10-06 lumina-food-showcase
+
+<!-- pmm-task-id: lumina-food-showcase -->
+
+- Status: done
+- Parent Task: none
+- Title: Curated moving food showcase
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: 220 browser checks (20 food plus 200 existing), 8 read-only live checks, independent review resolved focus issue and approved harness waits, main/test smoke, 54-file PHP lint, JS/Bash syntax, rollback DB safeguards, 10 delivered source hashes, all 6 photo manifest hashes, retained aggregate main counts, Desktop roadmap match and PMM doctor passed
+- Closed At: 2026-10-06T09:34:34Z
+
+## 2026-10-06 lumina-menu-photography
+
+<!-- pmm-task-id: lumina-menu-photography -->
+
+- Status: done
+- Parent Task: none
+- Title: Menu photography and responsive category navigation
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: Verified 2026-10-06: 241 browser checks (21 menu plus 220 regressions), 11 isolated booking HTTP and 10 read-only live checks passed. Real names/descriptions/prices/tags and unavailable fixture, 36 mapped menu keys and 34 local photo checksums, 35 live source matches, 320/390/768/1440px focus/reflow/tested-state A/AA, image fallback and reduced motion verified. PHP lint 54 files, main/test smoke, JS/Bash syntax, rollback DB safeguards, diff check, exported Desktop roadmap and PMM doctor passed. Independent scoped review approved product and harness waits; main retained 198 reservations, 31 guests, 208 history, 6 users/1 active, 0 orders/tickets. Fresh logs /tmp/lumina-menu-*-verification.log; canonical Desktop project unchanged in scope.
+- Closed At: 2026-10-06T10:13:55Z

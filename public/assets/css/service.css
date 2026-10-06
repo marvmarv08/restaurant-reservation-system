@@ -1,6 +1,6 @@
 .service-body {
-  background: #141311;
-  color: #eae5db;
+  background: var(--bg);
+  color: var(--text);
   min-width: 320px;
 }
 .service-header {
@@ -11,14 +11,17 @@
   padding: 22px 32px;
   border-bottom: 1px solid #39362f;
   flex-wrap: wrap;
+  background: var(--surface);
 }
 .service-header .brand {
-  font-size: 1.15rem;
-  letter-spacing: 0.13em;
+  font: italic 1.7rem Georgia, serif;
+  letter-spacing: 0.02em;
   display: grid;
   gap: 5px;
 }
 .service-header .brand span {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
   font-size: 0.65rem;
   letter-spacing: 0.16em;
   color: #b7ac98;
@@ -52,6 +55,7 @@
 .service-title h1 {
   font-size: clamp(2rem, 4vw, 3rem);
   margin: 6px 0 0;
+  font-style: italic;
 }
 #service-filters {
   display: flex;

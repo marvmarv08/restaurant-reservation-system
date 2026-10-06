@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  background: var(--surface);
 }
 .staff-workspace-links {
   display: grid;
@@ -81,6 +82,7 @@
     2.45rem Georgia,
     serif;
   margin: 10px 0 0;
+  font-style: italic;
 }
 .staff-title p {
   margin: 0;

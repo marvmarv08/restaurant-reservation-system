@@ -1,0 +1,83 @@
+{
+  "note": "Stock culinary inspiration for a fictional demo venue. Photographs are not representations of exact dishes, portions or ingredients.",
+  "photos": [
+    {
+      "file": "bread.jpg",
+      "photographer": "hello aesthe",
+      "source": "https://www.pexels.com/photo/bread-and-butter-on-the-table-16471855/",
+      "download": "https://images.pexels.com/photos/16471855/pexels-photo-16471855.jpeg?auto=compress&cs=tinysrgb&w=640&q=78",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "accessed": "2026-10-06",
+      "bytes": 31826,
+      "sha256": "f0ed61547f36971fc8aa29ce3c50f93529167307172ce9081706610bcdf1fa7e",
+      "use": "Food inspiration gallery; not an exact menu-dish photograph",
+      "alt": "Rustic bread and butter on a warm wooden table"
+    },
+    {
+      "file": "pork.jpg",
+      "photographer": "AMANDA LIM",
+      "source": "https://www.pexels.com/photo/close-up-photo-of-a-black-plate-with-crispy-roasted-pork-8408373/",
+      "download": "https://images.pexels.com/photos/8408373/pexels-photo-8408373.jpeg?auto=compress&cs=tinysrgb&w=640&q=78",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "accessed": "2026-10-06",
+      "bytes": 116579,
+      "sha256": "83fed1b6538a1b9122669b43b8bb6d9c1500e10b336d605e8087c6af5bead740",
+      "use": "Food inspiration gallery; not an exact menu-dish photograph",
+      "alt": "Slices of crispy pork belly on a dark plate"
+    },
+    {
+      "file": "oysters.jpg",
+      "photographer": "Elle Hughes",
+      "source": "https://www.pexels.com/photo/oysters-on-plate-2647936/",
+      "download": "https://images.pexels.com/photos/2647936/pexels-photo-2647936.jpeg?auto=compress&cs=tinysrgb&w=640&q=78",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "accessed": "2026-10-06",
+      "bytes": 73942,
+      "sha256": "81d8a5d8ebe066a8a929c63d9840a61c0d73b75348436eb35c0ec64387eb367b",
+      "use": "Food inspiration gallery; not an exact menu-dish photograph",
+      "alt": "Fresh oysters arranged around a bowl of sauce"
+    },
+    {
+      "file": "fish.jpg",
+      "photographer": "elif tekkaya",
+      "source": "https://www.pexels.com/photo/grilled-fish-in-a-plate-6046671/",
+      "download": "https://images.pexels.com/photos/6046671/pexels-photo-6046671.jpeg?auto=compress&cs=tinysrgb&w=640&q=78",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "accessed": "2026-10-06",
+      "bytes": 63757,
+      "sha256": "9916d83cc9763c687fdf26adf8baad056332431e6f3d19814d041904d6e44880",
+      "use": "Food inspiration gallery; not an exact menu-dish photograph",
+      "alt": "Grilled fish with vegetables on a ceramic plate against a dark background"
+    },
+    {
+      "file": "cocktail.jpg",
+      "photographer": "Blue Arauz",
+      "source": "https://www.pexels.com/photo/cold-cocktail-in-glass-on-black-background-16806420/",
+      "download": "https://images.pexels.com/photos/16806420/pexels-photo-16806420.jpeg?auto=compress&cs=tinysrgb&w=640&q=78",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "accessed": "2026-10-06",
+      "bytes": 41916,
+      "sha256": "e103f3c6abf369f4aa409f36a2a0b92001d2bd139e73be617fa90d335281f118",
+      "use": "Food inspiration gallery; not an exact menu-dish photograph",
+      "alt": "An amber cocktail in a crystal glass against a dark background"
+    },
+    {
+      "file": "dessert.jpg",
+      "photographer": "Any Lane",
+      "source": "https://www.pexels.com/photo/chocolate-dessert-on-a-plate-with-berries-5945557/",
+      "download": "https://images.pexels.com/photos/5945557/pexels-photo-5945557.jpeg?auto=compress&cs=tinysrgb&w=640&q=78",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "accessed": "2026-10-06",
+      "bytes": 65539,
+      "sha256": "5258d6da94545ebf241af713ee1bb185e7762bc14bae5c9d5eec1cf34463bbdf",
+      "use": "Food inspiration gallery; not an exact menu-dish photograph",
+      "alt": "Chocolate dessert with berries being dusted with sugar"
+    }
+  ]
+}

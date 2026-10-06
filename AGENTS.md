@@ -2,6 +2,13 @@
 
 This is Marvin's restaurant reservation project. Read `README.md` and the roadmap in `PLAN.md` before starting or resuming implementation. The current phase, completion checks, checkpoint, and next action live in `PLAN.md`.
 
+## Working location and ownership
+
+- Marvin requested that the working project files live on his Windows Desktop. The canonical folder is `C:\Users\burgo_w8uuyg3\OneDrive\Desktop\restaurant-reservation-system`, accessible to these tools at `/mnt/c/Users/burgo_w8uuyg3/OneDrive/Desktop/restaurant-reservation-system`.
+- Make future project changes in that Desktop folder. The previous `/home/morkmork26/marvin/restaurant-reservation-system` entry now points to it; the dated Linux backup is for recovery only.
+- This remains Marvin's project. Respond in natural Taglish and preserve the repository's Marvin Git author identity. Verify GitHub CLI uses `marvmarv08` before any GitHub operation; relocating files does not authorize publication or shared-account switching.
+- Keep existing private configuration and Docker database volumes intact. The Desktop includes the ignored `.env`; never print its contents, commit it or overwrite it with example credentials.
+
 When a phase is finished:
 
 1. Verify its completion check with real evidence. Do not mark a phase complete based on prototype or mock behavior.

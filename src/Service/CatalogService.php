@@ -28,7 +28,7 @@ final class CatalogService
             'rooms' => $this->pdo->query('SELECT id, room_type_id, name, code, floor_x, floor_y, floor_w, floor_h FROM rooms WHERE is_active = 1')->fetchAll(),
             'tables' => $this->pdo->query('SELECT id, room_id, code, label, capacity_min, capacity_max, shape, pos_x, pos_y, pos_w, pos_h, radius FROM `tables` WHERE is_active = 1')->fetchAll(),
             'categories' => $this->pdo->query('SELECT id, name, note FROM menu_categories WHERE is_active = 1 ORDER BY sort_order')->fetchAll(),
-            'menu' => $this->pdo->query('SELECT m.id, m.category_id, m.name, m.description, m.price_cents, m.tags_json, m.is_available
+            'menu' => $this->pdo->query('SELECT m.id, m.category_id, m.name, m.description, m.price_cents, m.tags_json, m.is_available, m.image_path
                 FROM menu_items m JOIN menu_categories c ON c.id = m.category_id WHERE c.is_active = 1 ORDER BY c.sort_order, m.sort_order')->fetchAll(),
         ];
     }

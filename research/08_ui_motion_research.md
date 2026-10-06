@@ -2,7 +2,7 @@
 
 Research date: 2026-10-06. Owner: Marvin. Scope: recommendations for the guest, booking, showcase, management, authentication, host, admin, server and kitchen interfaces.
 
-**Delivery status: E0 research, E1 shared response states and E2 guest transitions are complete locally; E3–E4 remain proposed.** Sections 12–13 record implementation and evidence. The remaining screen-specific effects below are recommendations. “Best fit” means a design recommendation based on this application's workflows and the reviewed guidance; it is not a measured usability result or a universal ranking.
+**Delivery status: E0 research, E1 shared response states and E2 guest transitions are complete locally; E3–E4 are deferred at Marvin’s request (2026-10-06), and remain unfinished.** Sections 12–13 record implementation and evidence. The remaining screen-specific effects below are recommendations. “Best fit” means a design recommendation based on this application's workflows and the reviewed guidance; it is not a measured usability result or a universal ranking.
 
 ## 1. Recommendation
 
@@ -200,17 +200,17 @@ These exclusions are design judgments for this repository, informed by the restr
 
 ## 9. Implementation phases
 
-E0 research, E1 shared response states and E2 guest transitions are complete locally. E3–E4 are **proposed**. E2 adds scoped guest motion; operational data-change animations are still future work. Keep existing booking rules, authorization, inventory transactions, private-link handling and order state machines intact.
+E0 research, E1 shared response states and E2 guest transitions are complete locally. E3–E4 are **deferred at Marvin’s request (2026-10-06)** and remain unfinished. E2 adds scoped guest motion; operational data-change animations are still future work. Keep existing booking rules, authorization, inventory transactions, private-link handling and order state machines intact.
 
 | Phase | Priority / scope | Completion evidence |
 |---|---|---|
 | E0 — Research | Done: screen inventory, source review, effect decisions and implementation map | This report, source anchors, read-only browser observations and documentation verification. |
 | E1 — Shared response states | Done locally: shared tokens/styles, pending labels, stationary loading regions and persistent success/error feedback | 26 focused checks plus 143 existing browser checks passed; main source/smoke/lint and unchanged record counts verified. See section 12. |
 | E2 — Guest flow polish | Done locally: scoped booking/menu entrances, one hero entrance, logical focus, same-page contact draft and explicit table-choice acknowledgment | 31 focused guest-motion checks plus 149 relevant regressions passed; main source/smoke/lint, read-only mobile check and retained records verified. See section 13. |
-| E3 — Operational feedback | Host/admin dialog/action consistency; server/kitchen changes tracked by ID; no polling animation replay | Isolated staff/order browser regressions, two-second poll observation, stable focus/scroll, real saved status and stale-data behavior. |
-| E4 — Accessibility and performance | Desktop/mobile review, motion-disabled operation, contrast/status review and target-browser profiling | 320/390/768/1440px; keyboard; actual touch browser where available; reduced motion; offline flow; targeted DevTools recording. Record browser limitations and measured results. |
+| E3 — Operational feedback | Deferred: Host/admin dialog/action consistency; server/kitchen changes tracked by ID; no polling animation replay | Isolated staff/order browser regressions, two-second poll observation, stable focus/scroll, real saved status and stale-data behavior. |
+| E4 — Accessibility and performance | Deferred: Desktop/mobile review, motion-disabled operation, contrast/status review and target-browser profiling | 320/390/768/1440px; keyboard; actual touch browser where available; reduced motion; offline flow; targeted DevTools recording. Record browser limitations and measured results. |
 
-**Next implementation: E3.** Guest transitions are delivered; next add operational feedback tied to genuine saved data changes. E3 requires deliberate data-change handling; a global `.ticket { animation: ... }` patch is insufficient.
+**Resume when requested: E3, then E4.** Marvin deferred both phases on 2026-10-06. Guest transitions are delivered; future E3 work adds operational feedback tied to genuine saved data changes. E3 requires deliberate data-change handling; a global `.ticket { animation: ... }` patch is insufficient.
 
 ### Verification scenarios for implementation
 
@@ -284,4 +284,34 @@ This is desk research plus source review and a limited read-only browser inspect
 - Explicit Use this table selection adds a truthful acknowledgment and returns focus to the new selected radio after the dialog closes. It still rechecks availability and creates no hold until Continue. Existing picture fade-in, revision guards and seating fallback are preserved; E2 does not claim a new overlapping image crossfade.
 - Verification: 31 focused guest-motion checks passed, including paused/interrupted animation, changing motion preference, unsupported API, visible heading focus, preserved/cleared inputs, actual confirmed and pending bookings, private management refresh, late/reopened/missing images, four widths and zero automated A/AA violations in tested states. The guarded fixture runs only against disposable verification data; owned fake bookings are cancelled with verified private-capability responses.
 - Relevant regression: 149 checks passed sequentially (26 E1 feedback, 12 guest/management, 34 capacity, 41 showcase, 36 readiness). Main app-only rebuild/recreation passed health, 54-file PHP lint, smoke, rollback-based DB safeguards and exact source matching. A read-only 390px main browser check verified hero/menu/search/motion/pictures/Escape behavior with zero booking POSTs. Main 198 reservations, 31 guests, 208 history rows, 6 users including 1 active staff, 0 orders and 0 tickets were retained.
-- Limits: Automated verification used Chromium, not a full cross-browser performance benchmark or accessibility certification. E3 operational feedback and E4 final review remain proposed.
+- Limits: Automated verification used Chromium, not a full cross-browser performance benchmark or accessibility certification. E3 operational feedback and E4 final review remain unfinished and are deferred at Marvin’s request (2026-10-06).
+
+## 14. Restaurant video reference — 2026-10-06
+
+- Reference: Marvin supplied [Ahmed Codes — Premium Restaurant](https://www.tiktok.com/@ahmed_codes/video/7622363792369847553), also reachable through [the supplied short link](https://vt.tiktok.com/ZSbXYcqh6/). The public page metadata identifies a 57-second video. The ordinary stream URLs returned HTTP 403; the accessible cover image was inspected directly. This supports the visible design direction, not claims about the complete video or its animation timing.
+- Observed preview: Horai's opening screen uses full-width cooking imagery, a dark overlay, a large ivory italic serif wordmark, widely spaced subtitle text, and restrained gold details. The code-editor cover is a different image and was not treated as a rendered design preview.
+- Adaptation: Lumina keeps its identity and booking-first layout. The guest hero uses the existing locally licensed dining inspiration photo by Michel Stockman, a dark gradient, a large italic headline, softer gold, and an opaque booking card. Staff and service headers share the palette and italic display typography; operational controls retain their established layout and labels. The photograph is labelled as atmosphere inspiration, not an actual Lumina venue.
+- Behavior: The background is decorative, reserves its layout, uses a local asset and falls back to the base color if unavailable. Existing E1/E2 feedback, focus, timings and reduced-motion behavior are retained. No autoplay, parallax, new animation library, or E3/E4 implementation was added. PHP services, policy, authentication, polling and database writes are unchanged.
+- Verification: All eight existing browser suites passed sequentially: 12 guest, 10 staff, 10 orders, 41 showcase, 34 capacity, 26 feedback, 31 guest motion and 36 readiness checks (200 total). Desktop/mobile guest, authenticated staff, server and kitchen screenshots were inspected. Eight read-only main checks passed for the local photograph, 320/390/768/1440px reflow and automated A/AA rules, image failure without booking movement, Reserve navigation and zero mutation requests/JavaScript errors. Main/test smoke, 54-file PHP lint, rollback-based main DB safeguards and exact matching of all five delivered visual/credit files passed. Main retained 198 reservations, 31 guests, 208 history rows, six staff including one active, and zero orders/tickets. This is Chromium verification, not full-video motion reproduction, a performance benchmark or accessibility certification.
+- Lesson: A visual reference can guide typography, image placement and palette while existing controls keep their purpose. Inspect the actual preview, distinguish it from a code screenshot, and record access limits rather than inventing unseen animations.
+
+
+## 15. Full browser reference review — 2026-10-06
+
+The supplied desktop URL, https://www.tiktok.com/@ahmed_codes/video/7622363792369847553?is_from_webapp=1&sender_device=pc, played normally in a fresh Chromium browser after the test libraries were restored. The player reported about 57.77 seconds, readyState 4 and no media error. Native seeking captured eleven timestamps from 0 through 57 seconds. Ordinary direct playback downloads still returned HTTP 403; the earlier access limitation above is historical and does not mean current browser playback is unavailable. Temporary frames are under /tmp/table-reserve-video-frames and may disappear after reboot.
+
+Observed rendered screens:
+
+- Around 6 seconds: full-width moving cooking imagery behind the large italic restaurant wordmark; minimal navigation and a spaced subtitle.
+- Around 12 seconds: a dense multi-column food-photo gallery beneath the experience heading, with an Explore Menu call to action.
+- Around 18 seconds: a featured-food composition with a heading, short story and large chopstick imagery. Intermediate screenshots alone do not establish the exact transition timing.
+- Around 24–30 seconds: a separate menu presentation with photographic heading artwork, a left category list, dish thumbnails, names, descriptions, prices and fine divider lines. Clicking a category changes the visible menu position/state; precise scroll synchronization needs a closer interaction review.
+- Around 36–42 seconds: a chef-image banner followed by an asymmetric editorial story layout with dining photographs and short copy.
+- Around 48 seconds: a centered reservation form with two-column inputs, a notes field and an outlined booking action. The video does not demonstrate persistent reservations, availability validation or double-booking prevention.
+- Around 54 seconds: a photographic locations banner and city labels. Lumina remains a fictional single-location demo in Lipa City; these cities should not be copied into the app.
+
+Possible later adaptations, not implemented by this access review: a licensed food-image gallery, image-supported category navigation, a focused featured dish, a concise dining story, a truthful Lipa location presentation, and bounded scroll entrances with reduced-motion alternatives. Lumina's real availability/hold/details flow remains authoritative. Only use creator imagery as visual reference; new app assets need their own license or original creation. E3/E4 remain deferred until requested. The earlier 200 browser checks verify the delivered static adaptation, not these proposed extensions.
+
+Status update (2026-10-06): Marvin authorized food-photo research and a moving gallery with design discretion. The locally licensed food gallery is now delivered and independently verified; see research/09_food_showcase_research.md. Its 20 focused checks and all 200 existing browser checks passed. Image-supported menu navigation, a featured dish and story/location extensions remain future scope; E3/E4 stay deferred.
+
+Menu status update (2026-10-06): Marvin authorized menu photos and category navigation. These are now delivered locally: 36 real dishes, 34 local photos, a desktop sidebar, a mobile horizontal category strip, existing short menu motion and reduced-motion behavior. Twenty-one focused menu checks and all 220 existing browser checks passed; ten read-only main checks and eleven isolated booking HTTP checks passed. See research/09_food_showcase_research.md for provenance, source-license distinctions and exact-photo limitations. Featured dishes, story/location and E3/E4 remain deferred/separate scope.

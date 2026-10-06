@@ -10,9 +10,11 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
-E0–E2 UI effects are delivered locally. E2 passed 31 focused guest-motion and 149 relevant regression checks; main delivery/source/smoke/lint, read-only mobile behavior and unchanged aggregate records were verified. Next phase is E3 operational feedback, then E4 final review. Resume from research/08_ui_motion_research.md section 13 and keep the existing booking/service safeguards.
+Marvin's menu photos and category navigation are delivered locally at http://localhost:8080/#menu. The 36 real catalog dishes use 34 locally credited photographs: 28 new thumbnails totaling 688,962 bytes and six reused food-gallery photos. A desktop category sidebar becomes a horizontal phone strip; selected category, heading, real item count, keyboard focus and the existing short menu transition are retained. Names, descriptions, prices, dietary tags and availability remain database-driven. Unknown or failed photos show a stable fallback; photographs are visibly illustrative, with source/license credits. All 241 browser checks passed: 21 menu, 20 food-showcase, 12 guest, 10 staff, 10 orders, 41 table-showcase, 34 capacity, 26 feedback, 31 guest-motion and 36 readiness. Eleven isolated booking HTTP checks and ten read-only main checks passed. Four viewport widths (320/390/768/1440px), actual catalog content, keyboard focus, image failure and zero automated A/AA violations in tested menu states were verified. Main/test smoke, 54-file PHP lint, JavaScript/Bash syntax, rollback database safeguards, all 34 photograph checksums and exact matching of 35 delivered source/asset files passed. Main retained 198 reservations, 31 guests, 208 history rows, six staff/one active and zero orders/tickets. Independent review approved the product and verification changes. The readiness harness now awaits actual refresh/action completion before opening or closing dialogs; exact focus and persisted lifecycle assertions remain. The earlier moving gallery, hero and palette remain delivered. Canonical files are on the Windows Desktop in restaurant-reservation-system. P0–P7, S0–S3, linked capacity and E0–E2 remain complete; E3/E4, featured dishes, story/location and public hosting remain deferred/separate scope. No main seed/reset, credentials or booking rules changed. Research and provenance are in research/09_food_showcase_research.md.
 
 ## Stable Facts
+
+- The canonical working files are on Marvin's Windows Desktop: `C:\Users\burgo_w8uuyg3\OneDrive\Desktop\restaurant-reservation-system` (tool path `/mnt/c/Users/burgo_w8uuyg3/OneDrive/Desktop/restaurant-reservation-system`). Continue all future edits there. The existing ignored `.env`, full Git history and Marvin author identity are preserved. The previous Linux entry points to the Desktop after relocation; `/home/morkmork26/marvin/restaurant-reservation-system-linux-backup-2026-10-06` retains a recovery copy. Main MySQL records remain in Docker storage, not in the source folder.
 
 - The fictional demo venue address is Lipa City, Batangas, Philippines. No street address or actual venue location is claimed.
 
@@ -26,6 +28,10 @@ E0–E2 UI effects are delivered locally. E2 passed 31 focused guest-motion and 
 - Order service closure uses `closed`, never invented `paid`. Kitchen marks ready; server confirms delivery. Host completion is separate and refuses unfinished food.
 
 ## What Exists and Works
+
+The guest hero uses the existing local Michel Stockman dining photo with a dark gradient and an opaque booking card. Photo failure preserves the base background, text, layout and usable controls. Staff/admin/server/kitchen headers share the palette and italic display typography without new operational effects. Research section 14 records the inspected preview and the full-stream access limit. No backend, policy, authentication or polling code changed.
+
+The reference adaptation passed 200 browser checks: guest 12, staff 10, orders 10, showcase 41, capacity 34, feedback 26, motion 31 and readiness 36. Authenticated desktop/mobile screenshots were reviewed. Eight read-only main checks passed across 320/390/768/1440px, including automated A/AA rules in tested states, image failure, Reserve navigation and zero mutation requests. Main/test smoke, 54-file PHP lint, rollback DB safeguards and all five delivered visual/credit source hashes passed. Main retained 198 reservations, 31 guests, 208 history rows, six users/one active and zero orders/tickets; no main seed/reset ran.
 
 E2 adds a native, cancellable guest motion module: 220 ms hero entrance, 180 ms deliberate booking/management transitions, and 140 ms menu/results/disclosure feedback. Logical heading focus is immediate and visible; passive management refresh preserves control focus without entrance replay. Guest contact drafts survive choosing another table in the same page, are cleared on completion/new reservation, and are not newly stored. Explicit showcase selection focuses its new radio; existing picture guards/fallback remain intact. Reduced motion and unavailable animation APIs keep the UI static and usable.
 
@@ -67,9 +73,9 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Review the live connected gallery at localhost:8080 after a date/time/party search; use Refresh tables if a result expires.
-2. Rehearse the updated guest/host/server/kitchen flow in the disposable demo, following docs/demo-guide.md. Keep main credentials/data and booking rules intact.
-3. For future changes, resume from PLAN.md and research/07_table_showcase_research.md section 10. S0–S3 are complete locally; public hosting and publication remain separately requested work.
+1. Hard-refresh localhost:8080/#menu; try all categories and All dishes. Inspect thumbnails, descriptions/tags, selected category/count, desktop sidebar, mobile strip and Menu photo credits.
+2. Rehearse the guest/host/server/kitchen flow in the disposable demo using docs/demo-guide.md. Keep main records, credentials and booking rules intact.
+3. Marvin authorized syncing all completed work to GitHub and postponed Featured Dish implementation. Finish that synchronization first; retain the Desktop working copy. E3/E4, featured dishes, story/location and hosting remain separate scope.
 
 ## Last Updated
 

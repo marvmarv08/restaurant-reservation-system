@@ -9,11 +9,25 @@ if [[ "$health" != '{"ok":true,"db":true}' ]]; then
   exit 1
 fi
 
-curl -fsS "${base_url}/" | grep -qF 'Reserve a table'
+# Consume the full response before checking it; an early-closing pipe can make curl fail.
+guest_page="$(curl -fsS "${base_url}/")"
+if [[ "$guest_page" != *'Reserve a table'* ]]; then
+  printf 'Guest page must include the booking form\n' >&2
+  exit 1
+fi
 curl -fsS "${base_url}/assets/css/app.css" >/dev/null
 curl -fsS "${base_url}/assets/css/ui-feedback.css" >/dev/null
 curl -fsS "${base_url}/assets/js/ui-feedback.js" >/dev/null
 curl -fsS "${base_url}/assets/js/guest-motion.js" >/dev/null
+curl -fsS "${base_url}/assets/css/food-showcase.css" >/dev/null
+curl -fsS "${base_url}/assets/js/food-showcase.js" >/dev/null
+curl -fsS "${base_url}/assets/images/food-showcase/credits.json" >/dev/null
+for photo in bread pork oysters fish cocktail dessert; do
+  curl -fsS "${base_url}/assets/images/food-showcase/${photo}.jpg" >/dev/null
+done
+curl -fsS "${base_url}/assets/css/menu-catalog.css" >/dev/null
+curl -fsS "${base_url}/assets/js/menu-photos.js" >/dev/null
+curl -fsS "${base_url}/assets/images/menu/credits.json" >/dev/null
 curl -fsS "${base_url}/assets/js/guest.js" >/dev/null
 curl -fsS "${base_url}/api/catalog" >/dev/null
 curl -fsS "${base_url}/staff/login" >/dev/null

@@ -104,6 +104,8 @@ async function closeOrder() {
 }
 async function refresh(page) {
   await page.getByRole("button", { name: "Refresh", exact: true }).click();
+  // Its accessible name returns only after the pending refresh has finished.
+  await page.getByRole("button", { name: "Refresh", exact: true }).waitFor();
 }
 async function action(page, label) {
   await page.getByRole("button", { name: label, exact: true }).click();
@@ -197,6 +199,8 @@ try {
         .getByLabel("Confirmed allergy / dietary instructions", { exact: true })
         .fill("Peanut allergy <img src=x onerror=alert(1)>");
       await action(sp, "Save allergy notes");
+      // Wait for the completed save; service actions ignore a second click while busy.
+      await sp.getByText("Allergy notes saved.", { exact: true }).waitFor();
       await action(sp, "Send to kitchen");
       await refresh(kp);
       await kp
@@ -241,6 +245,7 @@ try {
       await kp.getByText("held", { exact: true }).waitFor();
       await reason(kp, "Resume ticket", "Guest ready");
       await action(kp, "Start preparation");
+      await kp.getByText("Preparation started.", { exact: true }).waitFor();
       await kp
         .getByRole("button", { name: "Item ready", exact: true })
         .first()
@@ -253,6 +258,7 @@ try {
         fullPage: true,
       });
       await action(kp, "Mark entire ticket ready");
+      await kp.getByText("Ticket marked ready.", { exact: true }).waitFor();
       await closeOrder();
       await refresh(sp);
       await openOrder();
@@ -265,6 +271,7 @@ try {
     "Server delivery removes ticket and kitchen recall restores original age",
     async () => {
       await action(sp, "Mark served");
+      await sp.getByText("Order marked served.", { exact: true }).waitFor();
       await refresh(kp);
       await kp
         .getByRole("button", { name: /^Recall #T-/, exact: false })
@@ -287,10 +294,12 @@ try {
     "Service closes without paid status and a new round stays assigned",
     async () => {
       await action(kp, "Mark entire ticket ready");
+      await kp.getByText("Ticket marked ready.", { exact: true }).waitFor();
       await closeOrder();
       await refresh(sp);
       await openOrder();
       await action(sp, "Mark served");
+      await sp.getByText("Order marked served.", { exact: true }).waitFor();
       await action(sp, "Close service");
       await sp
         .getByRole("dialog")
