@@ -9,3 +9,22 @@ dialog { padding:30px; background:#14110e; color:var(--text); border:1px solid #
 @media(max-width:680px) { header { align-items:flex-start; } .study { max-width:130px; } main { padding:35px 20px; } .section-heading { display:block; } .room-cards { grid-template-columns:1fr; } .room-card img { height:210px; } .room-copy .description { min-height:0; } .room-copy .count { margin-top:14px; } dialog { width:calc(100vw - 16px); max-height:calc(100dvh - 16px); padding:20px; border-radius:9px; } .showcase-layout { grid-template-columns:1fr; gap:20px; } .dialog-heading h2 { font-size:1.7rem; } .navigation-heading { flex-wrap:wrap; } .table-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; } }
 .dialog-heading { position:sticky; top:0; background:#14110e; z-index:2; padding-bottom:12px; }
+.table-tile img { width:100%; height:100px; object-fit:contain; display:block; border-radius:4px; }
+.thumbnail img { width:100%; height:75px; object-fit:contain; display:block; border-radius:4px; }
+#hero { position:relative; }
+#hero img { object-fit:contain; opacity:0; }
+#hero img.is-ready { opacity:1; }
+#hero[aria-busy="true"]::after { content:"Loading picture…"; position:absolute; bottom:18px; left:18px; padding:6px 10px; background:#17130fee; border-radius:4px; color:var(--muted); font-size:.8rem; }
+.table-tile[aria-pressed="true"],.thumbnail[aria-pressed="true"] { box-shadow:inset 0 0 0 1px var(--gold); background:#302217; }
+#selection { border-left:2px solid transparent; padding-left:14px; }
+#selection.is-confirmed { border-left-color:var(--gold); background:#251c12; }
+.thumbnails { scrollbar-width:thin; scrollbar-color:#9d7950 #17130f; }
+@media (prefers-reduced-motion:no-preference) {
+  button { transition:background-color 140ms ease,border-color 140ms ease,box-shadow 140ms ease,transform 140ms ease; }
+  #hero img { transition:opacity 180ms ease; }
+  dialog[open] { animation:showcase-enter 160ms ease-out; }
+  #selection.is-confirmed { animation:choice-feedback 240ms ease-out; }
+  @media(hover:hover) { .room-card:hover,.table-tile:hover { transform:translateY(-2px); box-shadow:0 9px 24px #0004; } }
+}
+@keyframes showcase-enter { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+@keyframes choice-feedback { from { background:#61421f; } to { background:#251c12; } }

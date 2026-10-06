@@ -5,7 +5,7 @@
   const dialog = $('#showcase');
   const photos = { r_vip:'round-table-reference.jpg', r_common:'main-dining-reference.jpg', r_group:'main-dining-reference.jpg', r_terrace:'terrace-reference.jpg' };
   const descriptions = { r_vip:'Private suites for a quieter evening.', r_common:'Open dining around the hearth.', r_group:'Long tables for larger parties.', r_terrace:'Open-air terrace seating.' };
-  let tables = [], index = 0, opener = null, view = 'angle';
+  let tables = [], index = 0, opener = null, view = 'seating', imageRevision = 0;
   const element = (tag, text, className) => {
     const e = document.createElement(tag);
     if (text) e.textContent = text;
@@ -13,7 +13,7 @@
     return e;
   };
   // Original illustrations use catalog shapes/capacity; coordinates are design units, not metres.
-  function illustration(table, top = false) {
+  function illustration(table) {
     const n = Number(table.capacity_max), round = table.shape === 'round';
     const w = table.shape === 'rect' ? 220 : 140, h = 140;
     const chairs = [];
@@ -28,11 +28,13 @@
     const surface = (fill,offset) => round
       ? `<ellipse cx="0" cy="${offset}" rx="80" ry="80" fill="${fill}" stroke="#d8aa70" stroke-width="2"/>`
       : `<rect x="${-w/2}" y="${-h/2+offset}" width="${w}" height="${h}" rx="9" fill="${fill}" stroke="#d8aa70" stroke-width="2"/>`;
-    return `<svg viewBox="0 0 600 430" role="img" aria-label="Illustrative ${table.shape} table with up to ${n} seats"><ellipse cx="300" cy="340" rx="170" ry="28" fill="#0005"/><g transform="${top ? 'translate(300 215)' : 'matrix(1 .28 -.7 .6 300 205)'}">${chairs.join('')}${surface('#503220',top?0:14)}${surface('#b17b47',0)}<ellipse cx="0" cy="0" rx="15" ry="15" fill="#d9c6a0"/><circle cx="0" cy="0" r="7" fill="#546743"/></g></svg>`;
+    return `<svg viewBox="0 0 600 430" role="img" aria-label="Illustrative ${table.shape} table with up to ${n} seats"><g transform="translate(300 215)">${chairs.join('')}${surface('#b17b47',0)}<ellipse cx="0" cy="0" rx="15" ry="15" fill="#d9c6a0"/><circle cx="0" cy="0" r="7" fill="#546743"/></g></svg>`;
   }
   function tableButton(table, className, action) {
     const b = element('button',null,className); b.type='button'; b.dataset.table=table.code;
-    const art=element('span'); art.innerHTML=illustration(table); art.setAttribute('aria-hidden','true');
+    const art=element('span'); art.setAttribute('aria-hidden','true');
+    const img=element('img'); img.src=`assets/seating/${table.code}.jpg`; img.alt=''; img.width=960; img.height=720; img.loading='lazy';
+    img.addEventListener('error',()=>{art.innerHTML=illustration(table);},{once:true}); art.append(img);
     b.append(art,element('strong',table.code),element('span',`${table.capacity_min}–${table.capacity_max} guests`));
     b.addEventListener('click',()=>action(b)); return b;
   }
@@ -48,7 +50,7 @@
   }
   function open(room,table,trigger) {
     opener=trigger; tables=data.tables.filter(t=>Number(t.room_id)===Number(room.id));
-    index=tables.findIndex(t=>t.code===table.code); view='angle'; $('#room-name').textContent=room.name;
+    index=tables.findIndex(t=>t.code===table.code); view='seating'; $('#room-name').textContent=room.name;
     $('#thumbnails').replaceChildren(...tables.map(t=>tableButton(t,'thumbnail',()=>{index=tables.indexOf(t);render();})));
     render(); dialog.showModal(); $('#showcase-title').focus();
   }
@@ -59,9 +61,15 @@
     $('#facts').replaceChildren();
     const facts={Room:room.name,Seats:`${table.capacity_min}–${table.capacity_max} guests`,Shape:table.shape==='rect'?'Rectangular':table.shape==='square'?'Square':'Round',Availability:'Check your date and time'};
     for(const [label,value] of Object.entries(facts)){const row=element('div');row.append(element('dt',label),element('dd',value));$('#facts').append(row);}
-    if(view==='photo') {const img=element('img');img.src='assets/'+photos[room.code];img.alt='Illustrative restaurant atmosphere reference, not the actual table';$('#hero').replaceChildren(img);}
-    else $('#hero').innerHTML=illustration(table,view==='top');
-    $('#image-caption').textContent=view==='photo'?'Stock reference from another venue · See source credits.':`${table.code} · Illustrative ${view==='top'?'top-down':'perspective'} seating view. Furniture and dimensions are not measured.`;
+    const revision=++imageRevision, currentView=view, hero=$('#hero'), img=element('img');
+    hero.setAttribute('aria-busy','true');
+    img.width=960; img.height=720; img.decoding='async';
+    img.alt=currentView==='photo'?'Illustrative restaurant atmosphere reference, not the actual table':`Rendered seating layout for ${table.code}, ${table.shape} table with ${table.capacity_max} chairs`;
+    img.addEventListener('load',()=>{if(revision!==imageRevision)return;img.classList.add('is-ready');hero.setAttribute('aria-busy','false');},{once:true});
+    img.addEventListener('error',()=>{if(revision!==imageRevision)return;hero.innerHTML=illustration(table);hero.setAttribute('aria-busy','false');$('#image-caption').textContent=`${table.code} · Picture unavailable; showing its seating layout.`;},{once:true});
+    img.src=currentView==='photo'?'assets/'+photos[room.code]:`assets/seating/${table.code}.jpg`;
+    hero.replaceChildren(img);
+    $('#image-caption').textContent=currentView==='photo'?'Stock reference from another venue · See source credits.':`${table.code} · ${table.capacity_max} seats shown · Rendered seating concept; dimensions are illustrative.`;
     for(const b of document.querySelectorAll('[data-view]'))b.setAttribute('aria-pressed',String(b.dataset.view===view));
     for(const b of $('#thumbnails').children)b.setAttribute('aria-pressed',String(b.dataset.table===table.code));
     $('#previous').disabled=index===0;$('#next').disabled=index===tables.length-1;
@@ -73,5 +81,12 @@
   for(const b of document.querySelectorAll('[data-view]'))b.addEventListener('click',()=>{view=b.dataset.view;render();});
   $('#close').addEventListener('click',()=>dialog.close());
   dialog.addEventListener('close',()=>opener?.focus());
-  $('#choose').addEventListener('click',()=>{$('#selection').textContent=`Chosen in the design study: ${tables[index].code}. Availability and booking would be checked in the live flow.`;dialog.close();});
+  $('#choose').addEventListener('click',()=>{
+    const code=tables[index].code;
+    for(const b of $('#table-grid').children)b.setAttribute('aria-pressed',String(b.dataset.table===code));
+    $('#selection').textContent=`Chosen in the design study: ${code}. Availability and booking would be checked in the live flow.`;
+    $('#selection').classList.remove('is-confirmed');
+    requestAnimationFrame(()=>$('#selection').classList.add('is-confirmed'));
+    dialog.close();
+  });
 })();

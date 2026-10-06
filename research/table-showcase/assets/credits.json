@@ -45,5 +45,17 @@
     "use": "Official pack overview extracted from Preview.png; prospective models, not a rendered Lumina table",
     "bytes": 149661,
     "sha256": "ab3fa2afbe045ea1de12883231a877148145fc8d33fed7337a0aefe93d59ccd8"
+  },
+  {
+    "file": "wood-table-001-diffuse.jpg",
+    "author": "Dimitrios Savva (photography), Rico Cilliers (processing) / Poly Haven",
+    "source": "https://polyhaven.com/a/wood_table_001",
+    "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_table_001/wood_table_001_diff_1k.jpg",
+    "license": "CC0 1.0",
+    "license_url": "https://polyhaven.com/license",
+    "checked": "2026-10-06",
+    "use": "Wood material in original rendered seating concepts",
+    "bytes": 215573,
+    "sha256": "460dd08d240f4a1f02982415048c3c5c200f385db212da18dc7e2df68bf4d0be"
   }
 ]

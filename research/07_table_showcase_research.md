@@ -13,7 +13,7 @@ Recommended entry points:
 3. In the showcase, browse other tables using labelled thumbnails, Previous/Next buttons or touch scrolling.
 4. Explicitly choose a table only when it is eligible for the current date/time/party. Looking at an image never starts a hold.
 
-The interactive concept is [table-showcase/concept.html](table-showcase/concept.html). It opens directly as a local HTML file and uses downloaded images and original SVG drawings. It represents all 25 current physical tables with their actual catalog codes, shapes and capacity ranges. It deliberately makes no reservation or availability claim.
+The interactive concept is [table-showcase/concept.html](table-showcase/concept.html). It opens directly as a local HTML file and uses local images rendered from original 3D furniture, with original SVG layouts as an image-error fallback. It represents all 25 current physical tables with their actual catalog codes, shapes and capacity ranges. It deliberately makes no reservation or availability claim.
 
 During this session it is also available at **http://localhost:8092/table-showcase/concept.html**. To restart the local research preview from the repository folder:
 
@@ -23,7 +23,7 @@ python3 -m http.server 8092 --bind 127.0.0.1 --directory research
 
 ## 2. Recommended design
 
-**A table-detail dialog with a large visual, three named image views and a room-filtered table strip.** On a laptop, visual and details sit side by side. On mobile, they stack in one scrollable dialog. Closing returns focus to the card or table that opened it.
+**A table-detail dialog with a large visual, two named image views and a room-filtered table strip.** On a laptop, visual and details sit side by side. On mobile, they stack in one scrollable dialog. Closing returns focus to the card or table that opened it.
 
 The desired experience:
 
@@ -33,7 +33,7 @@ flowchart TD
   Map[Click C7 on floor plan] --> Exact[Open showcase at C7]
   First --> Gallery[Large table picture and details]
   Exact --> Gallery
-  Gallery --> Views[Seating view / From above / Room inspiration]
+  Gallery --> Views[Seating view / Room inspiration]
   Gallery --> Browse[Previous, Next, thumbnails, swipe strip]
   Browse --> Gallery
   Gallery --> Intent[Use this table, if eligible]
@@ -49,8 +49,8 @@ A dialog fits Marvin's click-to-open request and leaves the current booking scre
 | Element | Content and purpose |
 |---|---|
 | Header | Room name, table code and familiar table label; example: “Main Dining · C1 · Table 12” |
-| Large visual | A consistent perspective picture of the selected physical table |
-| Three views | Seating view, From above, Room inspiration; named controls instead of unexplained dots |
+| Large visual | A consistent overhead seating picture with a slight tilt to show furniture depth |
+| Two views | Seating view combines the former overhead layout and realistic furniture; Room inspiration; named controls instead of unexplained dots |
 | Facts | Capacity range, table shape, room, verified minimum spend/notice and joined-table status when applicable |
 | Availability | Selected date/time/party plus Eligible, Unavailable, or Choose a date; never infer availability from a photograph |
 | Table strip | Thumbnails labelled C1, C2, etc., visible selected outline and “Table 3 of 12” |
@@ -65,27 +65,26 @@ The table strip switches between tables; the named view controls switch pictures
 
 Baymard's product-gallery research found that thumbnails help people discover additional pictures, and that hidden thumbnails need clear signposting. Applying that to restaurant previews is an inference: the original research concerns product evaluation, not restaurant bookings. Use visible thumbnails, arrows, a count and a partly visible next thumbnail. [Thumbnail research](https://baymard.com/research-articles/always-use-thumbnails-additional-images), [hidden-thumbnail research](https://baymard.com/research-articles/truncating-product-gallery-thumbnails).
 
-All 25 tables remain discoverable through a labelled “View all tables” grid, with four room filters. Guests should not have to advance through 24 slides to reach the final table. NN/G cautions that people may overlook carousel content and recommends discoverable navigation. Its suggested short sequence applies to promotional carousels; it should not be treated as a ban on this room-filtered inventory gallery. [NN/G carousel usability](https://www.nngroup.com/articles/designing-effective-carousels/).
+All 25 tables remain discoverable through a labelled “View all tables” grid, alongside four clickable room cards. Guests should not have to advance through 24 slides to reach the final table. NN/G cautions that people may overlook carousel content and recommends discoverable navigation. Its suggested short sequence applies to promotional carousels; it should not be treated as a ban on this room-filtered inventory gallery. [NN/G carousel usability](https://www.nngroup.com/articles/designing-effective-carousels/).
 
 ## 3. Best visual format for this app
 
 | Option | Strength | Limitation | Recommendation |
 |---|---|---|---|
-| Original perspective SVG illustration | Sharp at every screen size, small, local, easily matches exact table shape/capacity | Stylized; does not show a real room photograph | Best first delivery; the concept demonstrates this |
-| Static images rendered from 3D models | Consistent camera/materials, attractive depth, simple runtime image display | Needs composition/rendering work; generic pack models need styling | Good visual upgrade using Kenney CC0 models |
+| Original overhead SVG illustration | Sharp at every screen size, small, local, easily matches exact table shape/capacity | Stylized; does not show a real room photograph | Retained as a resilient image-error fallback |
+| Static images rendered from 3D models | Consistent camera/materials, attractive depth, simple runtime image display | Needs composition/rendering work; generic pack models need styling | Implemented using original Blender geometry and a CC0 wood texture |
 | Actual venue photographs | Faithful when each physical table is photographed and labelled | No actual Lumina venue or table photos exist in this fictional project | Use later if an actual venue replaces the demo |
 | Stock restaurant photographs | Warm atmosphere and useful art references | Different venues; cannot truthfully represent every exact Lumina table | Use as clearly labelled room inspiration only |
 | Interactive 3D/360 viewer | Rotatable environment | Asset, performance, keyboard and mobile work; more dependencies | A later enhancement after the basic gallery is verified |
 
 **Proposed visual direction:** warm walnut tables, charcoal surroundings, muted amber highlights, consistent chair styling, a clear table silhouette and soft perspective shadows. Keep the current Lumina typography and dark palette. Every table gets an identity through its code, shape, seat count and location inset. Similar tables can legitimately share a visual base, but each preview must identify the exact catalog entry.
 
-The concept's drawings are original vector illustrations made from the verified shape/capacity data. They are not baked 3D renders. Chair placements and furniture dimensions are illustrative, not measurements or access-clearance guarantees. Verified metadata stays readable as text outside the image. Do not invent “window view,” “quietest,” “wheelchair accessible” or precise dimensions from stock photos or floor coordinates.
+The main seating pictures are now static 3D renders made from original furniture geometry and the verified shape/capacity data. An overhead camera with a slight tilt retains the former top-view seat arrangement while showing cushions, backrests, tabletop thickness and shadows. Straight rows face their nearest table edge; round-table chairs face the center. Original vector layouts remain available when an image fails. Chair placements and furniture dimensions are illustrative, not measurements or access-clearance guarantees. Verified metadata stays readable as text outside the image. Do not invent “window view,” “quietest,” “wheelchair accessible” or precise dimensions from stock photos or floor coordinates.
 
 ### Suggested image set per table
 
-- Main image: consistent perspective seating illustration or baked 3D render.
-- Second image: top view and highlighted floor-plan position.
-- Optional third image: labelled room inspiration; later replace it with an actual room/table photo if available.
+- Main image: one Seating view combining the overhead arrangement and realistic rendered furniture; the separate From above control has been removed as Marvin requested.
+- Optional second image: labelled room inspiration; later replace it with an actual room/table photo if available.
 - Joined option: one composite view showing both physical members, labelled G1 + G2, with the group's actual capacity. It is not a new physical table or permission to combine arbitrary members.
 
 ## 4. Curated pictures and 3D assets
@@ -97,7 +96,7 @@ The following files were downloaded and visually inspected. Their provenance and
 | [Warm wooden table](table-showcase/assets/main-dining-reference.jpg) | [Michel Stockman / Unsplash](https://unsplash.com/photos/shallow-focus-photography-of-rectangular-brown-wooden-table-with-chairs-set-QrOoMocamu0) | Main Dining and long-table materials/lighting | Strong amber/wood match; not a faithful image of C1 or G1 |
 | [Round dining table](table-showcase/assets/round-table-reference.jpg) | [Mustafa Fatemi / Unsplash](https://unsplash.com/photos/a-dining-room-with-a-table-chairs-and-pictures-on-the-wall-ZZwUrJlmRTU) | Round-table setting and warm atmosphere | Clear table and chair view; not evidence of a private VIP room |
 | [Terrace seating](table-showcase/assets/terrace-reference.jpg) | [pipop kunachon / Pexels](https://www.pexels.com/photo/table-and-chairs-on-restaurant-terrace-18675120/) | Outdoor seating reference | Clear seating, but bright colors and portrait crop fit Lumina less well; an alternate reference rather than the final art direction |
-| [CC0 furniture overview](table-showcase/assets/kenney-furniture-preview.png) | [Kenney Furniture Kit](https://kenney.nl/assets/furniture-kit) | Source models for consistent static 3D renders | Contains tables/chairs; useful geometry, but default colors/style need adaptation |
+| [CC0 furniture overview](table-showcase/assets/kenney-furniture-preview.png) | [Kenney Furniture Kit](https://kenney.nl/assets/furniture-kit) | Earlier geometry reference only | Not used in the final renders; furniture geometry is original |
 
 The two Unsplash pages identify the selected photographs as free under the Unsplash License. That license allows downloading and use, including commercial use, with restrictions such as selling unmodified images and building a competing image service. Attribution is appreciated. [Unsplash License](https://unsplash.com/license).
 
@@ -106,6 +105,24 @@ The Pexels page identifies the terrace picture as free to use. Its license permi
 Kenney's official Furniture Kit page identifies its 3D pack as CC0. The downloaded archive's `License.txt` independently states CC0 and covers personal, educational and commercial use; a copy is [saved here](table-showcase/assets/kenney-license.txt). The inspected archive contains `table.obj`, `tableRound.obj`, `tableCloth.obj` and other table/chair assets. The overview image was extracted from its `Preview.png`. The full model archive remains in the temporary tooling folder; no 3D runtime was installed. [Official Furniture Kit](https://kenney.nl/assets/furniture-kit).
 
 For live implementation, save approved pictures under local `/assets/images/tables/` or `/assets/images/rooms/`, keep a source/credit record and a discreet image-credits link. Downloaded research references do not automatically become exact-table photos. No stock image subscription, API key, purchase or paid rendering service is needed for this proposal.
+
+### Furniture, material and effects refinement
+
+Marvin requested removal of the separate **From above** control while retaining its layout in **Seating view**. All 25 physical-table pictures and a separate G1–G2 composite have been rendered locally. Similar shape/capacity tables share a coherent visual base; identity and capacity remain explicit text. The joined composite is an asset for later integration, not a 26th physical table.
+
+- **Furniture reference:** timber frames, cushioned seats and upholstered backrests were informed by the [IKEA NÄSINGE chair](https://www.ikea.com/gb/en/p/naesinge-chair-dark-brown-stained-kilanda-light-beige-40590398/). This is visual inspiration only; no IKEA photograph, mesh, branding or product specification is distributed.
+- **Material actually used:** [Poly Haven Wood Table 001](https://polyhaven.com/a/wood_table_001), photographed by Dimitrios Savva and processed by Rico Cilliers. The unchanged 1K diffuse image is stored locally with its hash and [CC0 license](https://polyhaven.com/license) in credits.json. Original geometry adds beveled wood, chair frames/legs, procedural linen, ceramic plates and soft area-light shadows.
+- **Rendering:** the original [Blender recipe](table-showcase/render_seating.py) produces 960×720 JPEGs. The [asset manifest](table-showcase/assets/seating/manifest.json) records code, shape, seat positions, hashes and renderer/recipe version. Blender 4.5.3 was downloaded from the official release archive and checked against its published SHA-256 checksum. Blender is a build tool; the browser only displays local images. No 3D runtime dependency is required. [Blender rendering features](https://www.blender.org/features/rendering/).
+- **Useful effects:** a 180ms image fade, 160ms dialog entrance, 140ms button feedback and 240ms choice confirmation communicate changes. A static loading message and selected outline remain understandable without motion. These timings are project choices, informed by NN/G's guidance that animation should explain feedback, state changes or navigation. [Animation purpose in UX](https://www.nngroup.com/articles/animation-purpose-ux/).
+- **Motion preference:** nonessential transitions and animations are enabled only under `prefers-reduced-motion: no-preference`; users requesting reduced motion get the static interface. This follows [W3C technique C39](https://www.w3.org/WAI/WCAG22/Techniques/css/C39). There is no autoplay. The effect does not delay browsing or explicit selection.
+
+To reproduce the assets with a separately installed Blender 4.5.3:
+
+```bash
+blender --background --threads 6 --python research/table-showcase/render_seating.py -- --samples 32 --size 960
+```
+
+The proportions and floor surface are illustrative. These pictures are not actual venue photographs, measured layouts, circulation-clearance evidence or furniture product replicas.
 
 ## 5. Interaction and accessibility requirements
 
@@ -150,17 +167,17 @@ Performance targets are project recommendations to verify, not measured results:
 | Stage | Status | Deliverable | Completion check |
 |---|---|---|---|
 | S0 — Research | Done | This recommendation, inspected screenshots, primary sources, local licensed references and clickable concept | Sources/license records and current inventory checked; concept verified separately |
-| S1 — Table visuals | Planned | Final coherent artwork for every physical table and a joined composite; local manifest and credits | 25 IDs covered, shapes/capacities correct, visible illustration labels, no invented features, all image fallbacks work offline |
+| S1 — Table visuals | Done for the study | Final coherent artwork for every physical table and a joined composite; local manifest and credits | 25 IDs covered, shapes/capacities correct, visible illustration labels, no invented features, all image fallbacks work offline |
 | S2 — Click-to-open integration | Planned | Clickable room cards and floor tables open the viewer; thumbnails/arrows/swipe browse; explicit eligible selection | Opened table is correct, map/list/viewer agree, browsing starts no hold, old booking/hold stays intact |
 | S3 — Verification | Planned | Mobile, keyboard, image-failure, offline and booking regression checks | 320px reflow; accessible modal; joined selection; eligibility refresh; guest regression and readiness checks pass; main data retained |
 
-P0–P7 remain Done. A research concept is not a completed live booking feature. Future sessions should resume at S1 using this document and the latest `PLAN.md` checkpoint.
+P0–P7 remain Done. A research concept is not a completed live booking feature. Future sessions should resume at S2 using this document and the latest `PLAN.md` checkpoint.
 
 ## 8. Evidence limits
 
 The concept demonstrates click-to-open, per-table views, thumbnails and table navigation using a snapshot of public inventory. It has no server availability, hold or reservation connection. References from other venues and stylized chair layouts cannot establish the fictional venue's physical appearance, dimensions, acoustics or accessibility. UX findings support the recommendation; this particular workflow has not yet been evaluated with real diners. During live integration, verify the existing booking behavior rather than relying on the concept as proof.
 
-Concept verification passed **29 checks**, including opening each of the 25 exact physical table previews, all four room cards, 320/390/768/1440px reflow, zero automated A/AA violations in tested states, named views, loaded local photos, Escape/focus restoration, and no external requests or JavaScript errors. Source credits/hashes, the inventory wrapper and all local report links were also checked. This evidence applies to the research concept, not the unimplemented live integration.
+Refined concept verification passed **38 checks**, including opening each of the 25 exact physical table previews, all four room cards, 320/390/768/1440px reflow, zero automated A/AA violations in tested states, a single Seating view, all 26 render assets and source hashes, loaded local photos, missing-image fallback, rapid navigation, normal/reduced-motion effects, selected-table feedback, modal keyboard focus, Escape/focus restoration, and no external requests or JavaScript errors. Source credits/hashes, the inventory wrapper and all local report links were also checked. This evidence applies to the research concept, not the unimplemented live integration.
 
 Reproduce using the temporary browser tools documented in `docs/verification.md`:
 

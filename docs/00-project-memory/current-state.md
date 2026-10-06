@@ -10,7 +10,7 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
-Resume the table-showcase extension at S1 using research/07_table_showcase_research.md. Research and a standalone clickable concept are complete; live integration is still planned.
+Resume the table-showcase extension at S2 using research/07_table_showcase_research.md. Research and rendered study visuals are complete; live integration is still planned.
 
 ## Stable Facts
 
@@ -57,8 +57,8 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Resume S1 in the showcase research report: finalize coherent images/illustrations for all 25 table IDs and the joined option, using local assets and retained credits.
-2. Integrate the shared viewer at the screenshot's room cards and booking floor plan. Keep previewed table separate from selected/held inventory; only explicit eligible selection calls the existing handler.
+1. Review the refined study at localhost:8092/table-showcase/concept.html: one Seating view with the former overhead layout, realistic original 3D furniture, 25 physical-table images and a separate joined composite. S1 visuals and 38 focused checks are complete; all assets are local and credited. Motion respects user preferences.
+2. Resume S2: integrate the shared viewer at the screenshot's room cards and booking floor plan. Keep previewed table separate from selected/held inventory; only explicit eligible selection calls the existing handler.
 3. Verify the guest flow, modal focus, 320px layouts, failed images, joined selection and offline behavior. Keep P0–P7 intact; no main resets or publication. Presentation preparation remains in the demo guide.
 
 ## Last Updated

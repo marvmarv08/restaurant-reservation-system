@@ -131,3 +131,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: Corrected prior research closure: original downloaded Kenney License.txt CRLF/trailing whitespace caused staged diff check failure. Normalized whitespace only and compared all wording tokens to the official zip License.txt; identical. All four image hashes intact. Actual git diff --cached --check and working diff check now pass; PMM doctor zero warnings/failures. Prior29 concept checks remain applicable (no concept behavior changes); final local inventory/source links and served assets HTTP200 checked. No live code/data edits or external publication.
 - Closed At: 2026-10-05T23:29:16Z
+
+## 2026-10-06 seating-view-refinement
+
+<!-- pmm-task-id: seating-view-refinement -->
+
+- Status: done
+- Parent Task: none
+- Title: Refine realistic seating pictures and useful showcase effects
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Fresh final verifier passed 38 checks: all 26 asset/source/recipe hashes, exact 25 table previews, four rooms, 320/390/768/1440px reflow, zero automated A/AA violations in tested states, modal focus/Escape, offline pictures, fallback, rapid navigation, selected feedback and normal/reduced motion. Final square/round/long/joined renders and desktop/mobile layouts visually inspected. JS/renderer syntax, inventory wrapper and report links passed; Windows Desktop export refreshed; unstaged/staged diff checks and PMM doctor passed. Main app and database untouched. S2/S3 live integration remains planned.
+- Closed At: 2026-10-06T01:42:09Z
