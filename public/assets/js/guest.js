@@ -1034,6 +1034,27 @@
     }),
   );
   function renderCatalog() {
+    const roomPhotos = {
+      vip: "round-table-reference.jpg",
+      common: "main-dining-reference.jpg",
+      group: "main-dining-reference.jpg",
+      terrace: "terrace-reference.jpg",
+    };
+    function roomPicture(room) {
+      const image = node("img", {
+        src: "/assets/images/table-showcase/" + roomPhotos[room.code],
+        alt: "",
+        width: 1200,
+        height: 800,
+        loading: "lazy",
+      });
+      const caption = node("span", { class: "room-image-caption" }, "Room inspiration");
+      image.addEventListener("error", () => {
+        image.hidden = true;
+        caption.textContent = "Room picture unavailable";
+      }, { once: true });
+      return node("div", { class: "room-art " + room.code }, image, caption);
+    }
     for (const room of catalog.room_types)
       $("#room-cards").append(
         node(
@@ -1043,10 +1064,7 @@
             const table = catalog.tables.find(t => rooms.some(r => Number(r.id) === Number(t.room_id)));
             if (table) showcase?.open(table.id, event.currentTarget);
           } },
-          node("div", {
-            class: "room-art " + room.code,
-            "aria-hidden": "true",
-          }),
+          roomPicture(room),
           node(
             "div",
             { class: "room-copy" },

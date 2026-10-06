@@ -33,6 +33,12 @@ async function open(code){await page.locator('.floor-table[data-table="'+code+'"
 try{
  fixture({action:'showcase-unblock'});fixture({action:'cleanup'});
  await page.goto(base);await page.locator('.room-card').last().waitFor();
+ await page.locator('#room-cards').scrollIntoViewIfNeeded();
+ await page.waitForFunction(()=>{const images=[...document.querySelectorAll('.room-card .room-art img')];return images.length===4&&images.every(i=>i.complete&&i.naturalWidth>0);});
+ await check('Room cards retain their local photo previews rather than CSS placeholders',async()=>{
+  const photos={vip:'round-table-reference.jpg',common:'main-dining-reference.jpg',group:'main-dining-reference.jpg',terrace:'terrace-reference.jpg'};
+  for(const [code,file] of Object.entries(photos)){const card=page.locator('.room-card[data-room-type='+code+']');assert.equal(await card.locator('img').getAttribute('src'),'/assets/images/table-showcase/'+file);assert.match(await card.locator('.room-image-caption').innerText(),/Room inspiration/);}
+ });
  await page.locator('.showcase-inventory summary').click();
  await check('All 25 live catalog previews start with neutral schedule prompts',async()=>{assert.equal(await page.locator('.showcase-tile').count(),25);assert.equal(await page.locator('.showcase-tile .showcase-badge[data-state=unknown]').count(),25);});
  await axe('room cards and all table previews');

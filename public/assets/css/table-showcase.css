@@ -40,3 +40,10 @@
 @keyframes showcase-enter { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
 .table-showcase .button { min-height:44px; }
+
+.room-card .room-art { height:185px; overflow:hidden; }
+.room-card .room-art::after { content:none; }
+.room-card .room-art img { display:block; width:100%; height:100%; object-fit:cover; }
+.room-card .room-art img[hidden] { display:none; }
+.room-image-caption { position:absolute; bottom:10px; left:10px; padding:5px 8px; border-radius:3px; background:#15120ff0; color:var(--muted); font-size:.72rem; line-height:1.5; }
+@media(prefers-reduced-motion:no-preference) { .room-card .room-art img { transition:transform 180ms ease; } @media(hover:hover) { .room-card:hover .room-art img { transform:scale(1.025); } } }

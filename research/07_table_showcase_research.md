@@ -270,3 +270,7 @@ Final live evidence: **40 focused showcase checks passed** against isolated MySQ
 Production asset hashes match the original render/source records. JavaScript syntax, PHP lint (54 files), main smoke, database safeguards and running-source checks passed. The main app was recreated from the updated local image without running seed or resetting storage; read-only browser checks confirmed the feature on port 8080 with no hold/booking POSTs. Main records remained 198 reservations, 31 guests, 208 status-history rows, six staff including one active account, and zero orders/tickets. Existing credentials and booking policy were retained. No public deployment or GitHub publication was performed.
 
 Limitations: green is a recent eligibility result, not a guaranteed booking; the existing hold/save transaction rechecks inventory. Stock pictures and renders are illustrative, not physical venue measurements. Automated checks are not full accessibility certification or a substitute for usability testing with real diners.
+
+### Room-card photo correction
+
+Marvin’s follow-up screenshot revealed that the live entry cards still used old CSS placeholders. Restored all four locally credited inspiration photographs while retaining the exact-table gallery, database indicators and existing selection flow. A 12-check read-only browser pass verified images/mappings, all room openings, four viewport widths, automated A/AA, failed-photo behavior and absence of booking writes. The permanent integration suite now includes a photo-presence regression assertion.

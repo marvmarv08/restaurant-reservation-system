@@ -170,3 +170,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: Fresh final showcase verifier passed 40 checks against actual isolated MySQL: all25 previews, server options/blackout/second-session hold/release, safe selection, joined group and image fallback, network failure/12s timeout, 30s polling/45s expiration, stale-time refresh/late-response guards, protected management preservation, offline assets, mobile320/390/768/1440, zero automated A/AA issues in tested states, keyboard/focus and motion preferences. Prior final-flow integration runs passed 12 guest/management and36 readiness checks; last announcement cleanup is covered by fresh40 rerun. Public assets/source hashes,25 main catalog-art mappings, measured color contrast, JS syntax,54 PHP lint,report links,Desktop roadmap,main smoke/DB safeguards,exact deployed-source and read-only main browser checks passed. Main198 reservations/31 guests/208 history/6 staff1active/0orders0tickets retained after final image recreation without seed/reset. Staged/unstaged diff and PMM doctor passed. S0-S3 locally delivered; no auth/schema/rule changes or publication.
 - Closed At: 2026-10-06T02:36:17Z
+
+## 2026-10-06 restore-room-card-photos
+
+<!-- pmm-task-id: restore-room-card-photos -->
+
+- Status: done
+- Parent Task: none
+- Title: Restore photo previews on live room cards
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Fresh focused room-photo verifier passed12 read-only checks:4 locally loaded photo mappings,oval overlay removed,exact V1/C1/G1/T1 opening,mobile320/390/768/1440 reflow,zero automated A/AA violations,image failure remains usable,no JS errors or booking/hold writes. Screenshot visually inspected. Permanent regression assertion added (full41 suite not rerun for this visual-only correction). JS syntax,Desktop export,staged/unstaged diff and PMM doctor passed. Final local image recreated without seed/reset;main smoke,exact deployed source and actual4 main photos verified. Main counts/staff exactly match original baseline.
+- Closed At: 2026-10-06T03:19:21Z

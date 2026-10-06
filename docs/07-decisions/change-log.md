@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — Restore photos on the room cards
+
+- Correction: Marvin's screenshot showed the live room cards still displaying legacy CSS ovals even though individual table pictures worked below. The integration had retained the old room artwork instead of carrying over the study's photo previews.
+- Change: Restored the existing local, licensed inspiration photos on VIP/Main/Group/Terrace cards, removed the oval overlay, retained click-to-open behavior, and labelled the reference imagery. Failed photos leave a readable, usable card; subtle hover zoom respects reduced motion.
+- Evidence: Twelve focused read-only browser checks passed for the four local mappings, correct V1/C1/G1/T1 opening, 320/390/768/1440px reflow, zero automated A/AA violations, image failure and no booking/hold writes. A photo assertion was added to the permanent showcase suite. The full earlier 40-case integration evidence remains historical; this correction uses focused verification.
+- Lesson: Verify the entry cards visually as well as the detail gallery. Passing click/navigation checks does not prove that the intended pictures were retained during integration.
+
 ## 2026-10-06 — Database-connected table availability showcase
 
 - Change: Delivered room/floor/all-table opening in the live guest and private-management flows, with local Seating view artwork and labelled inspiration. Green/red/neutral badges use the existing MySQL eligibility response for the selected date/time/party/room preference. Text, symbols and dashed floor outlines supplement color; brief effects respect reduced motion.
