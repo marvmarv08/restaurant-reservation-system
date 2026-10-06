@@ -16,6 +16,7 @@ final class StaffSession
 
     private static function start(): void
     {
+        SessionStore::configure();
         ini_set("session.use_strict_mode", "1");
         ini_set("session.use_only_cookies", "1");
         session_name("TABLEBOOK_STAFF");
@@ -23,7 +24,7 @@ final class StaffSession
             "lifetime" => 0,
             "path" => "/",
             "httponly" => true,
-            "secure" => isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off",
+            "secure" => SessionStore::secureCookie(),
             "samesite" => "Strict",
         ]);
         if (!session_start()) {

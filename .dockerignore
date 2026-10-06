@@ -10,3 +10,9 @@ research
 scripts
 *.log
 __pycache__
+
+.env*
+.vercel
+.superpowers
+public/uploads/*
+.private

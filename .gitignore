@@ -11,3 +11,9 @@ __pycache__/
 *.pyc
 .project-runtime/pmm/backups/
 .DS_Store
+
+.env.*
+!.env.example
+!.env.hosted.example
+.vercel/
+.private/

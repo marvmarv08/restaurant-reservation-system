@@ -10,6 +10,10 @@ The working project is saved in `C:\Users\burgo_w8uuyg3\OneDrive\Desktop\restaur
 
 From PowerShell in that folder, existing configuration is ready for Docker Compose. Keep `.env`; the example-copy step below applies only to a fresh checkout without it. The current app remains at http://localhost:8080 and Adminer at http://localhost:8081. MySQL records remain in Docker's existing named volume; moving source files is not a database export. The original Linux project is retained as a dated recovery backup, and its old entry now points to the Desktop folder.
 
+## Online deployment
+
+The full-system Vercel package is being prepared with a separate hosted MySQL database and persistent sessions. See [the deployment guide](docs/vercel-deployment.md) for private configuration, Marvin-only account ownership and the current delivery status.
+
 ## Start the PHP application
 
 You need Docker Desktop with WSL integration enabled if you use this repo from WSL. On a **fresh checkout only**, copy the example configuration; if `.env` already exists, keep it because it holds the credentials used by your current MySQL volume. From the repository folder:

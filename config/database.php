@@ -7,4 +7,6 @@ return [
     'database' => getenv('DB_DATABASE') ?: '',
     'username' => getenv('DB_USERNAME') ?: '',
     'password' => getenv('DB_PASSWORD') ?: '',
+    'ssl_ca' => getenv('DB_SSL_CA') ?: '',
+    'ssl_ca_base64' => getenv('DB_SSL_CA_BASE64') ?: '',
 ];

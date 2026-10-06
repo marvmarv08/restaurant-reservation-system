@@ -15,10 +15,11 @@ final class GuestSession
 
     public static function open(): self
     {
+        SessionStore::configure();
         ini_set('session.use_strict_mode', '1');
         session_name('TABLEBOOK_GUEST');
         session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'httponly' => true,
-            'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'samesite' => 'Lax']);
+            'secure' => SessionStore::secureCookie(), 'samesite' => 'Lax']);
         if (!session_start()) {
             throw new RuntimeException('Cannot start guest session');
         }
