@@ -300,3 +300,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: PASS: active GitHub user and author marvmarv08; destination existing private marvmarv08/restaurant-reservation-system main. Full fresh isolated gate 393 checks:109 MySQL,43 HTTP,241 browser. 54 PHP lint,JS/Bash syntax,main/test smoke,diff and PMM doctor passed.259 candidate files and332 unpublished historical blobs scanned before push with no private environment file/value or recognizable credential detection. Normal push delivered18 earlier commits plus3921aca; GitHub API matched Desktop HEAD and working tree was clean before delivery-record edits. Main retained198 reservations,31 guests,208 history,6 users1active,0 orders/tickets. Remaining diff is delivery documentation only; scan and doctor passed; final checkpoint commit/push follows task closure.
 - Closed At: 2026-10-06T10:27:21Z
+
+## 2026-10-06 lumina-vercel-full-system
+
+<!-- pmm-task-id: lumina-vercel-full-system -->
+
+- Status: done
+- Parent Task: none
+- Title: Deploy the full PHP MySQL application on Vercel
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: Marvin confirmed actual Preview menu/categories, reservation confirmation, staff activation/sign-in and admin dashboard; fresh READY Preview identity/status and read-only TLS aggregates verified (active staff 1, reservations 175 vs 174 seed); runtime source unchanged from deployed e6f35b9; prior 393 regressions and 45 hosting checks remain applicable; documentation diff/export pass.
+- Closed At: 2026-10-06T12:46:04Z
