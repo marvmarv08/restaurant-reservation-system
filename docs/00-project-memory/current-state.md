@@ -10,7 +10,7 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
-Resume the table-showcase extension at S2 using research/07_table_showcase_research.md. Research and rendered study visuals are complete; live integration is still planned.
+The S0–S3 table-showcase extension is delivered at localhost:8080. Review the database-backed previews and rehearse the full demo using the existing disposable stack; section 10 of research/07_table_showcase_research.md records current behavior and evidence.
 
 ## Stable Facts
 
@@ -43,9 +43,9 @@ A clean source snapshot without main credentials started healthy PHP/MySQL/Admin
 
 ## Requested Table Showcase
 
-Marvin's screenshot identifies the four “Find your corner” room cards. Desired flow: click room card → room-specific showcase; click a physical floor table → its exact preview. Browse with thumbnails, arrows and a touch-scrolled strip; browsing must not start a hold or change the committed selection. The research report and static study are under `research/07_table_showcase_research.md` and `research/table-showcase/`. Three licensed stock references and the official CC0 Kenney furniture overview are local with source credits/hashes. Original illustrations use the public catalog's 25 table shapes/capacities; G1–G2 remains the only declared joined group. No actual table photographs or access-clearance measurements are claimed.
+Room cards, floor tables and an all-table disclosure open a shared native showcase. Metadata comes from the current public database catalog; green/red badges reflect eligible options for the selected date/time/party/room preference, while missing, failed or expired data is neutral. Color includes text and symbols. The viewer checks on open/explicit choice, refreshes every 30 seconds while open/visible, expires results after 45 seconds and aborts stalled checks after 12 seconds. Query changes clear prior statuses; stale time snapshots trigger a fresh read; late requests cannot overwrite current context. Browsing creates no hold. Use applies the server-returned option to radios/floor; Continue retains the existing transactional hold. Joined G1–G2 previews identify both members and preserve approval. Management previews use the protected endpoint and preserve the current booking until Save.
 
-The standalone concept passed 29 exact-table/room, mobile, keyboard, A/AA and offline checks; asset hashes/mapping/links passed. During this session it is served at localhost:8092/table-showcase/concept.html, from the research folder only. Restart with `python3 -m http.server 8092 --bind 127.0.0.1 --directory research`. Live PHP/booking code, main database and credentials were not changed by this research. S1 artwork, S2 live click-to-open integration and S3 verification remain planned.
+The original Seating view renders and inspiration sources are locally credited under public/assets/images/table-showcase/. Captions identify illustrative artwork; physical dimensions/accessibility are not inferred. The historical standalone study remains at localhost:8092/table-showcase/concept.html. Live source and delivery research are in research/07_table_showcase_research.md section 10. Forty focused showcase checks passed against real isolated MySQL, including blocks/holds/release, joined selection, failures, expiration/time refresh, delayed responses, private management, offline assets, keyboard, reduced motion and 320/390/768/1440px reflow. Twelve guest/management and 36 readiness checks passed after integration. Main smoke, PHP lint (54 files), DB safeguards and running-source checks passed. Updated main image retained 198 reservations, 31 guests, 208 history rows, six staff/one active and zero orders/tickets; no main reset, seed, policy/auth change or publication.
 
 ## Known Limitations
 
@@ -57,9 +57,9 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Review the refined study at localhost:8092/table-showcase/concept.html: one Seating view with the former overhead layout, realistic original 3D furniture, 25 physical-table images and a separate joined composite. S1 visuals and 38 focused checks are complete; all assets are local and credited. Motion respects user preferences.
-2. Resume S2: integrate the shared viewer at the screenshot's room cards and booking floor plan. Keep previewed table separate from selected/held inventory; only explicit eligible selection calls the existing handler.
-3. Verify the guest flow, modal focus, 320px layouts, failed images, joined selection and offline behavior. Keep P0–P7 intact; no main resets or publication. Presentation preparation remains in the demo guide.
+1. Review the live connected gallery at localhost:8080 after a date/time/party search; use Refresh tables if a result expires.
+2. Rehearse the updated guest/host/server/kitchen flow in the disposable demo, following docs/demo-guide.md. Keep main credentials/data and booking rules intact.
+3. For future changes, resume from PLAN.md and research/07_table_showcase_research.md section 10. S0–S3 are complete locally; public hosting and publication remain separately requested work.
 
 ## Last Updated
 

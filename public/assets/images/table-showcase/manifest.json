@@ -1,0 +1,978 @@
+[
+  {
+    "code": "V1",
+    "shape": "round",
+    "seats": 6,
+    "seat_positions": [
+      [
+        1.045,
+        0.0
+      ],
+      [
+        0.5225000000000001,
+        0.9049965469547383
+      ],
+      [
+        -0.5224999999999997,
+        0.9049965469547384
+      ],
+      [
+        -1.045,
+        1.279755905108984e-16
+      ],
+      [
+        -0.5225000000000004,
+        -0.9049965469547381
+      ],
+      [
+        0.5225000000000001,
+        -0.9049965469547383
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "V1.jpg",
+    "bytes": 43655,
+    "sha256": "ffaa1460890bd64fda035e03fe397b3800786f54733a2ffc7b40957bda4d0c72",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "V2",
+    "shape": "round",
+    "seats": 10,
+    "seat_positions": [
+      [
+        1.495,
+        0.0
+      ],
+      [
+        1.2094804065905465,
+        0.8787389521772474
+      ],
+      [
+        0.46198040659054646,
+        1.4218294918612546
+      ],
+      [
+        -0.4619804065905463,
+        1.4218294918612548
+      ],
+      [
+        -1.2094804065905465,
+        0.8787389521772476
+      ],
+      [
+        -1.495,
+        1.830846964725293e-16
+      ],
+      [
+        -1.2094804065905467,
+        -0.8787389521772473
+      ],
+      [
+        -0.4619804065905466,
+        -1.4218294918612546
+      ],
+      [
+        0.4619804065905461,
+        -1.4218294918612548
+      ],
+      [
+        1.2094804065905465,
+        -0.8787389521772477
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "V2.jpg",
+    "bytes": 54353,
+    "sha256": "53bf9d9c135f12324a66ad0b4c13f4a859051b104cfb938cbd61431627e1fa60",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "V3",
+    "shape": "round",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.92,
+        0.0
+      ],
+      [
+        5.633375276077825e-17,
+        0.92
+      ],
+      [
+        -0.92,
+        1.126675055215565e-16
+      ],
+      [
+        -1.6900125828233474e-16,
+        -0.92
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "V3.jpg",
+    "bytes": 34002,
+    "sha256": "a0062c91ae03a7dc283769dd5499e3944ecbe435e65db147a753359fb88b8758",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "V4",
+    "shape": "round",
+    "seats": 8,
+    "seat_positions": [
+      [
+        1.27,
+        0.0
+      ],
+      [
+        0.8980256121069154,
+        0.8980256121069153
+      ],
+      [
+        7.776507174585693e-17,
+        1.27
+      ],
+      [
+        -0.8980256121069153,
+        0.8980256121069154
+      ],
+      [
+        -1.27,
+        1.5553014349171386e-16
+      ],
+      [
+        -0.8980256121069156,
+        -0.8980256121069153
+      ],
+      [
+        -2.3329521523757077e-16,
+        -1.27
+      ],
+      [
+        0.8980256121069151,
+        -0.8980256121069156
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "V4.jpg",
+    "bytes": 48695,
+    "sha256": "79da51ed88920ec7ae968d97d5a8dd43361b4b478af095feeaff17a4746e6b24",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C1",
+    "shape": "square",
+    "seats": 2,
+    "seat_positions": [
+      [
+        0,
+        -0.8200000000000001
+      ],
+      [
+        0,
+        0.8200000000000001
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C1.jpg",
+    "bytes": 28684,
+    "sha256": "31ac57edb78a466969dfbcfd945d846a2f140a24de249d22495404439f23e048",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C2",
+    "shape": "square",
+    "seats": 2,
+    "seat_positions": [
+      [
+        0,
+        -0.8200000000000001
+      ],
+      [
+        0,
+        0.8200000000000001
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C2.jpg",
+    "bytes": 28684,
+    "sha256": "31ac57edb78a466969dfbcfd945d846a2f140a24de249d22495404439f23e048",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C3",
+    "shape": "square",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.92
+      ],
+      [
+        0.0,
+        0.92
+      ],
+      [
+        -0.92,
+        0
+      ],
+      [
+        0.92,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C3.jpg",
+    "bytes": 34861,
+    "sha256": "478837c2c7e281f3c84b3741805dcf9dc8ac37282e5cdf99d92b1bd029feef00",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C4",
+    "shape": "square",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.92
+      ],
+      [
+        0.0,
+        0.92
+      ],
+      [
+        -0.92,
+        0
+      ],
+      [
+        0.92,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C4.jpg",
+    "bytes": 34861,
+    "sha256": "478837c2c7e281f3c84b3741805dcf9dc8ac37282e5cdf99d92b1bd029feef00",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C5",
+    "shape": "square",
+    "seats": 2,
+    "seat_positions": [
+      [
+        0,
+        -0.8200000000000001
+      ],
+      [
+        0,
+        0.8200000000000001
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C5.jpg",
+    "bytes": 28684,
+    "sha256": "31ac57edb78a466969dfbcfd945d846a2f140a24de249d22495404439f23e048",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C6",
+    "shape": "square",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.92
+      ],
+      [
+        0.0,
+        0.92
+      ],
+      [
+        -0.92,
+        0
+      ],
+      [
+        0.92,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C6.jpg",
+    "bytes": 34861,
+    "sha256": "478837c2c7e281f3c84b3741805dcf9dc8ac37282e5cdf99d92b1bd029feef00",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C7",
+    "shape": "square",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.92
+      ],
+      [
+        0.0,
+        0.92
+      ],
+      [
+        -0.92,
+        0
+      ],
+      [
+        0.92,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C7.jpg",
+    "bytes": 34861,
+    "sha256": "478837c2c7e281f3c84b3741805dcf9dc8ac37282e5cdf99d92b1bd029feef00",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C8",
+    "shape": "square",
+    "seats": 2,
+    "seat_positions": [
+      [
+        0,
+        -0.8200000000000001
+      ],
+      [
+        0,
+        0.8200000000000001
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C8.jpg",
+    "bytes": 28684,
+    "sha256": "31ac57edb78a466969dfbcfd945d846a2f140a24de249d22495404439f23e048",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C9",
+    "shape": "square",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.92
+      ],
+      [
+        0.0,
+        0.92
+      ],
+      [
+        -0.92,
+        0
+      ],
+      [
+        0.92,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C9.jpg",
+    "bytes": 34861,
+    "sha256": "478837c2c7e281f3c84b3741805dcf9dc8ac37282e5cdf99d92b1bd029feef00",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C10",
+    "shape": "square",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.92
+      ],
+      [
+        0.0,
+        0.92
+      ],
+      [
+        -0.92,
+        0
+      ],
+      [
+        0.92,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C10.jpg",
+    "bytes": 34861,
+    "sha256": "478837c2c7e281f3c84b3741805dcf9dc8ac37282e5cdf99d92b1bd029feef00",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C11",
+    "shape": "rect",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        -1.095,
+        0
+      ],
+      [
+        1.095,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C11.jpg",
+    "bytes": 38497,
+    "sha256": "62c344bbb7ab9f1d55dc8cc53cd3f4383299a33d9d3ae437865cfcb3e3646645",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "C12",
+    "shape": "rect",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        -1.095,
+        0
+      ],
+      [
+        1.095,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "C12.jpg",
+    "bytes": 38497,
+    "sha256": "62c344bbb7ab9f1d55dc8cc53cd3f4383299a33d9d3ae437865cfcb3e3646645",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "G1",
+    "shape": "rect",
+    "seats": 10,
+    "seat_positions": [
+      [
+        -0.9299999999999999,
+        -0.87
+      ],
+      [
+        -0.9299999999999999,
+        0.87
+      ],
+      [
+        -0.31000000000000005,
+        -0.87
+      ],
+      [
+        -0.31000000000000005,
+        0.87
+      ],
+      [
+        0.31000000000000005,
+        -0.87
+      ],
+      [
+        0.31000000000000005,
+        0.87
+      ],
+      [
+        0.9299999999999999,
+        -0.87
+      ],
+      [
+        0.9299999999999999,
+        0.87
+      ],
+      [
+        -1.6099999999999999,
+        0
+      ],
+      [
+        1.6099999999999999,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "G1.jpg",
+    "bytes": 50281,
+    "sha256": "2b6c891b89225685159f0cacca477857b4acf683151c818dd9fcffe60e3b059e",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "G2",
+    "shape": "rect",
+    "seats": 10,
+    "seat_positions": [
+      [
+        -0.9299999999999999,
+        -0.87
+      ],
+      [
+        -0.9299999999999999,
+        0.87
+      ],
+      [
+        -0.31000000000000005,
+        -0.87
+      ],
+      [
+        -0.31000000000000005,
+        0.87
+      ],
+      [
+        0.31000000000000005,
+        -0.87
+      ],
+      [
+        0.31000000000000005,
+        0.87
+      ],
+      [
+        0.9299999999999999,
+        -0.87
+      ],
+      [
+        0.9299999999999999,
+        0.87
+      ],
+      [
+        -1.6099999999999999,
+        0
+      ],
+      [
+        1.6099999999999999,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "G2.jpg",
+    "bytes": 50281,
+    "sha256": "2b6c891b89225685159f0cacca477857b4acf683151c818dd9fcffe60e3b059e",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "G3",
+    "shape": "rect",
+    "seats": 16,
+    "seat_positions": [
+      [
+        -1.8599999999999999,
+        -0.87
+      ],
+      [
+        -1.8599999999999999,
+        0.87
+      ],
+      [
+        -1.24,
+        -0.87
+      ],
+      [
+        -1.24,
+        0.87
+      ],
+      [
+        -0.6199999999999999,
+        -0.87
+      ],
+      [
+        -0.6199999999999999,
+        0.87
+      ],
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        0.6200000000000001,
+        -0.87
+      ],
+      [
+        0.6200000000000001,
+        0.87
+      ],
+      [
+        1.2399999999999998,
+        -0.87
+      ],
+      [
+        1.2399999999999998,
+        0.87
+      ],
+      [
+        1.8600000000000003,
+        -0.87
+      ],
+      [
+        1.8600000000000003,
+        0.87
+      ],
+      [
+        -2.54,
+        0
+      ],
+      [
+        2.54,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "G3.jpg",
+    "bytes": 49585,
+    "sha256": "be6fb010fdf200afb62927fb96f9adab7a3923090e0d7c2fb79c5d4c460f6172",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "T1",
+    "shape": "square",
+    "seats": 2,
+    "seat_positions": [
+      [
+        0,
+        -0.8200000000000001
+      ],
+      [
+        0,
+        0.8200000000000001
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "T1.jpg",
+    "bytes": 28684,
+    "sha256": "31ac57edb78a466969dfbcfd945d846a2f140a24de249d22495404439f23e048",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "T2",
+    "shape": "square",
+    "seats": 2,
+    "seat_positions": [
+      [
+        0,
+        -0.8200000000000001
+      ],
+      [
+        0,
+        0.8200000000000001
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "T2.jpg",
+    "bytes": 28684,
+    "sha256": "31ac57edb78a466969dfbcfd945d846a2f140a24de249d22495404439f23e048",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "T3",
+    "shape": "square",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.92
+      ],
+      [
+        0.0,
+        0.92
+      ],
+      [
+        -0.92,
+        0
+      ],
+      [
+        0.92,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "T3.jpg",
+    "bytes": 34861,
+    "sha256": "478837c2c7e281f3c84b3741805dcf9dc8ac37282e5cdf99d92b1bd029feef00",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "T4",
+    "shape": "square",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.92
+      ],
+      [
+        0.0,
+        0.92
+      ],
+      [
+        -0.92,
+        0
+      ],
+      [
+        0.92,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "T4.jpg",
+    "bytes": 34861,
+    "sha256": "478837c2c7e281f3c84b3741805dcf9dc8ac37282e5cdf99d92b1bd029feef00",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "T5",
+    "shape": "rect",
+    "seats": 6,
+    "seat_positions": [
+      [
+        -0.3625,
+        -0.87
+      ],
+      [
+        -0.3625,
+        0.87
+      ],
+      [
+        0.36249999999999993,
+        -0.87
+      ],
+      [
+        0.36249999999999993,
+        0.87
+      ],
+      [
+        -1.095,
+        0
+      ],
+      [
+        1.095,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "T5.jpg",
+    "bytes": 43641,
+    "sha256": "734bd7384502d4773766e2e040669c606024773418dc976473c140ac06077611",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "T6",
+    "shape": "square",
+    "seats": 2,
+    "seat_positions": [
+      [
+        0,
+        -0.8200000000000001
+      ],
+      [
+        0,
+        0.8200000000000001
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "T6.jpg",
+    "bytes": 28684,
+    "sha256": "31ac57edb78a466969dfbcfd945d846a2f140a24de249d22495404439f23e048",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  },
+  {
+    "code": "G1-G2",
+    "shape": "joined",
+    "seats": 16,
+    "seat_positions": [
+      [
+        -2.057142857142857,
+        -0.895
+      ],
+      [
+        -2.057142857142857,
+        0.895
+      ],
+      [
+        -1.3714285714285714,
+        -0.895
+      ],
+      [
+        -1.3714285714285714,
+        0.895
+      ],
+      [
+        -0.6857142857142857,
+        -0.895
+      ],
+      [
+        -0.6857142857142857,
+        0.895
+      ],
+      [
+        0.0,
+        -0.895
+      ],
+      [
+        0.0,
+        0.895
+      ],
+      [
+        0.6857142857142855,
+        -0.895
+      ],
+      [
+        0.6857142857142855,
+        0.895
+      ],
+      [
+        1.3714285714285714,
+        -0.895
+      ],
+      [
+        1.3714285714285714,
+        0.895
+      ],
+      [
+        2.0571428571428574,
+        -0.895
+      ],
+      [
+        2.0571428571428574,
+        0.895
+      ],
+      [
+        -2.77,
+        0
+      ],
+      [
+        2.77,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "G1-G2.jpg",
+    "bytes": 48820,
+    "sha256": "1408792c0c642e6ad97ca9734615f9507a00e44d4d6475d7727fc1cde7f3caab",
+    "source": "Original Blender scene / render_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81"
+  }
+]

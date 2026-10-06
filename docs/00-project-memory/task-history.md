@@ -157,3 +157,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: Fresh final showcase suite passed all 38 checks, with additional assertions for initial scroll position at all four widths and reopening a scrolled dialog at mobile width without sticky-header overlap. Corrected mobile screenshot visually inspected. All image/recipe/source hashes, offline/fallback, accessibility, keyboard/focus and reduced-motion checks remain passing. JS syntax, staged/unstaged diff checks and PMM doctor passed. No main runtime or data changes.
 - Closed At: 2026-10-06T01:50:13Z
+
+## 2026-10-06 live-table-showcase
+
+<!-- pmm-task-id: live-table-showcase -->
+
+- Status: done
+- Parent Task: none
+- Title: Connect table showcases to database-backed availability
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Fresh final showcase verifier passed 40 checks against actual isolated MySQL: all25 previews, server options/blackout/second-session hold/release, safe selection, joined group and image fallback, network failure/12s timeout, 30s polling/45s expiration, stale-time refresh/late-response guards, protected management preservation, offline assets, mobile320/390/768/1440, zero automated A/AA issues in tested states, keyboard/focus and motion preferences. Prior final-flow integration runs passed 12 guest/management and36 readiness checks; last announcement cleanup is covered by fresh40 rerun. Public assets/source hashes,25 main catalog-art mappings, measured color contrast, JS syntax,54 PHP lint,report links,Desktop roadmap,main smoke/DB safeguards,exact deployed-source and read-only main browser checks passed. Main198 reservations/31 guests/208 history/6 staff1active/0orders0tickets retained after final image recreation without seed/reset. Staged/unstaged diff and PMM doctor passed. S0-S3 locally delivered; no auth/schema/rule changes or publication.
+- Closed At: 2026-10-06T02:36:17Z

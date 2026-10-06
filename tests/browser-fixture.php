@@ -21,6 +21,17 @@ switch ($input['action'] ?? '') {
         $pdo->prepare("INSERT INTO blackout_dates (scope, scope_id, starts_at, ends_at, reason) VALUES ('table', ?, ?, ?, 'Browser joined fixture')")
             ->execute([$pdo->query("SELECT id FROM `tables` WHERE code = 'G3'")->fetchColumn(), $input['date'] . ' 00:00:00', $input['date'] . ' 23:59:59']);
         break;
+    case 'showcase-block':
+        $table = $pdo->prepare('SELECT id FROM `tables` WHERE code = ?');
+        $table->execute([$input['table']]);
+        $id = $table->fetchColumn();
+        if (!$id || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $input['date'])) throw new RuntimeException('Invalid showcase fixture');
+        $pdo->prepare("INSERT INTO blackout_dates (scope, scope_id, starts_at, ends_at, reason) VALUES ('table', ?, ?, ?, 'Showcase verification')")
+            ->execute([$id, $input['date'] . ' 00:00:00', $input['date'] . ' 23:59:59']);
+        break;
+    case 'showcase-unblock':
+        $pdo->exec("DELETE FROM blackout_dates WHERE reason = 'Showcase verification'");
+        break;
     case 'cleanup':
         $pdo->exec("DELETE FROM blackout_dates WHERE reason = 'Browser joined fixture'");
         break;

@@ -48,19 +48,22 @@
     feedback.classList.toggle("success", success);
     if (text) feedback.focus({ preventScroll: false });
   }
+  const showcase = window.LuminaTableShowcase;
   function step(name) {
+    showcase?.setContext(null);
     clearInterval(timer);
     for (const id of ["search", "details", "confirmation"])
       $("#step-" + id)?.classList.toggle("current", name === id);
     root.replaceChildren();
   }
-  async function api(path, { body, headers = {} } = {}) {
+  async function api(path, { body, headers = {}, signal } = {}) {
     let response;
     try {
       response = await fetch(path, {
         method: body === undefined ? "GET" : "POST",
         credentials: "same-origin",
         cache: "no-store",
+        signal,
         headers: {
           ...headers,
           ...(body === undefined
@@ -240,11 +243,13 @@
     form.addEventListener("change", () => {
       results.replaceChildren();
       selection = null;
+      showcase?.setContext(null);
     });
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       busy(submit, async () => {
         message();
+        showcase?.setContext(null);
         results.replaceChildren(
           node("p", { class: "loading" }, "Checking tables…"),
         );
@@ -300,6 +305,7 @@
     );
   }
   function renderResults(container, availability, query) {
+    const fetchedAt = Date.now();
     container.replaceChildren();
     if (!availability.slots.length) {
       container.append(
@@ -343,7 +349,7 @@
           "aria-pressed",
           String(control.dataset.time === slot.time),
         );
-      renderPicker(picker, slot, query);
+      renderPicker(picker, slot, query, null, fetchedAt);
     }
     for (const slot of availability.slots)
       slots.append(
@@ -362,9 +368,9 @@
     container.append(slots, picker);
     selectSlot(selectedSlot);
   }
-  function renderPicker(container, slot, query) {
+  function renderPicker(container, slot, query, preferred = null, fetchedAt = Date.now()) {
     container.replaceChildren();
-    selection = slot.options[0];
+    selection = slot.options.find(o => preferred && o.kind === preferred.kind && o.id === preferred.id) || slot.options[0];
     const fieldset = node("fieldset", {}, node("legend", {}, "Choose a table"));
     const options = node("div", { class: "options" }),
       detail = node("div", { class: "selection-note" });
@@ -381,7 +387,7 @@
       class: "floor",
       role: "group",
       "aria-label":
-        "Floor plan. Eligible tables can be selected; other tables are unavailable for this search.",
+        "Floor plan. Click any table to preview its seating and availability for this search.",
     });
     svg.append(svgNode("title", {}, "Lumina floor plan"));
     for (const room of catalog.rooms) {
@@ -424,23 +430,17 @@
             };
       const shape = svgNode(table.shape === "round" ? "circle" : "rect", {
         ...attrs,
-        class: "floor-table" + (option ? " available" : ""),
+        class: "floor-table" + (option ? " available" : " unavailable"),
       });
-      if (option) {
-        shape.setAttribute("role", "button");
-        shape.setAttribute("tabindex", "0");
-        shape.setAttribute(
-          "aria-label",
-          `Select ${option.label} in ${roomName(option.room_type)}`,
-        );
-        shape.addEventListener("click", () => choose(option));
-        shape.addEventListener("keydown", (event) => {
-          if (["Enter", " "].includes(event.key)) {
-            event.preventDefault();
-            choose(option);
-          }
-        });
-      }
+      shape.setAttribute("role", "button");
+      shape.setAttribute("tabindex", "0");
+      shape.setAttribute("data-table", table.code);
+      shape.setAttribute("aria-label", `Preview ${table.code}: ${option ? "available" : "unavailable for this search"}`);
+      const preview = () => showcase?.open(table.id, shape);
+      shape.addEventListener("click", preview);
+      shape.addEventListener("keydown", event => {
+        if (["Enter", " "].includes(event.key)) { event.preventDefault(); preview(); }
+      });
       shapes.set(Number(table.id), shape);
       svg.append(shape);
       const x =
@@ -572,8 +572,29 @@
           [managed.special_requests || ""],
         ),
       );
-    container.append(next);
+    container.append(button("Refresh tables", () => showcase?.refresh(), "button ghost small"), next);
     choose(selection);
+    showcase?.setContext({
+      query: {...query}, time: slot.time, slot, checkedAt: fetchedAt,
+      refresh: async (signal) => {
+        const path = editing ? "/api/manage/availability?" + queryString({...query, code:access.code}) : "/api/availability?" + queryString(query);
+        return (await api(path, {headers:editing ? authHeaders() : {}, signal})).availability;
+      },
+      choose: (option, latest) => renderPicker(container, latest, query, option),
+      update: latest => {
+        const available = latest?.options || [];
+        for (const [id, shape] of shapes) {
+          const eligible = available.some(o => o.table_ids.includes(id));
+          shape.classList.toggle("available", eligible);
+          shape.classList.toggle("unavailable", Boolean(latest) && !eligible);
+          const table = catalog.tables.find(t => Number(t.id) === id);
+          shape.setAttribute("aria-label", `Preview ${table.code}: ${!latest ? "unable to check" : eligible ? "available" : "unavailable for this search"}`);
+        }
+        for (const radio of options.querySelectorAll("input")) radio.disabled = !available.some(o => radio.value === `${o.kind}:${o.id}`);
+        next.disabled = !available.some(o => o.kind === selection?.kind && o.id === selection?.id);
+        if (next.disabled) detail.textContent = latest ? "Your selected table is no longer available. Choose another table or search again." : "Check availability again in a table preview or run a new search.";
+      },
+    });
   }
   function summary(rows) {
     return node(
@@ -1016,8 +1037,12 @@
     for (const room of catalog.room_types)
       $("#room-cards").append(
         node(
-          "article",
-          { class: "room-card" },
+          "button",
+          { class: "room-card", type:"button", "data-room-type":room.code, onclick:event => {
+            const rooms = catalog.rooms.filter(r => Number(r.room_type_id) === Number(room.id));
+            const table = catalog.tables.find(t => rooms.some(r => Number(r.id) === Number(t.room_id)));
+            if (table) showcase?.open(table.id, event.currentTarget);
+          } },
           node("div", {
             class: "room-art " + room.code,
             "aria-hidden": "true",
@@ -1026,6 +1051,7 @@
             "div",
             { class: "room-copy" },
             node("h3", {}, room.name),
+            node("span", {class:"showcase-affordance"}, "Explore tables ↗"),
             node("p", {}, room.description),
             node(
               "small",
@@ -1132,6 +1158,11 @@
       ]);
       csrf = session.csrf_token;
       catalog = data.catalog;
+      showcase?.init(catalog, () => {
+        const target = $(managePage ? "#manage-workspace" : "#booking");
+        target?.scrollIntoView({block:"start",behavior:"instant"});
+        (root.querySelector("input,select,button") || target)?.focus({preventScroll:true});
+      });
       if (managePage) {
         if (!access && state.managePath && !incomingError)
           access = privateAccess(state.managePath);

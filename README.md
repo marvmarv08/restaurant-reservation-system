@@ -51,14 +51,14 @@ If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu a
 ## Try the guest booking flow
 
 1. Open [localhost:8080](http://localhost:8080), choose a date in the next 60 days, guests, and room preference. Monday is closed; VIP needs 48 hours and Group needs 24 hours of notice.
-2. Select an available time. The floor plan and radio list show the same eligible tables. Continue to hold the selection for ten minutes.
+2. Select an available time. Click a room card or floor table to preview seating. Green/red badges apply to this date, time and guest count; neutral means a fresh check is needed. **Use this table** updates the radio/floor selection; **Continue with this table** holds it for ten minutes.
 3. Enter your name, phone, and email. Confirm the reservation. Parties of 13–16 submit a request awaiting manager approval.
 4. Save **Copy private link** at confirmation. Open that link in another browser to see the same database booking. Refreshing the original tab also restores its hold or confirmation.
 5. In **My booking**, change the date, party, or table, or cancel after confirming the dialog. The original reservation stays reserved until a replacement is saved. Online changes and cancellation close two hours before the booking.
 
 Treat the private link like a password: anyone with it can manage that booking until it expires. The reference code alone cannot open guest details. There is no guest account requirement. Staff handle manager approval, seating, no-shows, and waitlist offers in the live admin workspace. Email/SMS are simulated, so save the private link yourself; no real notification will arrive.
 
-Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. Styles and scripts are local, fonts use the system, and graphics use CSS/inline SVG. The live app does not need a CDN or internet connection once Docker images are prepared.
+Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. Styles and scripts are local, fonts use the system, and graphics use CSS/inline SVG and locally stored rendered images with source credits. The live app does not need a CDN or internet connection once Docker images are prepared.
 
 ## Activate the first admin and try the staff workflow
 

@@ -14,6 +14,8 @@ Skip when: The active task already has a complete verifier.
 - Release:
 - Security/high risk: guest ownership/capability binding; one-use hashed activation; password bounds/hashing; account/IP throttle; staff CSRF/session rotation/logout/idle/absolute expiry; role/version revocation including deactivate/reactivate and role round-trips; last-admin protection; recent sign-in for account writes; expiry and permission checks after locks; transaction rollback and actual multi-process inventory/pacing/waitlist/creation races.
 
+- Showcase: tests/browser-showcase.mjs on the guarded isolated origin verifies actual database eligibility, blocks/holds/release, safe joined selection, protected management, stale/error/expired data, delayed requests, local asset fallback, mobile/keyboard/axe and motion preferences. Run sequentially with other fixture suites. Never use its blackout fixture on main.
+
 ## Required Evidence
 
 - Command output summary:

@@ -6,6 +6,8 @@
   <meta name="description" content="Reserve your evening at Lumina Kitchen & Terrace. Private suites, dining by the hearth, and the harbour terrace.">
   <title>Lumina Kitchen & Terrace · Reservations</title>
   <link rel="stylesheet" href="/assets/css/app.css">
+  <link rel="stylesheet" href="/assets/css/table-showcase.css">
+  <script src="/assets/js/table-showcase.js" defer></script>
   <script src="/assets/js/guest.js" defer></script>
 </head>
 <body data-page="{{page}}">

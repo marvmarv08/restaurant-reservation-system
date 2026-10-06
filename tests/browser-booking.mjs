@@ -132,6 +132,7 @@ try {
       await search(page);
       await page.locator(".floor-table.available").first().focus();
       await page.keyboard.press("Enter");
+      await page.getByRole("button",{name:"Use this table",exact:true}).click();
       assert.equal(
         await page.locator(".table-option input:checked").count(),
         1,

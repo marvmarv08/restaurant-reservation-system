@@ -4,6 +4,16 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — Database-connected table availability showcase
+
+- Change: Delivered room/floor/all-table opening in the live guest and private-management flows, with local Seating view artwork and labelled inspiration. Green/red/neutral badges use the existing MySQL eligibility response for the selected date/time/party/room preference. Text, symbols and dashed floor outlines supplement color; brief effects respect reduced motion.
+- Safety: Browsing changes no booking/hold. Explicit Use rechecks availability and synchronizes existing radios/floor, including joined members; Continue/Save retains existing server transactions. Open/visible galleries refresh every 30 seconds, results expire after 45 seconds, stalled checks abort after 12 seconds, and late responses cannot overwrite a new search. Changing to a time from an expired snapshot triggers a fresh read rather than relabelling old data as current. Protected management previews leave the original booking intact until Save.
+- Research: W3C color/contrast/status/dialog/motion guidance and NN/G system-status/animation research informed the UX. The chosen refresh intervals/effect durations are project decisions, not universal timings or measured conversion results. Sources and limits are in research/07_table_showcase_research.md section 10.
+- Evidence: 40 fresh showcase checks passed with actual isolated blackouts, a second-session hold/release and private management. Twelve existing guest/management and 36 readiness checks passed after integration; the final announcement cleanup was covered by the fresh showcase rerun. Zero automated A/AA issues in tested states, four viewport sizes, keyboard/focus, failure/offline/delay/freshness and both motion preferences verified. Asset hashes, color contrast, syntax, PHP lint (54 files), main smoke/DB safeguards and exact running source checked. Main retained 198 reservations, 31 guests, 208 history rows, six staff/one active, zero orders/tickets; no main reset, seed, policy/auth changes or publication.
+- Lesson: Availability is calculated for a schedule and party, not stored as one permanent table flag. A table can be free physically and still ineligible because of capacity, room preference, notice or pacing. Use precise labels rather than calling every red table booked.
+- Lesson: A green result is a snapshot, not ownership. Freshness limits, request-version checks and server revalidation prevent old browser data from authorizing a booking. Effects help explain a change but cannot enforce inventory rules.
+- Next: S0–S3 complete locally; review the connected viewer and rehearse in the disposable demo.
+
 ## 2026-10-06 — Realistic single seating view
 
 - Request/change: Removed From above and kept its overhead seat arrangement in Seating view. Built original furniture with timber grain, beveled tops, upholstered chairs and soft shadows. Saved 25 physical-table renders and a separate G1–G2 composite, using catalog shapes/capacities and a credited CC0 Poly Haven texture. IKEA was a visual reference only; its photos/models were not reused.

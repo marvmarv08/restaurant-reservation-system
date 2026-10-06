@@ -1,6 +1,6 @@
 # Table showcase: research and implementation proposal
 
-Research date: 2026-10-06. Owner: Marvin. This extends the completed P0–P7 laptop delivery. It is a design proposal and an interactive research concept; the live app has not yet received this feature.
+Research date: 2026-10-06. Owner: Marvin. This extends the completed P0–P7 laptop delivery. It records the original interactive design study and the delivered database-connected feature; see section 10 for live behavior and verification.
 
 ## 1. Request and inspected screen
 
@@ -126,7 +126,7 @@ The proportions and floor surface are illustrative. These pictures are not actua
 
 ## 5. Interaction and accessibility requirements
 
-The following are acceptance requirements for our implementation, rather than results already achieved by the live application:
+The following requirements shaped the implementation. Executed integration checks and their limits are recorded in section 10:
 
 - Room cards are real buttons/links with a visible “Explore tables” affordance; hover is optional decoration.
 - Table preview buttons have names identifying the table and room. Preserve the floor plan's radio/list fallback.
@@ -168,16 +168,16 @@ Performance targets are project recommendations to verify, not measured results:
 |---|---|---|---|
 | S0 — Research | Done | This recommendation, inspected screenshots, primary sources, local licensed references and clickable concept | Sources/license records and current inventory checked; concept verified separately |
 | S1 — Table visuals | Done for the study | Final coherent artwork for every physical table and a joined composite; local manifest and credits | 25 IDs covered, shapes/capacities correct, visible illustration labels, no invented features, all image fallbacks work offline |
-| S2 — Click-to-open integration | Planned | Clickable room cards and floor tables open the viewer; thumbnails/arrows/swipe browse; explicit eligible selection | Opened table is correct, map/list/viewer agree, browsing starts no hold, old booking/hold stays intact |
-| S3 — Verification | Planned | Mobile, keyboard, image-failure, offline and booking regression checks | 320px reflow; accessible modal; joined selection; eligibility refresh; guest regression and readiness checks pass; main data retained |
+| S2 — Click-to-open integration | Done locally | Clickable room cards and floor tables open the viewer; thumbnails/arrows/swipe browse; explicit eligible selection | Opened table is correct, map/list/viewer agree, browsing starts no hold, old booking/hold stays intact |
+| S3 — Verification | Done locally | Mobile, keyboard, image-failure, offline and booking regression checks | 320px reflow; accessible modal; joined selection; eligibility refresh; guest regression and readiness checks pass; main data retained |
 
-P0–P7 remain Done. A research concept is not a completed live booking feature. Future sessions should resume at S2 using this document and the latest `PLAN.md` checkpoint.
+P0–P7 remain Done. The original study remains separate from the live feature. S2/S3 are delivered locally with independent integration evidence below; use the latest `PLAN.md` checkpoint when resuming.
 
 ## 8. Evidence limits
 
 The concept demonstrates click-to-open, per-table views, thumbnails and table navigation using a snapshot of public inventory. It has no server availability, hold or reservation connection. References from other venues and stylized chair layouts cannot establish the fictional venue's physical appearance, dimensions, acoustics or accessibility. UX findings support the recommendation; this particular workflow has not yet been evaluated with real diners. During live integration, verify the existing booking behavior rather than relying on the concept as proof.
 
-Refined concept verification passed **38 checks**, including opening each of the 25 exact physical table previews, all four room cards, 320/390/768/1440px reflow, zero automated A/AA violations in tested states, a single Seating view, all 26 render assets and source hashes, loaded local photos, missing-image fallback, rapid navigation, normal/reduced-motion effects, selected-table feedback, modal keyboard focus, Escape/focus restoration, and no external requests or JavaScript errors. Source credits/hashes, the inventory wrapper and all local report links were also checked. This evidence applies to the research concept, not the unimplemented live integration.
+Refined concept verification passed **38 checks**, including opening each of the 25 exact physical table previews, all four room cards, 320/390/768/1440px reflow, zero automated A/AA violations in tested states, a single Seating view, all 26 render assets and source hashes, loaded local photos, missing-image fallback, rapid navigation, normal/reduced-motion effects, selected-table feedback, modal keyboard focus, Escape/focus restoration, and no external requests or JavaScript errors. Source credits/hashes, the inventory wrapper and all local report links were also checked. This evidence applies to the research concept, not a substitute for the independently verified live integration in section 10.
 
 Reproduce using the temporary browser tools documented in `docs/verification.md`:
 
@@ -223,3 +223,50 @@ The current public catalog and declared G1–G2 group are captured in [inventory
 | T6 | B6 | Terrace | square | 1–2 |
 
 Declared joined option: **G1 + G2, 11–16 guests**. This must have a combined preview while retaining both physical table identities and the existing manager-approval rule for 13–16 guests.
+
+## 10. Database availability indicators and live integration
+
+Marvin requested green/red availability for each specific table and research on suitable UX/effects. The live integration uses the existing public catalog and availability engine; there is no new permanent `available` database flag. Availability is calculated for a date, start time, guest count and room preference using reservations, live holds, blackouts, pacing and restaurant policy. A physical table omitted from this search is not necessarily occupied.
+
+### Research and design decisions
+
+| Decision | Evidence and fit to this design |
+|---|---|
+| Green check + Available; red cross + Unavailable; neutral circle + schedule/check prompt | Color has a visible text/symbol alternative, following [W3C Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html). Keep the date/time/guest context beside the main badge. Red means unavailable **for this search**, with a capacity/preference explanation when known; it does not assert another customer's booking. |
+| Checked timestamp, Refresh control and an honest unknown state after failure | [NN/G visibility of system status](https://www.nngroup.com/articles/visibility-system-status/) supports clear, timely feedback. Our 30-second open-view refresh and 45-second expiration are conservative project choices, not timings prescribed by that article. Closed/hidden galleries do not poll; old indicators become neutral. A stalled check is aborted after 12 seconds so Retry remains usable. Returning to a visible open gallery triggers a fresh check. |
+| Status feedback without moving keyboard focus | [W3C status messages](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html) supports assistive announcements. User-requested updates and changed availability use a concise status region; the checked timestamp itself is not an endlessly announcing region. Native modal focus, Escape, Close and opener restoration follow the [W3C dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/). |
+| Brief image fade, dialog entrance and badge-color transition; static icons and borders | NN/G recommends motion that explains feedback or state/navigation changes. Applying that to this table gallery is our design judgment. The 180ms image fade, 160ms entrance/status transition and 140ms hover feedback are project values, not measured booking-conversion improvements. Avoid looping pulses, blinking red, autoplay and moving furniture. [Purpose of animation](https://www.nngroup.com/articles/animation-purpose-ux/). |
+| A complete static interface for reduced motion | Effects are enabled only with no motion preference, following [W3C C39](https://www.w3.org/WAI/WCAG22/Techniques/css/C39). No animation delays a server check or table selection. |
+| Readable text, clear outlines and a dashed unavailable floor shape | Colors use the existing warm dark palette. Text and essential boundaries are checked against [W3C non-text contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html); automated accessibility checks remain limited to tested states. |
+
+These references support feedback, accessibility and interaction choices. They do not establish that this exact restaurant layout is universally the best UX; real-diner usability research remains future work.
+
+### Implemented flow and safeguards
+
+- Open `http://localhost:8080`, choose Date, Guests and Room preference, then **Find a table** and a time. Click a room card, an exact floor table, or **View all table previews**. All displayed inventory/shape/capacity metadata comes from the current database catalog.
+- Before a search, previews show a neutral schedule prompt. With a selected time, each badge reflects membership in the server-returned eligible options. A missing/failed response is unknown, rather than available or reserved.
+- Opening checks the current query again. A visible open viewer refreshes every 30 seconds; a result expires after 45 seconds. **Refresh tables** also works from the booking picker. Query changes clear the previous indicators. Selecting a time from an expired result triggers a real fresh search instead of resetting the age of cached data. Request-version guards discard late responses from earlier searches or closed dialogs.
+- Browsing changes only the preview. **Use this table** or **Use joined tables** performs a fresh read, then synchronizes the existing radio/floor selection. It starts no hold. **Continue with this table** retains the existing transactional hold and server validation; a green read cannot guarantee inventory until that transaction succeeds.
+- The only declared joined composite is G1–G2. It is displayed when the server actually offers that group, identifies both members and preserves manager approval. The existing preference for suitable individual tables is unchanged. Failed joined artwork falls back to a combined 16-seat illustration.
+- Management previews reuse the protected management availability endpoint and existing private-link headers. They preserve the current reservation until the existing atomic save completes. This feature changes no authentication, schema, booking rules, notification or payment behavior.
+- Local production assets and credits live in `public/assets/images/table-showcase/`; the original model recipe, source texture and research study remain in `research/`. Images are ordinary static files at runtime, with labelled SVG fallbacks. The gallery needs no external internet, image service or 3D library.
+
+### Verification
+
+Run the focused integration suite only against the guarded isolated database:
+
+```bash
+BOOKING_TEST_MODE=isolated \
+PLAYWRIGHT_MODULE=/tmp/lumina-browser/node_modules/playwright/index.mjs \
+AXE_MODULE=/tmp/lumina-browser/node_modules/@axe-core/playwright/dist/index.mjs \
+LD_LIBRARY_PATH=/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu \
+node tests/browser-showcase.mjs
+```
+
+The suite uses real MySQL availability, a narrowly labelled isolated blackout fixture, and a real second-session hold/release. It also checks eligibility/selection separation, joined artwork, failed network/images, delayed responses, refresh/expiration, keyboard/modal behavior, mobile sizes and reduced motion. Intercepted failure/delay requests test recovery only; they are not evidence of database integration. Fixture actions refuse the main database and remove only their own labelled blackouts.
+
+Final live evidence: **40 focused showcase checks passed** against isolated MySQL. The existing **12 guest/management browser scenarios** and **36 readiness checks** also passed after integration, including the real guest → host → server → kitchen lifecycle. A final announcement cleanup was covered by the fresh 40-check rerun. Zero automated A/AA violations were found in tested showcase states; keyboard, 320/390/768/1440px reflow and both motion preferences were verified. Available/unavailable text contrast measures 10.34:1 / 10.17:1; the respective badge borders measure 6.62:1 / 5.40:1 against their backgrounds. Desktop/mobile available and unavailable screens were inspected visually.
+
+Production asset hashes match the original render/source records. JavaScript syntax, PHP lint (54 files), main smoke, database safeguards and running-source checks passed. The main app was recreated from the updated local image without running seed or resetting storage; read-only browser checks confirmed the feature on port 8080 with no hold/booking POSTs. Main records remained 198 reservations, 31 guests, 208 status-history rows, six staff including one active account, and zero orders/tickets. Existing credentials and booking policy were retained. No public deployment or GitHub publication was performed.
+
+Limitations: green is a recent eligibility result, not a guaranteed booking; the existing hold/save transaction rechecks inventory. Stock pictures and renders are illustrative, not physical venue measurements. Automated checks are not full accessibility certification or a substitute for usability testing with real diners.
