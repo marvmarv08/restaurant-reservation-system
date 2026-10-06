@@ -68,5 +68,5 @@
 
 - [x] Configure private database/CA and hosted session settings; initialize only the intended separate database and privately issue the first staff invitation.
 - [x] Deploy a Vercel preview with the user's account or claimable deployment route; check build/provider readiness through permitted deployment status tools. Do not fetch the deployed URL under the current vercel-deploy skill.
-- [ ] Obtain required runtime evidence through deployment tooling and user rehearsal; if verification is unavailable, record that limitation and do not claim complete operation.
-- [ ] Update PLAN/current state/learning journal and Desktop export, bind PMM verification only to actual delivered evidence, and preserve recovery state for any missing external prerequisites.
+- [x] Obtain required runtime evidence through deployment tooling and user rehearsal; if verification is unavailable, record that limitation and do not claim complete operation.
+- [x] Update PLAN/current state/learning journal and Desktop export, bind PMM verification only to actual delivered evidence, and preserve recovery state for any missing external prerequisites.

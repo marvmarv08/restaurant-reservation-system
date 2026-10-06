@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — Hosted guest/admin acceptance
+
+- Change: Delivered the PHP/Apache Vercel Preview in Marvin's selected workspace with separate encrypted Aiven MySQL and persistent sessions. Explicit Container selection avoids static PHP source delivery; task-created temporary static/production artifacts were removed.
+- Evidence: Previous source verification passed 393 regressions and 45 hosting checks, with fresh review's session-collection race fixed. Marvin now confirmed actual menu/categories, reservation confirmation, staff activation/sign-in and admin dashboard. Fresh read-only checks confirmed READY Preview status, one active staff and 175 reservations over verified TLS. No guest details, passwords or activation tokens were recorded.
+- Lesson: Deployment status proves packaging/readiness; actual browser rehearsal proves the guest/admin flow. Database credentials and staff passwords are separate. Online and laptop databases retain separate records.
+- Scope: Accepted guest/admin hosted flow; broader hosted order/kitchen manual rehearsal is not claimed. Deployment source remains on feat/vercel-full-system; no main-branch merge or laptop data migration was performed.
+
 ## 2026-10-06 — Synchronize completed project work to GitHub
 
 - Request/delivery: Marvin postponed Featured Dish work and requested pushing all completed work. Verified the active owner marvmarv08 and existing private repository, checked remote ancestry, and pushed all 18 unpublished commits plus the 62-file restaurant-visual/menu snapshot through 3921aca. GitHub main matched the Desktop HEAD with a clean tree before recording final delivery notes. History was preserved with a normal push.
