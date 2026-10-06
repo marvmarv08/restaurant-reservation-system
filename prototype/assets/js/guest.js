@@ -1150,7 +1150,7 @@ function submitBooking(needsApproval){
       : "Your table is confirmed. " + res.party + " guests, " + when + ", table " + res.tableLabel + " in " + t.roomName + ".\n\n") +
     "Reference " + res.ref + ". Table time " + turn + " minutes.\n" +
     (res.allergy ? "Kitchen note: " + res.allergy + "\n" : "") +
-    "17 Harbour Crescent, Makati. " + D.VENUE.phone);
+    D.VENUE.address + ". " + D.VENUE.phone);
   B.mail = D.OUTBOX[0];
   if (B.details.sms){
     D.send("sms", res.phone,

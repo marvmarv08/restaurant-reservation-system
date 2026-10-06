@@ -12,7 +12,7 @@ function int(a,b){ return a + Math.floor(rnd()*(b-a+1)); }
 const VENUE = {
   name:"Lumina", suffix:"Kitchen & Terrace",
   tagline:"Coastal fire cooking, eleven courses of smoke and citrus.",
-  address:"17 Harbour Crescent, Makati",
+  address:"Lipa City, Batangas, Philippines",
   phone:"+63 2 8891 4420",
   chef:"Chef Ilaria Moreno",
   hours:"Tue-Sun, 17:30 - 23:30 (last seating 21:45)",

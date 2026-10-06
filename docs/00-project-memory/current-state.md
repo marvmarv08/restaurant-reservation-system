@@ -14,6 +14,8 @@ The S0–S3 table-showcase extension is delivered at localhost:8080. Review the 
 
 ## Stable Facts
 
+- The fictional demo venue address is Lipa City, Batangas, Philippines. No street address or actual venue location is claimed.
+
 - Marvin selected a ten-minute server-side hold and two-hour self-service cancellation cutoff. Modification uses the same cutoff to prevent a move-then-cancel bypass.
 - Fictional venue policy, room limits, 1–16 party size, and R01–R22 are in `PLAN.md`.
 - No real email/SMS delivery or payment collection is authorized.
