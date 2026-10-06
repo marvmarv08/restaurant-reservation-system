@@ -59,14 +59,14 @@
 - [x] Build/run the container locally and check real guest, catalog, protected routes, assets, Secure cookies and MySQL persistence across two instances/restart.
 - [x] Exercise setup refusal on local/main/test/unconfirmed/nonempty targets before writes; confirm new marked demo initialization and safe rerun on a disposable fixture.
 - [x] Inspect actual image/package files for forbidden env/Git/test/upload data and verify TLS credentials never appear in build output.
-- [ ] Run full isolated existing regressions sequentially and final review. Expected: all required checks pass; document honest limitations.
-- [ ] Commit the verified deployment package and guide.
+- [x] Run full isolated existing regressions sequentially and final review. Expected: all required checks pass; document honest limitations.
+- [x] Commit the verified deployment package and guide.
 
 ### Task 4: Online activation and delivery
 
 **Consumes:** verified container, guarded initializer, separate online MySQL details and a Vercel account controlled by Marvin.
 
-- [ ] Configure private database/CA and hosted session settings; initialize only the intended separate database and privately issue the first staff invitation.
-- [ ] Deploy a Vercel preview with the user's account or claimable deployment route; check build/provider readiness through permitted deployment status tools. Do not fetch the deployed URL under the current vercel-deploy skill.
+- [x] Configure private database/CA and hosted session settings; initialize only the intended separate database and privately issue the first staff invitation.
+- [x] Deploy a Vercel preview with the user's account or claimable deployment route; check build/provider readiness through permitted deployment status tools. Do not fetch the deployed URL under the current vercel-deploy skill.
 - [ ] Obtain required runtime evidence through deployment tooling and user rehearsal; if verification is unavailable, record that limitation and do not claim complete operation.
 - [ ] Update PLAN/current state/learning journal and Desktop export, bind PMM verification only to actual delivered evidence, and preserve recovery state for any missing external prerequisites.

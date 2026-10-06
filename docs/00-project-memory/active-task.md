@@ -56,24 +56,24 @@ Skip when: The task is unrelated to the current execution context.
 
 ## Critic
 
-- Pass/Fail: pending
-- Missing Evidence: required checks have not completed.
+- Pass/Fail: implementation checks pass; deployed-browser acceptance pending
+- Missing Evidence: Marvin actual Preview booking, private admin activation and staff sign-in rehearsal.
 - False-Pass Risk: stale or unrelated evidence must not count.
-- Next Action: execute the first unverified acceptance step.
+- Next Action: collect the actual Preview browser rehearsal result.
 
 ## Repair
 
 - Last Failure: none
 - Failure Class: none
 - Attempted Fix: none
-- Next Concrete Action: resolve the isolated feedback-browser timeout; verify a new free Marvin Vercel workspace outside cjmarv; wait for Aiven host/port/CA before any hosted initialization.
+- Next Concrete Action: record Marvin Preview booking/staff rehearsal; diagnose any real runtime error.
 
 ## Record
 
 - Verification Evidence: 17 real sessions, 5 configuration, 4 real TLS, 9 initialization, 10 cross-container HTTP and 393 existing isolated regression checks passed; 62-file PHP lint, actual image secret exclusions, private password scan and diff check passed. Fresh review finding reproduced and fixed; repeated session/HTTP/image/lint checks passed. Actual Aiven TLS and empty database verified; preview delivery evidence remains pending.
-- Delivery Status: not-requested
-- Delivery Evidence: pending
+- Delivery Status: Preview deployed; final browser acceptance pending
+- Delivery Evidence: https://restaurant-reservation-system-j9yt7rfp1-marvmarv08.vercel.app; raw API READY, Preview target, Container framework; real VCR PHP/Apache build; Aiven TLS/schema/local-runtime verified.
 - Docs Updated: pending
-- Remaining Risk: actual Aiven TLS/empty database verified; schema initialization in progress and preview deployment unverified. Dedicated Vercel login is marvmarv08; cjmarv is explicitly forbidden.
+- Remaining Risk: deployed website browser rehearsal pending; no direct deployed-URL fetch under current skill. Dedicated Vercel login is marvmarv08; cjmarv is explicitly forbidden.
 - Memory Promotion Decision: pending
 - Last Updated: 2026-10-06T10:40:39Z
