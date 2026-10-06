@@ -38,6 +38,8 @@ final class StaffReservationService
                 "Choose phone or walk-in.",
             );
         }
+        $snapshot = new AvailabilitySnapshot($this->pdo, $day, $now, $exclude);
+        $availability = new AvailabilityService($this->pdo, $this->clock);
         foreach ($policy->starts($day, $types) as $start) {
             $eligible =
                 $source === "walk_in" &&
@@ -57,10 +59,7 @@ final class StaffReservationService
                     $policy->timezone,
                 );
             }
-            $options = (new AvailabilityService(
-                $this->pdo,
-                $this->clock,
-            ))->options(
+            $options = $availability->options(
                 $start,
                 $party,
                 $room,
@@ -70,6 +69,7 @@ final class StaffReservationService
                 $policy,
                 false,
                 $exclude,
+                $snapshot,
             );
             if ($options !== []) {
                 $slots[] = [

@@ -7,6 +7,80 @@ use App\Service\BookingService;
 
 $tests = new BookingHarness();
 
+$tests->test('Availability grid uses bounded reads and refreshes after a hold', function (BookingHarness $t): void {
+    $reads = static fn (): int => (int) $t->pdo->query("SHOW SESSION STATUS LIKE 'Com_select'")->fetch(PDO::FETCH_NUM)[1];
+    $before = $reads();
+    $slots = $t->availability->search($t->date, 2, 'common')['slots'];
+    $count = $reads() - $before;
+    $t->assert($slots !== [], 'Search must return available tables');
+    $t->assert($count <= 20, "Availability exceeded its read budget: {$count}");
+    $t->setting('max_reservations_per_slot', '1');
+    $t->hold();
+    $times = array_column($t->availability->search($t->date, 2, 'common')['slots'], 'time');
+    $t->assert(!in_array('17:30', $times, true), 'Next search must see the new hold');
+});
+$tests->test('Search keeps seated overruns blocked and excludes the edited reservation from pacing', function (BookingHarness $t): void {
+    $held = $t->hold();
+    $booking = $t->service->confirm($held['hold_token'], $t->guest, $t->owner);
+    $t->pdo->exec("UPDATE reservations SET status = 'seated'");
+    $slots = $t->availability->search($t->date, 2, 'common')['slots'];
+    $later = array_values(array_filter($slots, static fn (array $slot): bool => $slot['time'] === '19:15'))[0];
+    $ids = array_column($later['options'], 'id');
+    $t->assert(!in_array((int) $t->tables['C1']['id'], $ids, true), 'Overdue seated C1 must remain blocked');
+    $t->assert(in_array((int) $t->tables['C2']['id'], $ids, true), 'Unaffected C2 must remain available');
+    $t->setting('max_reservations_per_slot', '1');
+    $t->assert(!in_array('17:30', array_column($t->availability->search($t->date, 2, 'common')['slots'], 'time'), true));
+    $id = (int) $t->pdo->query('SELECT id FROM reservations')->fetchColumn();
+    $editing = $t->availability->search($t->date, 2, 'common', $id)['slots'];
+    $original = array_values(array_filter($editing, static fn (array $slot): bool => $slot['time'] === '17:30'))[0];
+    $t->assert(in_array((int) $t->tables['C1']['id'], array_column($original['options'], 'id'), true));
+});
+$tests->test('Search refreshes joined inventory and expired holds', function (BookingHarness $t): void {
+    $t->pdo->exec("UPDATE `tables` SET is_active = 0 WHERE code = 'G3'");
+    $t->service->hold($t->date, '17:30', 16, 'group', $t->owner);
+    $times = array_column($t->availability->search($t->date, 16, 'group')['slots'], 'time');
+    $t->assert(!in_array('17:30', $times, true), 'Joined members are occupied');
+    $t->pdo->exec("UPDATE holds SET expires_at = DATE_SUB(NOW(), INTERVAL 1 SECOND)");
+    $slots = $t->availability->search($t->date, 16, 'group')['slots'];
+    $first = array_values(array_filter($slots, static fn (array $slot): bool => $slot['time'] === '17:30'))[0];
+    $t->assert($first['options'][0]['kind'] === 'group' && count($first['options'][0]['table_ids']) === 2);
+});
+$tests->test('Search preserves half-open overlap boundaries, scoped blackouts and joined setup', function (BookingHarness $t): void {
+    $earlier = (new DateTimeImmutable($t->date))->modify('-2 days')->format('Y-m-d');
+    [$service, $availability, $now] = $t->fixed($earlier . ' 12:00:00');
+    $t->pdo->exec("UPDATE `tables` SET is_active = 0 WHERE code = 'G3'");
+    $service->hold($t->date, '17:30', 2, 'common', $t->owner, 'table', (int) $t->tables['C1']['id']);
+    $service->hold($t->date, '17:30', 2, 'common', hash('sha256', 'second'), 'table', (int) $t->tables['C2']['id']);
+    $t->pdo->prepare('UPDATE holds SET expires_at = ? WHERE table_id = ?')->execute([$now->format('Y-m-d H:i:s'), $t->tables['C2']['id']]);
+    $t->pdo->prepare("INSERT INTO blackout_dates (starts_at, ends_at, scope, scope_id, reason) VALUES (?, ?, 'table', ?, 'Joined reset')")
+        ->execute([$t->date . ' 20:45:00', $t->date . ' 21:00:00', $t->tables['G1']['id']]);
+    $t->pdo->prepare("INSERT INTO blackout_dates (starts_at, ends_at, scope, scope_id, reason) VALUES (?, ?, 'room', 2, 'Room test')")
+        ->execute([$t->date . ' 21:00:00', $t->date . ' 22:00:00']);
+    $slots = $availability->search($t->date, 2, 'common')['slots'];
+    $byTime = array_column($slots, 'options', 'time');
+    $c1 = (int) $t->tables['C1']['id'];
+    $c2 = (int) $t->tables['C2']['id'];
+    $t->assert(!in_array($c1, array_column($byTime['18:45'], 'id'), true));
+    $t->assert(in_array($c1, array_column($byTime['19:00'], 'id'), true), 'Touching intervals are free');
+    $t->assert(in_array($c2, array_column($byTime['17:30'], 'id'), true), 'Hold expires exactly at now');
+    $t->assert(!isset($byTime['21:00']), 'Room blackout blocks booking');
+    $groupSlots = $availability->search($t->date, 16, 'group')['slots'];
+    $groups = array_column($groupSlots, 'options', 'time');
+    $t->assert(isset($groups['17:45']) && $groups['17:45'][0]['kind'] === 'group', 'Group before setup-tail blackout remains eligible');
+    $t->assert(!isset($groups['18:00']), 'Joined setup tail includes table blackout');
+
+});
+$tests->test('Single-slot booking checks use bounded reads', function (BookingHarness $t): void {
+    $policy = new BookingPolicy($t->pdo);
+    $clock = new BookingClock($t->pdo);
+    $now = $clock->now();
+    $reads = static fn (): int => (int) $t->pdo->query("SHOW SESSION STATUS LIKE 'Com_select'")->fetch(PDO::FETCH_NUM)[1];
+    $before = $reads();
+    $options = $t->availability->options(new DateTimeImmutable($t->date . ' 17:30:00', $policy->timezone), 2, 'common', $now, null, null, $policy);
+    $count = $reads() - $before;
+    $t->assert($options !== []);
+    $t->assert($count <= 12, "Single-slot check exceeded read budget: {$count}");
+});
 $tests->test('R01 Monday closure and outside service hours', function (BookingHarness $t): void {
     $monday = (new DateTimeImmutable($t->date))->modify('next monday')->format('Y-m-d');
     $t->assert($t->availability->search($monday, 2)['slots'] === []);

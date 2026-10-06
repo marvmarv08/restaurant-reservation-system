@@ -8,6 +8,14 @@ The tested PHP container is deployed as a [Vercel Preview](https://restaurant-re
 
 Use Marvin's Vercel account, verified as `marvmarv08`, through the dedicated CLI profile `/home/morkmork26/marvin/.vercel-cli`. Never use the shared `morkmork26` account or the explicitly rejected `cjmarv` workspace. Keep the existing GitHub repository `marvmarv08/restaurant-reservation-system`. Use the verified `marvmarv08` workspace on Hobby; any paid plan or trial needs a separate decision.
 
+## Availability performance follow-up
+
+A hosted query crosses the network. The original availability grid repeated checks for every slot and table: 726 SELECTs took 82.7 seconds in a read-only PHP/Aiven probe. The optimized grid fetches relevant inventory and occupancy once per search: 14 SELECTs took 1.85–2.57 seconds. A single-slot validation including policy loading improved from 45 SELECTs / 5.37 seconds to 13 SELECTs / 1.92 seconds. These are container-to-Aiven measurements, not end-to-end Vercel/browser measurements.
+
+Search data is never cached across requests. Each booking validation gets a new inventory view, including the recheck inside existing transactions and inventory locks. Expired holds, pacing, scoped closures, joined-table setup, seated overruns and edit exclusions remain enforced. No database reset or migration is needed. Existing staff continue using their chosen passwords.
+
+After the performance Preview is ready, use its new URL, sign in again with the existing staff account, and check guest/staff availability and hold/confirmation loading. The earlier guest/admin functional acceptance belongs to the initial Preview; actual timing acceptance for this update remains pending.
+
 ## Private database configuration
 
 Create a separate Aiven MySQL Free service and wait for Running. Copy **Host**, **Port**, **User** and **Password** from its connection information into the ignored `.env.hosted` in this deployment folder. Use `DB_DATABASE=defaultdb`. These are online service credentials; laptop Docker passwords are a different connection. Enter values directly after `=` without surrounding quotes, then save.
