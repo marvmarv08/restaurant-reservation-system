@@ -9,7 +9,7 @@ Skip when: The active task already has a complete verifier.
 - Code: `docker compose exec -T app php bin/lint.php`; `git diff --check`; apply additive SQL on existing and fresh isolated volumes.
 - Frontend: real `tests/browser-booking.mjs`, `tests/browser-staff.mjs`, and `tests/browser-orders.mjs` against the isolated app; desktop/mobile/320px, keyboard/focus, refresh, second browser, interrupted-response recovery, countdown/server age, joined members, approval, role boundaries, host/order/kitchen workflows, settings, invitations, audit/outbox, and inert stored markup. See the three API guides.
 - Backend/API: isolated `bin/test-booking.php`, `bin/test-management.php`, `bin/test-staff.php`, `bin/test-orders.php`, `tests/http-booking.mjs`, `tests/http-management.mjs`, `tests/http-staff.mjs`, `tests/http-orders.mjs`, and `bin/smoke.sh`; see the API guides for exact commands. Run resetting suites sequentially.
-- Docs/skills:
+- Docs/research: verify local file links, reviewed source provenance, current-versus-proposed boundaries, README/PLAN entry points, Desktop export, `git diff --check` and PMM doctor. UI-effects research is in research/08_ui_motion_research.md; its future scenarios are acceptance criteria, not passing implementation evidence.
 - Recovery:
 - Release:
 - Security/high risk: guest ownership/capability binding; one-use hashed activation; password bounds/hashing; account/IP throttle; staff CSRF/session rotation/logout/idle/absolute expiry; role/version revocation including deactivate/reactivate and role round-trips; last-admin protection; recent sign-in for account writes; expiry and permission checks after locks; transaction rollback and actual multi-process inventory/pacing/waitlist/creation races.

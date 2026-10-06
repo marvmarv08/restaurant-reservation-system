@@ -1,4 +1,5 @@
 # 04 - UI / Visual Effects Research (Vanilla CSS + Vanilla JS)
+> Historical design study: for current live-app recommendations, use [08 — UI effects research](08_ui_motion_research.md). This newer report supersedes the competition-oriented motion choices and fixed browser-version assumptions below; new effects remain proposed until implemented and verified.
 
 Project: table reservation system (multi-page PHP app). Goal: win a class competition on live-demo impact.
 Constraints: no framework, no build step. CDN script tags allowed.

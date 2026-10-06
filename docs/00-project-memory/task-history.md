@@ -196,3 +196,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: Fresh34 capacity checks passed using actual database catalog and group16 availability: guest-first1-16 exact room matches, room-first all4 ranges/VIP2-10/Group5-16, Any-room escape, preserved/adjusted values, legacyVIP1 normalization, polite announcement/focus, clearing old results/indicators, mobile320/390/768/1440 andzero automated A/AA issues. Existing12 guest/management and41 live-showcase scenarios passed sequentially including joined groups and protected management preservation. JS syntax,54 PHP lint,docs links,Windows Desktop export,diff and PMM doctor passed. Updated main image recreated without seed/reset;main smoke,exact deployed source and read-only main guest16/VIP2-10 browser checks passed. Main counts/staff exactly match pre-deploy baseline. No SQL/schema/auth/policy changes or publication.
 - Closed At: 2026-10-06T03:40:57Z
+
+## 2026-10-06 ui-effects-research
+
+<!-- pmm-task-id: ui-effects-research -->
+
+- Status: done
+- Parent Task: none
+- Title: Research purposeful effects across guest and staff interfaces
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 19 primary-source entries reviewed via web; remote GitHub Phase0 identified with owner account; local source and guest/showcase/sign-in browser review1440/390 plus reduced motion; no POSTs in normal contexts; 14 local links, implementation-status boundaries, docs-only scope, Desktop checkpoint, diff check and PMM doctor passed. Protected screens source-reviewed only; no new effects, performance result or full conformance claimed.
+- Closed At: 2026-10-06T04:14:02Z

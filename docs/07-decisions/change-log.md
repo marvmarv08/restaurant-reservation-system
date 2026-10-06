@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — Research UI effects across guest and staff workflows
+
+- Delivery: Added research/08_ui_motion_research.md with 19 reviewed primary sources, source anchors for every major workflow, existing/proposed distinctions, timing defaults, implementation technology comparison and E0–E4 phases. E0 research is complete; new effects remain proposed. Linked the report from README/PLAN and marked the earlier competition-oriented effects study as historical.
+- Decision: Keep restrained showcase effects; prioritize truthful pending/success/error feedback and scoped guest transitions. Operational views need cues tied to genuine data changes so two-second kitchen polling does not replay ticket entrance animations. No new library is recommended for the selected effects.
+- Evidence: Read-only GitHub API verified remote main at Phase 0; local source review used ae447c5. Guest/showcase/sign-in browser inspection at1440/390px confirmed existing timings, no page overflow, dialog focus/return, and reduced-motion behavior. This was research verification, not a new regression, performance or conformance result; protected workspaces were source-reviewed. Local report links, 19 source entries, documentation scope, Desktop export, diff check and PMM doctor passed.
+- Lesson: An effect needs a trigger, a truthful state, a short duration and an instant alternative. Recreating a DOM element during polling can restart its CSS animation even when the underlying data did not change. Shared timing tokens help consistency; they do not establish user preference or measured speed.
+
 ## 2026-10-06 — Linked guest and room capacity choices
 
 - Request/change: Marvin’s screenshot showed an incompatible one-guest VIP search. Linked the two booking dropdowns using room_types.min_party/max_party and the global catalog.max_party: guest-first choices hide incompatible rooms, and room-first choices show only supported guest counts. Initial defaults allow either field to be chosen first; submitted/restored searches preserve their capacity context. Valid values survive changes. An incompatible count moves to the nearest valid count with a visible polite announcement. Any room restores all guest choices.

@@ -10,7 +10,7 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
-The S0–S3 table-showcase extension is delivered at localhost:8080. Review the database-backed previews and rehearse the full demo using the existing disposable stack; section 10 of research/07_table_showcase_research.md records current behavior and evidence.
+UI effects desk research is delivered in research/08_ui_motion_research.md. E0 is complete; E1–E4 remain proposed. For the next UI implementation, start with shared response states while retaining the completed S0–S3 showcase and existing booking/service safeguards.
 
 ## Stable Facts
 
