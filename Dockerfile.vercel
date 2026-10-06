@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.3-apache AS compiled
 
 RUN docker-php-ext-install pdo_mysql opcache \
     && a2enmod rewrite headers
@@ -12,6 +12,21 @@ COPY config ./config
 COPY public ./public
 COPY database ./database
 COPY bin ./bin
-ENV APP_ENV=hosted APP_TZ=Asia/Manila SESSION_DRIVER=database
+# Remove build tools and flatten the runtime to reduce container startup downloads.
+RUN set -eux; \
+    apt-mark manual apache2 apache2-bin apache2-data ca-certificates; \
+    find /usr/local -type f -executable -exec ldd '{}' ';' 2>/dev/null \
+      | awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) next; gsub("^/(usr/)?", "", so); print so }' \
+      | sort -u | xargs -r dpkg-query --search | awk -F': ' 'NF == 2 && $1 !~ /[[:space:]]/ { sub(/:[^:]+$/, "", $1); print $1 }' | sort -u | xargs -r apt-mark manual; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $PHPIZE_DEPS; \
+    rm -rf /usr/src/php.tar.xz /usr/local/include/php /usr/local/lib/php/build /var/lib/apt/lists/*
+
+FROM scratch
+COPY --from=compiled / /
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    PHP_INI_DIR=/usr/local/etc/php APACHE_CONFDIR=/etc/apache2 APACHE_ENVVARS=/etc/apache2/envvars \
+    APP_ENV=hosted APP_TZ=Asia/Manila SESSION_DRIVER=database
+WORKDIR /var/www/html
 EXPOSE 80
+ENTRYPOINT ["docker-php-entrypoint"]
 CMD ["apache2-foreground"]

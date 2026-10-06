@@ -76,7 +76,14 @@
       focus: focus && !success && Boolean(text),
     });
   }
+  let dashboardRead = null;
+  let dashboardRevision = 0;
+  function invalidateDashboardRead() {
+    dashboardRevision++;
+    dashboardRead = null;
+  }
   async function api(path, body) {
+    if (body !== undefined) invalidateDashboardRead();
     let response;
     try {
       response = await fetch(path, {
@@ -106,6 +113,7 @@
         new Error(data.error?.message || "Please try again."),
         { code: data.error?.code, status: response.status },
       );
+    if (body !== undefined) invalidateDashboardRead();
     return data;
   }
   async function busy(control, work) {
@@ -497,15 +505,28 @@
     );
     return refreshDashboard();
   }
+  function dashboardQuery() {
+    return new URLSearchParams({
+      ...filters,
+      status: tab === "waitlist" ? "waitlisted" : filters.status || "all",
+      page,
+    }).toString();
+  }
+  function dashboardKey() {
+    return `${dashboardRevision}:${tab}:${dashboardQuery()}`;
+  }
   async function refreshDashboard() {
-    const data = await api(
-      "/api/admin/dashboard?" +
-        new URLSearchParams({
-          ...filters,
-          status: tab === "waitlist" ? "waitlisted" : filters.status || "all",
-          page,
-        }),
-    );
+    const key = dashboardKey();
+    if (!dashboardRead || dashboardRead.key !== key) {
+      const read = { key, promise: null };
+      read.promise = api("/api/admin/dashboard?" + dashboardQuery()).finally(() => {
+        if (dashboardRead === read) dashboardRead = null;
+      });
+      dashboardRead = read;
+    }
+    const data = await dashboardRead.promise;
+    // A changed filter/tab or completed write must not repaint a newer view with old data.
+    if (key !== dashboardKey()) return;
     dashboard = data;
     serverEpoch = data.server_time_epoch;
     serverStarted = performance.now();
@@ -1921,7 +1942,10 @@
   }
   async function boot() {
     try {
-      const session = await api("/api/auth/me");
+      const [session, initialCatalog] = await Promise.all([
+        api("/api/auth/me"),
+        view === "admin" ? api("/api/catalog") : Promise.resolve(null),
+      ]);
       csrf = session.csrf_token;
       user = session.user;
       serverEpoch = session.server_time_epoch;
@@ -1966,7 +1990,7 @@
         location.assign("/staff/login");
         return;
       }
-      catalog = (await api("/api/catalog")).catalog;
+      catalog = initialCatalog.catalog;
       filters = { date: catalog.today, status: "all", q: "" };
       $("#staff-user").textContent = user.full_name + " · " + user.role;
       $("#staff-logout").hidden = false;

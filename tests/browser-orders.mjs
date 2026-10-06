@@ -202,6 +202,7 @@ try {
       // Wait for the completed save; service actions ignore a second click while busy.
       await sp.getByText("Allergy notes saved.", { exact: true }).waitFor();
       await action(sp, "Send to kitchen");
+      await sp.getByText("Order sent to the kitchen.", { exact: true }).waitFor();
       await refresh(kp);
       await kp
         .getByText("Peanut allergy <img src=x onerror=alert(1)>", {

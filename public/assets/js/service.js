@@ -16,6 +16,8 @@
     clockEpoch = 0,
     clockAt = 0,
     pollBusy = false,
+    refreshPromise = null,
+    refreshRevision = 0,
     dialogOpener = null;
   const permitted = (p) => user?.permissions.includes(p);
   const el = (tag, attrs = {}, ...children) => {
@@ -65,6 +67,7 @@
       target.append(btn("Retry same request", () => submitPending()));
   }
   async function api(path, body) {
+    if (body !== undefined) refreshRevision++;
     const response = await fetch(path, {
       credentials: "same-origin",
       cache: "no-store",
@@ -85,6 +88,7 @@
       }
       throw error;
     }
+    if (body !== undefined) refreshRevision++;
     return value;
   }
   async function execute(fn, control) {
@@ -682,25 +686,40 @@
         card.classList.toggle("age-" + value, value === level);
     }
   }
-  async function refresh() {
-    if (pollBusy) return;
+  function listingPath() {
+    const date = filters.elements.date.value;
+    return mode === "kitchen"
+      ? `/api/kitchen/tickets?date=${date}&station=${filters.elements.station.value}`
+      : `/api/service/orders?date=${date}`;
+  }
+  function refresh(loadMenu = false) {
+    if (refreshPromise) return refreshPromise;
     pollBusy = true;
-    try {
-      const date = filters.elements.date.value;
-      const data = await api(
-        mode === "kitchen"
-          ? `/api/kitchen/tickets?date=${date}&station=${filters.elements.station.value}`
-          : `/api/service/orders?date=${date}`,
-      );
-      clockEpoch = Number(data.server_time_epoch);
-      clockAt = performance.now();
-      if (mode === "kitchen") renderKitchen(data);
-      else renderOrders(data);
-      $("#service-sync").textContent =
-        `Live service · Asia/Manila · refreshed ${new Intl.DateTimeFormat("en-PH", { timeZone: "Asia/Manila", hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(new Date(clockEpoch * 1000))}${mode === "kitchen" ? " · Ticket actions apply to all stations" : ""}`;
-    } finally {
+    refreshPromise = (async () => {
+      let needsMenu = loadMenu;
+      for (;;) {
+        const path = listingPath(), revision = refreshRevision;
+        const [data, menuData] = await Promise.all([
+          api(path),
+          needsMenu ? api("/api/service/menu") : Promise.resolve(null),
+        ]);
+        if (menuData) menu = menuData.menu;
+        needsMenu = false;
+        // Join a pending poll, then honor the latest filters and any intervening write.
+        if (path !== listingPath() || revision !== refreshRevision) continue;
+        clockEpoch = Number(data.server_time_epoch);
+        clockAt = performance.now();
+        if (mode === "kitchen") renderKitchen(data);
+        else renderOrders(data);
+        $("#service-sync").textContent =
+          `Live service · Asia/Manila · refreshed ${new Intl.DateTimeFormat("en-PH", { timeZone: "Asia/Manila", hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(new Date(clockEpoch * 1000))}${mode === "kitchen" ? " · Ticket actions apply to all stations" : ""}`;
+        break;
+      }
+    })().finally(() => {
       pollBusy = false;
-    }
+      refreshPromise = null;
+    });
+    return refreshPromise;
   }
   $("#service-dialog-close").addEventListener("click", () => dialog.close());
   dialog.addEventListener("close", () => {
@@ -759,8 +778,7 @@
       day: "2-digit",
     }).format(new Date(session.server_time_epoch * 1000));
     $("#station-field").hidden = mode !== "kitchen";
-    if (mode === "server") menu = (await api("/api/service/menu")).menu;
-    await refresh();
+    await refresh(mode === "server");
     setInterval(
       () => {
         if (
