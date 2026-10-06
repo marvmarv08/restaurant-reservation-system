@@ -144,3 +144,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: Fresh final verifier passed 38 checks: all 26 asset/source/recipe hashes, exact 25 table previews, four rooms, 320/390/768/1440px reflow, zero automated A/AA violations in tested states, modal focus/Escape, offline pictures, fallback, rapid navigation, selected feedback and normal/reduced motion. Final square/round/long/joined renders and desktop/mobile layouts visually inspected. JS/renderer syntax, inventory wrapper and report links passed; Windows Desktop export refreshed; unstaged/staged diff checks and PMM doctor passed. Main app and database untouched. S2/S3 live integration remains planned.
 - Closed At: 2026-10-06T01:42:09Z
+
+## 2026-10-06 showcase-scroll-restoration
+
+<!-- pmm-task-id: showcase-scroll-restoration -->
+
+- Status: done
+- Parent Task: none
+- Title: Keep the complete seating picture visible when reopening
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Fresh final showcase suite passed all 38 checks, with additional assertions for initial scroll position at all four widths and reopening a scrolled dialog at mobile width without sticky-header overlap. Corrected mobile screenshot visually inspected. All image/recipe/source hashes, offline/fallback, accessibility, keyboard/focus and reduced-motion checks remain passing. JS syntax, staged/unstaged diff checks and PMM doctor passed. No main runtime or data changes.
+- Closed At: 2026-10-06T01:50:13Z

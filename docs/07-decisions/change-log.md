@@ -10,6 +10,7 @@ Skip when: You only need the active task or current state.
 - UX: Added brief image/dialog transitions, clear selected borders, choice feedback and a static loading message. Optional motion is enabled only when reduced motion is not requested. Local SVG layouts retain controls and text after image failure.
 - Evidence: 38 focused study checks passed: asset/recipe/source hashes, all 25 exact previews, four rooms, 320/390/768/1440px reflow, zero automated A/AA violations in tested states, keyboard/modal focus, fallback, offline use, rapid navigation and both motion preferences. Original rendered furniture and desktop/mobile layouts were inspected visually.
 - Lesson: A static 3D render is an ordinary image at runtime. Modelling from catalog data makes seat counts checkable and keeps the browser simple. A realistic image still does not prove actual venue dimensions or accessibility; retain accurate text and label illustrative artwork.
+- Repair/lesson: A reopened native dialog can retain its earlier scroll position. Reset scroll at opening and focus the heading without scrolling; a mobile reopen assertion checks that the sticky header leaves the seating picture visible.
 - Lesson: Effects should explain opening, loading or selection, and preserve a complete static experience for users who request reduced motion.
 - Next: S1 study visuals are complete; S2 live integration and S3 booking verification remain planned. Main app code, data and credentials are unchanged.
 

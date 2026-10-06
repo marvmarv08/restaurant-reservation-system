@@ -52,7 +52,7 @@
     opener=trigger; tables=data.tables.filter(t=>Number(t.room_id)===Number(room.id));
     index=tables.findIndex(t=>t.code===table.code); view='seating'; $('#room-name').textContent=room.name;
     $('#thumbnails').replaceChildren(...tables.map(t=>tableButton(t,'thumbnail',()=>{index=tables.indexOf(t);render();})));
-    render(); dialog.showModal(); $('#showcase-title').focus();
+    render(); dialog.showModal(); dialog.scrollTop=0; $('#showcase-title').focus({preventScroll:true});
   }
   function render() {
     const table=tables[index], room=data.rooms.find(r=>Number(r.id)===Number(table.room_id));

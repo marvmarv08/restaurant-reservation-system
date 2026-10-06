@@ -45,7 +45,7 @@ try{
   await page.setViewportSize({width,height:1000});
   await check('Room layout '+width+'px',async()=>assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false));
   await page.locator('[data-room="r_common"]').click();await page.getByRole('dialog').waitFor();
-  await check('Click room opens C1 with 12 table thumbnails',async()=>{assert.equal(await page.locator('#showcase-title').innerText(),'Table C1');assert.equal(await page.locator('.thumbnail').count(),12);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);});
+  await check('Click room opens C1 with 12 table thumbnails',async()=>{assert.equal(await page.locator('#showcase-title').innerText(),'Table C1');assert.equal(await page.locator('.thumbnail').count(),12);assert.equal(await page.locator('dialog').evaluate(e=>e.scrollTop),0);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);});
   await picture();await axe('table dialog '+width+'px');
   await page.getByRole('button',{name:'Next table',exact:true}).click();
   await check('Next shows C2 without choosing a table',async()=>{assert.equal(await page.locator('#showcase-title').innerText(),'Table C2');assert.match(await page.locator('#selection').innerText(),/No table chosen/);});
@@ -74,9 +74,12 @@ try{
  await picture();
  await check('Reduced motion disables optional effects',async()=>{assert.equal(await page.locator('dialog').evaluate(e=>getComputedStyle(e).animationName),'none');assert.equal(await page.locator('#hero img').evaluate(e=>getComputedStyle(e).transitionDuration),'0s');});
  await page.screenshot({path:artifacts+'/showcase-desktop.png'});
+ await page.locator('dialog').evaluate(e=>e.scrollTop=120);
  await page.locator('#close').click();
  await page.setViewportSize({width:390,height:1000});
  await page.locator('[data-room=r_common]').click();await picture();
+ assert.equal(await page.locator('dialog').evaluate(e=>e.scrollTop),0,'Reopening resets earlier scroll');
+ assert.equal(await page.evaluate(()=>document.querySelector('#hero').getBoundingClientRect().top>=document.querySelector('.dialog-heading').getBoundingClientRect().bottom),true,'Sticky heading leaves the image visible');
  await page.screenshot({path:artifacts+'/showcase-mobile.png'});
  await page.locator('#close').click();
  await page.emulateMedia({reducedMotion:'no-preference'});
