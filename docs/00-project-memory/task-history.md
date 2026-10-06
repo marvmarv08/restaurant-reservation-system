@@ -287,3 +287,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: Verified 2026-10-06: 241 browser checks (21 menu plus 220 regressions), 11 isolated booking HTTP and 10 read-only live checks passed. Real names/descriptions/prices/tags and unavailable fixture, 36 mapped menu keys and 34 local photo checksums, 35 live source matches, 320/390/768/1440px focus/reflow/tested-state A/AA, image fallback and reduced motion verified. PHP lint 54 files, main/test smoke, JS/Bash syntax, rollback DB safeguards, diff check, exported Desktop roadmap and PMM doctor passed. Independent scoped review approved product and harness waits; main retained 198 reservations, 31 guests, 208 history, 6 users/1 active, 0 orders/tickets. Fresh logs /tmp/lumina-menu-*-verification.log; canonical Desktop project unchanged in scope.
 - Closed At: 2026-10-06T10:13:55Z
+
+## 2026-10-06 lumina-github-sync
+
+<!-- pmm-task-id: lumina-github-sync -->
+
+- Status: done
+- Parent Task: none
+- Title: Publish verified Table Reserve source to Marvin GitHub
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: PASS: active GitHub user and author marvmarv08; destination existing private marvmarv08/restaurant-reservation-system main. Full fresh isolated gate 393 checks:109 MySQL,43 HTTP,241 browser. 54 PHP lint,JS/Bash syntax,main/test smoke,diff and PMM doctor passed.259 candidate files and332 unpublished historical blobs scanned before push with no private environment file/value or recognizable credential detection. Normal push delivered18 earlier commits plus3921aca; GitHub API matched Desktop HEAD and working tree was clean before delivery-record edits. Main retained198 reservations,31 guests,208 history,6 users1active,0 orders/tickets. Remaining diff is delivery documentation only; scan and doctor passed; final checkpoint commit/push follows task closure.
+- Closed At: 2026-10-06T10:27:21Z

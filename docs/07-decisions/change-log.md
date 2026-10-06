@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — Synchronize completed project work to GitHub
+
+- Request/delivery: Marvin postponed Featured Dish work and requested pushing all completed work. Verified the active owner marvmarv08 and existing private repository, checked remote ancestry, and pushed all 18 unpublished commits plus the 62-file restaurant-visual/menu snapshot through 3921aca. GitHub main matched the Desktop HEAD with a clean tree before recording final delivery notes. History was preserved with a normal push.
+- Verification: Full publishing gate passed 393 automated checks: 109 MySQL, 43 HTTP and 241 browser. Complete PHP lint (54 files), JavaScript/Bash syntax, main/test smoke, staged whitespace and PMM doctor passed. The candidate tree and unpublished historical blobs were checked for private configuration values, recognizable credentials and GitHub file-size limits. Main retained 198 reservations, 31 guests, 208 history rows, six users/one active and zero orders/tickets.
+- New lesson: A commit saves a named checkpoint locally; push uploads those checkpoints to GitHub. The upload includes earlier unpushed history, so checking only the latest files can miss an old secret. Ignore rules keep private configuration out of future commits; database records still live in Docker storage and are not uploaded by a code push.
+- Remaining scope: Featured Dish work is explicitly postponed. E3/E4, story/location and public website hosting require a later request. Source and Git history are synchronized; private configuration, staff credentials and main records remain local.
+
 ## 2026-10-06 — Menu photography and responsive category navigation
 
 - Request/change: Marvin approved menu photos and category navigation from the restaurant reference. Added 28 licensed local thumbnails (673 KiB), reused six gallery photos and mapped all 36 database image keys to 34 photographs. Guest dish rows now include thumbnails, with a desktop category sidebar and horizontal phone strip. Selected category, count, keyboard focus, genuine catalog data and existing short/reduced-motion transitions remain usable.
