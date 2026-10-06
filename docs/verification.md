@@ -35,6 +35,7 @@ node tests/browser-orders.mjs
 node tests/browser-readiness.mjs
 node tests/browser-showcase.mjs
 node tests/browser-capacity.mjs
+node tests/browser-feedback.mjs
 ```
 
 Chromium needs operating-system libraries. On Marvin's current Ubuntu laptop the temporary extraction is `/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu`; prefix browser commands with `LD_LIBRARY_PATH=/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu` if needed. A new machine must install the libraries Playwright reports missing using its documented setup. Temporary tooling may disappear after a reboot; reinstall it for development verification. The actual application needs neither Node nor Playwright.
@@ -69,3 +70,9 @@ Accessibility references: [W3C reflow guidance](https://www.w3.org/WAI/WCAG22/Un
 ## Linked booking capacity controls
 
 `tests/browser-capacity.mjs` checks both interaction orders against the real public database catalog. It covers guest counts1–16, room-specific ranges, compatible-value preservation, explicit adjustment feedback, Any-room escape, legacy queries, an actual group16 availability request, stale-result clearing, keyboard focus and four viewport sizes. It creates no booking or hold; run it on the fixed isolated origin with the same browser environment above. Guest/showcase helpers choose Any room before changing to a count outside the current room range, matching the real user flow.
+
+## Shared response states (E1)
+
+`tests/browser-feedback.mjs` runs only on the fixed isolated origin using the browser environment above. It holds genuine HTTP responses to inspect pending search, sign-in and order actions; it does not substitute fake successful availability or save results. It checks stable button dimensions, stationary delayed placeholders, duplicate guards, immediate fast-response completion, cancelled loading timers, persistent network errors/recovery, touch, reduced motion, four viewport widths and automated A/AA checks in tested states. A successful isolated order save followed by a failed read refresh must report that the change was saved, without offering a mutation retry.
+
+The suite's guarded staff/order fixtures reset disposable verification data and activate fake staff. Run it sequentially with the other fixture suites. Main credentials and records are not used. Its screenshots/logs are temporary files under `/tmp/ui-effects-e1`; rerun the suite for current evidence. Success notifications now use `role=status` with polite announcements; errors retain alert semantics. The booking regression explicitly checks the cancellation status and actual cancelled record.

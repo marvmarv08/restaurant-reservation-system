@@ -4,6 +4,14 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — E1 shared response states
+
+- Change: Added local shared response CSS/JS to guest, staff and service pages. Existing action guards expose specific pending labels and aria-busy while preserving button size and restoring attributes. Slow guest/host table searches get static placeholders after 200 ms; fast completion cancels the placeholder timer. Success messages use polite status semantics; errors persist and background host refresh does not take focus.
+- Correctness: Clear prior service success before a new action. A saved order followed by a failed read refresh is reported as saved inside its dialog, without a duplicate-mutation retry. Hold-expiry disabling survives pending-control cleanup. No schema, auth, policy, credential or backend state-machine change was made.
+- Evidence: 26 focused feedback checks passed using real delayed HTTP responses and actual isolated order saves;143 existing browser checks passed (12 guest, 10 staff, 10 order, 41 showcase, 34 capacity, 36 readiness). Covered duplicate guards, fast/slow/failing/recovered requests, timer cleanup, dimensions, touch, motion preferences, four widths and automated A/AA rules in tested states. Success-role expectations were updated while retaining cancelled-record checks. 54 PHP files passed lint; isolated/main smoke and exact source delivery passed. Main 198 reservations/31 guests/208 history rows, 6 users including 1 active, 0 orders/tickets retained after app-only recreation. A read-only main mobile browser check and the rollback-based database safeguards passed.
+- Lesson: Pending feedback must describe work still in progress; success follows the saved response. A failed refresh after a successful save does not mean the mutation failed. Keep the original label in layout to prevent button movement, cancel delayed placeholders, and announce ordinary success without treating it as an error.
+- Next: E2 scoped guest transitions, E3 operational change cues, E4 final motion/accessibility/performance review. E1 adds no polling entrance animation or new runtime library.
+
 ## 2026-10-06 — Research UI effects across guest and staff workflows
 
 - Delivery: Added research/08_ui_motion_research.md with 19 reviewed primary sources, source anchors for every major workflow, existing/proposed distinctions, timing defaults, implementation technology comparison and E0–E4 phases. E0 research is complete; new effects remain proposed. Linked the report from README/PLAN and marked the earlier competition-oriented effects study as historical.

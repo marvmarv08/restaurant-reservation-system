@@ -209,3 +209,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: 19 primary-source entries reviewed via web; remote GitHub Phase0 identified with owner account; local source and guest/showcase/sign-in browser review1440/390 plus reduced motion; no POSTs in normal contexts; 14 local links, implementation-status boundaries, docs-only scope, Desktop checkpoint, diff check and PMM doctor passed. Protected screens source-reviewed only; no new effects, performance result or full conformance claimed.
 - Closed At: 2026-10-06T04:14:02Z
+
+## 2026-10-06 e1-shared-feedback
+
+<!-- pmm-task-id: e1-shared-feedback -->
+
+- Status: done
+- Parent Task: none
+- Title: Implement shared response states across guest and staff interfaces
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 26 focused feedback checks and 143 existing browser checks passed sequentially (12 guest, 10 staff, 10 orders, 41 showcase, 34 capacity, 36 readiness). Covered actual delayed requests/saved orders, duplicate guards, stable buttons, fast completion/timer cleanup, persistent errors/recovery, touch, reduced motion, four widths and tested A/AA rules. JS syntax, 54-file PHP lint, isolated/main smoke, served-source match, read-only main mobile check, rollback DB safeguards and unchanged main aggregates passed. Documentation links, Desktop E1 export, diff check and PMM doctor passed; E2-E4 remain proposed, no new runtime library/backend policy/schema/auth changes.
+- Closed At: 2026-10-06T04:47:21Z

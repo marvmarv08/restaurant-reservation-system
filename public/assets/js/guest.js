@@ -43,11 +43,12 @@
     node("button", { type: "button", class: classes, onclick: action }, label);
   const note = (text) => node("p", { class: "form-note" }, text);
   function message(text = "", success = false) {
-    feedback.textContent = text;
-    feedback.hidden = !text;
-    feedback.classList.toggle("success", success);
-    if (text) feedback.focus({ preventScroll: false });
+    window.LuminaFeedback.message(feedback, text, {
+      kind: success ? "success" : "error",
+      focus: !success && Boolean(text),
+    });
   }
+  const ui = window.LuminaFeedback;
   const showcase = window.LuminaTableShowcase;
   function step(name) {
     showcase?.setContext(null);
@@ -95,7 +96,7 @@
   }
   async function busy(control, work) {
     if (control.disabled) return;
-    control.disabled = true;
+    const finish = ui.pending(control);
     try {
       await work();
     } catch (error) {
@@ -110,7 +111,7 @@
       }
       message(error.message);
     } finally {
-      if (control.isConnected) control.disabled = false;
+      finish(control.dataset.holdExpired === "true");
     }
   }
   const money = (cents) =>
@@ -297,9 +298,7 @@
       busy(submit, async () => {
         message();
         showcase?.setContext(null);
-        results.replaceChildren(
-          node("p", { class: "loading" }, "Checking tables…"),
-        );
+        const finishLoading = ui.loading(results, "Checking tables…", { tables: true });
         const query = {
           date: form.elements.date.value,
           party_size: Number(form.elements.party_size.value),
@@ -322,6 +321,7 @@
           results.replaceChildren();
           throw error;
         } finally {
+          finishLoading();
           for (const input of form.querySelectorAll("input,select"))
             input.disabled = false;
         }
@@ -811,6 +811,7 @@
       if (!seconds) {
         clearInterval(timer);
         confirm.disabled = true;
+        confirm.dataset.holdExpired = "true";
         message("Your table hold has ended. Search again to choose a table.");
         back.textContent = "Search again";
       } else if (seconds <= 60 && !warned) {
@@ -1309,5 +1310,6 @@
   window.addEventListener("pageshow", (event) => {
     if (event.persisted) location.reload();
   });
-  boot();
+  const finishBoot = ui.loading(root, managePage ? "Loading your booking…" : "Loading booking rules…");
+  boot().finally(finishBoot);
 })();

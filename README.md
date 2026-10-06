@@ -58,6 +58,8 @@ If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu a
 
 Treat the private link like a password: anyone with it can manage that booking until it expires. The reference code alone cannot open guest details. There is no guest account requirement. Staff handle manager approval, seating, no-shows, and waitlist offers in the live admin workspace. Email/SMS are simulated, so save the private link yourself; no real notification will arrive.
 
+Buttons show a specific pending label while a request runs, then restore their original label. Slow table searches show stationary placeholders; fast responses finish immediately. Success messages use polite status feedback, while errors stay visible with a recovery action. Motion follows the device’s reduced-motion preference.
+
 Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. Styles and scripts are local, fonts use the system, and graphics use CSS/inline SVG and locally stored rendered images with source credits. The live app does not need a CDN or internet connection once Docker images are prepared.
 
 ## Activate the first admin and try the staff workflow

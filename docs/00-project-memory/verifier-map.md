@@ -18,6 +18,8 @@ Skip when: The active task already has a complete verifier.
 
 - Linked capacity controls: tests/browser-capacity.mjs uses actual catalog room-party limits for both selection orders, valid/adjusted values, full-range escape, saved queries, real availability request, stale-result clearing, focus/reflow/axe. Existing guest/showcase suites verify booking and private management remain intact.
 
+- Shared response states: tests/browser-feedback.mjs checks real delayed responses, pending labels and restored dimensions, request guards, loading cancellation, fast/failed/recovered requests, touch/motion/reflow, saved-then-refresh-failed order feedback and tested status/contrast semantics. Run with existing guest/staff/order/showcase/capacity/readiness suites sequentially; fixture resets stay isolated.
+
 ## Required Evidence
 
 - Command output summary:

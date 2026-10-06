@@ -2,7 +2,7 @@
 
 Research date: 2026-10-06. Owner: Marvin. Scope: recommendations for the guest, booking, showcase, management, authentication, host, admin, server and kitchen interfaces.
 
-**Delivery status: research complete; new effects are not implemented.** Existing effects are identified separately below. “Best fit” means a design recommendation based on this application's workflows and the reviewed guidance; it is not a measured usability result or a universal ranking.
+**Delivery status: E0 research and E1 shared response states are complete locally; E2–E4 remain proposed.** Section 12 records the E1 implementation and evidence. The remaining screen-specific effects below are recommendations. “Best fit” means a design recommendation based on this application's workflows and the reviewed guidance; it is not a measured usability result or a universal ranking.
 
 ## 1. Recommendation
 
@@ -55,7 +55,7 @@ Protected host/admin/server/kitchen behavior was reviewed from source, not throu
 
 ## 4. Effects mapped to every major UI workflow
 
-All timings and distances in this section are **proposed project defaults**. They are not prescribed WCAG values and have not been validated with restaurant guests or staff. “Instant” means the information/control changes without a decorative delay. Every motion effect has an instant alternative when reduced motion is requested.
+Except for the E1 shared settings recorded in section 12, timings and distances in this section are **proposed project defaults**. They are not prescribed WCAG values and have not been validated with restaurant guests or staff. “Instant” means the information/control changes without a decorative delay. Every motion effect has an instant alternative when reduced motion is requested.
 
 ### Guest presentation and browsing
 
@@ -131,7 +131,7 @@ All timings and distances in this section are **proposed project defaults**. The
 
 ## 5. Shared motion settings
 
-These values are a proposed starting set, selected to stay close to the existing showcase. Atlassian documents short interactions and longer transitions, and gives explicit example tokens [S2–S3]; our exact values below are project choices.
+E1 defines the shared settings below in ui-feedback.css. Buttons use the press/feedback settings; content, dialog and brand tokens are reserved for later scope and do not imply those new animations were delivered. Atlassian documents short interactions and longer transitions, and gives explicit example tokens [S2–S3]; our exact values below are project choices.
 
 | Proposed token | Value | Use |
 |---|---|---|
@@ -200,17 +200,17 @@ These exclusions are design judgments for this repository, informed by the restr
 
 ## 9. Implementation phases
 
-Research is E0. All remaining phases are **proposed**, with no new live effects delivered by this report. Keep existing booking rules, authorization, inventory transactions, private-link handling and order state machines intact.
+E0 research and E1 shared response states are complete locally. E2–E4 are **proposed**, with no new step, hero or operational data-change animations delivered by E1. Keep existing booking rules, authorization, inventory transactions, private-link handling and order state machines intact.
 
 | Phase | Priority / scope | Completion evidence |
 |---|---|---|
 | E0 — Research | Done: screen inventory, source review, effect decisions and implementation map | This report, source anchors, read-only browser observations and documentation verification. |
-| E1 — Shared response states | First: tokens; hover/press/focus consistency; pending button labels; stable loading regions; persistent success/error feedback | Reduced-motion/touch/keyboard checks; fast/slow/failing requests; duplicate submit prevention; no artificial delay. |
+| E1 — Shared response states | Done locally: shared tokens/styles, pending labels, stationary loading regions and persistent success/error feedback | 26 focused checks plus 143 existing browser checks passed; main source/smoke/lint and unchanged record counts verified. See section 12. |
 | E2 — Guest flow polish | Scoped step/menu transitions; optional initial hero; image handling; explicit selection acknowledgment | Existing 34 capacity, 12 booking/management and 41 showcase regressions rerun on the changed app; interrupted animation and slow-image checks. Historical passes are not new evidence. |
 | E3 — Operational feedback | Host/admin dialog/action consistency; server/kitchen changes tracked by ID; no polling animation replay | Isolated staff/order browser regressions, two-second poll observation, stable focus/scroll, real saved status and stale-data behavior. |
 | E4 — Accessibility and performance | Desktop/mobile review, motion-disabled operation, contrast/status review and target-browser profiling | 320/390/768/1440px; keyboard; actual touch browser where available; reduced motion; offline flow; targeted DevTools recording. Record browser limitations and measured results. |
 
-**Recommended first implementation: E1.** It improves clarity in both booking and staff operations before optional decorative work. E3 requires deliberate data-change handling; a global `.ticket { animation: ... }` patch is insufficient.
+**Next implementation: E2.** Shared response states are delivered; next add scoped guest transitions and verify interruption/focus behavior. E3 requires deliberate data-change handling; a global `.ticket { animation: ... }` patch is insufficient.
 
 ### Verification scenarios for implementation
 
@@ -262,3 +262,14 @@ All references below were retrieved on 2026-10-06. Sources support principles or
 The strongest fit is a consistent set of short transitions and truthful response states. The showcase already demonstrates that approach; extend it carefully across the booking and staff workflows. Use optional guest presentation motion sparingly, and tie operational cues to genuine changes in saved data.
 
 This is desk research plus source review and a limited read-only browser inspection. It does not establish which effect restaurant users prefer. Before calling an effect successful, have Marvin try the complete booking and staff tasks, check whether anything feels slow or distracting, and verify the relevant scenarios on the changed application.
+
+## 12. E1 local delivery — 2026-10-06
+
+- Added [shared response script](../public/assets/js/ui-feedback.js) and [shared response styles](../public/assets/css/ui-feedback.css), loaded before callers in guest, staff and service views. No new runtime library is needed.
+- The existing duplicate-action guards now show specific pending labels with `aria-busy`, preserve button geometry and restore original labels/attributes. An expired guest hold remains disabled after request cleanup. Unavailable and pending controls have distinct cursor behavior.
+- Guest and host table searches reserve a loading region. Static, hidden-from-assistive-technology placeholders appear only when a search is still pending after 200 ms; completion cancels the timer immediately. Initial workspace loading uses truthful text without a polling skeleton.
+- Success feedback uses polite status semantics and does not focus the message. Errors remain readable, with existing explicit error-focus behavior retained; background host refresh errors do not move focus. Service saves show actual saved outcomes. A save followed by a failed read refresh reports that the change was saved inside the currently open dialog, without offering a duplicate-mutation retry.
+- Shared button feedback uses 140 ms surface/color transitions and 80 ms press movement, enabled only without a reduced-motion preference. Focus cues remain immediate. No step/hero entrance, ticket entrance, flashing badge, spinner loop or polling replay was added.
+- Verification: 26 focused feedback checks and 143 existing browser checks passed (12 guest/management, 10 staff, 10 orders, 41 showcase, 34 capacity, 36 readiness). Focused checks cover real delayed GET/POST responses, duplicate guards, fast completion with a paused placeholder clock, timer cleanup, failure/recovery, touch, reduced motion,320/390/768/1440px and zero automated A/AA violations in tested states. The cancellation regression now checks polite success status while retaining the actual cancelled-record check; errors keep alert semantics.
+- Main delivery: rebuilt and recreated only app with `--no-deps`; no seed/reset. Health, 54-file PHP lint, smoke and exact served source checks passed. Aggregate records stayed 198 reservations, 31 guests, 208 status-history rows, 6 users including 1 active staff, 0 orders and0 kitchen tickets. The main mobile pending/error check issued zero booking POSTs, and the database safeguard verifier passed using rolled-back temporary writes. Existing credentials remain valid; app recreation may require signing in again.
+- These checks do not constitute a full accessibility certification, performance benchmark or user study. E2–E4 remain unfinished. Use [the verification guide](../docs/verification.md) to rerun current evidence.

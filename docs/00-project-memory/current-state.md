@@ -10,7 +10,7 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
-UI effects desk research is delivered in research/08_ui_motion_research.md. E0 is complete; E1–E4 remain proposed. For the next UI implementation, start with shared response states while retaining the completed S0–S3 showcase and existing booking/service safeguards.
+E0 research and E1 shared response states are delivered locally. E1 passed 26 focused and 143 existing browser checks; main app/source/smoke/lint and unchanged aggregate records were verified. Next UI phase is E2 scoped guest transitions; E3/E4 remain proposed. Resume from research/08_ui_motion_research.md section 12 while retaining S0–S3 showcase and booking/service safeguards.
 
 ## Stable Facts
 
@@ -26,6 +26,8 @@ UI effects desk research is delivered in research/08_ui_motion_research.md. E0 i
 - Order service closure uses `closed`, never invented `paid`. Kitchen marks ready; server confirms delivery. Host completion is separate and refuses unfinished food.
 
 ## What Exists and Works
+
+E1 adds a local shared feedback module to guest/staff/service pages: stable pending button labels, reduced-motion-aware surface/press feedback, stationary delayed search placeholders, persistent error messages and polite success statuses. Successful order saves followed by read-refresh failure are identified as saved without a mutation retry. Polling does not create skeletons or replay entrances. Existing credentials and main data are retained.
 
 The live guest website runs at http://localhost:8080. It uses current availability, a physical-table floor plan with radio fallback, owned holds with server-clock countdown, guest details, and transactional confirmation. Refresh restores holds/confirmation; private links open the same booking in a second browser. Modification locks old/new dates and inventory, preserves the original on failure, and archives changes. Cancellation retains history and releases every member.
 

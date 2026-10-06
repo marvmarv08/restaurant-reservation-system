@@ -7,6 +7,8 @@
   <title>Lumina Kitchen & Terrace · Reservations</title>
   <link rel="stylesheet" href="/assets/css/app.css">
   <link rel="stylesheet" href="/assets/css/table-showcase.css">
+  <link rel="stylesheet" href="/assets/css/ui-feedback.css">
+  <script src="/assets/js/ui-feedback.js" defer></script>
   <script src="/assets/js/table-showcase.js" defer></script>
   <script src="/assets/js/guest.js" defer></script>
 </head>

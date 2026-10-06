@@ -5,6 +5,7 @@
     dialog = $("#staff-dialog"),
     content = $("#staff-dialog-content");
   const view = document.body.dataset.view;
+  const ui = window.LuminaFeedback;
   let csrf,
     user,
     catalog,
@@ -68,12 +69,12 @@
       input,
     );
   }
-  function feedback(text = "", success = false, inDialog = dialog.open) {
+  function feedback(text = "", success = false, inDialog = dialog.open, focus = true) {
     const target = $(inDialog ? "#dialog-feedback" : "#staff-feedback");
-    target.textContent = text;
-    target.hidden = !text;
-    target.classList.toggle("success", success);
-    if (text) target.focus();
+    ui.message(target, text, {
+      kind: success ? "success" : "error",
+      focus: focus && !success && Boolean(text),
+    });
   }
   async function api(path, body) {
     let response;
@@ -109,7 +110,9 @@
   }
   async function busy(control, work) {
     if (control.disabled) return;
-    control.disabled = true;
+    const target = $(dialog.open ? "#dialog-feedback" : "#staff-feedback");
+    if (target.dataset.kind === "success") ui.message(target, "", { kind: "info" });
+    const finish = ui.pending(control);
     try {
       await work();
     } catch (error) {
@@ -142,7 +145,7 @@
         } catch {}
       }
     } finally {
-      if (control.isConnected) control.disabled = false;
+      finish();
     }
   }
   function openDialog(title, ...children) {
@@ -1045,99 +1048,103 @@
         "Find available tables",
         () =>
           busy(find, async () => {
-            results.replaceChildren(note("Checking current inventory…"));
-            picked = null;
-            const query = {
-              date: form.elements.date.value,
-              party_size: Number(form.elements.party_size.value),
-              room_type: form.elements.room_type.value,
-              source: form.elements.source.value,
-              ...(booking ? { code: booking.code } : {}),
-            };
-            const data = await api(
-              "/api/admin/availability?" + new URLSearchParams(query),
-            );
-            results.replaceChildren();
-            if (!data.availability.slots.length) {
-              results.append(
-                note(
-                  "No eligible tables. Try another time/date/room, or add a waitlist request.",
-                ),
+            const finishLoading = ui.loading(results, "Checking current inventory…", { tables: true });
+            try {
+              picked = null;
+              const query = {
+                date: form.elements.date.value,
+                party_size: Number(form.elements.party_size.value),
+                room_type: form.elements.room_type.value,
+                source: form.elements.source.value,
+                ...(booking ? { code: booking.code } : {}),
+              };
+              const data = await api(
+                "/api/admin/availability?" + new URLSearchParams(query),
               );
-              return;
-            }
-            const slots = node("div", { class: "time-slots" }),
-              options = node("div", { class: "options" }),
-              summary = node("p", { class: "selection-note" });
-            function selectSlot(slot) {
-              selectedTime = slot.time;
-              picked = slot.options[0];
-              for (const control of slots.children)
-                control.setAttribute(
-                  "aria-pressed",
-                  String(control.dataset.time === slot.time),
+              results.replaceChildren();
+              if (!data.availability.slots.length) {
+                results.append(
+                  note(
+                    "No eligible tables. Try another time/date/room, or add a waitlist request.",
+                  ),
                 );
-              options.replaceChildren(
-                ...slot.options.map((option) =>
-                  node(
-                    "label",
-                    { class: "table-option" },
-                    node("input", {
-                      type: "radio",
-                      name: "staff-table-option",
-                      value: `${option.kind}:${option.id}`,
-                      onchange: () => {
-                        picked = option;
-                        showPicked();
-                      },
-                    }),
+                return;
+              }
+              const slots = node("div", { class: "time-slots" }),
+                options = node("div", { class: "options" }),
+                summary = node("p", { class: "selection-note" });
+              function selectSlot(slot) {
+                selectedTime = slot.time;
+                picked = slot.options[0];
+                for (const control of slots.children)
+                  control.setAttribute(
+                    "aria-pressed",
+                    String(control.dataset.time === slot.time),
+                  );
+                options.replaceChildren(
+                  ...slot.options.map((option) =>
                     node(
-                      "span",
-                      {},
-                      option.label,
+                      "label",
+                      { class: "table-option" },
+                      node("input", {
+                        type: "radio",
+                        name: "staff-table-option",
+                        value: `${option.kind}:${option.id}`,
+                        onchange: () => {
+                          picked = option;
+                          showPicked();
+                        },
+                      }),
                       node(
-                        "small",
+                        "span",
                         {},
-                        catalog.room_types.find(
-                          (room) => room.code === option.room_type,
-                        ).name,
+                        option.label,
+                        node(
+                          "small",
+                          {},
+                          catalog.room_types.find(
+                            (room) => room.code === option.room_type,
+                          ).name,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                );
+                showPicked();
+              }
+              function showPicked() {
+                for (const radio of options.querySelectorAll("input"))
+                  radio.checked = radio.value === `${picked.kind}:${picked.id}`;
+                summary.textContent = `${picked.label} · ${picked.turn_time_min} min · ${Number(picked.min_spend_cents) ? money(picked.min_spend_cents) + " minimum spend" : "No minimum spend"}${picked.approval_required ? " · Manager approval required" : ""}`;
+              }
+              for (const slot of data.availability.slots)
+                slots.append(
+                  node(
+                    "button",
+                    {
+                      type: "button",
+                      class: "slot",
+                      "data-time": slot.time,
+                      "aria-pressed": "false",
+                      onclick: () => selectSlot(slot),
+                    },
+                    slot.time,
+                  ),
+                );
+              results.append(
+                slots,
+                node("div", { class: "table-picker" }, options),
+                summary,
               );
-              showPicked();
-            }
-            function showPicked() {
-              for (const radio of options.querySelectorAll("input"))
-                radio.checked = radio.value === `${picked.kind}:${picked.id}`;
-              summary.textContent = `${picked.label} · ${picked.turn_time_min} min · ${Number(picked.min_spend_cents) ? money(picked.min_spend_cents) + " minimum spend" : "No minimum spend"}${picked.approval_required ? " · Manager approval required" : ""}`;
-            }
-            for (const slot of data.availability.slots)
-              slots.append(
-                node(
-                  "button",
-                  {
-                    type: "button",
-                    class: "slot",
-                    "data-time": slot.time,
-                    "aria-pressed": "false",
-                    onclick: () => selectSlot(slot),
-                  },
-                  slot.time,
-                ),
+              selectSlot(
+                data.availability.slots.find(
+                  (slot) =>
+                    slot.time === (booking?.starts_at.slice(11, 16) || "19:00"),
+                ) || data.availability.slots[0],
               );
-            results.append(
-              slots,
-              node("div", { class: "table-picker" }, options),
-              summary,
-            );
-            selectSlot(
-              data.availability.slots.find(
-                (slot) =>
-                  slot.time === (booking?.starts_at.slice(11, 16) || "19:00"),
-              ) || data.availability.slots[0],
-            );
+            } finally {
+              finishLoading();
+            }
           }),
         "button ghost",
       );
@@ -1998,7 +2005,7 @@
           if (error.status === 401) {
             workspace.replaceChildren();
             location.assign("/staff/login");
-          } else feedback(error.message, false, false);
+          } else feedback(error.message, false, false, false);
         }
       }, 8000);
     } catch (error) {
@@ -2023,5 +2030,6 @@
       }
     } catch {}
   });
-  boot();
+  const finishBoot = ui.loading(workspace, "Loading workspace…");
+  boot().finally(finishBoot);
 })();

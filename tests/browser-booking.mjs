@@ -296,9 +296,10 @@ try {
         .getByRole("button", { name: "Confirm cancellation", exact: true })
         .click();
       await other
-        .getByRole("alert")
+        .getByRole("status")
         .filter({ hasText: "tables have been released" })
         .waitFor();
+      assert.equal(await other.locator("#manage-feedback").getAttribute("aria-live"), "polite");
       assert.equal(await other.locator(".status").textContent(), "Cancelled");
       await other.reload();
       await other.locator(".status.cancelled").waitFor();

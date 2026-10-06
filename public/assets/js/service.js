@@ -6,6 +6,7 @@
     dialog = $("#service-dialog"),
     detailRoot = $("#service-dialog-content"),
     filters = $("#service-filters");
+  const ui = window.LuminaFeedback;
   let csrf = "",
     user = null,
     menu = [],
@@ -59,9 +60,8 @@
       ? $("#service-dialog-feedback")
       : $("#service-feedback"),
   ) {
-    target.hidden = false;
-    target.replaceChildren(document.createTextNode(message));
-    if (pending)
+    ui.message(target, message, { kind: "error" });
+    if (pending && !target.querySelector("button"))
       target.append(btn("Retry same request", () => submitPending()));
   }
   async function api(path, body) {
@@ -90,7 +90,9 @@
   async function execute(fn, control) {
     if (busy) return;
     busy = true;
-    if (control) control.disabled = true;
+    const target = $(dialog.open ? "#service-dialog-feedback" : "#service-feedback");
+    if (target.dataset.kind === "success") ui.message(target, "", { kind: "info" });
+    const finish = ui.pending(control);
     try {
       await fn();
     } catch (error) {
@@ -106,7 +108,7 @@
       }
     } finally {
       busy = false;
-      if (control?.isConnected) control.disabled = false;
+      finish();
     }
   }
   async function mutate(order, action, data = {}) {
@@ -125,6 +127,7 @@
   }
   async function submitPending() {
     if (!pending) return;
+    const action = pending.action;
     let result;
     try {
       result = await api("/api/service/orders/action", pending);
@@ -138,10 +141,25 @@
     pending = null;
     $("#service-feedback").hidden = true;
     $("#service-dialog-feedback").hidden = true;
-    await refresh();
-    if (mode === "server" && dialog.open)
-      await openOrder(Number(result.order.id));
-    else if (dialog.open) dialog.close();
+    try {
+      await refresh();
+      if (mode === "server" && dialog.open)
+        await openOrder(Number(result.order.id));
+      else if (dialog.open) dialog.close();
+    } catch {
+      ui.message($(dialog.open ? "#service-dialog-feedback" : "#service-feedback"), "Change saved. The latest view could not load; refresh to see the updated details.", { kind: "info" });
+      return;
+    }
+    const saved = {
+      claim: "Order assigned to you.", add: "Dish added to the order.",
+      edit: "Order line updated.", allergies: "Allergy notes saved.",
+      fire: "Order sent to the kitchen.", start: "Preparation started.",
+      item_ready: "Item marked ready.", item_prepare: "Item returned to preparation.", ready: "Ticket marked ready.",
+      hold: "Ticket placed on hold.", resume: "Ticket resumed.",
+      serve: "Order marked served.", close: "Service round closed. No payment was recorded.",
+      round: "New service round started.", void: "Order voided.", recall: "Ticket recalled.",
+    };
+    ui.message($(dialog.open ? "#service-dialog-feedback" : "#service-feedback"), saved[action] || "Order updated.", { kind: "success" });
   }
   function show(title, content) {
     $("#service-dialog-title").textContent = title;
@@ -698,7 +716,7 @@
       root.replaceChildren();
       detailRoot.replaceChildren();
       location.assign("/staff/login");
-    }),
+    }, $("#service-logout")),
   );
   filters.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -764,5 +782,6 @@
     );
     setInterval(updateTimers, 1000);
   }
-  init().catch((e) => feedback(e.message));
+  const finishBoot = ui.loading(root, "Loading service workspace…");
+  init().catch((e) => feedback(e.message)).finally(finishBoot);
 })();
