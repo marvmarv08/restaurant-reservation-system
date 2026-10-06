@@ -4,15 +4,15 @@ task_id: lumina-hosted-endpoint-performance
 parent_task_id: none
 task_kind: primary
 execution_status: active
-verification_status: passed
+verification_status: pending
 delivery_status: deployed
 owner: codex-root
 branch: feat/vercel-full-system
 base_sha: 752db0807f4538a54bf162186c9aed113f71ea7d
 revision: 8
-verification_head: ad8351218c9cc54c7f1a414c4837f1abac3132e4
-verification_source_hash: 348edc24b3fa6e5d75eea086dcb058a2700d9ce7a716e682b2536c72b111a427
-verified_at: 2026-10-06T17:11:50Z
+verification_head: none
+verification_source_hash: none
+verified_at: none
 updated_at: 2026-10-06T17:11:56Z
 ---
 
@@ -66,7 +66,7 @@ Skip when: The task is unrelated to the current execution context.
 - Last Failure: Marvin reports all-workspace loading remains slow after the query batching release.
 - Failure Class: incomplete end-to-end verification; compute/database region mismatch and sequential UI request chains.
 - Attempted Fix: Singapore sin1 compute, parallel initial public/menu reads, coordinated pending refresh and revision guards, lean PHP/Apache image; validated on committed hosted release.
-- Next Concrete Action: Final committed Singapore Preview UI verification and own-QA cleanup; warm latency improvements verified, idle startup remains documented.
+- Next Concrete Action: Marvin rehearses final Singapore URL; agent acceptance and cleanup are documented, personal feedback pending with idle startup limit.
 
 ## Record
 
