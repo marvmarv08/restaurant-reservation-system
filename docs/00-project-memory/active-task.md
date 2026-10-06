@@ -9,11 +9,11 @@ delivery_status: deployed
 owner: codex-root
 branch: feat/vercel-full-system
 base_sha: 752db0807f4538a54bf162186c9aed113f71ea7d
-revision: 4
-verification_head: 01770c7759146b3f4ea57c9400533b551e37f184
-verification_source_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-verified_at: 2026-10-06T13:23:58Z
-updated_at: 2026-10-06T13:24:00Z
+revision: 8
+verification_head: ad8351218c9cc54c7f1a414c4837f1abac3132e4
+verification_source_hash: 348edc24b3fa6e5d75eea086dcb058a2700d9ce7a716e682b2536c72b111a427
+verified_at: 2026-10-06T17:11:50Z
+updated_at: 2026-10-06T17:11:56Z
 ---
 
 # Active Task
@@ -28,14 +28,14 @@ Skip when: The task is unrelated to the current execution context.
 - Runtime Profile: Sprint
 - Risk Level: normal
 - Loop Budget: 3
-- Current Attempt: 1
+- Current Attempt: 2
 - Stop Condition: required behavior is verified or a concrete blocker is recorded.
 
 ## Task
 
 - Objective: Reduce hosted endpoint loading delays
-- Scope: Read-only hosted profiling, request-scoped availability query optimization and measured regression-safe preview delivery; no booking/auth rule changes, persistent availability cache, database reset, region migration or paid resources
-- Allowed Files or Areas: Read-only hosted profiling, request-scoped availability query optimization and measured regression-safe preview delivery; no booking/auth rule changes, persistent availability cache, database reset, region migration or paid resources
+- Scope: Full guest/manage/admin/server/kitchen browser latency and UI verification; align Vercel compute to user-confirmed Aiven Singapore, parallelize independent reads, coalesce overlapping refreshes, preserve booking/auth/order rules and data; no database migration, resets of hosted/laptop records or paid resources.
+- Allowed Files or Areas: public/assets/js, src, config, tests, vercel.json, Dockerfile.vercel, docs, PLAN.md
 - Forbidden Actions: unrelated edits, destructive operations, publication, and production writes without explicit authorization.
 - Source Artifacts: project instructions, current source, and task request.
 
@@ -57,23 +57,23 @@ Skip when: The task is unrelated to the current execution context.
 ## Critic
 
 - Pass/Fail: pass
-- Missing Evidence: Marvin actual hosted timing acceptance remains separate and pending.
+- Missing Evidence: Agent-hosted timing and workflow evidence is complete; Marvin personal feedback remains pending.
 - False-Pass Risk: stale or unrelated evidence must not count.
-- Next Action: execute the first unverified acceptance step.
+- Next Action: Marvin rehearses the new URL and distinguishes an idle first-open from normal search/refresh.
 
 ## Repair
 
-- Last Failure: none
-- Failure Class: none
-- Attempted Fix: none
-- Next Concrete Action: Marvin checks actual guest/staff loading and hold/confirmation in the new performance Preview; record feedback before closing task.
+- Last Failure: Marvin reports all-workspace loading remains slow after the query batching release.
+- Failure Class: incomplete end-to-end verification; compute/database region mismatch and sequential UI request chains.
+- Attempted Fix: Singapore sin1 compute, parallel initial public/menu reads, coordinated pending refresh and revision guards, lean PHP/Apache image; validated on committed hosted release.
+- Next Concrete Action: Final committed Singapore Preview UI verification and own-QA cleanup; warm latency improvements verified, idle startup remains documented.
 
 ## Record
 
-- Verification Evidence: 398 isolated checks (114 MySQL,43 HTTP,241 browser),63 PHP lint,local/cloud container builds,independent review;actual Aiven search82.7s726reads to1.85-2.57s14reads and slot5.37s45reads to1.92s13reads;Marvin team owner,READY Container Preview source761bea6;manual hosted timing acceptance pending separately
+- Verification Evidence: Source ad83512 READY sin1 Preview dpl_9A4ECThL2HajE4WWWX6dnVa2TvgP verified owner; 404 isolated app checks plus 22 runtime checks; final 21 real hosted UI checks/no JS errors; own QA cancelled/deactivated, probes removed. docs/verification/workspace-loading.md contains measured before/after and idle startup limit.
 - Delivery Status: deployed
-- Delivery Evidence: READY Container Preview https://restaurant-reservation-system-cqf5ojxvr-marvmarv08.vercel.app source761bea6 owner verified Marvin team; APP_URL updated privately; no hosted data resets; actual user timing acceptance pending
+- Delivery Evidence: READY sin1 Container Preview https://restaurant-reservation-system-62moe3jjm-marvmarv08.vercel.app source ad8351218c9cc54c7f1a414c4837f1abac3132e4 verified Marvin owner; 21 hosted checks passed, private/Preview APP_URL updated, QA cleaned. Normal refresh fast; first-open cold startup 4–6 s remains; Marvin followup pending.
 - Docs Updated: PLAN.md, current-state.md, change-log.md, vercel-deployment.md and Windows Desktop roadmap.
-- Remaining Risk: measured Aiven timings exclude Vercel startup/session/HTTP/browser overhead; actual hosted browser timing remains pending.
+- Remaining Risk: normal hosted refreshes are verified fast; idle container first-open can still take roughly 4–6 seconds. Marvin personal timing feedback remains pending.
 - Memory Promotion Decision: pending
 - Last Updated: 2026-10-06T12:53:33Z

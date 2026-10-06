@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-07 — Full hosted workspace performance
+
+- The local database benchmark did not capture Vercel session/network/UI delays. Authenticated browser timing exposed Vercel iad1 versus Aiven DigitalOcean sgp. Aligning compute to sin1 reduced normal table/admin/service interactions to fractions of a second.
+- Parallel initial reads, shared pending refreshes and response revision guards preserve current filters and saved data without a completed-data cache. The PHP/Apache runtime was reduced from 721 MB to 322 MB; actual idle startup remains approximately 4–5 seconds and is documented honestly.
+- Verified 404 isolated application checks, 22 extra runtime checks, independent review and repeated 21-check actual hosted interaction runs. Details and measured before/after values: docs/verification/workspace-loading.md.
+- Lesson: Measure the complete deployed click-to-ready path. Query counts alone cannot reveal cross-region latency, session overhead or cold container startup. Keep warm and idle measurements separate.
+
 ## 2026-10-06 — Hosted availability performance
 
 - Problem: Marvin reported slow hosted functions. A read-only PHP container probe against the actual Aiven database with verified TLS measured a common-room search at 82,674.1 ms and 726 SELECTs; a simple query took roughly 112–118 ms. Repeated per-slot/per-table round trips dominated the search. Single-slot checks took 5,367.5 ms and 45 SELECTs; catalog loading took 1,560.1 ms and 11 SELECTs.

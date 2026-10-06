@@ -35,10 +35,20 @@ Authenticated Chromium runs on the real Vercel/Aiven stack, using an independent
 
 These are individual measured browser runs, not guaranteed latency. A second hosted interaction run passed 21 booking/management/admin/service checks, including its own booking cancellation, with no JavaScript errors. Desktop and 390px mobile screenshots were inspected and had no document overflow. Full isolated accessibility checks also covered 320px, dialogs, focus, reduced motion, retry and real order transitions.
 
-The initial Singapore image still had approximately 4.8 seconds of idle startup; warm root/catalog/availability requests took approximately 0.17–0.21 seconds. The candidate image retains PHP 8.3/Apache and verified MySQL TLS while removing build tools and flattening its layers: 721 MB to 322 MB locally. Its deployed idle timing must be recorded separately before claiming an improvement.
+The initial Singapore image still had approximately 4.8 seconds of idle startup; warm root/catalog/availability requests took approximately 0.17–0.21 seconds. The candidate image retains PHP 8.3/Apache and verified MySQL TLS while removing build tools and flattening its layers: 721 MB to 322 MB locally. The deployed image measured idle starts of 5.30 and 4.12 seconds, warm root 0.109 seconds and catalog 0.166–0.167 seconds; one immediate follow-up also needed 5.10 seconds. A third trial overlapped another QA run and is excluded from idle evidence. The smaller image does not establish that cold startup is eliminated.
 
 ## Regression evidence
 
 404 isolated checks passed: 114 PHP engine checks, 43 HTTP checks and 247 browser checks. Six new controlled delayed-response checks prove parallel initial reads, coalesced dashboard refresh, latest kitchen filters, and that an older read cannot overwrite a saved reservation or order. The order test now waits for its actual save feedback before examining the server modal. A screenshot timeout passed on an unchanged rerun; a OneDrive cwd error passed after starting the last six-check suite in a fresh working directory.
 
 The smaller runtime also passed 17 persistent-session checks and five hosted database configuration checks against the guarded isolated database. Actual Aiven TLS, PHP extensions, staff sign-in, dashboard, server and kitchen checks passed locally in that image. Independent review found no blocking issue. All secrets, private QA booking paths and browser cookies remain ignored under `.private`.
+
+Final source commit: `ad83512`. Release Preview: [https://restaurant-reservation-system-62moe3jjm-marvmarv08.vercel.app](https://restaurant-reservation-system-62moe3jjm-marvmarv08.vercel.app). A repeat of all 21 hosted interaction checks on the smaller image passed with no JavaScript errors. Initial idle/asset waits and screenshot pauses can still trigger a cold start. Use this new URL; previous immutable Previews retain their original region and source.
+
+Raw release metadata confirms `dpl_9A4ECThL2HajE4WWWX6dnVa2TvgP`, READY, regions `[sin1]`, Preview target and owner `team_iFSlIHJejPUYm3ONVSXzLiG6`; its commit is `ad8351218c9cc54c7f1a414c4837f1abac3132e4`. Three temporary minimal diagnostic deployments were removed after testing.
+
+## Final release acceptance and cleanup
+
+The exact committed release passed all 21 hosted checks with no JavaScript errors: table search 0.330 s, refresh tables 0.248 s, table check 0.670 s, showcase refresh 1.117 s, hold 1.086 s, confirmation 0.741 s, management search 0.424 s, sign-in/dashboard 1.234 s, dashboard refresh 0.410 s, server refresh 0.308 s and kitchen refresh 0.417 s. First guest form readiness including initial container/assets took 6.230 s. Timings are individual measured runs, not guarantees.
+
+All owned QA bookings are cancelled; normal staff-account change deactivated only the independent QA account and incremented its authentication version. Marvin's original active admin, password and existing records were not reset. Cancelled fictional QA history is retained. Preview APP_URL and ignored .env.hosted point to the final URL. Minimal diagnostic Previews were removed, and temporary local hosted/lean QA containers were removed. The original laptop stack and isolated regression stack remain intact.
