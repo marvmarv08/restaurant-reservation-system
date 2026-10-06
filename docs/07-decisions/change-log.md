@@ -4,6 +4,12 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-07 — Phone food showcase motion
+
+- Previous phone behavior was swipe-only because both JavaScript and mobile CSS disabled motion. Added slow horizontal autoplay with end reversal and touch pause/Resume, preserving desktop vertical motion.
+- The new phone regression failed before implementation; all 21 showcase checks and six read-only hosted checks passed. No booking, staff or backend changes. Source 6cd997a; delivery and evidence: docs/verification/mobile-food-motion.md.
+- Lesson: Mobile motion should yield to a guest's swipe and stop when hidden or Reduce Motion is requested.
+
 ## 2026-10-07 — Full hosted workspace performance
 
 - The local database benchmark did not capture Vercel session/network/UI delays. Authenticated browser timing exposed Vercel iad1 versus Aiven DigitalOcean sgp. Aligning compute to sin1 reduced normal table/admin/service interactions to fractions of a second.
