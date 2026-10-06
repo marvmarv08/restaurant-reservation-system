@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-06 — Linked guest and room capacity choices
+
+- Request/change: Marvin’s screenshot showed an incompatible one-guest VIP search. Linked the two booking dropdowns using room_types.min_party/max_party and the global catalog.max_party: guest-first choices hide incompatible rooms, and room-first choices show only supported guest counts. Initial defaults allow either field to be chosen first; submitted/restored searches preserve their capacity context. Valid values survive changes. An incompatible count moves to the nearest valid count with a visible polite announcement. Any room restores all guest choices.
+- Safety: Capacity changes clear old time/table results and preview eligibility. Public and private-management searches share this helper; existing booking data stays unchanged until the established Continue/Save action. PHP availability and transaction validation remain authoritative. No database/schema/auth/policy changes were made.
+- Evidence: 34 focused catalog/availability/browser checks passed across counts1–16, all room ranges, VIP2–10, Group5–16, preserved/adjusted values, Any-room escape, legacy query normalization, real group16 search, stale-result clearing, keyboard focus, four widths and zero automated A/AA issues. Existing12 guest/management and41 live showcase scenarios passed, including joined groups, protected management, photos and failure recovery. Local main smoke, source matching and unchanged-record verification passed after recreation without seed/reset.
+- Lesson: Dependent dropdowns should use the database rules, preserve compatible choices and explain any automatic change. An escape choice prevents users becoming stuck in a restricted range. Capacity matching helps form input; date/time availability still needs the server check.
+
 ## 2026-10-06 — Restore photos on the room cards
 
 - Correction: Marvin's screenshot showed the live room cards still displaying legacy CSS ovals even though individual table pictures worked below. The integration had retained the old room artwork instead of carrying over the study's photo previews.

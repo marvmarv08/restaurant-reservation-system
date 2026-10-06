@@ -50,7 +50,7 @@ If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu a
 
 ## Try the guest booking flow
 
-1. Open [localhost:8080](http://localhost:8080), choose a date in the next 60 days, guests, and room preference. Monday is closed; VIP needs 48 hours and Group needs 24 hours of notice.
+1. Open [localhost:8080](http://localhost:8080), choose a date in the next 60 days, guests, and room preference. Choosing guests filters compatible room options; choosing a room restricts guests to its database booking range. A valid count is preserved, while an incompatible count is adjusted with a visible notice. Choose **Any room** to restore the full guest range. Monday is closed; VIP needs 48 hours and Group needs 24 hours of notice.
 2. Select an available time. Click a room card or floor table to preview seating. Green/red badges apply to this date, time and guest count; neutral means a fresh check is needed. **Use this table** updates the radio/floor selection; **Continue with this table** holds it for ten minutes.
 3. Enter your name, phone, and email. Confirm the reservation. Parties of 13–16 submit a request awaiting manager approval.
 4. Save **Copy private link** at confirmation. Open that link in another browser to see the same database booking. Refreshing the original tab also restores its hold or confirmation.

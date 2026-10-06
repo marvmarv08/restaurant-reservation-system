@@ -25,7 +25,7 @@ const check=async(name,fn)=>{await fn();checks++;console.log('PASS '+name);};
 const axe=async(name)=>{const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();assert.deepEqual(r.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[]);checks++;console.log('PASS accessibility '+name);};
 const date=new Date(new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Manila'}).format(new Date())+'T12:00:00Z');date.setUTCDate(date.getUTCDate()+42);while(date.getUTCDay()!==2)date.setUTCDate(date.getUTCDate()+1);const day=date.toISOString().slice(0,10);
 async function search(party='2',room='common'){
- await page.getByLabel('Date · Manila time').fill(day);await page.getByLabel('Guests',{exact:true}).selectOption(party);await page.getByLabel('Room preference').selectOption(room);
+ await page.getByLabel('Room preference').selectOption('any'); await page.getByLabel('Date · Manila time').fill(day);await page.getByLabel('Guests',{exact:true}).selectOption(party);await page.getByLabel('Room preference').selectOption(room);
  await page.getByRole('button',{name:'Find a table',exact:true}).click();await page.getByRole('button',{name:'Continue with this table',exact:true}).waitFor();
  await page.locator('[data-time="19:00"]').click();
 }

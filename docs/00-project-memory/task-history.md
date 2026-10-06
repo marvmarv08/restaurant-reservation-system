@@ -183,3 +183,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: Fresh focused room-photo verifier passed12 read-only checks:4 locally loaded photo mappings,oval overlay removed,exact V1/C1/G1/T1 opening,mobile320/390/768/1440 reflow,zero automated A/AA violations,image failure remains usable,no JS errors or booking/hold writes. Screenshot visually inspected. Permanent regression assertion added (full41 suite not rerun for this visual-only correction). JS syntax,Desktop export,staged/unstaged diff and PMM doctor passed. Final local image recreated without seed/reset;main smoke,exact deployed source and actual4 main photos verified. Main counts/staff exactly match original baseline.
 - Closed At: 2026-10-06T03:19:21Z
+
+## 2026-10-06 linked-capacity-filters
+
+<!-- pmm-task-id: linked-capacity-filters -->
+
+- Status: done
+- Parent Task: none
+- Title: Link guest counts and room preferences by database capacity limits
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Fresh34 capacity checks passed using actual database catalog and group16 availability: guest-first1-16 exact room matches, room-first all4 ranges/VIP2-10/Group5-16, Any-room escape, preserved/adjusted values, legacyVIP1 normalization, polite announcement/focus, clearing old results/indicators, mobile320/390/768/1440 andzero automated A/AA issues. Existing12 guest/management and41 live-showcase scenarios passed sequentially including joined groups and protected management preservation. JS syntax,54 PHP lint,docs links,Windows Desktop export,diff and PMM doctor passed. Updated main image recreated without seed/reset;main smoke,exact deployed source and read-only main guest16/VIP2-10 browser checks passed. Main counts/staff exactly match pre-deploy baseline. No SQL/schema/auth/policy changes or publication.
+- Closed At: 2026-10-06T03:40:57Z

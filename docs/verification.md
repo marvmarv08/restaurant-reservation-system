@@ -34,6 +34,7 @@ node tests/browser-staff.mjs
 node tests/browser-orders.mjs
 node tests/browser-readiness.mjs
 node tests/browser-showcase.mjs
+node tests/browser-capacity.mjs
 ```
 
 Chromium needs operating-system libraries. On Marvin's current Ubuntu laptop the temporary extraction is `/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu`; prefix browser commands with `LD_LIBRARY_PATH=/tmp/lumina-browser/libs/usr/lib/x86_64-linux-gnu` if needed. A new machine must install the libraries Playwright reports missing using its documented setup. Temporary tooling may disappear after a reboot; reinstall it for development verification. The actual application needs neither Node nor Playwright.
@@ -64,3 +65,7 @@ Accessibility references: [W3C reflow guidance](https://www.w3.org/WAI/WCAG22/Un
 ## Table showcase
 
 `tests/browser-showcase.mjs` runs sequentially after other fixture suites, at the fixed isolated origin `http://127.0.0.1:18080`. It checks current catalog pictures and real database availability, blackouts, a second guest hold/release, eligibility-safe explicit selection, joined members, unknown/error/expired states, delayed responses, image failure, offline assets, keyboard, mobile reflow and motion preferences. Its blackout fixture refuses the main database and cleans only labelled verification rows. It does not reset main data or require an actual table photograph. Source, licenses and the UX decisions are in `research/07_table_showcase_research.md`.
+
+## Linked booking capacity controls
+
+`tests/browser-capacity.mjs` checks both interaction orders against the real public database catalog. It covers guest counts1–16, room-specific ranges, compatible-value preservation, explicit adjustment feedback, Any-room escape, legacy queries, an actual group16 availability request, stale-result clearing, keyboard focus and four viewport sizes. It creates no booking or hold; run it on the fixed isolated origin with the same browser environment above. Guest/showcase helpers choose Any room before changing to a count outside the current room range, matching the real user flow.

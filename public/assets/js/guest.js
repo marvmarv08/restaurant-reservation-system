@@ -240,7 +240,54 @@
     form.elements.party_size.value = initial.party_size;
     form.elements.room_type.value = initial.room_type;
     const results = node("div", { "aria-live": "polite" });
-    form.addEventListener("change", () => {
+    const capacityNote = node("p", {
+      id: "capacity-note", class: "form-note", role: "status",
+    });
+    const guestSelect = form.elements.party_size;
+    const roomSelect = form.elements.room_type;
+    guestSelect.setAttribute("aria-describedby", "capacity-note");
+    roomSelect.setAttribute("aria-describedby", "capacity-note");
+    let guestWasChosen = Boolean(state.query) || editing;
+    const fits = (type, count) =>
+      count >= Number(type.min_party) && count <= Number(type.max_party);
+    function syncCapacity(changed) {
+      if (changed === guestSelect) guestWasChosen = true;
+      let count = Number(guestSelect.value) || Number(initial.party_size) || 2;
+      let code = roomSelect.value || "any";
+      let type = catalog.room_types.find(item => item.code === code);
+      let adjustment = "";
+      if (type) {
+        const valid = Array.from({ length: catalog.max_party }, (_, i) => i + 1)
+          .filter(value => fits(type, value));
+        if (!valid.length) { code = "any"; type = null; }
+        else if (!valid.includes(count)) {
+          const before = count;
+          count = valid.reduce((best, value) =>
+            Math.abs(value - before) < Math.abs(best - before) ? value : best);
+          adjustment = `Guest count adjusted from ${before} to ${count}. `;
+        }
+      }
+      const allowedGuests = Array.from({ length: catalog.max_party }, (_, i) => i + 1)
+        .filter(value => !type || fits(type, value));
+      if (!allowedGuests.includes(count)) count = allowedGuests[0];
+      guestSelect.replaceChildren(...allowedGuests.map(value =>
+        node("option", { value }, `${value} ${value === 1 ? "guest" : "guests"}`)));
+      guestSelect.value = String(count);
+      const allowedRooms = catalog.room_types.filter(item => !guestWasChosen || fits(item, count));
+      if (code !== "any" && !allowedRooms.some(item => item.code === code)) code = "any";
+      roomSelect.replaceChildren(
+        node("option", { value: "any" }, "Any room · best fit"),
+        ...allowedRooms.map(item => node("option", { value: item.code }, item.name)),
+      );
+      roomSelect.value = code;
+      capacityNote.textContent = adjustment + (type
+        ? `${type.name}: ${type.min_party}–${Math.min(Number(type.max_party), Number(catalog.max_party))} guests. Choose Any room for the full guest range.`
+        : guestWasChosen ? `Showing rooms that fit ${count} ${count === 1 ? "guest" : "guests"}. Date and time availability is checked when you search.`
+        : "Choose guests or a room first; the other options will match its booking capacity.");
+    }
+    syncCapacity();
+    form.addEventListener("change", (event) => {
+      if (event.target === guestSelect || event.target === roomSelect) syncCapacity(event.target);
       results.replaceChildren();
       selection = null;
       showcase?.setContext(null);
@@ -298,6 +345,7 @@
       );
     root.append(
       form,
+      capacityNote,
       note(
         `Book up to 60 days ahead. Closed Monday. VIP: 48-hour notice; group tables: 24-hour notice. All times are in Manila.`,
       ),

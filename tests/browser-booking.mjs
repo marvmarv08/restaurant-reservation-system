@@ -94,6 +94,7 @@ async function search(
   page,
   { date: value = date, party = "2", room = "common" } = {},
 ) {
+  await page.getByLabel("Room preference").selectOption("any");
   await page.getByLabel("Guests", { exact: true }).selectOption(party);
   await page.getByLabel("Date · Manila time").fill(value);
   await page.getByLabel("Room preference").selectOption(room);

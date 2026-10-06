@@ -49,6 +49,8 @@ The original Seating view renders and inspiration sources are locally credited u
 
 The room-card image regression reported in Marvin’s 2026-10-06 screenshot was corrected: all four cards now show the original local inspiration photographs rather than CSS ovals. Twelve focused read-only photo/navigation/mobile/accessibility/fallback checks passed; the permanent showcase suite now also checks these card pictures.
 
+Booking Guests and Room preference now filter one another using database room-party limits and catalog.max_party. Guest-first16 offers only Group Tables; room-firstVIP offers2–10 guests. Any room restores the full guest range. Valid values remain selected; incompatible values adjust to the nearest supported count with a polite notice. Changes clear stale availability/previews. The shared public/management search passed34 focused,12 guest/management and41 showcase checks; server policy/auth remain unchanged.
+
 ## Known Limitations
 
 The separate prototype remains simulated; live PHP workspaces use MySQL. Menu/room editors, partial post-send order changes, guest food ordering, payment collection, seated table moves, public guest waitlist claims, password recovery, and advanced reports are not implemented. Guests save their private booking link because notifications are simulated. Outstanding work takes priority in bounded lists; archived orders are limited to 100 displayed rows and kitchen results to 200, with the last 20 served tickets in recall. A browser reload discards an unresolved request held in memory; review persisted lines/status before continuing. Local HTTP is for the laptop demo; HTTPS/public hosting needs a separate deployment review. Application audit/event writes append records; database operators retain write access.

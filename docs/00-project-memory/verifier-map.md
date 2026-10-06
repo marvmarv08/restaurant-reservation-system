@@ -16,6 +16,8 @@ Skip when: The active task already has a complete verifier.
 
 - Showcase: tests/browser-showcase.mjs on the guarded isolated origin verifies actual database eligibility, blocks/holds/release, safe joined selection, protected management, stale/error/expired data, delayed requests, local asset fallback, mobile/keyboard/axe and motion preferences. Run sequentially with other fixture suites. Never use its blackout fixture on main.
 
+- Linked capacity controls: tests/browser-capacity.mjs uses actual catalog room-party limits for both selection orders, valid/adjusted values, full-range escape, saved queries, real availability request, stale-result clearing, focus/reflow/axe. Existing guest/showcase suites verify booking and private management remain intact.
+
 ## Required Evidence
 
 - Command output summary:
