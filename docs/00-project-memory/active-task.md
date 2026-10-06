@@ -57,7 +57,7 @@ Skip when: The task is unrelated to the current execution context.
 ## Critic
 
 - Pass/Fail: pending
-- Missing Evidence: updated Preview build is pending; Marvin actual hosted timing acceptance remains separate.
+- Missing Evidence: Marvin actual hosted timing acceptance remains separate and pending.
 - False-Pass Risk: stale or unrelated evidence must not count.
 - Next Action: execute the first unverified acceptance step.
 
@@ -66,14 +66,14 @@ Skip when: The task is unrelated to the current execution context.
 - Last Failure: none
 - Failure Class: none
 - Attempted Fix: none
-- Next Concrete Action: Complete final isolated suites and publish reviewed batch availability to Marvin Preview; obtain actual browser timing acceptance
+- Next Concrete Action: Marvin checks actual guest/staff loading and hold/confirmation in the new performance Preview; record feedback before closing task.
 
 ## Record
 
 - Verification Evidence: 398 isolated checks passed (114 MySQL, 43 HTTP, 241 browser), 63-file PHP lint, local container build, Aiven read-only before/after benchmarks, fresh independent review; Preview build pending.
 - Delivery Status: not-requested
 - Delivery Evidence: pending
-- Docs Updated: pending
+- Docs Updated: PLAN.md, current-state.md, change-log.md, vercel-deployment.md and Windows Desktop roadmap.
 - Remaining Risk: measured Aiven timings exclude Vercel startup/session/HTTP/browser overhead; actual hosted browser timing remains pending.
 - Memory Promotion Decision: pending
 - Last Updated: 2026-10-06T12:53:33Z
