@@ -4,7 +4,7 @@ This deployment keeps the existing PHP application, booking rules and staff work
 
 ## Current delivery state
 
-The local deployment package is being verified on `feat/vercel-full-system` in the Desktop folder `restaurant-reservation-system-vercel`. No online deployment is complete. Online database host/port/CA remain prerequisites. The user-specified `https://vercel.com/marvmarv08` workspace was verified under the dedicated Marvin login on the Hobby plan. The existing laptop database remains separate.
+The local deployment package is being verified on `feat/vercel-full-system` in the Desktop folder `restaurant-reservation-system-vercel`. No online deployment is complete. The saved Aiven credentials and downloaded CA have passed a verified TLS connection and empty-database check; initialization and deployment are being completed. The user-specified `https://vercel.com/marvmarv08` workspace was verified under the dedicated Marvin login on the Hobby plan. The existing laptop database remains separate.
 
 Use Marvin's Vercel account, verified as `marvmarv08`, through the dedicated CLI profile `/home/morkmork26/marvin/.vercel-cli`. Never use the shared `morkmork26` account or the explicitly rejected `cjmarv` workspace. Keep the existing GitHub repository `marvmarv08/restaurant-reservation-system`. Use the verified `marvmarv08` workspace on Hobby; any paid plan or trial needs a separate decision.
 

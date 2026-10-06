@@ -62,6 +62,32 @@ try {
     $q = $pdo->prepare('SELECT expires_at-UNIX_TIMESTAMP() FROM web_sessions WHERE id_hash=?'); $q->execute([$key]);
     demand((int) $q->fetchColumn() > 86000, 'Unchanged/lazy-written session must renew its lifetime');
     passed('Lazy writes renew active session expiry');
+    $protected = own(worker());
+    $collectible = own(worker());
+    $protectedKey = hash('sha256', "TABLEBOOK_GUEST\0" . $protected['id']);
+    $collectibleKey = hash('sha256', "TABLEBOOK_GUEST\0" . $collectible['id']);
+    $signal = sys_get_temp_dir() . '/lumina-gc-held-' . bin2hex(random_bytes(8));
+    $release = $signal . '-release';
+    $holder = startWorker(['kind' => 'locked_guest', 'id' => $protected['id'], 'signal' => $signal, 'release' => $release]);
+    try {
+        $deadline = microtime(true) + 2;
+        while (!file_exists($signal) && microtime(true) < $deadline) usleep(10000);
+        demand(file_exists($signal), 'Collection fixture must hold a real guest lock');
+        $q = $pdo->prepare('UPDATE web_sessions SET expires_at=UNIX_TIMESTAMP()-1 WHERE id_hash IN (?,?)');
+        $q->execute([$protectedKey, $collectibleKey]);
+        worker(['kind' => 'collect']);
+        $q = $pdo->prepare('SELECT COUNT(*) FROM web_sessions WHERE id_hash=?');
+        $q->execute([$protectedKey]); $retained = (int) $q->fetchColumn() === 1;
+        $q->execute([$collectibleKey]); $collected = (int) $q->fetchColumn() === 0;
+    } finally {
+        touch($release); finishWorker($holder);
+        if (file_exists($signal)) unlink($signal);
+        unlink($release);
+    }
+    demand($retained, 'Garbage collection must retain a session actively locked across expiry');
+    demand($collected, 'Garbage collection must still remove expired unlocked sessions');
+    demand(worker(['id' => $protected['id']]) === $protected, 'Lazy renewal after collection must preserve the guest identity and payload');
+    passed('Collection respects active locks across expiry and lazy renewal preserves identity');
     $independent = own(worker(['app_transaction' => true]));
     demand($independent['transaction_preserved'], 'Session close must not commit the application transaction');
     unset($independent['transaction_preserved']);
@@ -79,6 +105,16 @@ try {
     $replay = own(worker(['kind' => 'staff', 'id' => $staff['id']]), 'TABLEBOOK_STAFF');
     demand($replay['actor'] === null && $replay['id'] !== $staff['id'], 'Old ID must not recover authenticated state');
     passed('Staff establishment rotates identity and rejects the old session');
+    $anonymous = own(worker(['kind' => 'staff']), 'TABLEBOOK_STAFF');
+    $rotating = startWorker(['kind' => 'staff', 'id' => $anonymous['id'], 'action' => 'login', 'user_id' => $userId]);
+    $replaying = startWorker(['kind' => 'staff', 'id' => $anonymous['id']]);
+    $rotated = own(finishWorker($rotating), 'TABLEBOOK_STAFF');
+    $parallelReplay = own(finishWorker($replaying), 'TABLEBOOK_STAFF');
+    $afterRotation = own(worker(['kind' => 'staff', 'id' => $anonymous['id']]), 'TABLEBOOK_STAFF');
+    demand($rotated['id'] !== $anonymous['id'] && (int) $rotated['actor']['id'] === $userId &&
+        $parallelReplay['actor'] === null && $afterRotation['actor'] === null,
+        'Concurrent rotation and old-cookie replay must not recover authenticated state');
+    passed('Concurrent rotation and old-cookie replay cannot restore authentication');
     $otherInstance = worker(['kind' => 'staff', 'id' => $logged['id']]);
     demand($otherInstance === $logged && (int) $otherInstance['actor']['id'] === $userId, 'Staff login must survive another instance');
     passed('Authenticated staff session persists across processes');

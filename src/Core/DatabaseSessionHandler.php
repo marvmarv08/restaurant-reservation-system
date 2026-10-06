@@ -109,6 +109,24 @@ final class DatabaseSessionHandler implements SessionHandlerInterface, SessionUp
 
     public function gc(int $max_lifetime): int|false
     {
-        return $this->pdo->exec('DELETE FROM web_sessions WHERE expires_at<=UNIX_TIMESTAMP() LIMIT 1000');
+        $keys = $this->pdo->query('SELECT id_hash FROM web_sessions WHERE expires_at<=UNIX_TIMESTAMP() LIMIT 1000')->fetchAll(PDO::FETCH_COLUMN);
+        $acquire = $this->pdo->prepare('SELECT GET_LOCK(?, 0)');
+        $remove = $this->pdo->prepare('DELETE FROM web_sessions WHERE id_hash=? AND expires_at<=UNIX_TIMESTAMP()');
+        $release = $this->pdo->prepare('SELECT RELEASE_LOCK(?)');
+        $removed = 0;
+        foreach ($keys as $key) {
+            $name = 'session:' . substr($key, 0, 56);
+            // Collection must never erase data being read or lazily renewed, including our own session.
+            if ($name === $this->locked) continue;
+            $acquire->execute([$name]);
+            if ((int) $acquire->fetchColumn() !== 1) continue;
+            try {
+                $remove->execute([$key]);
+                $removed += $remove->rowCount();
+            } finally {
+                $release->execute([$name]);
+            }
+        }
+        return $removed;
     }
 }

@@ -70,10 +70,10 @@ Skip when: The task is unrelated to the current execution context.
 
 ## Record
 
-- Verification Evidence: 15 real sessions, 5 configuration, 4 real TLS, 9 initialization, 10 cross-container HTTP and 393 existing isolated regression checks passed; 62-file PHP lint, actual image secret exclusions, private password scan and diff check passed. Final review and online evidence remain pending.
+- Verification Evidence: 17 real sessions, 5 configuration, 4 real TLS, 9 initialization, 10 cross-container HTTP and 393 existing isolated regression checks passed; 62-file PHP lint, actual image secret exclusions, private password scan and diff check passed. Fresh review finding reproduced and fixed; repeated session/HTTP/image/lint checks passed. Actual Aiven TLS and empty database verified; preview delivery evidence remains pending.
 - Delivery Status: not-requested
 - Delivery Evidence: pending
 - Docs Updated: pending
-- Remaining Risk: hosted credentials remain incomplete (host/port/CA); online database and preview deployment unverified. Dedicated Vercel login is marvmarv08; cjmarv is explicitly forbidden.
+- Remaining Risk: actual Aiven TLS/empty database verified; schema initialization in progress and preview deployment unverified. Dedicated Vercel login is marvmarv08; cjmarv is explicitly forbidden.
 - Memory Promotion Decision: pending
 - Last Updated: 2026-10-06T10:40:39Z

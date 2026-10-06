@@ -43,6 +43,21 @@ try {
             session_write_close();
         }
         $result = ['id' => session_id(), 'csrf' => $session->csrfToken, 'actor' => $session->actor];
+    } elseif ($kind === 'collect') {
+        $handler = new App\Core\DatabaseSessionHandler(App\Core\Database::connect($config));
+        $handler->open('', 'TABLEBOOK_GUEST');
+        $result = ['collected' => $handler->gc(86400)];
+    } elseif ($kind === 'locked_guest') {
+        App\Core\SessionStore::configure();
+        session_name('TABLEBOOK_GUEST');
+        ini_set('session.use_strict_mode', '1');
+        if (!session_start()) throw new RuntimeException('Cannot hold guest session');
+        touch($input['signal']);
+        $deadline = microtime(true) + 5;
+        while (!file_exists($input['release']) && microtime(true) < $deadline) usleep(10000);
+        if (!file_exists($input['release'])) throw new RuntimeException('Session collection test release timed out');
+        session_write_close();
+        $result = ['id' => session_id(), 'csrf' => $_SESSION['csrf']];
     } elseif ($kind === 'counter') {
         App\Core\SessionStore::configure();
         session_name('TABLEBOOK_GUEST');
