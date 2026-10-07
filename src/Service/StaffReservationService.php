@@ -693,6 +693,46 @@ final class StaffReservationService
         });
     }
 
+    public function delete(array $actor, string $code, int $version): array
+    {
+        StaffAccess::require($this->pdo, $actor, "reservations.delete");
+        $initial = $this->row($code);
+        $date = substr($initial["starts_at"], 0, 10);
+        return (new BookingTransaction($this->pdo))->run(function () use ($actor, $code, $version, $date): array {
+            $tx = new BookingTransaction($this->pdo);
+            $waitlist = new WaitlistService($this->pdo, $this->clock);
+            $tx->lockDays([$date]);
+            $tx->lockTables($waitlist->tableIds(), false);
+            $user = StaffAccess::require($this->pdo, $actor, "reservations.delete", true);
+            $row = $this->row($code, true);
+            if ((int) $row["version"] !== $version || substr($row["starts_at"], 0, 10) !== $date) {
+                throw new BookingError("booking_changed", "Booking changed. Reload its details.", 409);
+            }
+            $orders = $this->pdo->prepare("SELECT id FROM orders WHERE reservation_id = ? LIMIT 1 FOR UPDATE");
+            $orders->execute([$row["id"]]);
+            if ($orders->fetchColumn() !== false || $row["status"] === "seated") {
+                throw new BookingError("booking_has_orders", "Reservations with food orders or a seated party cannot be permanently deleted.", 409);
+            }
+            // Release every linked hold before removing its recovery/offer bindings.
+            $holds = $this->pdo->prepare("SELECT DISTINCT h.id FROM holds h LEFT JOIN hold_reservations hr ON hr.hold_id=h.id LEFT JOIN waitlist_offers wo ON wo.hold_id=h.id WHERE h.waitlist_reservation_id=? OR hr.reservation_id=? OR wo.reservation_id=? ORDER BY h.id FOR UPDATE");
+            $holds->execute([$row["id"], $row["id"], $row["id"]]);
+            foreach ($holds->fetchAll(PDO::FETCH_COLUMN) as $holdId) {
+                $this->pdo->prepare("UPDATE holds SET status='released', waitlist_reservation_id=NULL WHERE id=?")->execute([$holdId]);
+            }
+            foreach (["waitlist_offers", "staff_requests", "hold_reservations", "reservation_manage_tokens", "reservation_change_history", "reservation_status_history", "reservation_tables", "outbox"] as $table) {
+                $this->pdo->prepare("DELETE FROM `{$table}` WHERE reservation_id=?")->execute([$row["id"]]);
+            }
+            $this->pdo->prepare("DELETE FROM audit_log WHERE entity_type='reservation' AND entity_id=?")->execute([(string) $row["id"]]);
+            if ($row["status"] === "no_show") {
+                $this->pdo->prepare("UPDATE guests SET no_show_count=GREATEST(no_show_count-1, 0) WHERE id=?")->execute([$row["guest_id"]]);
+            }
+            $this->pdo->prepare("DELETE FROM reservations WHERE id=?")->execute([$row["id"]]);
+            (new StaffAuthService($this->pdo, $this->clock))->audit($user, "reservation.delete", "reservation", (string) $row["id"], null, null);
+            $offered = $waitlist->promoteLocked($date, $user);
+            return ["deleted" => true, "code" => $code, "offered" => $offered];
+        });
+    }
+
     public function modify(array $actor, array $input): array
     {
         $initial = $this->row($input["code"]);

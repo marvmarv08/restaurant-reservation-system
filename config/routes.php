@@ -43,6 +43,7 @@ return [
     ['GET', '/api/admin/availability', [StaffController::class, 'availability']],
     ['POST', '/api/admin/reservations', [StaffController::class, 'create']],
     ['POST', '/api/admin/reservations/status', [StaffController::class, 'status']],
+    ['POST', '/api/admin/reservations/delete', [StaffController::class, 'deleteReservation']],
     ['POST', '/api/admin/reservations/modify', [StaffController::class, 'modify']],
     ['POST', '/api/admin/waitlist', [StaffController::class, 'enqueue']],
     ['POST', '/api/admin/waitlist/promote', [StaffController::class, 'promote']],

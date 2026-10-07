@@ -383,6 +383,20 @@ final class StaffController
             );
         });
     }
+    public function deleteReservation(Request $request): Response
+    {
+        return $this->respond(function () use ($request): array {
+            [$session, $data] = $this->mutation($request);
+            $actor = $session->requireActor();
+            StaffAccess::require($this->pdo, $actor, "reservations.delete");
+            return (new StaffReservationService($this->pdo, $this->clock))->delete(
+                $actor,
+                $this->text($data, "code", 10),
+                $this->integer($data, "version"),
+            );
+        });
+    }
+
     public function modify(Request $request): Response
     {
         return $this->respond(function () use ($request): array {

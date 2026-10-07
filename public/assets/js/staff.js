@@ -833,21 +833,15 @@
           Date.parse(booking.ends_at.replace(" ", "T") + "+08:00") / 1000;
         const now = Number(data.server_time_epoch),
           seat = button("Seat party", () => confirmAction(booking, "seat"));
-        const noShow = button(
-          "Mark no-show",
-          () => confirmAction(booking, "no_show"),
-          "button ghost",
-        );
         seat.disabled = now < start - 1800 || now >= end;
-        noShow.disabled = now < start + Number(data.no_show_grace_min) * 60;
         seat.title = seat.disabled
           ? "Seating is available from 30 minutes before start until the dining interval ends."
           : "Seat this party";
-        noShow.title = noShow.disabled
-          ? "Available after the no-show grace period."
-          : "Mark the absent party as a no-show";
-        actions.push(seat, noShow);
+        actions.push(seat);
       }
+      if (allowed("reservations.delete") && booking.orders.length === 0 && booking.status !== "seated")
+        actions.push(button("Delete", () => confirmDelete(booking), "button danger"));
+
       if (booking.status === "seated")
         actions.push(
           button("Complete visit", () => confirmAction(booking, "complete")),
@@ -893,7 +887,7 @@
         node("div", { class: "staff-detail-columns" }, info, contact),
         node("div", { class: "dialog-actions" }, ...actions),
         note(
-          "Seating opens an order record. Complete closes an empty order and preserves the table reset buffer. No-show is available after the grace period.",
+          "Seating opens an order record. Complete closes an empty order and preserves the table reset buffer. Permanent deletion removes the reservation and its history and is unavailable for seated parties or bookings with food orders.",
         ),
         node("h3", {}, "Status history"),
         history,
@@ -912,6 +906,34 @@
       feedback(error.message);
     }
   }
+  function confirmDelete(booking) {
+    const form = node("form", { class: "staff-form" }),
+      keep = button("Keep reservation", () => openDetail(booking.code), "button ghost"),
+      submit = node("button", { type: "submit", class: "button danger" }, "Delete permanently");
+    form.append(
+      note(`Are you sure you want to permanently delete reservation ${booking.code} and its history? This cannot be undone.`),
+      node("div", { class: "actions" },
+        keep,
+        submit,
+      ),
+    );
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      busy(submit, async () => {
+        await api("/api/admin/reservations/delete", { code: booking.code, version: Number(booking.version) });
+        dialog.close();
+        try {
+          await refreshDashboard();
+          feedback(`${booking.code} permanently deleted.`, true, false);
+        } catch {
+          feedback(`${booking.code} was permanently deleted, but the list could not refresh. Refresh the page to update the list.`, true, false);
+        }
+      });
+    });
+    openDialog("Delete reservation permanently?", form);
+    keep.focus();
+  }
+
   function confirmAction(booking, action) {
     const labels = {
       approve: "Approve request",

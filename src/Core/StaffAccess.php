@@ -9,6 +9,7 @@ final class StaffAccess
 {
     public const PERMISSIONS = [
         "admin" => [
+            "reservations.delete",
             "reservations.read",
             "reservations.write",
             "reservations.approve",
