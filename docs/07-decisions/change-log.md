@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-07 — Licensed chef cooking background
+
+- Marvin chose a subtle looping cooking video behind the existing food-showcase text. Compared 12 source pages and visually inspected three eligible clips; selected Pexels 8964522 for its dark pan/flame imagery. Restricted personal-use Mixkit downloads were excluded.
+- Trimmed, resized, removed audio and crossfaded the loop seam: 7.36 seconds / approximately 1.2 MB. Added a dark overlay, source credits, lazy visible playback, shared Pause/Resume, reduced-motion and unavailable-stream poster fallback. Existing desktop/phone photo behavior is preserved.
+- Eight new video checks, 21 showcase regressions and eight actual hosted read-only checks passed; screenshots and conservative text contrast were reviewed. Source 05cd40c; full research/license/processing/delivery evidence: research/10_chef_background_video_research.md.
+- Lesson: A video loop needs both a licensed source and a controlled playback lifecycle. Compress and defer the footage; keep essential text readable over the brightest frame and retain a usable static poster.
+
 ## 2026-10-07 — Phone food showcase motion
 
 - Previous phone behavior was swipe-only because both JavaScript and mobile CSS disabled motion. Added slow horizontal autoplay with end reversal and touch pause/Resume, preserving desktop vertical motion.

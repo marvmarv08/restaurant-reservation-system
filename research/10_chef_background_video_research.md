@@ -41,3 +41,7 @@ Mixkit distinguishes [Free and Restricted video licenses](https://mixkit.co/lice
 ## Verification
 
 The new background-video test failed before implementation because the element did not exist. All eight new video checks and 21 existing showcase regressions passed. Genuine currentTime playback and end-to-start looping, shared controls, phone layout, deferred/reduced-motion loading and unavailable-stream fallback were tested. JavaScript/PHP syntax and git diff checks passed; there were no external requests, mutations or JavaScript/CSP errors. Desktop and phone screenshots at a bright flame frame were inspected. A conservative white-frame compositing calculation for the least-dark overlay gives about 5.07:1 body-copy contrast, 4.88:1 gold and 8.63:1 heading; this is a design bound, not a complete accessibility certification. No database, authentication or booking-rule change is required.
+
+## Hosted delivery
+
+READY [Singapore Preview](https://restaurant-reservation-system-30y3y3ho8-marvmarv08.vercel.app), deployment `dpl_A9UckcTc6HWto8S51QhmnBWNG4Qf`, source `05cd40c`, verified owner `team_iFSlIHJejPUYm3ONVSXzLiG6`. All eight real hosted playback/fallback checks passed with no external requests, mutations or JavaScript/CSP errors. No QA staff or booking was created. Private/Preview APP_URL is updated. Existing idle-startup limits remain a separate issue.
