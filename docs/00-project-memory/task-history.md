@@ -339,3 +339,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: Published app source is unchanged from af1fce2. 411 application +22 hosted configuration/session checks passed, 63-file PHP lint, JS syntax, isolated smoke, secret scan, independent review and fresh metadata checks passed. Vercel deployment dpl_3WwDTifj7AUuz4GXr8uNR6HDZSL1 is READY Preview in verified Marvin owner/project, source af1fce2, sin1. Updated Preview APP_URL; no actual bookings deleted and no live app fetch/UI result claimed.
 - Closed At: 2026-10-07T12:57:36Z
+
+## 2026-10-07 hosted-delete-zero-counter
+
+<!-- pmm-task-id: hosted-delete-zero-counter -->
+
+- Status: done
+- Parent Task: none
+- Title: Handle zero no-show counters in permanent deletion
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: Zero regression observed failing then 43 MySQL,14 HTTP,10 browser and63 PHP lint passed. Corrected deployment dpl_5ThkkmuAET9dkhvAXQ7n8sQzxetp READY Preview sin1, verified owner/project/source0599da6; application source unchanged since publication. No live app fetch or booking deletion.
+- Closed At: 2026-10-07T13:21:43Z
