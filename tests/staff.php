@@ -1169,4 +1169,16 @@ $tests->test("Deleting a no-show reverses only that booking's guest counter", fu
     $t->assert((int)$t->pdo->query('SELECT no_show_count FROM guests')->fetchColumn() === 2, 'A deleted no-show must not penalize the shared guest');
     $t->assert($t->count('guests') === 1 && $t->count('reservations') === 0);
 });
+
+$tests->test("Historical no-show deletion keeps an already-zero unsigned counter at zero", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $service = staffService($t, $t->date . ' 18:00:00');
+    $row = $service->row($booking['code']);
+    $service->transition($actor, $booking['code'], 1, 'no_show', 'Isolated historical no-show');
+    $t->pdo->prepare('UPDATE guests SET no_show_count=0 WHERE id=?')->execute([$row['guest_id']]);
+    $service->delete($actor, $booking['code'], 2);
+    $t->assert((int)$t->pdo->query('SELECT no_show_count FROM guests')->fetchColumn() === 0);
+    $t->assert($t->count('guests') === 1 && $t->count('reservations') === 0);
+});
 $tests->finish();

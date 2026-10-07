@@ -724,7 +724,8 @@ final class StaffReservationService
             }
             $this->pdo->prepare("DELETE FROM audit_log WHERE entity_type='reservation' AND entity_id=?")->execute([(string) $row["id"]]);
             if ($row["status"] === "no_show") {
-                $this->pdo->prepare("UPDATE guests SET no_show_count=GREATEST(no_show_count-1, 0) WHERE id=?")->execute([$row["guest_id"]]);
+                // Clamp before subtraction: MySQL rejects unsigned zero minus one.
+                $this->pdo->prepare("UPDATE guests SET no_show_count=GREATEST(no_show_count, 1)-1 WHERE id=?")->execute([$row["guest_id"]]);
             }
             $this->pdo->prepare("DELETE FROM reservations WHERE id=?")->execute([$row["id"]]);
             (new StaffAuthService($this->pdo, $this->clock))->audit($user, "reservation.delete", "reservation", (string) $row["id"], null, null);
