@@ -326,3 +326,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: waiting-confirmation
 - Verification Evidence: 120 MySQL + 44 HTTP + 241 browser checks passed on final implementation; 54-file PHP lint, JS syntax, isolated smoke, git diff --check and PMM doctor passed; desktop/mobile confirmation reviewed; independent code review approved. Initial unchanged food-showcase image-loading timeout disclosed, no failed resources in diagnostic, unchanged rerun passed 20 checks. No existing local/hosted bookings deleted; no deployment.
 - Closed At: 2026-10-07T12:39:19Z
+
+## 2026-10-07 lumina-hosted-endpoint-performance
+
+<!-- pmm-task-id: lumina-hosted-endpoint-performance -->
+
+- Status: done
+- Parent Task: none
+- Title: Deploy permanent reservation deletion with hosted improvements preserved
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: Published app source is unchanged from af1fce2. 411 application +22 hosted configuration/session checks passed, 63-file PHP lint, JS syntax, isolated smoke, secret scan, independent review and fresh metadata checks passed. Vercel deployment dpl_3WwDTifj7AUuz4GXr8uNR6HDZSL1 is READY Preview in verified Marvin owner/project, source af1fce2, sin1. Updated Preview APP_URL; no actual bookings deleted and no live app fetch/UI result claimed.
+- Closed At: 2026-10-07T12:57:36Z
