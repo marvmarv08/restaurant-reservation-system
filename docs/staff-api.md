@@ -10,6 +10,7 @@ Authentication proves who signed in; authorization decides what that person may 
 |---|---|---|---|---|
 | Reservation list, contacts, floor, availability | Yes | Yes | Yes | No |
 | Phone/walk-in booking, future edit, seating, completion, cancellation, no-show, waitlist | Yes | Yes | Yes | No |
+| Permanently delete an unseated reservation without linked orders | Yes | No | No | No |
 | Approve or reject pending requests | Yes | Yes | No | No |
 | Read settings; update hours/turn times; manage staff blackouts | Yes | Yes | No | No |
 | Change global rules and pacing | Yes | No | No | No |
@@ -45,6 +46,7 @@ These decisions apply [OWASP authentication guidance](https://cheatsheetseries.o
 | POST | `/api/admin/reservations` | Phone/walk-in creation with owner-bound request UUID |
 | GET | `/api/admin/request?key=UUID` | Recover that staff member's completed creation request |
 | POST | `/api/admin/reservations/status` | Versioned approve/reject/seat/complete/cancel/no_show/accept_offer |
+| POST | `/api/admin/reservations/delete` | Admin-only versioned permanent deletion |
 | POST | `/api/admin/reservations/modify` | Atomic future booking edit |
 | POST | `/api/admin/waitlist` | Enqueue with owner-bound request UUID |
 | POST | `/api/admin/waitlist/promote` | Recheck real fitting offers for the selected service date |
@@ -67,6 +69,16 @@ Booking operations acquire sorted service-date locks, then every physical table 
 - No-show is allowed only after the configured grace period (20 minutes by default), releases all assignments, and increments the guest counter once. Staff cancellation can override the guest's two-hour self-service cutoff and records the reason and actor.
 - Completion accepts only seated bookings and refuses unfinished kitchen/order work or nonvoid items in an open order. An empty open order is voided with history; it is never falsely marked paid. Released physical members receive the current reset buffer, so early completion cannot offer a dirty table immediately.
 
+### Permanent deletion
+
+The staff details dialog replaces **Mark no-show** with **Delete** for administrators. **Cancel reservation** retains the booking and history while releasing its table. **Delete** opens a separate confirmation with **Keep reservation** and **Delete permanently**; no typed reference or cancellation step is required.
+
+`POST /api/admin/reservations/delete` accepts `{code, version}` with the current staff CSRF token. Both the controller and service require `reservations.delete`, which belongs only to admin. The service locks the service date and physical tables, refreshes administrator permissions after the lock wait, and rejects stale versions/date changes. Seated parties and any booking with an order are refused with `booking_has_orders`.
+
+Deletion removes the reservation, assignment rows, status/change history, private management tokens, confirmation/request/offer bindings, simulated outbox messages, and prior reservation audit snapshots. Linked holds become released and unbound; this preserves their inventory trace without guest details. A single minimal deletion audit retains only the actor, role, time, action, and numeric reservation ID, with no guest snapshot. Shared guest profiles and unrelated bookings remain; deleting an old no-show reverses only that booking's contribution to the guest's no-show count, never below zero. Freed inventory is offered to the eligible waitlist in the same transaction.
+
+There is no application undo. Code rollback cannot restore records already deleted; recovery would require a database backup. All deletion fixtures and regression tests run only in the guarded isolated test database. Enabling the feature does not delete existing reservations automatically.
+
 ### Waitlist offers
 
 R15/R16 are implemented with real holds. Entries are ranked per requested date/time and processed in time/rank order; an earlier party that does not fit cannot block the highest fitting party. An offer first reserves every member in a ten-minute hold, then records the simulated notification. Concurrent releases cannot produce two offers for one party.
@@ -79,7 +91,7 @@ Expiry immediately stops a hold blocking availability, even without a timer job.
 
 The settings editor uses bounded values and a configuration revision hash. A stale tab must reload. Manager may change hours/turn times; admin may also change global values/pacing. The venue timezone remains fixed. Existing bookings keep their stored intervals; new searches, holds/confirmation, and edits use the shared current policy.
 
-New staff blackouts cannot cover occupied reservations or live holds. The UI can remove only its own `Staff blackout:` records; it cannot remove table reset buffers. Audit rows record actor, role, action, entity, and before/after values without passwords, raw invitation tokens, or cookies. Application code appends records; a database operator still has database-level write access. The outbox contains simulated messages only.
+New staff blackouts cannot cover occupied reservations or live holds. The UI can remove only its own `Staff blackout:` records; it cannot remove table reset buffers. Audit rows record actor, role, action, entity, and before/after values without passwords, raw invitation tokens, or cookies. Application actions append audit records; permanent reservation deletion removes the booking’s prior audit snapshots and appends one minimal deletion record. A database operator still has database-level write access. The outbox contains simulated messages only.
 
 Creation request UUIDs are bound to the staff account and canonical payload. A retry returns the existing booking; reusing a UUID for different input conflicts. This allows recovery after an interrupted response without duplicating a phone booking or waitlist entry.
 

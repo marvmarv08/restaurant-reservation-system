@@ -114,6 +114,7 @@ try {
   await page.waitForFunction(() => document.querySelector('.showcase-details .showcase-badge')?.dataset.state === 'available');
   await page.getByRole('button', {name: 'Use this table', exact: true}).click();
   await page.locator('#table-showcase').waitFor({state: 'hidden'});
+  await page.waitForFunction(() => document.querySelector('.table-option input:checked') === document.activeElement);
   await check('Explicit showcase selection returns focus to the selected radio and acknowledges selection', async () => {
     assert.equal(await page.locator('.table-option input:checked').evaluate(e => e === document.activeElement), true);
     assert.match(await page.locator('.table-picker > [role=status]').innerText(), /selected.*Continue to hold/);

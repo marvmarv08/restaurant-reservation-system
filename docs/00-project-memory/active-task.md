@@ -9,11 +9,11 @@ delivery_status: deployed
 owner: codex-root
 branch: feat/vercel-full-system
 base_sha: 752db0807f4538a54bf162186c9aed113f71ea7d
-revision: 8
+revision: 9
 verification_head: none
 verification_source_hash: none
 verified_at: none
-updated_at: 2026-10-06T17:11:56Z
+updated_at: 2026-10-07T12:15:00Z
 ---
 
 # Active Task
@@ -24,16 +24,16 @@ Skip when: The task is unrelated to the current execution context.
 
 ## Status
 
-- Title: Reduce hosted endpoint loading delays
-- Runtime Profile: Sprint
-- Risk Level: normal
+- Title: Deploy permanent reservation deletion with hosted improvements preserved
+- Runtime Profile: Audit
+- Risk Level: high
 - Loop Budget: 3
 - Current Attempt: 2
 - Stop Condition: required behavior is verified or a concrete blocker is recorded.
 
 ## Task
 
-- Objective: Reduce hosted endpoint loading delays
+- Objective: Integrate the verified reservation-delete child and publish the authorized Vercel Preview, preserving existing hosted booking/auth/order behavior, records, video/mobile motion and performance fixes.
 - Scope: Full guest/manage/admin/server/kitchen browser latency and UI verification; align Vercel compute to user-confirmed Aiven Singapore, parallelize independent reads, coalesce overlapping refreshes, preserve booking/auth/order rules and data; no database migration, resets of hosted/laptop records or paid resources.
 - Allowed Files or Areas: public/assets/js, src, config, tests, vercel.json, Dockerfile.vercel, docs, PLAN.md
 - Forbidden Actions: unrelated edits, destructive operations, publication, and production writes without explicit authorization.
@@ -50,15 +50,15 @@ Skip when: The task is unrelated to the current execution context.
 
 ## Verifier
 
-- Required Checks: Measured before/after query counts and latency with real Aiven TLS, isolated availability/booking/management/staff/order correctness and concurrency regressions, no stale held inventory, verified preview build
-- Manual Acceptance: Marvin checks actual guest/staff loading and hold/confirmation in the new Preview; pending after deployment.
+- Required Checks: Integrated isolated booking/management/staff/order MySQL, HTTP and browser regressions; hosted configuration and database-session guards; syntax/lint/smoke; source/secret checks; independent integrated-code review; verified Marvin project/account and READY Preview deployment metadata. No live deletion or database reset.
+- Manual Acceptance: Marvin signs in as admin on the new Preview and reviews Delete / Keep reservation. Agent tests deletion using isolated fake records only. Prior personal performance feedback remains a separate optional follow-up.
 - Evidence Needed: fresh command output bound to the current HEAD and source hash.
 
 ## Critic
 
 - Pass/Fail: pass
-- Missing Evidence: Agent-hosted timing and workflow evidence is complete; Marvin personal feedback remains pending.
-- False-Pass Risk: stale or unrelated evidence must not count.
+- Missing Evidence: New Preview READY metadata remains pending. No live UI or live deletion is claimed; the deployment skill prohibits fetching the deployed application URL.
+- False-Pass Risk: source tests alone cannot prove live UI behavior; report READY metadata separately. The Vercel deployment skill prohibits fetching the deployed application URL, so no live deletion or live UI result is claimed.
 - Next Action: Marvin rehearses the new URL and distinguishes an idle first-open from normal search/refresh.
 
 ## Repair
@@ -66,11 +66,11 @@ Skip when: The task is unrelated to the current execution context.
 - Last Failure: Marvin reports all-workspace loading remains slow after the query batching release.
 - Failure Class: incomplete end-to-end verification; compute/database region mismatch and sequential UI request chains.
 - Attempted Fix: Singapore sin1 compute, parallel initial public/menu reads, coordinated pending refresh and revision guards, lean PHP/Apache image; validated on committed hosted release.
-- Next Concrete Action: Marvin rehearses final Singapore URL; agent acceptance and cleanup are documented, personal feedback pending with idle startup limit.
+- Next Concrete Action: User authorized Vercel deployment of reservation-delete. Merge verified main child into hosted branch, integrate claim, reverify hosted-compatible source, and deploy a Preview in Marvin workspace; retain all actual bookings and credentials.
 
 ## Record
 
-- Verification Evidence: Source ad83512 READY sin1 Preview dpl_9A4ECThL2HajE4WWWX6dnVa2TvgP verified owner; 404 isolated app checks plus 22 runtime checks; final 21 real hosted UI checks/no JS errors; own QA cancelled/deactivated, probes removed. docs/verification/workspace-loading.md contains measured before/after and idle startup limit.
+- Verification Evidence: Integrated source: 411 application checks (125 MySQL, 44 HTTP, 242 browser), plus 22 hosted configuration/session checks passed. PHP lint passed on 63 files; JavaScript syntax, isolated smoke, staged secret scan and independent integrated-code review passed. Guest-motion initially asserted before the asynchronous dialog close-focus handoff; its exact focus assertion is retained behind an event-result wait and the 31-check suite passed. No actual local/hosted reservations deleted.
 - Delivery Status: deployed
 - Delivery Evidence: READY sin1 Container Preview https://restaurant-reservation-system-62moe3jjm-marvmarv08.vercel.app source ad8351218c9cc54c7f1a414c4837f1abac3132e4 verified Marvin owner; 21 hosted checks passed, private/Preview APP_URL updated, QA cleaned. Normal refresh fast; first-open cold startup 4–6 s remains; Marvin followup pending.
 - Docs Updated: PLAN.md, current-state.md, change-log.md, vercel-deployment.md and Windows Desktop roadmap.

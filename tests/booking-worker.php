@@ -17,6 +17,7 @@ try {
         'order_mutate' => (new App\Service\OrderService($pdo, new App\Service\BookingClock($pdo)))->mutate($job['actor'], $job['id'], $job['version'], $job['action'], $job['key'], $job['data'] ?? []),
         'staff_activate' => (new App\Service\StaffAuthService($pdo, new App\Service\BookingClock($pdo)))->activate($job['token'], $job['password']),
         'staff_create' => (new App\Service\StaffReservationService($pdo, new App\Service\BookingClock($pdo)))->create($job['actor'], $job['input'], $job['waitlist'] ?? false),
+        'staff_delete' => (new App\Service\StaffReservationService($pdo, new App\Service\BookingClock($pdo)))->delete($job['actor'], $job['code'], $job['version']),
         'staff_transition' => (new App\Service\StaffReservationService($pdo, new App\Service\BookingClock($pdo)))->transition($job['actor'], $job['code'], $job['version'], $job['action'], 'Isolated race test'),
         'hold' => $service->hold($job['date'], $job['time'], $job['party'], $job['room'], $job['owner'], $job['kind'] ?? null, $job['id'] ?? null),
         'confirm' => $service->confirm($job['token'], ['full_name' => 'Race Guest', 'phone' => '+639000000002'], $job['owner']),

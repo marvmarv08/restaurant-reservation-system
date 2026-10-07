@@ -1047,4 +1047,126 @@ $tests->test(
         );
     },
 );
+
+$tests->test("Admin permanently deletes confirmed booking history and releases inventory", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $service = staffService($t);
+    $row = $service->row($booking['code']);
+    $t->pdo->prepare('INSERT INTO reservation_change_history (reservation_id,before_json,after_json) VALUES (?, ?, ?)')->execute([$row['id'], '{}', '{}']);
+    $result = $service->delete($actor, $booking['code'], 1);
+    $t->assert($result['deleted'] === true);
+    foreach (['reservations', 'reservation_tables', 'reservation_status_history', 'reservation_change_history', 'reservation_manage_tokens', 'hold_reservations'] as $table) {
+        $t->assert($t->count($table) === 0, "$table retained deleted booking data");
+    }
+    $t->assert($t->count('guests') === 1, 'Shared guest profile must remain');
+    $t->expectError('booking_not_found', fn() => $service->row($booking['code']));
+    $t->assert(isset($t->hold('C1')['hold_token']), 'Deleted table must be available');
+    $audit = $t->pdo->query("SELECT * FROM audit_log WHERE action='reservation.delete'")->fetch();
+    $t->assert($audit && $audit['before_json'] === null && $audit['after_json'] === null, 'Deletion audit must contain no guest snapshot');
+});
+$tests->test("Permanent deletion preserves another booking and removes cancelled history", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $other = staffBooking($t, 'C2');
+    $service = staffService($t);
+    $service->transition($actor, $booking['code'], 1, 'cancel', 'Test cancellation');
+    $service->delete($actor, $booking['code'], 2);
+    $t->assert($service->row($other['code'])['status'] === 'confirmed');
+    $t->assert($t->count('reservations') === 1 && $t->count('reservation_status_history') === 1);
+});
+$tests->test("Non-admin roles cannot permanently delete a booking", function (BookingHarness $t): void {
+    $booking = staffBooking($t);
+    foreach (['manager', 'host', 'server', 'kitchen'] as $role) {
+        $actor = staffActor($t, $role);
+        $t->expectError('staff_forbidden', fn() => staffService($t)->delete($actor, $booking['code'], 1));
+    }
+    $t->assert($t->count('reservations') === 1 && $t->count('reservation_tables') === 1);
+});
+$tests->test("Stale deletion cannot erase an updated booking", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $service = staffService($t);
+    $service->transition($actor, $booking['code'], 1, 'cancel', 'Test cancellation');
+    $t->expectError('booking_changed', fn() => $service->delete($actor, $booking['code'], 1));
+    $t->assert($t->count('reservations') === 1 && $t->count('reservation_status_history') === 2);
+});
+$tests->test("Bookings with orders cannot be permanently deleted", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $service = staffService($t);
+    $row = $service->row($booking['code']);
+    $t->pdo->prepare("INSERT INTO orders (reservation_id,table_id,status) VALUES (?, ?,'open')")->execute([$row['id'], $t->tables['C1']['id']]);
+    $t->expectError('booking_has_orders', fn() => $service->delete($actor, $booking['code'], 1));
+    $t->assert($t->count('reservations') === 1 && $t->count('orders') === 1 && $t->count('reservation_tables') === 1);
+});
+$tests->test("Deleted staff creation requests cannot restore a removed booking", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $service = staffService($t);
+    $input = staffInput($t) + ['request_key' => 'aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee'];
+    $booking = $service->create($actor, $input);
+    $service->delete($actor, $booking['code'], 1);
+    $t->assert($t->count('staff_requests') === 0 && $t->count('reservations') === 0);
+});
+
+
+$tests->test("Deletion releases waitlist offer holds and removes simulated messages", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $service = staffService($t);
+    $booking = $service->create($actor, staffInput($t), true);
+    $offers = (new WaitlistService($t->pdo, new BookingClock($t->pdo)))->promote($actor, $t->date);
+    $t->assert(count($offers['offered']) === 1);
+    $row = $service->row($booking['code']);
+    $service->delete($actor, $booking['code'], (int)$row['version']);
+    $t->assert($t->count('waitlist_offers') === 0 && $t->count('outbox') === 0);
+    $t->assert((int)$t->pdo->query("SELECT COUNT(*) FROM holds WHERE status='active' OR waitlist_reservation_id IS NOT NULL")->fetchColumn() === 0);
+});
+$tests->test("Expired and revoked administrator sessions cannot delete reservations", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $service = staffService($t);
+    $expired = $actor + ['expires_at' => 1];
+    $t->expectError('staff_session_invalid', fn() => $service->delete($expired, $booking['code'], 1));
+    $t->pdo->prepare('UPDATE users SET auth_version=auth_version+1 WHERE id=?')->execute([$actor['id']]);
+    $t->expectError('staff_session_invalid', fn() => $service->delete($actor, $booking['code'], 1));
+    $t->assert($t->count('reservations') === 1);
+});
+
+$tests->test("Concurrent deletes produce one deletion and one minimal audit", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $job = ['op' => 'staff_delete', 'actor' => $actor, 'code' => $booking['code'], 'version' => 1];
+    $results = $t->finishWorkers($t->startWorkers([$job, $job]));
+    $t->assert(count(array_filter($results, fn($r) => $r['ok'])) === 1);
+    $errors = array_values(array_filter($results, fn($r) => !$r['ok']));
+    $t->assert($errors[0]['error'] === 'booking_not_found');
+    $t->assert($t->count('reservations') === 0 && $t->count('audit_log') === 1);
+});
+$tests->test("Administrator revocation while deletion waits preserves the booking", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $blocker = App\Core\Database::connect(require dirname(__DIR__) . '/config/database.php');
+    $blocker->beginTransaction();
+    $blocker->query('SELECT id FROM `tables` ORDER BY id LIMIT 1 FOR UPDATE')->fetchColumn();
+    $workers = $t->startWorkers([['op' => 'staff_delete', 'actor' => $actor, 'code' => $booking['code'], 'version' => 1]]);
+    usleep(700000);
+    $t->pdo->prepare('UPDATE users SET auth_version=auth_version+1 WHERE id=?')->execute([$actor['id']]);
+    $blocker->commit();
+    $result = $t->finishWorkers($workers)[0];
+    $t->assert(!$result['ok'] && $result['error'] === 'staff_session_invalid');
+    $t->assert($t->count('reservations') === 1 && $t->count('reservation_tables') === 1);
+});
+
+$tests->test("Deleting a no-show reverses only that booking's guest counter", function (BookingHarness $t): void {
+    $actor = staffActor($t);
+    $booking = staffBooking($t);
+    $row = staffService($t)->row($booking['code']);
+    $t->pdo->prepare('UPDATE guests SET no_show_count=2 WHERE id=?')->execute([$row['guest_id']]);
+    $service = staffService($t, $t->date . ' 18:00:00');
+    $service->transition($actor, $booking['code'], 1, 'no_show', 'Isolated absent guest');
+    $t->assert((int)$t->pdo->query('SELECT no_show_count FROM guests')->fetchColumn() === 3);
+    $service->delete($actor, $booking['code'], 2);
+    $t->assert((int)$t->pdo->query('SELECT no_show_count FROM guests')->fetchColumn() === 2, 'A deleted no-show must not penalize the shared guest');
+    $t->assert($t->count('guests') === 1 && $t->count('reservations') === 0);
+});
 $tests->finish();

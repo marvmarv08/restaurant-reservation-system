@@ -10,6 +10,10 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
+Marvin authorized Vercel deployment of the verified reservation-delete feature. Hosted-branch integration and verification are in progress. Keep all existing bookings, passwords, TLS configuration, video/mobile-gallery and performance improvements intact. Local feature evidence remains in the reservation-delete work item and change log.
+
+### Previous deployed visual checkpoint
+
 Chef cooking background is deployed as a READY [Singapore Preview](https://restaurant-reservation-system-30y3y3ho8-marvmarv08.vercel.app) from source 05cd40c in Marvin’s verified workspace. Twelve candidate pages were compared; three eligible clips were inspected across their duration. Selected licensed Pexels footage is a silent 7.36-second, approximately 1.2 MB crossfaded loop behind the existing food-showcase text. Dark overlay, deferred loading, shared Pause/Resume, reduced-motion poster and failure fallback preserve readable copy and existing PC/phone photo motion. All eight new video checks, 21 showcase regressions and eight actual hosted read-only checks passed, with desktop/mobile visual inspection and no JavaScript/CSP errors or mutations. Existing Singapore performance fixes and database records are retained; idle first-open can still take 4–6 seconds. Full comparison and provenance: research/10_chef_background_video_research.md.
 
 ## Stable Facts
@@ -65,7 +69,7 @@ Booking Guests and Room preference now filter one another using database room-pa
 
 ## Known Limitations
 
-The separate prototype remains simulated; live PHP workspaces use MySQL. Menu/room editors, partial post-send order changes, guest food ordering, payment collection, seated table moves, public guest waitlist claims, password recovery, and advanced reports are not implemented. Guests save their private booking link because notifications are simulated. Outstanding work takes priority in bounded lists; archived orders are limited to 100 displayed rows and kitchen results to 200, with the last 20 served tickets in recall. A browser reload discards an unresolved request held in memory; review persisted lines/status before continuing. Local HTTP remains for the laptop demo. The separate HTTPS Vercel Preview has completed deployment review and agreed guest/admin acceptance. Application audit/event writes append records; database operators retain write access.
+The separate prototype remains simulated; live PHP workspaces use MySQL. Menu/room editors, partial post-send order changes, guest food ordering, payment collection, seated table moves, public guest waitlist claims, password recovery, and advanced reports are not implemented. Guests save their private booking link because notifications are simulated. Outstanding work takes priority in bounded lists; archived orders are limited to 100 displayed rows and kitchen results to 200, with the last 20 served tickets in recall. A browser reload discards an unresolved request held in memory; review persisted lines/status before continuing. Local HTTP remains for the laptop demo. The separate HTTPS Vercel Preview has completed deployment review and agreed guest/admin acceptance. Application actions append audit/event records; permanent reservation deletion removes that booking’s prior audit snapshots and retains one minimal deletion log. Database operators retain write access.
 
 ## Current Blockers
 
@@ -79,4 +83,4 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Last Updated
 
-2026-10-06
+2026-10-07

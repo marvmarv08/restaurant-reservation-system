@@ -182,6 +182,24 @@ await check(
     );
   },
 );
+await check("Permanent deletion requires admin, current version, JSON and CSRF", async () => {
+  const ready = fixture({ action: "ready" });
+  const path = "/api/admin/reservations/delete";
+  const body = { code: ready.no_show, version: 1 };
+  await denied(await session(), path, 401, "staff_login_required", { body });
+  for (const role of ["manager", "host", "server", "kitchen"])
+    await denied(clients[role], path, 403, "staff_forbidden", { body });
+  await denied(clients.admin, path, 403, null, { body, headers: { "X-CSRF-Token": "wrong" } });
+  await denied(clients.admin, path, 415, "unsupported_content_type", { body, headers: { "Content-Type": "text/plain" } });
+  await denied(clients.admin, path, 409, "booking_changed", { body: { ...body, version: 2 } });
+  assert.equal((await request(clients.admin, "/api/admin/reservation?code=" + body.code)).status, 200);
+  const result = await request(clients.admin, path, { body });
+  assert.equal(result.status, 200);
+  assert.equal(result.data.deleted, true);
+  await denied(clients.admin, "/api/admin/reservation?code=" + body.code, 404, "booking_not_found");
+  await denied(clients.admin, path, 404, "booking_not_found", { body });
+  assert.equal((await request(clients.admin, "/api/admin/reservation?code=" + ready.seat)).status, 200);
+});
 await check("Every protected read endpoint enforces the role map", async () => {
   const restricted = [
     "/api/admin/settings",

@@ -347,7 +347,7 @@ try {
     },
   );
   await check(
-    "Seating creates an order, completion releases with reset, and no-show records history",
+    "Seating protects orders and permanent deletion requires explicit confirmation",
     async () => {
       await page
         .getByRole("button", { name: "Service overview", exact: true })
@@ -362,19 +362,37 @@ try {
           .textContent(),
         /open/,
       );
+      assert.equal(await page.getByRole("dialog").getByRole("button", { name: "Delete", exact: true }).count(), 0);
       await closeDialog();
       await action(ready.seat, "Complete visit", "Confirm complete visit");
-      await action(ready.no_show, "Mark no-show", "Confirm mark no-show");
       await open(ready.no_show);
-      assert.match(
-        await page.getByRole("dialog").locator(".status").textContent(),
-        /No_show|No-show/i,
-      );
-      assert.match(
-        await page.getByRole("dialog").locator(".staff-history").textContent(),
-        /no_show/,
-      );
-      await closeDialog();
+      assert.equal(await page.getByRole("button", { name: "Mark no-show", exact: true }).count(), 0);
+      let deletions = 0;
+      const recordDeletion = (request) => {
+        if (request.url().endsWith("/api/admin/reservations/delete") && request.method() === "POST") deletions++;
+      };
+      page.on("request", recordDeletion);
+      await page.getByRole("button", { name: "Delete", exact: true }).click();
+      await page.getByText(/This cannot be undone/).waitFor();
+      assert.equal(await page.getByRole("dialog").locator("input").count(), 0);
+      assert.equal(await page.getByRole("button", { name: "Keep reservation", exact: true }).evaluate((button) => button === document.activeElement), true);
+      await page.screenshot({ path: artifacts + "/delete-confirmation-desktop.png" });
+      await page.setViewportSize({ width: 390, height: 844 });
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+      await page.screenshot({ path: artifacts + "/delete-confirmation-mobile.png" });
+      await page.getByRole("button", { name: "Keep reservation", exact: true }).click();
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page.getByRole("button", { name: "Delete", exact: true }).waitFor();
+      assert.equal(deletions, 0);
+      await page.getByRole("button", { name: "Delete", exact: true }).click();
+      const deleted = page.waitForResponse((response) => response.url().endsWith("/api/admin/reservations/delete") && response.request().method() === "POST");
+      await page.getByRole("button", { name: "Delete permanently", exact: true }).click();
+      assert.equal((await deleted).status(), 200);
+      await page.getByRole("dialog").waitFor({ state: "hidden" });
+      await page.locator("#staff-feedback").filter({ hasText: /permanently deleted/ }).waitFor();
+      assert.equal(deletions, 1);
+      assert.equal(await page.getByRole("button", { name: "Open " + ready.no_show, exact: true }).count(), 0);
+      page.off("request", recordDeletion);
     },
   );
   await check(
