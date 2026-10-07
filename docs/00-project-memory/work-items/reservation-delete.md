@@ -3,17 +3,17 @@ pmm_schema: pmm.task/v1
 task_id: reservation-delete
 parent_task_id: lumina-hosted-endpoint-performance
 task_kind: work-item
-execution_status: active
-verification_status: pending
+execution_status: ready-to-integrate
+verification_status: passed
 delivery_status: waiting-confirmation
 owner: codex-delete
 branch: main
 base_sha: 0d519c21122c8e6d5ce9ae6e0188019fe7718c98
-revision: 3
-verification_head: none
-verification_source_hash: none
-verified_at: none
-updated_at: 2026-10-07T11:47:35Z
+revision: 5
+verification_head: 3db9526df0b188d4b7c838f8ec0f011a51711294
+verification_source_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+verified_at: 2026-10-07T11:48:14Z
+updated_at: 2026-10-07T11:48:18Z
 ---
 
 # Work Item
@@ -56,7 +56,7 @@ Skip when: The task is unrelated to the current execution context.
 
 ## Critic
 
-- Pass/Fail: pending
+- Pass/Fail: pass
 - Missing Evidence: required checks have not completed.
 - False-Pass Risk: stale or unrelated evidence must not count.
 - Next Action: execute the first unverified acceptance step.
@@ -66,11 +66,11 @@ Skip when: The task is unrelated to the current execution context.
 - Last Failure: none
 - Failure Class: none
 - Attempted Fix: none
-- Next Concrete Action: Complete final isolated regression evidence and prepare local feature commit; hosted branch integration and deployment are not performed
+- Next Concrete Action: commit this operational checkpoint, merge the branch, then run pmm-task.sh integrate from the primary branch
 
 ## Record
 
-- Verification Evidence: pending after checkpoint
+- Verification Evidence: 120 MySQL + 44 HTTP + 241 browser checks passed on final implementation; 54-file PHP lint, JS syntax, isolated smoke, git diff --check and PMM doctor passed; desktop/mobile confirmation reviewed; independent code review approved. Initial unchanged food-showcase image-loading timeout disclosed, no failed resources in diagnostic, unchanged rerun passed 20 checks. No existing local/hosted bookings deleted; no deployment.
 - Delivery Status: waiting-confirmation
 - Delivery Evidence: Verified local source and screenshots; hosted branch integration and Vercel publication require separate delivery authorization. No actual existing bookings deleted.
 - Docs Updated: pending
