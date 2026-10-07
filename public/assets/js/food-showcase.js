@@ -3,6 +3,9 @@
   const section = document.querySelector("#food-showcase");
   if (!section || document.body.dataset.page === "manage") return;
   const gallery = section.querySelector(".food-gallery");
+  const video = section.querySelector("#food-cooking-video");
+  let videoVisible = false, videoFailed = false;
+  video?.addEventListener("error", () => { videoFailed = true; video.hidden = true; });
   for (const image of gallery.querySelectorAll("img")) {
     const failed = () => image.closest("figure").classList.add("food-image-missing");
     image.addEventListener("error", failed, {once: true});
@@ -54,6 +57,12 @@
       frame = null;
       lastFrame = null;
     }
+    if (video) {
+      if (enabled && videoVisible && !document.hidden && !paused && !videoFailed) {
+        if (!video.getAttribute("src")) video.src = video.dataset.src;
+        if (video.paused) video.play().catch(() => {});
+      } else video.pause();
+    }
     control.hidden = !enabled;
     control.textContent = paused ? "Resume motion" : "Pause motion";
     control.setAttribute("aria-pressed", String(paused));
@@ -75,9 +84,13 @@
   desktop.addEventListener("change", update);
   document.addEventListener("visibilitychange", update);
   const observer = new IntersectionObserver(entries => {
-    visible = entries[0].isIntersecting;
+    for (const entry of entries) {
+      if (entry.target === gallery) visible = entry.isIntersecting;
+      if (entry.target === video) videoVisible = entry.isIntersecting;
+    }
     update();
   });
   observer.observe(gallery);
+  if (video) observer.observe(video);
   update();
 })();

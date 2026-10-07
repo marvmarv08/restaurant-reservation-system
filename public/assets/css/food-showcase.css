@@ -9,6 +9,24 @@
   gap: clamp(24px, 5vw, 84px);
   align-items: center;
 }
+.food-copy { position: relative; isolation: isolate; }
+.food-film {
+  position: absolute;
+  inset: -28px -20px;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: 6px;
+  pointer-events: none;
+  background: url("/assets/videos/food-showcase/chef-poster.jpg") 48% center / cover;
+}
+.food-film video { width: 100%; height: 100%; object-fit: cover; object-position: 48% center; }
+.food-film::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #100e0cd6, #100e0ccc 55%, #100e0cc7),
+    linear-gradient(#100e0c, transparent 15%, transparent 85%, #100e0c);
+}
 .food-copy h2 {
   font-size: clamp(3rem, 5.4vw, 5.4rem);
   line-height: 1.05;
@@ -97,6 +115,7 @@
   .food-copy h2 br { display: none; }
   .food-copy h2 em::before { content: " "; }
   .food-copy { margin-bottom: 24px; }
+  .food-film { inset: -20px 0; }
   .food-gallery,
   .food-showcase[data-motion-ready="true"] .food-gallery {
     display: flex;

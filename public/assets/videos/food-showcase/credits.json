@@ -1,0 +1,23 @@
+{
+  "note": "Decorative licensed stock cooking footage for a fictional demo venue; not a claim about Lumina staff or an exact dish.",
+  "source": "https://www.pexels.com/video/chef-cooking-at-the-kitchen-8964522/",
+  "creator": "PureRaw: Camera & Film Grain (name displayed on source page on access date)",
+  "license": "Pexels License",
+  "license_url": "https://www.pexels.com/license/",
+  "accessed": "2026-10-07",
+  "download": "https://videos.pexels.com/video-files/8964522/8964522-hd_1920_1080_25fps.mp4",
+  "original_sha256": "89b12108d4517128d6364a1b766516fa4773a4fcd4f48fd7cc2451f978f747a4",
+  "processing": "Source seconds 2\u201310; resized to 854x480; removed audio; final 0.6-second tail/head blend reordered after the middle segment for a continuous loop; H.264 Main yuv420p, faststart. Final duration 7.36s, 25fps.",
+  "assets": [
+    {
+      "file": "chef-loop.mp4",
+      "bytes": 1197478,
+      "sha256": "6f00544e0f0b7f0bf5368f52ed5eeb276ccece7a26fe4c7fe7eb0d65b48a7b4c"
+    },
+    {
+      "file": "chef-poster.jpg",
+      "bytes": 31215,
+      "sha256": "da256124b78ece72c31d7f92a5fed1a2462a6456f52b0aa57d67c427c45c9765"
+    }
+  ]
+}
