@@ -4,16 +4,16 @@ task_id: lumina-hosted-endpoint-performance
 parent_task_id: none
 task_kind: primary
 execution_status: active
-verification_status: pending
-delivery_status: deployed
+verification_status: passed
+delivery_status: ready
 owner: codex-root
 branch: feat/vercel-full-system
 base_sha: 752db0807f4538a54bf162186c9aed113f71ea7d
-revision: 9
-verification_head: none
-verification_source_hash: none
-verified_at: none
-updated_at: 2026-10-07T12:15:00Z
+revision: 12
+verification_head: 5648fcec71072d8b61345518821552e0adc99788
+verification_source_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+verified_at: 2026-10-07T12:39:28Z
+updated_at: 2026-10-07T12:39:31Z
 ---
 
 # Active Task
@@ -70,9 +70,9 @@ Skip when: The task is unrelated to the current execution context.
 
 ## Record
 
-- Verification Evidence: Integrated source: 411 application checks (125 MySQL, 44 HTTP, 242 browser), plus 22 hosted configuration/session checks passed. PHP lint passed on 63 files; JavaScript syntax, isolated smoke, staged secret scan and independent integrated-code review passed. Guest-motion initially asserted before the asynchronous dialog close-focus handoff; its exact focus assertion is retained behind an event-result wait and the 31-check suite passed. No actual local/hosted reservations deleted.
-- Delivery Status: deployed
-- Delivery Evidence: READY sin1 Container Preview https://restaurant-reservation-system-62moe3jjm-marvmarv08.vercel.app source ad8351218c9cc54c7f1a414c4837f1abac3132e4 verified Marvin owner; 21 hosted checks passed, private/Preview APP_URL updated, QA cleaned. Normal refresh fast; first-open cold startup 4–6 s remains; Marvin followup pending.
+- Verification Evidence: Merged source passes 411 application checks (125 MySQL, 44 HTTP, 242 browser), 22 hosted configuration/session checks, 63-file PHP lint, JS syntax, isolated smoke, staged secret scan and independent integrated-code review. Initial guest-motion close-focus assertion race was repaired with an event-result wait retaining the exact assertion and passed on rerun. No actual bookings deleted; Preview deployment pending.
+- Delivery Status: ready
+- Delivery Evidence: User explicitly authorized Vercel publication; verified integrated source is ready for Preview deployment in Marvin workspace.
 - Docs Updated: PLAN.md, current-state.md, change-log.md, vercel-deployment.md and Windows Desktop roadmap.
 - Remaining Risk: normal hosted refreshes are verified fast; idle container first-open can still take roughly 4–6 seconds. Marvin personal timing feedback remains pending.
 - Memory Promotion Decision: pending

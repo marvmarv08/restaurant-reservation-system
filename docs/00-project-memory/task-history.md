@@ -313,3 +313,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: Marvin confirmed actual Preview menu/categories, reservation confirmation, staff activation/sign-in and admin dashboard; fresh READY Preview identity/status and read-only TLS aggregates verified (active staff 1, reservations 175 vs 174 seed); runtime source unchanged from deployed e6f35b9; prior 393 regressions and 45 hosting checks remain applicable; documentation diff/export pass.
 - Closed At: 2026-10-06T12:46:04Z
+
+## 2026-10-07 reservation-delete
+
+<!-- pmm-task-id: reservation-delete -->
+
+- Status: done
+- Parent Task: lumina-hosted-endpoint-performance
+- Title: Add confirmed permanent reservation deletion
+- Execution State: done
+- Verification State: passed
+- Delivery State: waiting-confirmation
+- Verification Evidence: 120 MySQL + 44 HTTP + 241 browser checks passed on final implementation; 54-file PHP lint, JS syntax, isolated smoke, git diff --check and PMM doctor passed; desktop/mobile confirmation reviewed; independent code review approved. Initial unchanged food-showcase image-loading timeout disclosed, no failed resources in diagnostic, unchanged rerun passed 20 checks. No existing local/hosted bookings deleted; no deployment.
+- Closed At: 2026-10-07T12:39:19Z
