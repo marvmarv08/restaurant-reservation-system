@@ -5,15 +5,15 @@ parent_task_id: none
 task_kind: primary
 execution_status: active
 verification_status: passed
-delivery_status: ready
+delivery_status: deployed
 owner: codex-root
 branch: feat/vercel-full-system
 base_sha: 752db0807f4538a54bf162186c9aed113f71ea7d
-revision: 12
+revision: 13
 verification_head: 5648fcec71072d8b61345518821552e0adc99788
 verification_source_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 verified_at: 2026-10-07T12:39:28Z
-updated_at: 2026-10-07T12:39:31Z
+updated_at: 2026-10-07T12:54:57Z
 ---
 
 # Active Task
@@ -57,22 +57,22 @@ Skip when: The task is unrelated to the current execution context.
 ## Critic
 
 - Pass/Fail: pass
-- Missing Evidence: New Preview READY metadata remains pending. No live UI or live deletion is claimed; the deployment skill prohibits fetching the deployed application URL.
+- Missing Evidence: No required release metadata remains pending. Live UI/rehearsal remains manual; no live deletion or deployed-app URL fetch was performed, as required by the Vercel deployment skill.
 - False-Pass Risk: source tests alone cannot prove live UI behavior; report READY metadata separately. The Vercel deployment skill prohibits fetching the deployed application URL, so no live deletion or live UI result is claimed.
-- Next Action: Marvin rehearses the new URL and distinguishes an idle first-open from normal search/refresh.
+- Next Action: Archive the verified release; Marvin reviews the new Preview with his existing admin account.
 
 ## Repair
 
 - Last Failure: Marvin reports all-workspace loading remains slow after the query batching release.
 - Failure Class: incomplete end-to-end verification; compute/database region mismatch and sequential UI request chains.
 - Attempted Fix: Singapore sin1 compute, parallel initial public/menu reads, coordinated pending refresh and revision guards, lean PHP/Apache image; validated on committed hosted release.
-- Next Concrete Action: User authorized Vercel deployment of reservation-delete. Merge verified main child into hosted branch, integrate claim, reverify hosted-compatible source, and deploy a Preview in Marvin workspace; retain all actual bookings and credentials.
+- Next Concrete Action: User opens the new Preview and reviews the confirmed Delete action. Optional personal performance feedback remains separate.
 
 ## Record
 
 - Verification Evidence: Merged source passes 411 application checks (125 MySQL, 44 HTTP, 242 browser), 22 hosted configuration/session checks, 63-file PHP lint, JS syntax, isolated smoke, staged secret scan and independent integrated-code review. Initial guest-motion close-focus assertion race was repaired with an event-result wait retaining the exact assertion and passed on rerun. No actual bookings deleted; Preview deployment pending.
-- Delivery Status: ready
-- Delivery Evidence: User explicitly authorized Vercel publication; verified integrated source is ready for Preview deployment in Marvin workspace.
+- Delivery Status: deployed
+- Delivery Evidence: READY Preview https://restaurant-reservation-system-8ii07jox6-marvmarv08.vercel.app, deployment dpl_3WwDTifj7AUuz4GXr8uNR6HDZSL1, owner/project/source af1fce2/sin1 verified through Vercel metadata; 433 isolated checks passed. No deployed app URL fetch or live deletion claimed.
 - Docs Updated: PLAN.md, current-state.md, change-log.md, vercel-deployment.md and Windows Desktop roadmap.
 - Remaining Risk: normal hosted refreshes are verified fast; idle container first-open can still take roughly 4–6 seconds. Marvin personal timing feedback remains pending.
 - Memory Promotion Decision: pending

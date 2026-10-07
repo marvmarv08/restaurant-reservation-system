@@ -6,4 +6,5 @@ Purpose: Optional queue for work outside the single primary task slot.
 
 | Task ID | Reason | Owner | Resume Condition | Delivery State |
 | --- | --- | --- | --- | --- |
-| reservation-delete | delivery follow-up | codex-delete | explicit delivery action or confirmation | waiting-confirmation |
+
+Reservation-delete delivery completed through the primary hosted task on 2026-10-07. No pending delivery confirmation remains.
