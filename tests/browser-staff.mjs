@@ -132,11 +132,22 @@ async function newReservation({
     .locator("#staff-feedback")
     .filter({ hasText: "created." })
     .waitFor();
-  return (await page.locator("#staff-feedback").textContent()).match(
+  const created = (await page.locator("#staff-feedback").textContent()).match(
     /LUM-[A-Z0-9]{6}/,
   )[0];
+  await findReservation(created);
+  return created;
+}
+async function findReservation(code, target = page) {
+  const status = target.getByLabel("Status", { exact: true });
+  if (await status.count()) await status.selectOption("all");
+  await target.getByLabel("Guest, phone, or reference", { exact: true }).fill(code);
+  const refreshed = target.waitForResponse(r => r.url().includes("/api/admin/dashboard?") && new URL(r.url()).searchParams.get("q") === code);
+  await target.getByRole("button", { name: "Refresh", exact: true }).click();
+  await refreshed;
 }
 async function open(code) {
+  await findReservation(code);
   await page.getByRole("button", { name: "Open " + code, exact: true }).click();
   await page.getByRole("dialog").getByText(code, { exact: true }).waitFor();
 }
@@ -274,6 +285,7 @@ try {
           .count(),
         0,
       );
+      await findReservation(group, host.page);
       await host.page.getByLabel("Service date", { exact: true }).fill(date);
       await host.page
         .getByRole("button", { name: "Refresh", exact: true })

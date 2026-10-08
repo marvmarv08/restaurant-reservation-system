@@ -22,6 +22,8 @@ async function open(options = {}) {
   });
   const page = await context.newPage();
   page.setDefaultTimeout(6000);
+  // Full-page asset loads on Docker Desktop need a separate navigation budget.
+  page.setDefaultNavigationTimeout(30000);
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(base);
   await page.getByRole('button', {name: 'Find a table', exact: true}).waitFor();
@@ -40,25 +42,22 @@ async function transforms(page) {
   return page.locator('.food-track').evaluateAll(nodes => nodes.map(e => getComputedStyle(e).transform));
 }
 try {
-  await check('Phone photos autoplay horizontally, pause for touch, resume, and stop for reduced motion', async () => {
+  await check('Phone photos keep autoplaying after touch without a Pause or Resume control', async () => {
     const mobile = await open({viewport: {width: 390, height: 844}, hasTouch: true, isMobile: true});
     const mobileRegion = await gallery(mobile);
     const strip = mobileRegion.locator('.food-gallery');
     await mobile.waitForFunction(() => document.querySelector('#food-showcase').dataset.running === 'true');
+    assert.equal(await mobileRegion.getByRole('button', {name: /motion/}).count(), 0);
     const before = await strip.evaluate(e => e.scrollLeft);
     await mobile.waitForFunction(start => document.querySelector('.food-gallery').scrollLeft > start + 4, before);
-    assert.ok(await mobileRegion.getByRole('button', {name: 'Pause motion', exact: true}).isVisible());
     await strip.dispatchEvent('pointerdown', {pointerType: 'touch'});
-    const stopped = await strip.evaluate(e => e.scrollLeft);
-    await mobile.waitForTimeout(250);
-    assert.equal(await strip.evaluate(e => e.scrollLeft), stopped);
-    await mobileRegion.getByRole('button', {name: 'Resume motion', exact: true}).click();
-    await mobile.waitForFunction(start => document.querySelector('.food-gallery').scrollLeft > start + 4, stopped);
+    await strip.dispatchEvent('pointerup', {pointerType: 'touch'});
+    const touched = await strip.evaluate(e => e.scrollLeft);
+    await mobile.waitForFunction(start => document.querySelector('.food-gallery').scrollLeft > start + 4, touched);
     await mobile.emulateMedia({reducedMotion: 'reduce'});
     const reduced = await strip.evaluate(e => e.scrollLeft);
     await mobile.waitForTimeout(250);
     assert.equal(await strip.evaluate(e => e.scrollLeft), reduced);
-    assert.equal(await mobileRegion.getByRole('button', {name: /motion/}).count(), 0);
     await mobile.emulateMedia({reducedMotion: 'no-preference'});
     await mobile.locator('#menu').scrollIntoViewIfNeeded();
     await mobile.waitForFunction(() => document.querySelector('#food-showcase').dataset.running === 'false');
@@ -82,32 +81,25 @@ try {
     const before = await transforms(page); await page.waitForTimeout(600);
     assert.notDeepEqual(await transforms(page), before);
   });
-  await check('Keyboard Pause stops motion and Resume restarts it without losing focus', async () => {
-    const pause = region.getByRole('button', {name: 'Pause motion', exact: true});
-    await pause.focus(); await page.keyboard.press('Enter');
-    const resume = region.getByRole('button', {name: 'Resume motion', exact: true});
-    assert.equal(await resume.evaluate(e => e === document.activeElement), true);
-    await page.waitForTimeout(100); const before = await transforms(page); await page.waitForTimeout(400);
-    assert.deepEqual(await transforms(page), before);
-    await page.keyboard.press('Enter'); await page.mouse.move(0, 0);
-    await page.waitForTimeout(200); assert.ok(await running(page) > 0);
-  });
-  await check('Hover temporarily freezes food photos and moving away resumes them', async () => {
-    await region.locator('.food-gallery').hover(); await page.waitForTimeout(100);
-    const before = await transforms(page); await page.waitForTimeout(300);
-    assert.deepEqual(await transforms(page), before);
-    await page.mouse.move(0, 0); await page.waitForTimeout(100); assert.ok(await running(page) > 0);
+  await check('Food photos keep moving during hover and keyboard focus without a pause control', async () => {
+    assert.equal(await region.getByRole('button', {name: /motion/}).count(), 0);
+    await region.locator('.food-gallery').hover();
+    const hovered = await transforms(page); await page.waitForTimeout(300);
+    assert.notDeepEqual(await transforms(page), hovered);
+    await region.locator('.food-gallery').focus();
+    const focused = await transforms(page); await page.waitForTimeout(300);
+    assert.notDeepEqual(await transforms(page), focused);
+    assert.ok(await running(page) > 0);
   });
   await check('Keyboard entry into the desktop gallery keeps a visible unclipped focus outline', async () => {
-    const control = region.getByRole('button', {name: 'Pause motion', exact: true});
-    await control.focus(); await page.keyboard.press('Tab');
+    await region.getByRole('link', {name: 'Explore the menu', exact: true}).focus(); await page.keyboard.press('Tab');
     const strip = region.getByRole('group', {name: 'Food inspiration photographs'});
     assert.equal(await strip.evaluate(e => e === document.activeElement && e.matches(':focus-visible')), true);
     const style = await strip.evaluate(e => { const s = getComputedStyle(e); return {mask: s.maskImage, width: parseFloat(s.outlineWidth), style: s.outlineStyle}; });
     assert.equal(style.mask, 'none', 'Fade must not clip the keyboard focus ring');
     assert.ok(style.width >= 2 && style.style !== 'none');
     await page.screenshot({path: `${artifacts}/food-keyboard-focus.png`});
-    await control.focus(); await page.mouse.move(0, 0);
+    await region.getByRole('link', {name: 'Explore the menu', exact: true}).focus(); await page.mouse.move(0, 0);
   });
   await check('Offscreen gallery motion stops and returns only when visible', async () => {
     await page.locator('#menu').scrollIntoViewIfNeeded(); await page.waitForTimeout(200);
@@ -134,13 +126,12 @@ try {
     });
     await page.waitForTimeout(100); assert.ok(await running(page) > 0);
   });
-  await check('Explicit pause survives motion preferences and viewport changes', async () => {
-    await region.getByRole('button', {name: 'Pause motion'}).click();
+  await check('Continuous motion returns after motion preferences and viewport changes', async () => {
     await page.emulateMedia({reducedMotion: 'reduce'}); await page.setViewportSize({width: 390, height: 844});
     await page.emulateMedia({reducedMotion: 'no-preference'}); await page.setViewportSize({width: 1440, height: 1000});
     await gallery(page); await page.waitForTimeout(150);
-    assert.equal(await running(page), 0);
-    assert.ok(await region.getByRole('button', {name: 'Resume motion'}).isVisible());
+    assert.ok(await running(page) > 0);
+    assert.equal(await region.getByRole('button', {name: /motion/}).count(), 0);
   });
   for (const width of [320, 390, 768, 1440]) {
     await check(`${width}px gallery fits the page and passes automated A/AA checks`, async () => {
@@ -151,13 +142,13 @@ try {
       await page.screenshot({path: `${artifacts}/food-${width}.png`});
     });
   }
-  await check('Mobile gallery can be browsed using the keyboard without autoplay', async () => {
+  await check('Mobile keyboard browsing retains continuous autoplay', async () => {
     await page.setViewportSize({width: 390, height: 844}); await gallery(page);
     const strip = region.getByRole('group', {name: 'Food inspiration photographs'});
     await strip.focus(); const before = await strip.evaluate(e => e.scrollLeft);
     await page.keyboard.press('ArrowRight'); await page.waitForTimeout(250);
     assert.ok(await strip.evaluate(e => e.scrollLeft) > before);
-    assert.equal(await running(page), 0);
+    assert.equal(await page.locator('#food-showcase').getAttribute('data-running'), 'true');
   });
   await check('Explore the menu reaches the real catalog and retains category selection', async () => {
     await region.getByRole('link', {name: 'Explore the menu', exact: true}).click();

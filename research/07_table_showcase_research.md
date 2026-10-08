@@ -274,3 +274,32 @@ Limitations: green is a recent eligibility result, not a guaranteed booking; the
 ### Room-card photo correction
 
 Marvin’s follow-up screenshot revealed that the live entry cards still used old CSS placeholders. Restored all four locally credited inspiration photographs while retaining the exact-table gallery, database indicators and existing selection flow. A 12-check read-only browser pass verified images/mappings, all room openings, four viewport widths, automated A/AA, failed-photo behavior and absence of booking writes. The permanent integration suite now includes a photo-presence regression assertion.
+
+## Local concept floor positions — 2026-10-08
+
+Marvin requested a neater floor preview with specific positions for every table, and confirmed this is a concept layout for the fictional Lumina demo. This is an illustrative floor arrangement, not a surveyed restaurant or a claim about real accessibility clearances.
+
+The [shared presentation layout](../public/assets/js/floor-layout.js) now gives the guest and staff diagrams the same positions. Database table IDs, sizes/shapes, capacities, eligibility, room ownership and booking actions remain unchanged. The old database drawing coordinates are preserved; the new fictional presentation is explicitly owned by the shared frontend helper.
+
+| Area | Specific table positions |
+| --- | --- |
+| Suites, upper left | V1/V2 are upper left/right; V3/V4 are lower left/right. |
+| Main Dining, center | Upper row: C1/C2 to the left of the central aisle, C3/C4 to the right. Middle row: C5/C6 left, C7 at the outer right. Lower row: C8/C9 left, C10 at the outer right. Entrance-side row: C11 left and C12 right of the aisle. |
+| The Long Room, lower left | G1 upper group area, G2 middle group area, G3 lower group area. G1/G2 retain the existing joined-booking option; the drawing does not change group eligibility. |
+| Terrace, right | T1–T6 run from the upper end to the lower end. T3 is above the access point and T4 below it. |
+
+A central entrance, dashed circulation guides and room access gaps make the arrangement easier to interpret. Main Dining retains gaps beside the aisle rather than pretending that every grid position contains a table. G3 now stays entirely inside the enlarged Long Room boundary. All 25 shapes fit their assigned room without overlapping one another.
+
+Each table preview includes its concept location in text and a small room map with that table marked in gold. These mini maps are decorative spatial context; existing actions continue to use real availability and inventory IDs. Mini-map marker classes are separate from interactive floor-table classes, preserving joined-table highlights and keyboard actions. Preview-specific label sizes keep the tall Terrace room readable.
+
+On phones, a labelled focusable viewport contains a larger floor drawing and supports sideways swiping/keyboard scrolling. The whole document does not overflow. This keeps table codes readable instead of shrinking the complete venue to tiny targets; the existing room/table preview cards remain available. The phone pan hint explains the interaction.
+
+Actual read-only localhost screenshots:
+
+- [Full desktop floor map](floor-layout-previews/main-desktop-map.png).
+- [G3 preview and highlighted room position](floor-layout-previews/main-table-position.png).
+- [Phone map viewport](floor-layout-previews/main-phone-map.png), showing the initial left-side crop of a horizontally scrollable map.
+
+Verification: The new geometry check reproduced the old G3 overflow before implementation. Six focused layout checks and 94 related checks passed (100 total: 86 browser, 14 HTTP), including all-table previews, containment/no overlap, Terrace label sizing, mobile panning, live availability/selection, staff workflows, retained hero playback, Close scrolling and room-picture motion. A label regression also reproduced 5.4px Terrace text before the correction. Actual main read-only checks, six exact served assets, versioned guest/staff scripts/styles, PHP/JavaScript syntax, build/smoke and whitespace checks passed. Independent review identified the label issue and found no remaining actionable issue after correction.
+
+Main app alone was refreshed with --no-deps. No reservation/configuration data mutation, main seed/reset, GitHub push or Vercel deployment. Diagram spacing is illustrative and is not a measurement of real walking clearance.

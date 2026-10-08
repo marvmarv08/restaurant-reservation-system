@@ -15,8 +15,7 @@
   if (typeof IntersectionObserver !== "function") return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const desktop = matchMedia("(min-width: 761px)");
-  const control = section.querySelector(".food-motion-toggle");
-  let visible = false, paused = false, hovered = false, focused = false;
+  let visible = false;
   let frame = null, lastFrame = null, position = 0, direction = 1;
   for (const group of gallery.querySelectorAll(".food-set")) {
     const copy = group.cloneNode(true);
@@ -34,6 +33,8 @@
     const elapsed = lastFrame === null ? 0 : Math.min(timestamp - lastFrame, 64);
     lastFrame = timestamp;
     const end = Math.max(0, gallery.scrollWidth - gallery.clientWidth);
+    // Continue from a manual swipe rather than snapping back to the previous position.
+    if (Math.abs(gallery.scrollLeft - position) > 2) position = gallery.scrollLeft;
     position += direction * elapsed * 0.018;
     if (position >= end) { position = end; direction = -1; }
     if (position <= 0) { position = 0; direction = 1; }
@@ -42,7 +43,7 @@
   }
   function update() {
     const enabled = !reduced.matches;
-    const running = enabled && visible && !document.hidden && !paused && !hovered && !focused;
+    const running = enabled && visible && !document.hidden;
     section.dataset.motionReady = String(enabled && desktop.matches);
     section.dataset.mobileMotion = String(enabled && !desktop.matches);
     section.dataset.running = String(running);
@@ -58,28 +59,12 @@
       lastFrame = null;
     }
     if (video) {
-      if (enabled && videoVisible && !document.hidden && !paused && !videoFailed) {
+      if (enabled && videoVisible && !document.hidden && !videoFailed) {
         if (!video.getAttribute("src")) video.src = video.dataset.src;
         if (video.paused) video.play().catch(() => {});
       } else video.pause();
     }
-    control.hidden = !enabled;
-    control.textContent = paused ? "Resume motion" : "Pause motion";
-    control.setAttribute("aria-pressed", String(paused));
   }
-  control.addEventListener("click", () => { paused = !paused; update(); });
-  // Keep manual phone swipes in control until the guest chooses Resume.
-  gallery.addEventListener("pointerdown", () => {
-    if (!desktop.matches && !reduced.matches) { paused = true; update(); }
-  });
-  gallery.addEventListener("pointerenter", event => {
-    if (event.pointerType === "mouse" || event.pointerType === "pen") { hovered = true; update(); }
-  });
-  gallery.addEventListener("pointerleave", () => { hovered = false; update(); });
-  gallery.addEventListener("focusin", () => { focused = true; update(); });
-  gallery.addEventListener("focusout", () => {
-    queueMicrotask(() => { focused = gallery.contains(document.activeElement); update(); });
-  });
   reduced.addEventListener("change", update);
   desktop.addEventListener("change", update);
   document.addEventListener("visibilitychange", update);

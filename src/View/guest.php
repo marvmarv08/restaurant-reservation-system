@@ -12,8 +12,10 @@
   <link rel="stylesheet" href="/assets/css/ui-feedback.css">
   <script src="/assets/js/ui-feedback.js" defer></script>
   <script src="/assets/js/guest-motion.js" defer></script>
+  <script src="/assets/js/floor-layout.js" defer></script>
   <script src="/assets/js/table-showcase.js" defer></script>
   <script src="/assets/js/food-showcase.js" defer></script>
+  <script src="/assets/js/hero-background.js" defer></script>
   <script src="/assets/js/menu-photos.js" defer></script>
   <script src="/assets/js/guest.js" defer></script>
 </head>
@@ -29,14 +31,17 @@
   <main>
     <div class="guest-content">
       <section class="hero wrap" aria-labelledby="hero-title">
-        <div class="hero-backdrop" aria-hidden="true"><img src="/assets/images/table-showcase/main-dining-reference.jpg" alt="" width="1200" height="800" fetchpriority="high"></div>
+        <div class="hero-backdrop" aria-hidden="true">
+          <img src="/assets/videos/hero/dining-poster.jpg" alt="" width="1280" height="720" fetchpriority="high">
+          <video id="hero-dining-video" data-src="/assets/videos/hero/dining-loop.mp4" width="1280" height="720" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture></video>
+        </div>
         <div class="hero-copy">
           <p class="eyebrow">Lipa City, Batangas · Smoke & citrus</p>
           <h1 id="hero-title">A seat<br>by the <em>fire.</em></h1>
           <p class="hero-description">Coastal fire cooking. A harbour breeze.<br>An evening worth making room for.</p>
           <a class="text-link" href="#menu">Explore the menu <span aria-hidden="true">↗</span></a>
           <div class="hero-service"><span class="service-dot" aria-hidden="true"></span><p>Tuesday–Sunday, 17:30–23:30<br><small>Last seating 21:45 · Closed Monday</small></p></div>
-          <p class="hero-photo-note">Atmosphere inspiration · photograph by Michel Stockman</p>
+          <p class="hero-photo-note">Atmosphere inspiration · <a href="https://www.pexels.com/video/cozy-modern-restaurant-interior-at-night-31631562/">video by gusat silviu / Pexels</a></p>
         </div>
         <section class="booking-card" id="booking" aria-label="Reserve a table" tabindex="-1">
           <div class="card-heading"><span class="eyebrow">Your evening starts here</span><span class="live-tag"><i aria-hidden="true"></i>Live availability</span></div>
@@ -55,7 +60,7 @@
             <h2 id="food-title">A taste of<br> the <em>evening.</em></h2>
             <p>From the first bite to the last glass.<br>Discover the flavours behind a seat at Lumina.</p>
             <a class="button food-menu-link" href="#menu">Explore the menu</a>
-            <div class="food-controls"><button type="button" class="food-motion-toggle" aria-pressed="false" aria-controls="food-gallery food-cooking-video" hidden>Pause motion</button><span class="food-swipe-hint">Swipe to explore <span aria-hidden="true">→</span></span></div>
+            <p class="food-swipe-hint">Swipe to explore <span aria-hidden="true">→</span></p>
             <p class="food-note">Food inspiration · stock photography and video.<br>See our menu for dishes, prices and dietary tags.</p>
           </div>
           <div class="food-gallery" id="food-gallery" role="group" aria-label="Food inspiration photographs" tabindex="0">

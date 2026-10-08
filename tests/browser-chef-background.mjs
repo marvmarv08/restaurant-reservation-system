@@ -23,9 +23,11 @@ try{
   assert.ok(await page.locator('.food-copy').getByRole('link',{name:'Explore the menu',exact:true}).isEnabled());
   assert.match(await video.getAttribute('src'),/^\/assets\/videos\/food-showcase\//);
  });
- await check('The shared Pause and Resume control stops and restarts the chef video',async()=>{
-  await page.getByRole('button',{name:'Pause motion',exact:true}).click();assert.equal(await video.evaluate(v=>v.paused),true);
-  await page.getByRole('button',{name:'Resume motion',exact:true}).click();await page.waitForFunction(()=>!document.querySelector('#food-cooking-video').paused);
+ await check('Chef video keeps playing during gallery hover and focus without a pause control',async()=>{
+  assert.equal(await page.getByRole('button',{name:/motion/}).count(),0);
+  await page.locator('.food-gallery').hover();await page.locator('.food-gallery').focus();
+  const before=await video.evaluate(v=>v.currentTime);await page.waitForTimeout(300);
+  assert.equal(await video.evaluate(v=>v.paused),false);assert.notEqual(await video.evaluate(v=>v.currentTime),before);
  });
  await check('The silent clip actually loops after its end',async()=>{
   await video.evaluate(v=>v.currentTime=v.duration-0.2);await page.waitForFunction(()=>document.querySelector('#food-cooking-video').currentTime<1);

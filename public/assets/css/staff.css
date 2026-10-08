@@ -139,7 +139,7 @@
   margin-bottom: 18px;
 }
 .staff-floor {
-  max-height: 310px;
+  max-height: none;
 }
 .staff-floor .floor-table {
   fill: #243529;

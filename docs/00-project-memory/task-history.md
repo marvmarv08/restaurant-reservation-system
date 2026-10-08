@@ -352,3 +352,146 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: Zero regression observed failing then 43 MySQL,14 HTTP,10 browser and63 PHP lint passed. Corrected deployment dpl_5ThkkmuAET9dkhvAXQ7n8sQzxetp READY Preview sin1, verified owner/project/source0599da6; application source unchanged since publication. No live app fetch or booking deletion.
 - Closed At: 2026-10-07T13:21:43Z
+
+## 2026-10-08 local-continuous-food-motion
+
+<!-- pmm-task-id: local-continuous-food-motion -->
+
+- Status: done
+- Parent Task: none
+- Title: Keep the food showcase moving without a pause control
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: New regression failed for unwanted Pause control; final 20 gallery and8 chef-video checks passed;63 PHP lint files,JS syntax,diff check,desktop/mobile screenshots,localhost smoke and exact source hashes passed. Existing data retained; no publication.
+- Closed At: 2026-10-08T00:47:15Z
+
+## 2026-10-08 local-motion-reference-research
+
+<!-- pmm-task-id: local-motion-reference-research -->
+
+- Status: done
+- Parent Task: none
+- Title: Research motion references that fit Lumina
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 25 source entries/10 candidates;2 Amici previews sampled6 positions each,Bracken hero/menu inspected;YouTube/TikTok/DNS limits labeled;source-specific recommendations distinguish existing/proposed effects;local report links/export/diff checked. No app code or database changed.
+- Closed At: 2026-10-08T01:21:30Z
+
+## 2026-10-08 local-room-preview-motion
+
+<!-- pmm-task-id: local-room-preview-motion -->
+
+- Status: done
+- Parent Task: none
+- Title: Add room reveals and table picture crossfades
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Observed failing reveal/old-image retention checks then11 focused+31 guest-motion+41 showcase checks passed. JS syntax, whitespace, localhost smoke and4 served-source hashes passed; actual desktop/mobile/missingAPI checked and screenshots inspected. Independent review no actionable issue. No main DB reset/seed or publication.
+- Closed At: 2026-10-08T01:38:05Z
+
+## 2026-10-08 local-preview-close-control
+
+<!-- pmm-task-id: local-preview-close-control -->
+
+- Status: done
+- Parent Task: none
+- Title: Keep only the table-preview Close control visible while scrolling
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Original sticky-title regression failed;6 close/scroll/keyboard checks+11 room-motion+41 showcase checks passed. Syntax, whitespace, localhost smoke/exact script/styles, desktop/mobile read-only geometry and screenshots passed. No main database reset/seeding or publication.
+- Closed At: 2026-10-08T01:48:44Z
+
+## 2026-10-08 local-guest-asset-refresh
+
+<!-- pmm-task-id: local-guest-asset-refresh -->
+
+- Status: done
+- Parent Task: none
+- Title: Prevent cached guest assets from restoring the old sticky header
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Old cached sticky-title revisit failed before the fix and passed afterward in the same browser context; six Close/scroll and eleven room-motion checks passed; PHP and JavaScript syntax, main localhost smoke, all eleven content-versioned assets matching source on home/manage, actual localhost desktop/mobile Close geometry and focus checks, roadmap export and diff check passed. Local app rebuilt/restarted only; no database reset/seed or publication.
+- Closed At: 2026-10-08T02:17:47Z
+
+## 2026-10-08 local-all-date-reservations
+
+<!-- pmm-task-id: local-all-date-reservations -->
+
+- Status: done
+- Parent Task: none
+- Title: Show reservations across all dates when status is All
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Six multi-date real-data checks passed after failing on 10 versus 30 records; fourteen staff HTTP and ten staff browser regressions passed. Staff tests now search by reference across paginated All results with original assertions retained. PHP lint 64 files, JS syntax, diff check, main smoke and exact running controller/template/versioned staff script matching passed. Desktop/mobile screenshots inspected. Roadmap exported. Only local app rebuilt/restarted; no main database reset/seed or publication.
+- Closed At: 2026-10-08T03:19:09Z
+
+## 2026-10-08 local-clear-testing-records
+
+<!-- pmm-task-id: local-clear-testing-records -->
+
+- Status: done
+- Parent Task: none
+- Title: Remove only automatic localhost demo bookings; preserve manual bookings and configuration
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Automatic demo-only scope confirmed before deletion. Private restricted backup and successful rollback rehearsal preceded the transaction; 178 demo bookings/dependencies removed, one manual booking and all protected row hashes retained. Post-commit main smoke passed; zero demo, one manual, one active staff, 36 menu items. No reset/seed/publication.
+- Closed At: 2026-10-08T05:46:21Z
+
+## 2026-10-08 local-booking-notice-research
+
+<!-- pmm-task-id: local-booking-notice-research -->
+
+- Status: done
+- Parent Task: none
+- Title: Research and apply 12-hour booking notice for VIP and Group tables
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Ten primary-source system/venue policies reviewed and scoped; user selected VIP and Group 12 hours. Boundary regression failed before change; full 41 booking, 11 HTTP, four default/upgrade and 41 showcase checks passed. Final strengthened R20 forces a two-member joined group and passed targeted rerun. PHP lint 65 files, JS syntax, main smoke, running script/SQL source matching and actual read-only desktop/mobile V4/G1 available at tomorrow 19:00 passed; screenshots inspected. Private policy backup before local transaction, protected records unchanged, zero bookings. Research/PLAN/docs updated and roadmap exported. No main seed/reset, hosted write, push or deployment.
+- Closed At: 2026-10-08T06:29:19Z
+
+## 2026-10-08 local-hero-video-research
+
+<!-- pmm-task-id: local-hero-video-research -->
+
+- Status: done
+- Parent Task: none
+- Title: Find licensed continuous restaurant-ambience footage for the booking hero
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Eleven candidate pages and primary license/browser sources reviewed; four actual clips sampled at 24 decoded times within 0.06 seconds after byte-range repair; credited full-hero desktop/phone previews inspected; advancing playback, native repeat and no horizontal overflow verified on both. Report links/previews, app hash preservation, Desktop export and git diff --check passed. Raw loop seam/mobile framing/compression remain implementation work; no app/data/publication change.
+- Closed At: 2026-10-08T06:57:38Z
+
+## 2026-10-08 local-hero-video
+
+<!-- pmm-task-id: local-hero-video -->
+
+- Status: done
+- Parent Task: none
+- Title: Deliver continuous full-hero dining background locally
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Focused browser check failed against photo-only hero, then 12 hero +8 chef +20 gallery +41 showcase checks passed (81). Independent read-only reviewer found no actionable issue. Silent H.264 720p/25fps/11.2s 280 frames decoded successfully; six join-adjacent frames inspected. Actual main desktop/phone early/blend views, served script/style/video/poster hashes, versioned URL, build/smoke, PHP/JS syntax, media manifest checksums, documentation links and exported roadmap verified. App-only --no-deps refresh; no main fixture, seed/reset, GitHub push or deployment.
+- Closed At: 2026-10-08T07:26:42Z
+
+## 2026-10-08 local-floor-layout
+
+<!-- pmm-task-id: local-floor-layout -->
+
+- Status: done
+- Parent Task: none
+- Title: Fit the concept floor preview and clarify table positions
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: G3 geometry regression failed before implementation; tiny Terrace labels reproduced at 5.4px and corrected. Six floor +41 showcase +10 staff browser +14 staff HTTP +12 hero +6 Close +11 room-motion checks passed (100). Independent review finding corrected/rechecked. Actual main read-only floor/preview checks and desktop/phone screenshots inspected; six served assets match source, guest/staff script/style cache versions valid. Final source build/smoke, PHP/JS syntax, report links, Desktop export and git diff --check passed. Shared presentation-only positions preserve inventory/booking data; no main seed/reset, GitHub push or deployment.
+- Closed At: 2026-10-08T08:30:02Z

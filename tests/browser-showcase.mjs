@@ -18,7 +18,7 @@ page.on('request',r=>{if(r.method()==='POST')mutations.push(new URL(r.url()).pat
 const dialog=page.locator('#table-showcase'), badge=page.locator('.showcase-details .showcase-badge');
 const close=()=>page.getByRole('button',{name:'Close table showcase',exact:true}).click();
 const ready=async()=>page.waitForFunction(()=>{const e=document.querySelector('.showcase-details .showcase-badge');return ['available','unavailable'].includes(e?.dataset.state);});
-const picture=async()=>page.waitForFunction(()=>document.querySelector('.showcase-hero img')?.classList.contains('is-ready'));
+const picture=async()=>page.waitForFunction(()=>document.querySelector('.showcase-hero')?.getAttribute('aria-busy')==='false'&&document.querySelector('.showcase-hero img')?.classList.contains('is-ready'));
 const selected=()=>page.locator('.table-option input:checked').inputValue();
 let checks=0,rival,holdToken,csrf,cleanupBooking;
 const check=async(name,fn)=>{await fn();checks++;console.log('PASS '+name);};
@@ -97,7 +97,7 @@ try{
  await axe('image fallback');await close();await open('C7');
  for(const width of [320,390,768,1440]){
   await close();await page.setViewportSize({width,height:1000});await open('C7');
-  await check('Dialog and page reflow at '+width+'px',async()=>{assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.equal(await dialog.evaluate(e=>e.scrollWidth>e.clientWidth+1),false);assert.equal(await dialog.evaluate(e=>e.scrollTop),0);});
+  await check('Dialog and page reflow at '+width+'px',async()=>{assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.equal(await dialog.evaluate(e=>e.scrollWidth>e.clientWidth+1),false);assert.equal(await page.locator('.showcase-scroll').evaluate(e=>e.scrollTop),0);});
   await axe('available dialog '+width+'px');
  }
  await page.screenshot({path:artifacts+'/live-desktop.png'});

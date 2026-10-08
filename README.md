@@ -60,7 +60,7 @@ If Ubuntu says `permission denied` for `/var/run/docker.sock`, add your Ubuntu a
 
 ## Try the guest booking flow
 
-1. Open [localhost:8080](http://localhost:8080), choose a date in the next 60 days, guests, and room preference. Choosing guests filters compatible room options; choosing a room restricts guests to its database booking range. A valid count is preserved, while an incompatible count is adjusted with a visible notice. Choose **Any room** to restore the full guest range. Monday is closed; VIP needs 48 hours and Group needs 24 hours of notice.
+1. Open [localhost:8080](http://localhost:8080), choose a date in the next 60 days, guests, and room preference. Choosing guests filters compatible room options; choosing a room restricts guests to its database booking range. A valid count is preserved, while an incompatible count is adjusted with a visible notice. Choose **Any room** to restore the full guest range. Monday is closed; VIP and Group/Long Tables both need 12 hours of notice; Main Dining and Terrace retain the one-hour minimum.
 2. Select an available time. Click a room card or floor table to preview seating. Green/red badges apply to this date, time and guest count; neutral means a fresh check is needed. **Use this table** updates the radio/floor selection; **Continue with this table** holds it for ten minutes.
 3. Enter your name, phone, and email. Confirm the reservation. Parties of 13–16 submit a request awaiting manager approval.
 4. Save **Copy private link** at confirmation. Open that link in another browser to see the same database booking. Refreshing the original tab also restores its hold or confirmation.
@@ -72,9 +72,21 @@ Buttons show a specific pending label while a request runs, then restore their o
 
 Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. Styles and scripts are local, fonts use the system, and graphics use CSS/inline SVG and locally stored rendered images with source credits. The live app does not need a CDN or internet connection once Docker images are prepared.
 
+## Room and table motion
+
+Open [Rooms](http://localhost:8080/#rooms): the four room photos gently reveal once as they enter view. Room buttons remain immediately usable. Open a room and use Next, Previous or a thumbnail: the previous table picture stays visible while the next loads, then blends into the new picture over 180ms. Fast selections keep the latest image; reduced-motion settings skip the animations. Booking and availability checks remain authoritative. The Close button stays visible in a reserved upper-right area while the title and preview content scroll; it does not overlap the pictures.
+
+## Concept table positions
+
+Guest and staff floor maps share a fictional arrangement: Suites upper left, Long Room lower left, Main Dining center and Terrace right. All 25 tables stay inside their rooms. Entrance and dashed aisle guides explain the layout; each guest table preview shows its location and a room map with the table in gold. On phones, swipe the contained map sideways to explore other rooms. This is a concept drawing, not a measured restaurant plan; booking identities and rules are unchanged. [Arrangement and actual previews](research/07_table_showcase_research.md#local-concept-floor-positions--2026-10-08).
+
+## Moving booking background
+
+The full guest booking hero uses a silent, gently moving evening dining-room video behind the heading and booking form. The dark overlay and solid form retain readability. It repeats while visible, including during form use; reduced motion or failed playback shows a matching still image. The compressed clip is approximately 0.73 MB. Creator/source/license details are in `public/assets/videos/hero/credits.json`; [research and verified local delivery](research/13_hero_background_video_research.md) includes desktop/phone views.
+
 ## Explore the food showcase
 
-Below the booking hero, the food inspiration gallery uses six locally saved, credited photographs selected for Lumina's coastal/hearth menu and warm palette. Desktop columns move gently with Pause/Resume; hover or keyboard focus stops movement. On a phone, swipe through a static strip. Reduced-motion settings keep the gallery still. Explore the menu opens the real database catalog; the stock photographs illustrate the atmosphere rather than exact menu dishes. Open Photography credits for the original sources.
+Below the booking hero, the food inspiration gallery uses six locally saved, credited photographs selected for Lumina's coastal/hearth menu and warm palette. Desktop columns move gently and continuously while visible, including during hover or keyboard focus. On a phone, the strip moves automatically and remains swipeable. There is no Pause/Resume button; the decorative chef video also loops while visible. Reduced-motion settings keep the gallery still. Explore the menu opens the real database catalog; the stock photographs illustrate the atmosphere rather than exact menu dishes. Open Photography credits for the original sources.
 
 ## Browse menu photos and categories
 
@@ -91,7 +103,7 @@ docker compose exec app php bin/invite-staff.php marvin@lumina.test Marvin admin
 The command prints a private activation link valid for 24 hours. Open it, choose your own password (15–72 bytes; ordinary English characters use one byte each), and keep the link private. No email is sent. `marvin@lumina.test` is a local demo sign-in name, not a mailbox. The app password is separate from your Ubuntu, Docker, or GitHub password. There is no preset staff password. Reissuing an invitation invalidates older unused links; the command rejects accounts already active.
 
 1. Open [Staff sign-in](http://localhost:8080/staff/login), then the [admin workspace](http://localhost:8080/admin).
-2. Select a service date and inspect real reservations and floor availability. Create a phone booking or walk-in using the actual available tables.
+2. Status **All** shows bookings across all dates with search and Previous/Next pages; a specific status filters the chosen service date. The daily totals and floor still use that service date. Inspect real reservations and floor availability. Create a phone booking or walk-in using the actual available tables.
 3. Open a reservation to review its details and history. Admin/manager can approve a pending request. Host, manager, and admin can seat a confirmed party within its seating window, record a no-show after the grace period, or cancel with a reason.
 4. Seating creates one open order. Use the food ordering and kitchen flow below. Host completion refuses unfinished food, then releases tables with a reset buffer. An empty open order is voided rather than marked paid.
 5. Add a waitlist party or recheck the queue. An offer reserves every physical member for ten minutes before a simulated notification is recorded. The host accepts the offer when the guest agrees; there is no public guest claim page yet.

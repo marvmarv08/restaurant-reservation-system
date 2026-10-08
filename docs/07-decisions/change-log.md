@@ -231,3 +231,95 @@ Skip when: You only need the active task or current state.
 - Correction: Clamp the counter to at least one before subtracting. Zero stays zero, positive counters decrease once, and the shared guest profile remains. No schema or live-data change is needed.
 - Fresh verification: 43 staff MySQL, 14 staff HTTP, and 10 staff browser checks passed; PHP lint passed on 63 files. Independent review found no remaining issue. The earlier integrated baseline passed 411 application and 22 hosted configuration/session checks. Corrected [Vercel Preview](https://restaurant-reservation-system-jrtseuge1-marvmarv08.vercel.app) is READY in Singapore; verified owner/project/source metadata. Deployment dpl_5ThkkmuAET9dkhvAXQ7n8sQzxetp from 0599da6b31cae389620a9730551e0b32ac5009c8. This supersedes the first deletion Preview. Preview APP_URL is updated; no live app fetch or live booking deletion was performed.
 - Lesson: For unsigned database numbers, clamp before arithmetic; clamping a negative result happens too late. A regression test should include historical data that does not match current counter assumptions.
+
+## 2026-10-08 — Continuous localhost food showcase
+
+- Request: Remove Pause motion and keep the food photos and chef background moving. Work in the canonical Desktop restaurant-reservation-system folder; publication remains paused.
+- Change: Removed the control and hover/focus/touch stops; mobile drift follows a manual swipe's new position. Device reduced-motion and hidden/offscreen/error fallbacks remain.
+- Verification: New control-absence check failed against the old code, then 20 gallery and eight chef-video checks passed. PHP lint passed on 63 files, JavaScript syntax and patch whitespace passed, desktop/mobile screenshots inspected, and localhost smoke plus exact script/style hashes passed. Full-page load timeouts were separated from six-second action assertions with a 30-second navigation budget; a diagnostic load completed in about one second with no failed requests. No complete accessibility certification is claimed by automated scans.
+- Delivery: Local web container rebuilt/restarted only; no main database reset, seeding, push or deployment.
+- Lesson: Continuous visible motion and resource-saving offscreen pauses can coexist. Browser navigation waits for all initial assets, so its timeout is separate from verifying a specific UI behavior.
+
+## 2026-10-08 — Source-grounded motion reference research
+
+- Scope: Research restaurant-specific motion for the current local Lumina guest and staff flows. Compared ten reference candidates with 25 source entries, including first-party creators and official browser/design guidance.
+- Evidence: Both Amici public creator previews sampled at six positions; Bracken desktop hero/menu visually inspected with submissions blocked. YouTube descriptions/chapter lists and Reddit discussions reviewed; TikTok direct access blocked, several live/video previews unavailable, all explicitly labeled. No new usability/performance result inferred from a showreel or creator claim.
+- Recommendation: Keep continuous showcase motion and existing guest feedback; consider room-photo reveals plus true table-image crossfade first, then changed-record operational feedback if requested. No new effects or dependencies were implemented.
+- Lesson: A creator showreel communicates visual direction but does not prove a live website's response speed or booking behavior. Separate what is visually inspected, what the creator describes, and what is a proposed adaptation.
+- Delivery: Local research/11_motion_reference_research.md and roadmap/memory updates only; no records changed, GitHub push or Vercel deployment.
+
+## 2026-10-08 — Local room reveals and table-picture crossfade
+
+- Request: Implement the selected room-photo reveal and table-picture crossfade from the motion research, locally only.
+- Change: One-time 220ms/6px photo-wrapper entrance leaves room buttons stable. Preview loading retains the old ready image/caption, then an aria-hidden decorative layer crossfades over the newly loaded image for 180ms. Revision/dialog checks and cancellation protect rapid switching, close/reopen, reduced motion and image failure.
+- Verification: New reveal and previous-image-retention regressions failed before implementation. Final 11 focused, 31 guest-motion and 41 full showcase browser checks passed; syntax, whitespace, localhost smoke/exact source hashes and read-only desktop/mobile/missing-API checks passed. Screenshots inspected; independent review found no actionable issue. Tests await media-change events and natural fade cleanup rather than assuming fixed browser scheduling.
+- Lesson: Crossfade means both pictures overlap briefly; a fade-in alone can still leave a blank loading gap. Keep the old picture until the new one is ready, and check that a late response still belongs to the current selection. Animate the photo wrapper so its button and hover behavior remain stable.
+- Delivery: Canonical Desktop localhost app rebuilt/restarted only; no main database reset, seeding, push or deployment.
+
+## 2026-10-08 — Keep only Close visible during table-preview scrolling
+
+- Request: Marvin selected option 2: keep Close visible, while the room/table title scrolls normally.
+- Change: Replaced the sticky heading with a separate upper-right Close toolbar and scrollable content body. Space is reserved for the button; pictures and controls are not covered. Reopening resets the content scroll and keeps the existing title focus, Escape and opener-focus return.
+- Verification: The new title-scroll assertion failed against the original sticky header. Final six desktop/390/320px geometry and keyboard checks, 11 room-motion and 41 full showcase regressions passed. Syntax, whitespace, actual localhost smoke/source matching and read-only desktop/mobile screenshots passed.
+- Lesson: Keep persistent controls outside the scrolling content instead of layering a sticky header over it. When moving the scroll area, update scroll-reset behavior and verify the real scroll container.
+- Delivery: Local web container only; no main database reset, seeding, push or deployment.
+
+
+## 2026-10-08 — Refresh guest assets after local changes
+
+- Trigger: Marvin's screenshot still showed the old sticky table title after the Close toolbar update. Current localhost source files already contained the intended layout.
+- Change: HomeController adds content-based versions to the shared guest/management scripts and styles. Changed contents produce a new URL; unchanged files keep their URL and normal cache reuse.
+- Evidence: A real cached-browser revisit failed before implementation and passed afterward in the same browser context. Six Close/scroll and 11 room-motion checks passed, plus PHP/JavaScript syntax, main localhost smoke and exact served content matching for all 11 assets on home/manage.
+- Delivery: Local web container refreshed only. Existing database records retained; no reset, seeding, GitHub push or Vercel deployment.
+- Lesson: Fresh browser contexts do not test returning users' old cached assets. Version asset URLs and explicitly test a normal revisit with the old files cached.
+
+
+## 2026-10-08 — All dates under reservation Status All
+
+- Marvin approved All showing every booking date with search/pagination, specific statuses using Service date, full booking date/time rows and date-specific floor operations.
+- Changed the protected dashboard list predicate only for All; daily statistics/floor and Waitlist remain selected-date views. Added list-scope copy, clarified the daily reservation count and versioned the staff script so returning browsers load current labels.
+- The six-check multi-date regression failed before implementation (10 versus 30 records), then passed. Existing 14 staff HTTP and 10 staff browser checks, 64-file PHP lint, syntax, main smoke and exact running-source matching passed. Existing browser tests locate records by reference across pages and retain their original checks.
+- Local web app refreshed only; no main database reset/seed or publication.
+- Lesson: Once a history list spans dates, show the complete date and test navigation/search rather than assuming a newly created record is on the first page.
+
+
+## 2026-10-08 — Remove automatic demo bookings only
+
+- Marvin narrowed his testing-record deletion request to automatically seeded bookings, explicitly preserving manually created bookings. Scope was corrected before committed deletion.
+- Identified 178 automatic records by reservation seed_key beginning demo-, rather than the web source shared by manual bookings. Removed their related history, inventory bindings, management access, requests/notifications and matching reservation audit snapshots in one transaction. Guest profiles and unrelated records were retained; one aggregate maintenance audit records the cleanup.
+- Saved a private recovery backup outside the source repository, then rehearsed deletion in a rolled-back transaction. Before committing, full hashes confirmed manual bookings/dependencies and staff/catalog/configuration/guests/holds/food records were unchanged. Post-commit localhost smoke passed: zero demo bookings, one manual booking, one active staff and 36 menu items.
+- Local database only; no volume reset, seed, push or deployment. Re-running canonical-main reservation seeding would recreate demo bookings and now requires Marvin's request.
+- Lesson: Use explicit demo markers to distinguish generated examples from manually created records. Back up the exact deletion scope and verify preserved records before committing.
+
+
+## 2026-10-08 — Twelve-hour VIP and Group booking notice
+
+- Marvin requested research into existing reservation systems, then explicitly selected 12 hours for both VIP and Long/Group Tables. Ten primary-source pages were reviewed; existing systems support configurable cutoffs and venue preparation policies vary. Twelve hours is a selected project policy, not an industry-wide optimal value. Full comparison: research/12_booking_notice_research.md.
+- Updated fresh reference defaults, added a repeatable upgrade of previous 48/24 defaults that preserves other custom values, applied only the two localhost room notice fields, and made guest search guidance read the catalog. Common/Terrace keep the global 60 minutes; capacities, approval, opening times, cancellation and booking windows remain intact.
+- Exact 12-hour regression failed before the update, then passed for VIP, individual Group and joined Group. All 41 booking, 11 HTTP, four default/upgrade and 41 showcase checks passed. 65-file PHP lint, syntax, main smoke, exact running source and actual read-only desktop/mobile previews passed. V4/G1 were available for eight guests tomorrow at 19:00 in the verified local state.
+- Private recovery backup preceded the guarded local transaction; full protected-row hashes confirmed reservations, staff, guests, holds, menu, rooms and other settings were unchanged. Zero bookings remain. No main seed/reset, hosted write, push or deployment.
+- Lesson: Minimum booking notice is a service-preparation policy. Cancellation deadlines and advance release windows answer different questions. Validate exact boundaries with the server clock and display the current database rule.
+
+## 2026-10-08 — Full booking-hero video research
+
+- Marvin clarified that motion should cover the complete screenshot background behind both heading and booking form. Compared eleven candidate source pages and four actual clips across six decoded timestamps each; recommended gusat silviu's Pexels 31631562 for warm evening dining ambience.
+- Read-only in-memory previews at 1440/390px confirmed advancing playback, repeat and no horizontal overflow; credited images were inspected and saved. Raw first/last framing differs, so seamless-loop export remains pending; phone framing needs refinement.
+- Evidence: Corrected byte-range serving before trusting temporal samples; all 24 decoded media times matched requested positions within 0.06 seconds. License and primary browser/performance guidance reviewed. No application implementation, booking submission, database change, push or deployment.
+- Lesson: A repeated video is not automatically a seamless loop. Evaluate its beginning/end and actual mobile crop behind the form, not just the stock thumbnail.
+- Report and source attribution: research/13_hero_background_video_research.md.
+
+## 2026-10-08 — Local full-hero video delivered
+
+- Marvin approved the warm evening restaurant footage for the entire screenshot background and reiterated that it should match the application. Preserved the existing dark/gold theme, gradient and booking card; adjusted phone framing and credited the actual video creator.
+- Encoded silent 11.2-second 1280×720/25fps H.264 with a 0.8-second loop crossfade; video 727,492 bytes and matching poster 81,894 bytes. Asset manifest retains creator/source/license/processing/checksums.
+- Visible playback remains continuous during form use; offscreen/hidden/reduced-motion states stop decoding. Poster survives no JS, absent observer, autoplay refusal and media failure; hidden management hero never downloads video.
+- Verification: Focused check failed before implementation; 12 hero + eight chef + 20 gallery + 41 showcase checks passed (81). Syntax, PHP lint, build/smoke, actual desktop/phone views and exact served asset hashes passed. Independent review found no actionable issue. The main app alone was refreshed; no main fixture/seed/reset, account change or publication.
+- Lesson: Review the compressed footage inside the real layout, including the loop blend and phone crop. A silent video and matching poster provide atmosphere while preserving immediate access to booking.
+
+## 2026-10-08 — Concept floor arrangement and preview locations
+
+- Marvin requested a fitting floor preview and specific table positions, then confirmed concept layout for the Lumina demo. Shared frontend geometry arranges all 25 existing tables consistently in guest/staff views; G3 is now inside Long Room. Room identities, capacities and server booking rules are preserved without database changes.
+- Added entrance/aisle/access guides, text location and a gold-highlighted room mini map to every table preview. On phones, the map scrolls within a labelled container; the fieldset minimum-width override prevents page overflow.
+- Geometry check reproduced old G3 overflow. Six focused checks and 94 related checks passed (100 total); actual main read-only views/source matching, cache-versioned scripts/styles, syntax/build/smoke passed. Independent review found tiny Terrace labels; a 5.4px reproduction was corrected and rechecked. No remaining review issue.
+- Main app-only refresh, no seed/reset, booking/configuration data change, GitHub push or Vercel deployment. Concept positions and actual screenshots are recorded in research/07_table_showcase_research.md.
+- Lesson: Keep illustrative drawing coordinates separate from reservation identity. A shared layout keeps guest/staff maps consistent; a contained viewport preserves readable phone labels without making the whole page wider.

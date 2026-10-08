@@ -17,9 +17,9 @@
     stop(target);
     if (reduced.matches || !target.isConnected || typeof target.animate !== "function") return;
     const style = getComputedStyle(target);
-    const token = kind === "hero" ? "brand" : kind === "menu" ? "feedback" : "content";
+    const token = (kind === "hero" || kind === "room") ? "brand" : kind === "menu" ? "feedback" : "content";
     const duration = parseFloat(style.getPropertyValue("--motion-" + token)) || 180;
-    const distance = kind === "hero" ? 6 : kind === "menu" ? 0 : 4;
+    const distance = (kind === "hero" || kind === "room") ? 6 : kind === "menu" ? 0 : 4;
     let animation;
     try {
       animation = target.animate([
@@ -40,12 +40,27 @@
     animation.finished.then(finish, finish);
   }
 
+  function revealRooms(root) {
+    if (!root || typeof IntersectionObserver !== "function" || typeof Element.prototype.animate !== "function") return;
+    const photos = [...root.querySelectorAll(".room-art")];
+    let remaining = photos.length;
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        enter(entry.target, "room");
+        if (--remaining === 0) observer.disconnect();
+      }
+    }, { threshold: 0.15 });
+    for (const photo of photos) observer.observe(photo);
+  }
+
   reduced.addEventListener("change", () => {
     if (reduced.matches) {
       for (const animation of running) animation.cancel();
       running.clear();
     }
   });
-  window.LuminaGuestMotion = Object.freeze({ enter, stop });
+  window.LuminaGuestMotion = Object.freeze({ enter, stop, revealRooms });
   if (document.body.dataset.page !== "manage") enter(document.querySelector(".hero-copy"), "hero");
 })();

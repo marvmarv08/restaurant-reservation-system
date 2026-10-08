@@ -10,6 +10,38 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
+As of 2026-10-08, focus on building and testing on localhost in Marvin's canonical Windows Desktop project folder. Always use `restaurant-reservation-system` for localhost work unless Marvin explicitly requests a different folder; reserve `restaurant-reservation-system-vercel` for requested hosted-release work. GitHub pushes and Vercel deployments are paused and require a new explicit request from Marvin. Preserve local configuration and existing Docker database records. `PLAN.md` records this working direction.
+
+### Latest research
+
+Research/13_hero_background_video_research.md compares eleven video candidates, with six decoded samples for each of four downloaded clips. Pexels 31631562 is recommended for the entire booking-hero background behind both columns. Credited temporary desktop/phone previews show readable copy/form, advancing playback, repeat and no horizontal overflow. The research identified compression, softened joining and phone framing as delivery requirements. Marvin approved implementation afterward; those local changes and evidence are recorded below.
+
+Research/12_booking_notice_research.md verifies configurable minimum notice in ResDiary, SpotOn and ZAP and contrasts published 12/24/48-hour and event policies. It distinguishes booking notice from cancellation, reminders and future release windows, and flags a conflicting TableAgent search snippet. Marvin selected 12 hours for VIP and Group; this is implemented locally, without hosted changes.
+
+The 2026-10-08 motion-reference report is saved at research/11_motion_reference_research.md: ten reference candidates and 25 source entries, two visually sampled Amici previews, Bracken desktop inspection, current-source mapping, proposed effect priorities and honest platform access limits. Research changed no application files or records. The selected room-reveal/crossfade follow-up is now delivered locally; the other proposals and E3/E4 remain deferred.
+
+### Latest localhost change
+
+The concept floor preview now has consistent shared guest/staff placement: VIP upper left, Long Room lower left, Main Dining center, Terrace right. All 25 tables fit their rooms without overlap; G3 overflow is fixed. Entrance/dashed circulation guides and each preview's text location/highlighted room map clarify positions. Phone map scrolling stays inside a labelled viewport; Terrace labels retain readable sizing. Six layout, 41 showcase, ten staff browser, 14 staff HTTP, 12 hero, six Close and 11 room-motion checks passed (100). Main read-only views, six served asset hashes, guest/staff cache versions, syntax/build/smoke passed; review finding corrected and rechecked. Existing inventory/booking rules/data are retained. New diagram geometry lives in public/assets/js/floor-layout.js; legacy database coordinates are not migrated. No main seed/reset/publication. Evidence: research/07_table_showcase_research.md, Local concept floor positions.
+
+The full guest booking-hero now plays the licensed warm evening dining video behind heading/form. Existing gradient and opaque card, a matching still poster, responsive 38% phone framing and versioned script retain the Lumina design. Silent crossfaded 11.2-second 720p footage is 727,492 bytes; credit/manifest are included. Twelve hero, eight chef, 20 gallery and 41 showcase checks passed; PHP/JS syntax, local build/smoke, served asset hashes and actual main desktop/phone views passed. Independent review found no actionable issue. No main seed/reset or publication. Reduced-motion/no-JS/missing-observer/error/autoplay states retain the still background; offscreen/hidden decoding stops. Research/13_hero_background_video_research.md records both research and delivered evidence.
+
+VIP and Group/Long Tables now require 12-hour notice by Marvin's explicit 2026-10-08 choice. Common/Terrace remain at the one-hour global minimum. New defaults, old-default upgrade, actual local room rules and catalog-derived guest help agree. A private policy backup preceded the local transaction; protected booking/staff/catalog/configuration hashes matched and zero bookings remain. 41 booking, 11 HTTP, four upgrade and 41 showcase checks passed, plus 65-file PHP lint, syntax, main smoke/source matching and actual desktop VIP/mobile Group previews. No seed, hosted write or publication. Research/12_booking_notice_research.md compares ten primary sources; 12 hours is the selected project policy, not a universally proven optimum.
+
+Automatic-demo-only cleanup was authorized on 2026-10-08: 178 demo-marked localhost reservations and their dependent history/bindings were removed, preserving one manual booking. Private recovery backup and rolled-back rehearsal preceded deletion. Full preservation hashes matched for manual booking/dependencies, staff, guests, holds, menu/rooms/settings; localhost smoke passed. Zero demo bookings remain, one active staff and 36 menu items remain. Do not run canonical-main reservation seeding unless Marvin requests demo records again; future app refreshes should continue using --no-deps. No publication or database-volume reset.
+
+Service overview Status All now includes all dates, with full date/time rows and existing search/25-row pagination. Specific statuses and Waitlist still use Service date; daily totals and floor remain date-specific and are labeled accordingly. Six multi-date, 14 staff HTTP and 10 staff browser checks passed, plus 64-file PHP lint, syntax, main smoke and running source matching. Staff script content versions ensure refresh loads updated labels. Main records retained; no seed/reset or publication.
+
+Guest scripts/styles now use content-based version URLs to prevent old browser-cached files restoring the sticky title. A real browser-cache regression reproduced the old layout before the fix and passed on a normal revisit afterward in the same browser context. Six Close/scroll and 11 room-motion checks passed; PHP/JavaScript syntax, main localhost smoke and exact matching of all 11 assets on home/manage passed. No database reset/seed or publication.
+
+The table preview now keeps only Close visible in its reserved upper-right toolbar; room/table titles scroll normally inside a separate content area. Six scroll/keyboard checks across desktop and 390/320px, 11 room-motion and 41 showcase checks passed (58 total). Syntax, actual localhost smoke/source matching and inspected desktop/mobile scrolled views passed. The local web container was refreshed without database reset/seeding, push or deployment.
+
+Room photos now reveal once on entering view with 220ms/6px motion. Table preview switches retain the old picture and caption until the latest image is ready, then crossfade for 180ms. Eleven focused room-motion, 31 guest-motion and 41 full showcase checks, JavaScript syntax, actual localhost smoke/source matching, desktop/mobile inspection and missing-API fallback passed. Independent review found no actionable issue. Late images, close/reopen, errors and reduced-motion cancellation are covered. The local web container was rebuilt/restarted without main database reset/seeding or publication.
+
+Food showcase motion is continuous while visible, without Pause/Resume or hover/focus/touch stops. Device reduced-motion and offscreen/hidden/failure fallbacks remain. Twenty gallery and eight chef-video browser checks, 63-file PHP lint, JavaScript syntax, inspected desktop/mobile screenshots and actual localhost smoke/source matching passed. Only the local web container was rebuilt/restarted; no database reset, seeding, GitHub push or Vercel deployment.
+
+### Previous reservation deletion release
+
 Admin-only permanent reservation deletion is deployed as a READY [Singapore Vercel Preview](https://restaurant-reservation-system-jrtseuge1-marvmarv08.vercel.app) in Marvin’s verified workspace from source 0599da6. Delete replaces Mark no-show, retains Cancel, and opens Keep reservation / Delete permanently without typed input. Booking history and private access bindings are removed transactionally; linked inventory holds are released, shared guest profiles and unrelated bookings remain, and seated parties or bookings with food orders are refused. One minimal deletion audit remains; deleted no-shows no longer affect the guest counter. Integrated source passed 411 application checks (125 MySQL, 44 HTTP, 242 browser), plus 22 hosted configuration/session checks; PHP lint on 63 files, JavaScript syntax, isolated smoke, secret scanning and independent review passed. An initial guest-motion assertion raced the dialog close-focus event; its exact assertion now awaits focus restoration and the 31-check suite passed. Deployment metadata verified READY, Preview target, correct owner/project, source SHA and sin1 runtime. The Vercel deploy skill forbids fetching the deployed app URL, so no live UI or live deletion result is claimed. This task deleted no existing local/hosted booking; credentials and storage were retained. Preview APP_URL and ignored local URL point to the new Preview. Chef video, PC/phone gallery motion and prior performance improvements are retained. The corrected unsigned zero-counter regression passed fresh 43 staff MySQL, 14 HTTP and 10 browser checks, plus 63-file PHP lint; the integrated baseline counts above precede this correction.
 
 ### Previous deployed visual checkpoint
@@ -77,10 +109,10 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Check actual guest/staff loading and hold/confirmation in the new performance Preview; select the reservation date in /admin to find a booking. Online and localhost records are separate.
-2. Preserve the Aiven service, private hosted files and main Docker volume. Resume hosted source work from the Desktop deployment checkout unless branches have been explicitly synchronized.
-3. Featured Dish, E3/E4 and story/location additions remain deferred until requested. A full hosted seating/order/kitchen presentation rehearsal is an optional next task, not a claimed browser test from this delivery.
+1. Refresh localhost:8080, search tables and review the concept floor and each highlighted room position; swipe the contained map on phones. The full-hero dining video remains delivered.
+2. Implement and verify the next requested change locally; preserve configuration and database records.
+3. Push to GitHub or deploy to Vercel only when Marvin explicitly asks. Featured Dish, E3/E4 and story/location remain deferred until requested.
 
 ## Last Updated
 
-2026-10-07
+2026-10-08

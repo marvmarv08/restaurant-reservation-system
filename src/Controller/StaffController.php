@@ -62,13 +62,17 @@ final class StaffController
 
     private function page(string $view): Response
     {
-        return new Response(
-            str_replace(
-                "{{view}}",
-                $view,
-                file_get_contents(dirname(__DIR__) . "/View/staff.php"),
-            ),
-        );
+        $public = dirname(__DIR__, 2) . "/public";
+        $values = ["{{view}}" => $view];
+        foreach ([
+            "staff_version" => "/assets/js/staff.js",
+            "floor_version" => "/assets/js/floor-layout.js",
+            "app_css_version" => "/assets/css/app.css",
+            "staff_css_version" => "/assets/css/staff.css",
+        ] as $name => $path) {
+            $values["{{" . $name . "}}"] = substr(hash_file("sha256", $public . $path), 0, 12);
+        }
+        return new Response(strtr(file_get_contents(dirname(__DIR__) . "/View/staff.php"), $values));
     }
 
     public function me(Request $request): Response
@@ -188,11 +192,11 @@ final class StaffController
                 throw new BookingError("invalid_page", "Choose a valid page.");
             }
             $base =
-                " FROM reservations r JOIN guests g ON g.id=r.guest_id JOIN room_types rt ON rt.id=r.room_type_id WHERE r.starts_at>=? AND r.starts_at<DATE_ADD(?, INTERVAL 1 DAY)";
-            $args = [$date . " 00:00:00", $date . " 00:00:00"];
+                " FROM reservations r JOIN guests g ON g.id=r.guest_id JOIN room_types rt ON rt.id=r.room_type_id WHERE 1=1";
+            $args = [];
             if ($status !== "all") {
-                $base .= " AND r.status=?";
-                $args[] = $status;
+                $base .= " AND r.starts_at>=? AND r.starts_at<DATE_ADD(?, INTERVAL 1 DAY) AND r.status=?";
+                $args = [$date . " 00:00:00", $date . " 00:00:00", $status];
             }
             if ($qText !== "") {
                 $base .=

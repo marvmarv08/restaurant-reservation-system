@@ -1,6 +1,8 @@
 "use strict";
 (() => {
   const assetRoot = '/assets/images/table-showcase/';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let imageFade = null, imageOutgoing = null;
   let catalog, dialog, ui, context = null, status = 'idle', checkedAt = 0;
   let roomTables = [], index = 0, opener, view = 'seating', revision = 0, imageRevision = 0, interval, expiry;
   const el = (tag, attrs = {}, text) => {
@@ -55,6 +57,13 @@
     b.append(image(table),el('strong',{},table.code),el('small',{},`${table.capacity_min}–${table.capacity_max} guests`),badge(table));
     return b;
   }
+  function clearImageFade() {
+    imageFade?.cancel();
+    imageFade = null;
+    imageOutgoing?.remove();
+    imageOutgoing = null;
+  }
+  reduced.addEventListener('change', () => { if (reduced.matches) clearImageFade(); });
   function paintImage() {
     const table=current();if(!table)return;
     const option=optionFor(table);
@@ -67,9 +76,28 @@
     const img=el('img',{width:960,height:720,decoding:'async',alt:view==='photo'?'Atmosphere reference from another venue':`Rendered seating concept for ${joined?'G1 and G2 together':table.code}`});
     ui.hero.setAttribute('aria-busy','true');
     const caption=view==='photo'?'Room inspiration from another venue · not an actual table photograph.':`${joined?'G1 + G2 · 16 seats':table.code+' · '+table.capacity_max+' seats'} shown · Rendered concept; proportions are illustrative.`;
-    img.addEventListener('load',()=>{if(version!==imageRevision)return;img.classList.add('is-ready');ui.hero.setAttribute('aria-busy','false');},{once:true});
-    img.addEventListener('error',()=>{if(version!==imageRevision)return;ui.hero.replaceChildren(fallback(joined?{...table,shape:'joined',capacity_max:16}:table));ui.hero.setAttribute('aria-busy','false');ui.caption.textContent='Picture unavailable; the seating layout and availability controls still work.';},{once:true});
-    img.src=assetRoot+encodeURIComponent(filename);ui.hero.replaceChildren(img);ui.caption.textContent=caption;
+    img.addEventListener('load',()=>{
+      if(version!==imageRevision || !dialog.open)return;
+      const previous=ui.hero.querySelector('img.is-ready');
+      const previousSrc=previous?.complete && previous.naturalWidth ? previous.currentSrc : null;
+      clearImageFade();
+      img.classList.add('is-ready');ui.hero.replaceChildren(img);
+      ui.hero.setAttribute('aria-busy','false');ui.caption.textContent=caption;
+      if(!previousSrc || reduced.matches || typeof Element.prototype.animate!=='function')return;
+      const outgoing=el('span',{class:'showcase-image-outgoing','aria-hidden':'true'});
+      outgoing.style.backgroundImage=`url("${previousSrc}")`;
+      ui.hero.append(outgoing);imageOutgoing=outgoing;
+      try {
+        const fade=outgoing.animate([{opacity:1},{opacity:0}],{duration:180,easing:'ease-out'});
+        imageFade=fade;
+        const finish=()=>{if(imageFade===fade)clearImageFade();};
+        fade.finished.then(finish,finish);
+      } catch { clearImageFade(); }
+    },{once:true});
+    img.addEventListener('error',()=>{if(version!==imageRevision || !dialog.open)return;clearImageFade();ui.hero.replaceChildren(fallback(joined?{...table,shape:'joined',capacity_max:16}:table));ui.hero.setAttribute('aria-busy','false');ui.caption.textContent='Picture unavailable; the seating layout and availability controls still work.';},{once:true});
+    // Keep the displayed image and its caption until the latest request has loaded.
+    img.src=assetRoot+encodeURIComponent(filename);
+
   }
   function syncStatus() {
     if(!catalog)return;
@@ -95,6 +123,8 @@
   function render() {
     ui.announcement.textContent='';
     const table=current();ui.title.textContent='Table '+table.code;ui.room.textContent=room(table).name;
+    ui.location.textContent='Concept location: '+window.LuminaFloorLayout.location(table)+'. Gold marks the table shown.';
+    ui.map.replaceChildren(window.LuminaFloorLayout.roomPreview(catalog,table));
     ui.facts.replaceChildren();
     for(const [name,value] of [['Seats',`${table.capacity_min}–${table.capacity_max} guests individually`],['Shape',table.shape==='rect'?'Rectangular':table.shape==='round'?'Round':'Square'],['Minimum spend',Number(type(table).min_spend_cents)?new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(Number(type(table).min_spend_cents)/100):'None'],['Booking notice',Number(type(table).min_notice_hours)?type(table).min_notice_hours+' hours':'Same-day bookings']]){
       const row=el('div');row.append(el('dt',{},name),el('dd',{},value));ui.facts.append(row);
@@ -135,7 +165,8 @@
     const table=catalog.tables.find(t=>Number(t.id)===Number(tableId));if(!table)return;
     opener=trigger;roomTables=catalog.tables.filter(t=>Number(t.room_id)===Number(table.room_id));index=roomTables.indexOf(table);view='seating';
     ui.strip.replaceChildren(...roomTables.map(t=>tile(t,'showcase-thumbnail',()=>{index=roomTables.indexOf(t);render();})));
-    ui.announcement.textContent='';ui.hero.dataset.image='';render();dialog.showModal();dialog.scrollTop=0;ui.title.focus({preventScroll:true});
+    clearImageFade();ui.hero.replaceChildren();ui.caption.textContent='';
+    ui.announcement.textContent='';ui.hero.dataset.image='';render();dialog.showModal();ui.scroll.scrollTop=0;ui.title.focus({preventScroll:true});
     refresh();scheduleRefresh();
   }
   function markFresh(timestamp=Date.now()) {
@@ -153,10 +184,13 @@
     catalog=data;dialog=el('dialog',{id:'table-showcase',class:'table-showcase','aria-labelledby':'table-showcase-title'});ui={};
     ui.title=el('h2',{id:'table-showcase-title',tabindex:-1});ui.room=el('p',{class:'eyebrow'});
     const close=button('Close ×',()=>dialog.close());close.setAttribute('aria-label','Close table showcase');
-    const heading=el('div',{class:'showcase-heading'}), titles=el('div');titles.append(ui.room,ui.title);heading.append(titles,close);
+    const toolbar=el('div',{class:'showcase-toolbar'});toolbar.append(close);
+    const heading=el('div',{class:'showcase-heading'});heading.append(ui.room,ui.title);
+    ui.scroll=el('div',{class:'showcase-scroll'});
     ui.hero=el('div',{class:'showcase-hero','aria-busy':'false'});ui.caption=el('p',{class:'fine-print'});ui.views=el('div',{class:'showcase-views',role:'group','aria-label':'Views of this table'});
     for(const [name,label] of [['seating','Seating view'],['photo','Room inspiration']]){const b=button(label,()=>{view=name;render();});b.dataset.view=name;ui.views.append(b);}
-    const visual=el('section',{'aria-label':'Table pictures'});visual.append(ui.hero,ui.caption,ui.views);
+    ui.location=el('p',{class:'showcase-location fine-print'});ui.map=el('div',{class:'showcase-position-map'});
+    const visual=el('section',{'aria-label':'Table pictures'});visual.append(ui.hero,ui.caption,ui.views,ui.location,ui.map);
     ui.schedule=el('p',{class:'showcase-schedule'});ui.status=el('p');ui.freshness=el('p',{class:'fine-print'});ui.reason=el('p',{class:'showcase-reason'});ui.facts=el('dl',{class:'summary'});
     ui.refresh=button('Refresh availability',()=>refresh());
     ui.choose=button('Choose date and time',()=>{if(!context){dialog.close();jump();}else refresh(true);},'button full');
@@ -167,8 +201,9 @@
     ui.next=button('Next →',()=>{index++;render();});ui.next.setAttribute('aria-label','Next table');
     ui.position=el('span',{role:'status'});const nav=el('div',{class:'showcase-nav'}), arrows=el('div');arrows.append(ui.previous,ui.next);nav.append(ui.position,arrows);
     ui.strip=el('div',{class:'showcase-strip','aria-label':'Tables in this room'});
-    dialog.append(heading,layout,nav,ui.strip,el('p',{class:'fine-print'},'Swipe the strip or use the arrows. Browsing does not change your booking selection.'),el('a',{class:'text-link',href:assetRoot+'credits.json',target:'_blank',rel:'noopener'},'Image sources and credits ↗'));
-    dialog.addEventListener('close',()=>{clearInterval(interval);revision++;if(status==='checking'){status='error';context?.update?.(null);}syncStatus();(opener?.isConnected?opener:document.querySelector(document.body.dataset.page==='manage'?'#manage-workspace':'#booking'))?.focus({preventScroll:true});});
+    ui.scroll.append(heading,layout,nav,ui.strip,el('p',{class:'fine-print'},'Swipe the strip or use the arrows. Browsing does not change your booking selection.'),el('a',{class:'text-link',href:assetRoot+'credits.json',target:'_blank',rel:'noopener'},'Image sources and credits ↗'));
+    dialog.append(toolbar,ui.scroll);
+    dialog.addEventListener('close',()=>{clearInterval(interval);revision++;imageRevision++;clearImageFade();if(status==='checking'){status='error';context?.update?.(null);}syncStatus();(opener?.isConnected?opener:document.querySelector(document.body.dataset.page==='manage'?'#manage-workspace':'#booking'))?.focus({preventScroll:true});});
     document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&dialog.open&&context&&status!=='checking')refresh();});
     document.body.append(dialog);
     if(document.body.dataset.page!=='manage'){

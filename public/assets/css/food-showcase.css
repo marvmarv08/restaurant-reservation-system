@@ -36,17 +36,6 @@
 .food-copy h2 em { font-weight: 400; }
 .food-copy > p:not(.eyebrow) { color: var(--muted); }
 .food-menu-link { margin: 8px 0 24px; }
-.food-controls { min-height: 42px; display: flex; align-items: center; }
-.food-motion-toggle {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  min-height: 42px;
-  padding: 8px 16px;
-  font-size: .8rem;
-}
-.food-motion-toggle:hover { border-color: var(--accent); }
 .food-copy .food-note { font-size: .75rem; margin: 16px 0 0; }
 .food-swipe-hint { display: none; font-size: .8rem; color: var(--muted); }
 .food-gallery {
@@ -133,7 +122,6 @@
   .food-photo figcaption { font-size: .8rem; padding: 40px 16px 16px; }
   .food-gallery .food-track { animation: none !important; }
   .food-swipe-hint { display: inline; }
-  .food-controls { gap: 12px; flex-wrap: wrap; }
   .food-showcase[data-mobile-motion="true"] .food-gallery { scroll-snap-type: none; }
   .food-credits { margin-top: 12px; }
 }
@@ -141,5 +129,4 @@
   .food-gallery .food-track { animation: none !important; }
   .food-showcase[data-motion-ready="true"] .food-gallery { height: auto; mask-image: none; }
   .food-gallery .food-set[data-copy] { display: none; }
-  .food-motion-toggle { display: none; }
 }

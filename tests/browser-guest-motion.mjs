@@ -194,10 +194,10 @@ try {
   await pictures.goto(base); await pictures.locator('.room-card').last().waitFor();
   const delayed = await gateImage(pictures, 'V2.jpg');
   await pictures.locator('.room-card[data-room-type=vip]').click();
-  await pictures.locator('.showcase-hero img.is-ready').waitFor();
+  await pictures.waitForFunction(() => document.querySelector('.showcase-hero')?.getAttribute('aria-busy') === 'false' && document.querySelector('.showcase-hero img.is-ready'));
   await pictures.getByRole('button', {name: 'Next table', exact: true}).click(); await delayed.started;
   await pictures.getByRole('button', {name: 'Next table', exact: true}).click();
-  await pictures.locator('.showcase-hero img.is-ready').waitFor();
+  await pictures.waitForFunction(() => document.querySelector('.showcase-hero')?.getAttribute('aria-busy') === 'false' && document.querySelector('.showcase-hero img.is-ready'));
   await delayed.finish();
   await check('A late table image cannot replace the latest picture, title or caption', async () => {
     assert.equal(await pictures.locator('#table-showcase-title').innerText(), 'Table V3');
@@ -209,7 +209,7 @@ try {
   await pictures.locator('.room-card[data-room-type=vip]').click(); await reopening.started;
   await pictures.keyboard.press('Escape');
   await pictures.locator('.room-card[data-room-type=terrace]').click();
-  await pictures.locator('.showcase-hero img.is-ready').waitFor();
+  await pictures.waitForFunction(() => document.querySelector('.showcase-hero')?.getAttribute('aria-busy') === 'false' && document.querySelector('.showcase-hero img.is-ready'));
   await reopening.finish();
   await check('Closing and reopening during image loading keeps the new room and picture', async () => {
     assert.equal(await pictures.locator('#table-showcase-title').innerText(), 'Table T1');

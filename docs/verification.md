@@ -88,7 +88,7 @@ The guest motion module has no effect on backend eligibility or transaction rule
 
 ## Curated food showcase
 
-`tests/browser-food-showcase.mjs` uses the fixed isolated origin and the browser environment above. Twenty checks cover local photo loading, real desktop movement, keyboard Pause/Resume and visible gallery focus, hover/offscreen pauses, changed reduced-motion preferences, explicit-pause persistence, four viewport widths, keyboard mobile browsing, real menu category selection, failed pictures, absent observer support, JavaScript-disabled browsing, hidden management content, and no food-browsing mutation or external asset request. Hidden-page handling is tested with controlled document-visibility events; this is not a physical background-tab or cross-browser certification.
+`tests/browser-food-showcase.mjs` uses the fixed isolated origin and the browser environment above. Twenty checks cover local photo loading, continuous desktop movement through hover/focus, phone movement after touch, absence of Pause/Resume controls, visible gallery keyboard focus, offscreen/hidden pauses, reduced-motion preferences, viewport changes, four layout widths, mobile keyboard browsing, real menu categories, image failures, observer/JavaScript fallbacks, hidden management content, and no mutation or external asset request. `tests/browser-chef-background.mjs` adds eight video checks, including continuous playback during gallery interaction, looping, deferred local loading and reduced-motion/offscreen/failure fallbacks. Automated A/AA scans cover only rules the scanner can detect; they do not certify every motion-related accessibility criterion. Hidden-page handling uses controlled document-visibility events rather than physical background-tab certification.
 
 The suite makes no database mutations or fixture resets. Its screenshots are temporary under `/tmp/lumina-food-showcase`, including the focus indicator that automated axe checks did not detect. The independent review found that a CSS fade mask hid that outline; the acceptance regression failed before the focus-specific mask override and passed afterward. Photo selection/provenance and adaptation limits are in `research/09_food_showcase_research.md`.
 
@@ -99,3 +99,63 @@ The suite makes no database mutations or fixture resets. Its screenshots are tem
 The unknown-key/unavailable case deliberately changes a fetched catalog response inside that one browser context; it does not update MySQL. All normal category/data checks use the real HTTP catalog. The suite makes no database mutations or fixture resets. Screenshots are temporary under `/tmp/lumina-menu`; they supplement automated checks rather than certify accessibility. Public photo provenance and checksums are in `public/assets/images/menu/credits.json` and `research/09_food_showcase_research.md`.
 
 The readiness harness awaits the restored Refresh label before opening a result, genuine service success messages before the next action, and dialog closure before checking focus or moving on. This prevents pending refreshes/saves from replacing an opener or reopening a just-closed dialog. Exact opener-focus and final database lifecycle assertions remain unchanged; staff/service product behavior was not modified for this menu extension.
+
+## Room reveals and table-picture crossfade
+
+`tests/browser-room-motion.mjs` uses the isolated browser origin without fixtures or writes. Eleven checks cover one-time 220ms room-photo reveals, immediate keyboard access, reduced-motion cancellation, the previous image/caption retained during delayed loading, an overlapping 180ms crossfade, fast changes, natural overlay cleanup, reduced-motion interruption, failed-image fallback, phone access and closing/reopening during a late response. The test captures and deliberately pauses native animations to verify intermediate states; separate checks resume a fade and verify its actual cleanup. Existing image assertions now await the latest request's aria-busy=false state rather than accepting an older ready image.
+
+Fresh regressions passed 31 guest-motion and 41 full table-showcase checks (isolated MySQL only). Actual localhost desktop/mobile picture switching and missing-animation/observer fallback were checked read-only, with inspected screenshots in /tmp/lumina-room-motion. Localhost smoke and exact served script/style hashes passed. An initial visual helper used a fixed 250ms delay; it was corrected to await the observable animation cleanup, keeping its exact assertion. No main database reset, seeding, push or deployment was performed.
+
+## Persistent table-preview Close control
+
+`tests/browser-showcase-close.mjs` has six read-only checks at 1440/390/320px. It actually scrolls the dialog body, measures that Close stays in place and the title moves away, confirms the Close area does not overlap content, and exercises mouse Close, Shift+Tab access, Escape, focus restoration and scroll reset on reopen. The original sticky-title behavior failed the new regression before implementation. The dialog now separates its non-scrolling toolbar from `.showcase-scroll`; the full showcase reflow assertion checks that actual content container's scroll position. Fresh 11 room-motion and 41 showcase regressions passed, plus syntax, localhost smoke and exact source matching. Actual localhost desktop/mobile scrolled screenshots in /tmp/lumina-showcase-close were inspected. No main database reset/seeding or publication occurred.
+
+
+### Local guest asset cache recovery — 2026-10-08
+
+`tests/browser-guest-assets.mjs` primes a real browser context with the previously delivered unversioned table-showcase script/styles and long-lived HTTP cache headers, without Playwright routing (which disables browser caching). The original sticky title is confirmed, then the same context revisits the current page normally. Before the fix, that revisit failed because the old modal layout remained. After content-based asset versions were added in HomeController, the revisit loads the updated script/styles, the title scrolls away, Close stays visible and closing restores opener focus. The proxy permits GET/HEAD only and no data writes occur.
+
+The cache regression, six Close/scroll checks and 11 room-motion regressions passed. PHP controller lint, browser-test JavaScript syntax and main localhost smoke passed. Home and management HTML both reference all 11 local scripts/styles with content versions; every fetched version matches the current file bytes. Only the main web container was rebuilt/restarted; no reset, seed, push or deployment.
+
+Lesson: A clean browser test cannot detect stale files already cached by a returning user. Give changed assets new URLs and verify an ordinary revisit with a previously populated browser cache.
+
+
+### All-date staff reservation list — 2026-10-08
+
+`tests/reservation-dates-fixture.php` requires isolated mode and database tablebook_p3_test before creating 30 fake completed/cancelled bookings across yesterday/today/tomorrow. `tests/browser-reservation-dates.mjs` verifies all-date counts, unique complete pagination, off-date reference search, date-independent All results, date-scoped specific status/waitlist queries, daily statistics/floor consistency, full date/time rendering and phone reflow. The pre-change regression returned 10 instead of 30 records; all six checks passed after implementation.
+
+Existing 14 staff HTTP and 10 staff browser checks passed. Staff browser helpers now search by exact reference rather than assume a new reservation is on the first page of a date-scoped All list; original persistence, role, XSS, service, deletion, keyboard and mobile assertions are retained. PHP lint passed on 64 files; JavaScript syntax, main localhost smoke and exact running controller/template/script matching passed. Updated staff script URLs use content versions. All fake-data writes are isolated; the main web container alone was rebuilt/restarted, without main reset/seed, push or deployment.
+
+Lesson: An all-date history list and the daily floor serve different purposes. Label their scopes clearly, show complete booking dates and preserve pagination/search so records remain discoverable.
+
+
+### Scoped local demo cleanup — 2026-10-08
+
+Marvin requested removal of automatic demo bookings only, preserving manual bookings. A local-only guard required APP_ENV=local and the Docker db host. The operation selected reservations by demo seed markers, backed up their rows/dependencies privately outside Git, then ran a successful rollback rehearsal. The committed transaction used booking-day/table locks, rechecked the backed-up candidates and rejected changed preserved data or linked food-order/waitlist-hold complications.
+
+Removed 178 demo bookings and their dependent records, with full before/after equality checks for the one manual booking and its dependencies, staff, guests, holds, food records and catalog/configuration. Added one aggregate cleanup audit without guest details. Post-commit smoke passed; zero demo reservations, one manual reservation, one active staff and 36 menu items remain. No reset, seed or publication. Recovery requires the private backup and a scoped transactional restore; do not reset the database volume. Canonical-main reservation seeding must not run unless Marvin requests demo repopulation.
+
+
+### Twelve-hour VIP/Group notice — 2026-10-08
+
+R20 in tests/booking.php now rejects one second below 12 hours and accepts exactly 12 hours for VIP, individual Group and 16-person joined Group. The updated test failed against previous local test values, then all 41 booking checks passed after the room-default upgrade; existing 59/60-minute global notice, inventory, approval and concurrency checks remain. All 11 booking HTTP and 41 showcase checks passed. tests/booking-notice-upgrade.php passed four checks: fresh defaults, old-default conversion, idempotency and custom-value preservation, using an isolated temporary table and rolled-back real-table updates. No fixtures target main.
+
+Applied only VIP/Group notice fields in localhost after a private policy backup, with before/after preservation hashes covering bookings, staff, guests, holds, food records, catalog and other settings. Zero bookings remain. The main app was rebuilt/restarted with --no-deps; no seed/reset or hosted mutation. PHP lint passed on 65 files; JS syntax, smoke and exact versioned guest/SQL source matching passed. A read-only actual localhost browser verified V4/G1 available for eight guests tomorrow at 19:00, accurate 12-hour facts/search guidance and desktop/mobile layout; screenshots in /tmp/lumina-notice were inspected. Earlier temporary-script selector and missing browser-module setup failures were corrected before final successful runs.
+
+Research links and evidence scope are documented in research/12_booking_notice_research.md; no external restaurant reservation or payment was submitted.
+
+## Full-hero video research — 2026-10-08
+
+Research/13_hero_background_video_research.md records eleven candidate pages, four actual downloaded clips and 24 corrected decoded-frame samples. Temporary read-only actual-page previews at 1440/390px verified playback advancement, native repeat and no horizontal overflow. Credited full-hero screenshots were inspected. The source needs loop blending/compression and mobile framing; these preview checks are not application implementation or production performance/accessibility certification. No functional app test or database fixture was needed for documentation-only research.
+
+## Full-hero video local delivery — 2026-10-08
+
+`tests/browser-hero-background.mjs` requires the isolated app and checks 12 behaviors: whole-hero silent decorative playback and form access, continuous motion during hover/focus, repeat, offscreen and controlled document-visibility pause/resume, changed/initial reduced motion, phone form/reflow, media failure, autoplay refusal, no JS/missing observer and hidden management exclusion. The first check failed against the previous photo-only hero. All 12 passed after implementation, alongside eight chef, 20 gallery and 41 showcase regressions (81 total). No hero-test mutation or external request occurred.
+
+The 11.2-second 280-frame silent H.264 decoded successfully; six decoded frames surrounding its softened join were inspected. Main-localhost desktop/phone early/blend views, exact script/style/video/poster hashes, versioned script URL, local build/smoke and PHP/JavaScript syntax passed. Independent read-only review found no actionable issue. Main refresh used --no-deps and did not run seeding or reset the database. No physical-device/cross-browser or full accessibility certification is claimed.
+
+## Concept floor preview — 2026-10-08
+
+`tests/browser-floor-layout.mjs` reproduced G3 outside its room before implementation, then passed six checks: all 25 room bounds/no overlaps, entrance/aisle/location context, all exact-table previews, readable Terrace mini-map labels, desktop/phone containment and phone panning to T6's highlighted preview. The old label size was separately reproduced at 5.4 rendered pixels before restoring the correction. Only read-only guest requests are allowed by this suite.
+
+Related isolated suites passed 41 showcase, ten staff browser, 14 staff HTTP, 12 hero, six Close and 11 room-motion checks: 100 total including the six focused checks. Actual main read-only geometry/preview checks and inspected desktop/phone screenshots passed; six served assets matched source and new guest/staff scripts/styles are versioned. Syntax, final build/smoke, whitespace and independent correction review passed. Main refresh used --no-deps with no seed/reset/data mutation. The layout is a fictional presentation, not measured access-clearance evidence.

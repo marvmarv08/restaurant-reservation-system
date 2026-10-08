@@ -293,13 +293,16 @@ $tests->test('R19 large party needs approval; party above 16 rejected', function
     $t->assert($booking['status'] === 'pending' && $booking['approval_state'] === 'awaiting');
     $t->expectError('party_out_of_range', fn () => $t->service->hold($t->date, '20:30', 17, 'group', $t->owner));
 });
-$tests->test('R20 VIP 48 hours and Group 24 hours notice boundaries', function (BookingHarness $t): void {
+$tests->test('R20 VIP and Group 12-hour notice boundaries, including joined tables', function (BookingHarness $t): void {
     $start = new DateTimeImmutable($t->date . ' 17:30:00', new DateTimeZone('Asia/Manila'));
-    foreach ([['vip', 2, 48], ['group', 6, 24]] as [$room, $party, $hours]) {
-        [$service] = $t->fixed($start->modify('-' . ($hours - 1) . ' hours')->format('Y-m-d H:i:s'));
+    foreach ([['vip', 2, 12], ['group', 6, 12], ['group', 16, 12]] as [$room, $party, $hours]) {
+        $t->reset();
+        if ($party === 16) $t->pdo->exec("UPDATE `tables` SET is_active=0 WHERE code='G3'");
+        [$service] = $t->fixed($start->modify('-' . $hours . ' hours')->modify('+1 second')->format('Y-m-d H:i:s'));
         $t->expectError('unavailable', fn () => $service->hold($t->date, '17:30', $party, $room, $t->owner));
         [$service] = $t->fixed($start->modify('-' . $hours . ' hours')->format('Y-m-d H:i:s'));
-        $service->hold($t->date, '17:30', $party, $room, $t->owner);
+        $held = $service->hold($t->date, '17:30', $party, $room, $t->owner);
+        if ($party === 16) $t->assert($held['option']['kind'] === 'group' && count($held['option']['table_ids']) === 2, 'Boundary must exercise a joined group');
     }
 });
 $tests->test('Joined membership edits cannot silently change the confirmed assignment', function (BookingHarness $t): void {

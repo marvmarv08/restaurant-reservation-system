@@ -8,10 +8,13 @@
 .showcase-badge { display:inline-flex; align-items:center; gap:6px; color:var(--muted); font-size:.75rem; line-height:1.5; padding:6px 9px; border:1px solid #b9ab9750; border-radius:4px; margin-top:10px; }
 .showcase-badge[data-state=available] { color:#a5e6b8; background:#152c20; border-color:#71bd8a; }
 .showcase-badge[data-state=unavailable] { color:#ffc2b7; background:#351d1a; border-color:#ce8578; }
-.table-showcase { width:min(1100px,calc(100vw - 32px)); max-width:1100px; max-height:calc(100dvh - 32px); overflow:auto; padding:28px; background:var(--surface); color:var(--text); border:1px solid #705338; border-radius:10px; }
+.table-showcase { width:min(1100px,calc(100vw - 32px)); max-width:1100px; max-height:calc(100dvh - 32px); overflow:hidden; padding:28px; background:var(--surface); color:var(--text); border:1px solid #705338; border-radius:10px; }
 .table-showcase::backdrop { background:#000b; }
 .table-showcase h2 { margin:0; font-size:2rem; }
-.showcase-heading { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; position:sticky; top:0; padding-bottom:14px; margin-bottom:20px; background:var(--surface); z-index:2; }
+.table-showcase[open] { display:flex; flex-direction:column; }
+.showcase-toolbar { display:flex; justify-content:flex-end; flex-shrink:0; padding-bottom:12px; }
+.showcase-scroll { min-height:0; overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; padding:4px; }
+.showcase-heading { padding-bottom:14px; margin-bottom:20px; }
 .showcase-heading .eyebrow { margin-bottom:8px; }
 .showcase-layout { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:30px; }
 .showcase-layout section { min-width:0; }
@@ -19,6 +22,7 @@
 .showcase-hero img,.showcase-hero svg { width:100%; height:100%; object-fit:contain; display:block; }
 .showcase-hero img { opacity:0; }
 .showcase-hero img.is-ready { opacity:1; }
+.showcase-image-outgoing { position:absolute; inset:0; background-position:center; background-size:contain; background-repeat:no-repeat; pointer-events:none; }
 .showcase-hero[aria-busy=true]::after { content:'Loading picture…'; position:absolute; bottom:14px; left:14px; padding:6px 9px; background:var(--surface); color:var(--muted); font-size:.8rem; }
 .showcase-views { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
 .showcase-views [aria-pressed=true],.showcase-thumbnail[aria-pressed=true] { border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent); }

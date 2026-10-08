@@ -1,8 +1,8 @@
 -- P0 policy, inserted only when absent so later staff edits survive reruns.
 INSERT INTO room_types (id, code, name, description, min_party, max_party, min_notice_hours, min_spend_cents, sort_order) VALUES
-  (1, 'vip', 'VIP Rooms', 'Private suites with dedicated host.', 2, 10, 48, 650000, 1),
+  (1, 'vip', 'VIP Rooms', 'Private suites with dedicated host.', 2, 10, 12, 650000, 1),
   (2, 'common', 'Main Dining', 'Open dining room around the hearth.', 1, 4, 0, 0, 2),
-  (3, 'group', 'Group Tables', 'Communal tables for larger parties.', 5, 16, 24, 320000, 3),
+  (3, 'group', 'Group Tables', 'Communal tables for larger parties.', 5, 16, 12, 320000, 3),
   (4, 'terrace', 'Terrace & Bar', 'Open-air harbour-side seating.', 1, 6, 0, 0, 4)
 ON DUPLICATE KEY UPDATE id = id;
 

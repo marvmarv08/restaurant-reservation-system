@@ -40,7 +40,7 @@ from MySQL for each request. `PLAN.md` remains the policy source of truth.
 
 - Monday is closed. Dinner starts at 17:30; every candidate must finish its turn, reset,
   and any joined-table setup by closing time. The last seating cap is 21:45.
-- Online lead time is 60 minutes; VIP notice is 48 hours and Group notice is 24 hours.
+- Online lead time is 60 minutes; VIP and Group/Long Tables require 12 hours of notice. Exact cutoff boundaries use the server clock.
 - Lead/notice are checked at hold creation. While that hold remains active, confirmation
   measures lead/notice from its creation time so the promised ten-minute form window is usable.
   Current settings still apply, and an expired hold or a start already in the past is rejected.

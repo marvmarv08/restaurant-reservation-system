@@ -1,0 +1,33 @@
+{
+  "source": {
+    "title": "Cozy Modern Restaurant Interior at Night",
+    "creator": "gusat silviu",
+    "page": "https://www.pexels.com/video/cozy-modern-restaurant-interior-at-night-31631562/",
+    "download_url": "https://videos.pexels.com/video-files/31631562/13476222_3840_2160_25fps.mp4",
+    "license": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-08",
+    "sha256": "52da8594f4203ebcd6db2c44cf1147dd03b647beadf2297c75b104ca0c986a43"
+  },
+  "processing": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "fps": 25,
+    "audio": "removed",
+    "codec": "H.264",
+    "quality": "CRF 27",
+    "loop": "Start at 0.8s; blend final 0.8s into source 0\u20130.8s, yielding 11.2s; match first frame poster",
+    "encoder": "FFmpeg bundled by imageio-ffmpeg 0.6.0; temporary development tool only"
+  },
+  "files": {
+    "dining-loop.mp4": {
+      "bytes": 727492,
+      "sha256": "7ff49714c16312ff9bce97ce8c56bca861b4b0b0e6b279cf841663f9dc43fc7a"
+    },
+    "dining-poster.jpg": {
+      "bytes": 81894,
+      "sha256": "1f180dc27419a49c67a3911447d05722107406faedb5939531a648eb52b4d5ad"
+    }
+  }
+}

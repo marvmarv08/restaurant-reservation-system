@@ -496,6 +496,7 @@
         "section",
         { class: "staff-panel" },
         node("h2", {}, tab === "waitlist" ? "Waiting parties" : "Reservations"),
+        node("p", { id: "staff-list-scope", class: "muted" }),
         node("div", { id: "staff-rows" }),
         node("div", { id: "staff-pagination", class: "staff-pagination" }),
       ),
@@ -532,7 +533,7 @@
     serverStarted = performance.now();
     $("#staff-stats")?.replaceChildren(
       ...[
-        ["Reservations", data.stats.total],
+        ["Reservations on service date", data.stats.total],
         ["Seated now", data.stats.seated || 0],
         ["Covers served", data.stats.covers],
         [
@@ -548,10 +549,14 @@
         ),
       ),
     );
+    if ($("#staff-list-scope"))
+      $("#staff-list-scope").textContent = tab === "service" && (filters.status || "all") === "all"
+        ? "All booking dates. Search narrows this list; service date controls the daily totals and floor view."
+        : "Bookings for " + data.date + ".";
     $("#staff-rows")?.replaceChildren(
       table(
         [
-          "Time / reference",
+          "Date / time / reference",
           "Guest",
           "Room / tables",
           "Party",
@@ -565,7 +570,7 @@
             node(
               "td",
               {},
-              row.starts_at.slice(11, 16),
+              node("time", { datetime: row.starts_at.replace(" ", "T") + "+08:00" }, row.starts_at.slice(0, 10) + " · " + row.starts_at.slice(11, 16)),
               node("small", { class: "table-reference" }, row.code),
             ),
             node("td", {}, row.full_name, node("small", {}, row.phone)),
@@ -641,13 +646,14 @@
         if (text) el.textContent = text;
         return el;
       };
+    const layout = window.LuminaFloorLayout.create(catalog);
     const svg = svgNode("svg", {
       class: "floor staff-floor",
-      viewBox: "20 15 965 685",
+      viewBox: window.LuminaFloorLayout.viewBox,
       role: "group",
       "aria-label": `Floor status ${data.date} at ${data.time} Manila`,
     });
-    for (const room of catalog.rooms) {
+    for (const room of layout.rooms) {
       svg.append(
         svgNode("rect", {
           x: room.floor_x,
@@ -668,7 +674,8 @@
         ),
       );
     }
-    for (const item of catalog.tables) {
+    window.LuminaFloorLayout.guides(svg);
+    for (const item of layout.tables) {
       const occupied = data.floor
           .filter((row) => Number(row.table_id) === Number(item.id))
           .at(-1),
@@ -714,6 +721,7 @@
       const shape = svgNode(item.shape === "round" ? "circle" : "rect", {
         ...attrs,
         class: "floor-table " + state,
+        "data-table": item.code,
       });
       if (occupied) {
         shape.setAttribute("role", "button");
@@ -780,7 +788,9 @@
     $("#staff-floor").replaceChildren(
       timeForm,
       note(`Physical status at ${data.date}, ${data.time} (Manila).`),
-      svg,
+      note("Concept layout · not to scale. Dashed lines show circulation; gaps mark room access."),
+      node("div", {class: "floor-viewport", tabindex: "0", role: "region", "aria-label": "Scrollable concept floor map"}, svg),
+      node("p", {class: "fine-print floor-pan-note"}, "Swipe the map sideways to explore all rooms."),
     );
   }
   async function openDetail(code) {

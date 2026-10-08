@@ -370,7 +370,7 @@
       form,
       capacityNote,
       note(
-        `Book up to 60 days ahead. Closed Monday. VIP: 48-hour notice; group tables: 24-hour notice. All times are in Manila.`,
+        `Book up to 60 days ahead. Closed Monday. VIP: ${catalog.room_types.find((room) => room.code === "vip")?.min_notice_hours ?? 12}-hour notice; group tables: ${catalog.room_types.find((room) => room.code === "group")?.min_notice_hours ?? 12}-hour notice. All times are in Manila.`,
       ),
       results,
     );
@@ -456,15 +456,16 @@
       if (text) el.textContent = text;
       return el;
     };
+    const layout = window.LuminaFloorLayout.create(catalog);
     const svg = svgNode("svg", {
-      viewBox: "20 15 965 685",
+      viewBox: window.LuminaFloorLayout.viewBox,
       class: "floor",
       role: "group",
       "aria-label":
         "Floor plan. Click any table to preview its seating and availability for this search.",
     });
     svg.append(svgNode("title", {}, "Lumina floor plan"));
-    for (const room of catalog.rooms) {
+    for (const room of layout.rooms) {
       svg.append(
         svgNode("rect", {
           x: room.floor_x,
@@ -487,8 +488,9 @@
         ),
       );
     }
+    window.LuminaFloorLayout.guides(svg);
     const shapes = new Map();
-    for (const table of catalog.tables) {
+    for (const table of layout.tables) {
       const option = slot.options.find((item) =>
         item.table_ids.includes(Number(table.id)),
       );
@@ -582,7 +584,9 @@
       );
     }
     fieldset.append(
-      svg,
+      node("p", {class: "fine-print"}, "Concept layout · not to scale. Dashed lines show circulation; gaps mark room access."),
+      node("div", {class: "floor-viewport", tabindex: "0", role: "region", "aria-label": "Scrollable concept floor map"}, svg),
+      node("p", {class: "fine-print floor-pan-note"}, "Swipe the map sideways to explore all rooms."),
       node(
         "div",
         { class: "floor-legend" },
@@ -1195,6 +1199,7 @@
           ),
         ),
       );
+    motion?.revealRooms($("#room-cards"));
     const categories = $("#menu-categories");
     const menuStatus = node("p", { class: "response-announcement", role: "status", "aria-atomic": "true" });
     categories.after(menuStatus);
