@@ -10,7 +10,11 @@ P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadm
 
 ## Current Top Objective
 
-As of 2026-10-08, focus on building and testing on localhost in Marvin's canonical Windows Desktop project folder. Always use `restaurant-reservation-system` for localhost work unless Marvin explicitly requests a different folder; reserve `restaurant-reservation-system-vercel` for requested hosted-release work. GitHub pushes and Vercel deployments are paused and require a new explicit request from Marvin. Preserve local configuration and existing Docker database records. `PLAN.md` records this working direction.
+As of 2026-10-08, focus on building and testing on localhost in Marvin's canonical Windows Desktop project folder. Always use `restaurant-reservation-system` for localhost work unless Marvin explicitly requests a different folder; reserve `restaurant-reservation-system-vercel` for requested hosted-release work. Marvin explicitly authorized this session's GitHub publication on 2026-10-08; completed source `93a161a` is verified on remote main. Future pushes and direct deployments require another explicit request. Preserve local configuration and existing Docker database records. `PLAN.md` records this working direction.
+
+### Latest publication
+
+The completed session source was committed as 93a161a and pushed to marvmarv08/restaurant-reservation-system main on 2026-10-08; exact remote SHA matched. Integrated isolated application suites reported 470 PASS checks, the browser cache regression passed, PHP lint passed on 65 files and JS syntax/main smoke passed. Independent review and staged/outgoing-history credential scans were clean. PLAN.md now records the verified source receipt; historical local-only entries describe their earlier delivery checkpoints. Publication transfers code/research/docs, not local database contents, credentials or private backups. No hosted migration or direct Vercel CLI deployment was performed; GitHub reported Vercel deployment success for source 93a161a; this is distinct from live UI/database verification. Future work remains local until explicitly requested.
 
 ### Latest research
 
@@ -109,7 +113,7 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Refresh localhost:8080, search tables and review the concept floor and each highlighted room position; swipe the contained map on phones. The full-hero dining video remains delivered.
+1. Review the verified GitHub publication receipt in PLAN.md; continue future requested work locally. A Git-connected Vercel build does not copy local records or activate hosted database changes.
 2. Implement and verify the next requested change locally; preserve configuration and database records.
 3. Push to GitHub or deploy to Vercel only when Marvin explicitly asks. Featured Dish, E3/E4 and story/location remain deferred until requested.
 

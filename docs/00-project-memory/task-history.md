@@ -495,3 +495,17 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: G3 geometry regression failed before implementation; tiny Terrace labels reproduced at 5.4px and corrected. Six floor +41 showcase +10 staff browser +14 staff HTTP +12 hero +6 Close +11 room-motion checks passed (100). Independent review finding corrected/rechecked. Actual main read-only floor/preview checks and desktop/phone screenshots inspected; six served assets match source, guest/staff script/style cache versions valid. Final source build/smoke, PHP/JS syntax, report links, Desktop export and git diff --check passed. Shared presentation-only positions preserve inventory/booking data; no main seed/reset, GitHub push or deployment.
 - Closed At: 2026-10-08T08:30:02Z
+
+## 2026-10-08 publish-session-changes
+
+<!-- pmm-task-id: publish-session-changes -->
+
+- Status: done
+- Parent Task: none
+- Title: Verify and push the completed local session changes
+- Execution State: done
+- Verification State: passed
+- Delivery State: released
+- Delivery Evidence: Source commit 93a161a9d43f11be1d80ec0abfbf9de4cd4e868d verified on GitHub main by git ls-remote; publication receipt is included in the documentation follow-up.
+- Verification Evidence: All isolated local application suites green: 470 PASS lines plus guest cache revisit regression; PHP lint65, all JS syntax and main smoke passed. Independent session review, staged snapshot and outgoing27-commit history credential scans clean. Commit93a161a pushed normally; git ls-remote exact SHA93a161a9d43f11be1d80ec0abfbf9de4cd4e868d matched. Primary GitHub Vercel status success/deployment completed for source commit. PLAN/export and current records reflect confirmed publication; documentation receipt pending final push. No local/hosted database migration or direct deployment.
+- Closed At: 2026-10-08T08:58:17Z

@@ -323,3 +323,12 @@ Skip when: You only need the active task or current state.
 - Geometry check reproduced old G3 overflow. Six focused checks and 94 related checks passed (100 total); actual main read-only views/source matching, cache-versioned scripts/styles, syntax/build/smoke passed. Independent review found tiny Terrace labels; a 5.4px reproduction was corrected and rechecked. No remaining review issue.
 - Main app-only refresh, no seed/reset, booking/configuration data change, GitHub push or Vercel deployment. Concept positions and actual screenshots are recorded in research/07_table_showcase_research.md.
 - Lesson: Keep illustrative drawing coordinates separate from reservation identity. A shared layout keeps guest/staff maps consistent; a contained viewport preserves readable phone labels without making the whole page wider.
+
+## 2026-10-08 — Verified GitHub session publication
+
+- Marvin explicitly requested a push of completed session work and an updated PLAN receipt afterward. Verified active GitHub account/repository ownership, author identity and remote state; main had 27 already-verified unpushed commits and no remote-only changes.
+- Committed session changes as 93a161a: motion/Close/cache refinements, all-date staff list, 12-hour VIP/Group source rules, licensed full-hero video and shared concept table positions, with research and tests.
+- Integrated isolated suites reported 470 PASS checks, plus the ordinary-revisit cache regression; PHP lint on 65 files, JS syntax and main smoke passed. Independent review and staged/history credential scans were clean.
+- git push origin main succeeded; git ls-remote matched source SHA 93a161a9d43f11be1d80ec0abfbf9de4cd4e868d. PLAN and memory now record the verified receipt in a documentation follow-up.
+- GitHub reported the linked Vercel deployment completed successfully for 93a161a; live UI and hosted rules were not revalidated. Local data, private settings and backups remain excluded. No hosted database migration or direct Vercel deployment. Future pushes still require a new request.
+- Lesson: A GitHub push transfers committed project files. Database records/configuration remain separate; verify the remote commit rather than assuming a successful local commit is published.
