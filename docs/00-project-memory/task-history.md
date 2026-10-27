@@ -717,3 +717,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: 19 B1 branding browser checks plus21 preserved seating checks,nine asset/provenance checks; exact full live profile/history match to restaurant.docx,all3 Word hashes unchanged,valid local original SVGs. Desktop/tablet/phone/keyboard/axe,actual availability and every operational header pass; independent b1_review no actionable findings incl761-1024px. PHP109 lint,JS syntax,both localhost smoke,whitespace,PMMdoctor pass. Main37-table/config fingerprints and267 protected files unchanged; seven intended existing files changed. Roadmap/Desktop exported B1 In progress pending main, next B7. No DB reset/main refresh/account or pricing change/publication.
 - Closed At: 2026-10-18T12:26:47Z
+
+## 2026-10-27 release-local-to-github-vercel-20261027
+
+<!-- pmm-task-id: release-local-to-github-vercel-20261027 -->
+
+- Status: done
+- Parent Task: none
+- Title: Publish verified local reservation source to GitHub and Vercel
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: 237 MySQL, 44 HTTP, 218 browser, disabled-preorder regression, 18 fee, 6 terms, 5 TLS/config, 9 seating assets, 3 local worker checks passed; PHP 110 lint and JS14 syntax passed. Final runtime image matched211 packaged hashes and passed local smoke against new hosted TLS DB. New DB backup actual restore47 table hashes; original preview recovery46 hashes. Runtime/tests unchanged from published/deployed21f85e2; current GitHub docs branch verified568dc1a. Independent review no remaining critical issue. Ready/Preview/sin1/public-alias metadata verified; no direct deployed-URL fetch or hosted browser acceptance claimed.
+- Closed At: 2026-10-27T14:30:28Z
