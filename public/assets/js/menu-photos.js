@@ -39,14 +39,15 @@
   "tasting7": "/assets/images/menu/tasting.jpg",
   "pairing": "/assets/images/menu/wine.jpg"
 }));
-  function create(key) {
+  const featurePhotos = new Map([["kinilaw", "/assets/images/menu/kinilaw-feature.jpg"]]);
+  function create(key, {featured = false} = {}) {
     const wrapper = document.createElement("div");
     wrapper.className = "menu-image";
     wrapper.setAttribute("aria-hidden", "true");
     const fallback = document.createElement("span");
     fallback.className = "menu-image-fallback";
     fallback.textContent = "Photo pending";
-    const path = photos.get(key);
+    const path = (featured ? featurePhotos.get(key) : null) || photos.get(key);
     if (!path) {
       wrapper.classList.add("is-missing");
       wrapper.append(fallback);

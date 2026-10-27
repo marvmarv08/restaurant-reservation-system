@@ -74,9 +74,9 @@ try {
   const page = await makePage();
   await page.goto(base);
   await page.getByRole('button', {name: 'Find a table', exact: true}).waitFor();
-  await check('Hero has one 220ms entrance and the initial booking form stays immediately usable', async () => {
-    const hero = await animations(page, 'hero-copy');
-    assert.equal(hero.length, 1); assert.equal(hero[0].duration, 220);
+  await check('Hero headline has one short entrance and the initial booking form stays immediately usable', async () => {
+    const hero = await animations(page, 'hero-title');
+    assert.equal(hero.length, 1); assert.ok(hero[0].duration <= 400);
     assert.equal(await page.getByRole('button', {name: 'Find a table', exact: true}).isEnabled(), true);
     assert.equal((await animations(page, 'flow')).length, 0);
   });
@@ -151,7 +151,7 @@ try {
     assert.equal(await page.locator('.details-form').count(), 0);
     assert.equal(await page.locator('#flow').evaluate(e => e.getAnimations()[0].playState), 'paused');
   });
-  await check('Hero does not replay while searching, going Back or confirming', async () => assert.equal((await animations(page, 'hero-copy')).length, 1));
+  await check('Hero does not replay while searching, going Back or confirming', async () => assert.equal((await animations(page, 'hero-title')).length, 1));
   await page.getByRole('button', {name: 'Make another reservation', exact: true}).click();
   await search(page, 13, 'group'); await details(page);
   await check('A new reservation clears the previous guest draft', async () => assert.equal(await page.getByLabel('Full name', {exact: true}).inputValue(), ''));

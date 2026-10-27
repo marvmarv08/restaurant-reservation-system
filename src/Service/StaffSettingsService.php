@@ -49,12 +49,17 @@ final class StaffSettingsService
                 ->query("SELECT * FROM pacing_rules ORDER BY id")
                 ->fetchAll(),
         ];
+        $limits=self::LIMITS;
+        if ((new BookingPolicy($this->pdo))->bellaVista()) {
+            $limits['max_party_online']=[1,20];
+            $limits['manager_approval_party_min']=[2,21];
+        }
         return $data + [
             "revision" => hash(
                 "sha256",
                 json_encode($data, JSON_THROW_ON_ERROR),
             ),
-            "limits" => self::LIMITS,
+            "limits" => $limits,
         ];
     }
 
@@ -100,15 +105,27 @@ final class StaffSettingsService
                     409,
                 );
             }
+            if ((new BookingPolicy($this->pdo))->bellaVista()) {
+                $fixed = ['slot_interval_min'=>15,'buffer_min'=>15,'min_lead_time_min'=>0,'max_party_online'=>20,'max_covers_per_slot'=>80,'max_reservations_per_slot'=>9,'manager_approval_party_min'=>21,'last_seating_time'=>'20:00'];
+                if(ReservationPolicyService::enabled($this->pdo))$fixed+=['cancel_cutoff_min'=>1440,'no_show_grace_min'=>15];
+                if ($kind !== 'settings') {
+                    throw new BookingError('assignment_policy_locked', 'Bella Vista service hours, dining duration and pacing follow the approved assignment profile.');
+                }
+                foreach ($values as $key=>$value) {
+                    if (array_key_exists($key,$fixed) && $value !== $fixed[$key]) {
+                        throw new BookingError('assignment_policy_locked', 'This Bella Vista rule is fixed by the approved schedule: ' . $key);
+                    }
+                }
+            }
             if ($kind === "settings") {
                 foreach ($values as $key => $value) {
                     if ($key === "last_seating_time") {
                         $this->time($value);
                     } elseif (
-                        !isset(self::LIMITS[$key]) ||
+                        !isset($before["limits"][$key]) ||
                         !is_int($value) ||
-                        $value < self::LIMITS[$key][0] ||
-                        $value > self::LIMITS[$key][1]
+                        $value < $before["limits"][$key][0] ||
+                        $value > $before["limits"][$key][1]
                     ) {
                         throw new BookingError(
                             "invalid_settings",

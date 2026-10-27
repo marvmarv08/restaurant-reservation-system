@@ -4,11 +4,39 @@ Purpose: Current project phase, stable facts, blockers, and next recommended act
 Read when: Starting or resuming project work.
 Skip when: Only reading historical decisions or one-off command output.
 
+## Website release in progress — 2026-10-27
+
+Marvin authorized GitHub/Vercel publication of the latest Bella Vista preview, a separate online database preserving the old app/records, and website-first delivery with always-running worker hosting deferred. New `tablebook_bella_vista` has nine active units, 36 active-menu items and B2–B6 profiles; no isolated fixtures or local credentials were imported. Existing online staff sign-in was retained within the same service. Legacy protected fingerprints matched, and all 47 new-database table hashes/counts matched an actual local recovery. Backend gates and exact-image TLS/catalog/branding smoke passed; finish browser verification and publication before reporting a live URL. Guest terms v2 describe the cutoff and request-driven release accurately. Historical phase/local-main boundaries below remain relevant; B7/B8 are not completed by publication.
+
 ## Phase
 
-P0–P7 complete for local laptop delivery. `PLAN.md` is the authoritative roadmap.
+B0 decisions/recovery planning is Done; B1 is In progress (name delivered locally; original branding/About/History verified in isolation, main activation pending). B2/B3 are In progress with verified isolated inventory/schedule and billing delivery; main activation remains pending. B4/B5/B6 are In progress with verified isolated delivery; B7–B8 remain Pending. PLAN.md is authoritative; historical P0–P7 is prior Lumina evidence.
+
+## Saved next-session handoff
+
+Marvin requested stopping here after saving the roadmap on 2026-10-18. All completed source/assets remain saved in the canonical Desktop project; no active implementation task is pending. Resume B7 proposal/defense drafting, then B8 integrated acceptance. Main activation stays separate. Read PLAN.md → “Next-session handoff — saved 2026-10-18” for exact URLs, reusable guides, missing team inputs, preserved dirty work and recovery/startup precautions. Check existing Docker app/db/worker state; do not reset/reseed or rebuild completed B1–B6 work. Temporary tooling/private dumps may not survive a new session.
 
 ## Current Top Objective
+
+B1 original garden-arch/sprout/plate logo, favicon, company banner, palette guide and complete assignment-sourced About/2021 History are verified only on port 18080. Six-link navigation works on desktop/tablet/phone and management returns to visible story sections. Verified 19 branding browser checks, 21 existing seating browser checks, nine assets, exact live source-text match, PHP 109 lint and syntax/smoke. Independent read-only review found no actionable issue, including intermediate tablet widths. Main 37-table/configuration and 267 protected-file fingerprints matched. Next: B7 team profile, DFD, technical/calculation scope, estimated timeline and itemized costs; keep unknown facts pending and estimates labeled. Branding guide: docs/branding/bella-vista-identity.md. B8 acceptance and main activation remain separate. Earlier notes below describe historical phase boundaries.
+
+Isolated Bella Vista preview: http://localhost:18080. It has S1–S4 (2–4), F1–F3 (5–8) and VIP1/VIP2 (1–20), Tuesday–Sunday 10–22, 15-minute starts, 120-minute dining plus 15-minute reset; last reset 22:15. Main http://localhost:8080 retains its prior catalog/rules and running image; all 37 main table fingerprints and private/Compose configuration matched the implementation baseline.
+
+Explicit schema preparation changes only the isolated reservation constraint to 1–20; separate catalog activation adds new IDs and retires legacy rows without deleting history. Startup/init never activates it. Fresh/populated isolated tests, rollback/collision/retry checks, legacy private reads and actual private dump/drop/restore passed. Review corrections preserved schedule IDs, rejected edited staged policy fields and retained blackout/adjustable-setting UI. Verified 19 B2 MySQL + 126 legacy scenarios, 12 actual browser checks, 72-file lint, syntax and smoke. Main activation needs fresh main recovery evidence and explicit approval; no main backup/migration is claimed.
+
+B3 isolated cashier is delivered at http://127.0.0.1:18080/billing for test admin/manager: server-owned fees, base-only cumulative food credit, onsite cash/external-card receipt recording, guarded refunds/finalization and payload-bound retry recovery. Standard staff seating creates/validates a menu-priced order atomically at ₱1,000; downstream edits/voids preserve it. No actual money transfers. Verified 18 fee  + 20 MySQL scenarios, 145 B2/legacy regressions and 15 actual browser checks; populated 41-table dump/restore and idempotent schema preparation passed. Main schema/profile and all 37 data/config fingerprints remain unchanged. Financial booking edits/cancellation are blocked until B5 reconciliation rather than silently discarding receipts.
+
+Marvin's screenshot follow-up is delivered: nine realistic original Blender images use four/eight/twenty spaced chairs for Standard/Family/VIP, with truthful concept captions, local asset loading and approved fee descriptions. Target images use a separate bella-vista folder; original renderer and legacy images remain unchanged. Nine asset checks, 21 real isolated browser checks and 38 legacy concept checks passed, including desktop/phone accessibility, delayed loads, failure recovery and no browser writes. Main 37-table/configuration fingerprints and 261 unaffected source/asset files matched. B4 cart delivery is recorded below. Full assigned cancellation/grace and sales reporting remain B5/B6; legacy preview bookings retain old rules, while accepted-quote bookings use a 24-hour online deadline.
+
+B4 is delivered only on port 18080: three assigned combined categories with 36 cloned actual menu items, live guest cart, server-owned quote/correction/explicit acceptance, atomic saved original/current food/policy snapshots, strict confirmation replay, private 24-hour food edits/history and once-only arrival-to-kitchen handoff. Standard minimum is enforced at seating; received credit remains zero at booking. Staff see accepted dishes/subtotal. Accepted-quote schedule/category/guest-count edits and deletion are guarded pending B5. No online payment, main activation or full B5 reconciliation.
+
+Verified 21 MySQL cases(including actual menu-lock deadline races),25 guest browser checks, 4 staff/B3 integration checks,126 legacy + 19 B2 + 20 B3 MySQL regressions,32 legacy browser checks,88-file PHP lint, JS syntax, nine preserved seating assets and isolated smoke. Populated 43-table restore and exact recovery across fresh regression fixtures passed. Main 37-table/configuration fingerprints remain unchanged; 13 intended existing source files changed, 157 protected source/assets unchanged. Independent review findings fixed: pending recovery after expiry, booking-scoped retries, same-tab private links, stale button labels and post-lock cutoff rechecks. API guide: docs/preorders-api.md. Next: isolated B5 accepted policies, consistent cancellation/modifications, 15-minute arrival release and financial reconciliation. Full branding/reports/proposal/final acceptance remain pending.
+
+As of the latest 2026-10-17 implementation, Marvin approved the Bella Vista Dining name. It is delivered on guest/staff/server/kitchen pages, future simulated booking/waitlist subjects and relevant visible labels. Hero/identity copy uses the supplied concept; invented demo location/phone claims are removed from static identity/contact surfaces. Existing logo/visual design is retained; full About/History and custom branding remain unfinished, so B1 is In progress. Current table/schedule/fee/cancellation/grace behavior is unchanged pending B0 and later phases. See PLAN.md's B1 initial name alignment entry for verification.
+
+As of 2026-10-17, Marvin supplied restaurant.docx, Rubrics.docx and Project Documents.docx and requested an accurate roadmap update. PLAN.md now records the authoritative Bella Vista target, evidence-based gaps, open decisions, calculation examples, rubric mapping and B0–B8. That earlier roadmap/research task changed no product behavior; the later approved display-name delivery above is the only subsequent implementation. The research follow-up adds official-source safeguards and restaurant identity/comparison findings; the scheduling contract, base-only VIP food credit and onsite payment route are approved, and cancellation/refund handling is selected under delegated recommendation; operational choices are now selected too. Prepare the isolated B2 conversion batch before UI-01, now queued within B6. Required About Us/Company History belong to B1, not optional storytelling.
+
+As of 2026-10-14, Marvin approved the first desktop guest UI batch and it is delivered locally: stable expanded booking layout, local guest fonts, persistent navigation, coordinated headings, completed form steps and a real signature dish. Real laptop searches showed 0px headline shift. Twenty focused checks and the existing application regressions passed; app-only refresh preserved all 37 main database table fingerprints and configuration. `research/14_ui_motion_refresh_research.md` records the evidence and actual views. Staff/kitchen redesign and voluntary motion control remain later proposals.
 
 As of 2026-10-08, focus on building and testing on localhost in Marvin's canonical Windows Desktop project folder. Always use `restaurant-reservation-system` for localhost work unless Marvin explicitly requests a different folder; reserve `restaurant-reservation-system-vercel` for requested hosted-release work. Marvin explicitly authorized this session's GitHub publication on 2026-10-08; completed source `93a161a` is verified on remote main. Future pushes and direct deployments require another explicit request. Preserve local configuration and existing Docker database records. `PLAN.md` records this working direction.
 
@@ -17,6 +45,8 @@ As of 2026-10-08, focus on building and testing on localhost in Marvin's canonic
 The completed session source was committed as 93a161a and pushed to marvmarv08/restaurant-reservation-system main on 2026-10-08; exact remote SHA matched. Integrated isolated application suites reported 470 PASS checks, the browser cache regression passed, PHP lint passed on 65 files and JS syntax/main smoke passed. Independent review and staged/outgoing-history credential scans were clean. PLAN.md now records the verified source receipt; historical local-only entries describe their earlier delivery checkpoints. Publication transfers code/research/docs, not local database contents, credentials or private backups. No hosted migration or direct Vercel CLI deployment was performed; GitHub reported Vercel deployment success for source 93a161a; this is distinct from live UI/database verification. Future work remains local until explicitly requested.
 
 ### Latest research
+
+Research/15_bella_vista_requirements_research.md now records the supplied requirements, an unverified exact real-world Bella Vista identity, first-party namesake checks, four comparable restaurants and technical/proposal references. Farmer's Table, Sonya's Garden and Balay Dako were inspected read-only at 1366px; Qsina was reviewed as page content. No external reservation or payment was submitted. PLAN.md incorporates proposed B0–B8 safeguards: slot/reset rules, schema/catalog restore, credit ledger, quote reacceptance, scheduled-to-fired food, server grace catch-up, date-labeled reports and protected financial history, DFD/cost evidence and accessibility review. Later contracts and verified isolated B2 evidence in PLAN.md supersede open research recommendations; remaining feature phases stay Pending.
 
 Research/13_hero_background_video_research.md compares eleven video candidates, with six decoded samples for each of four downloaded clips. Pexels 31631562 is recommended for the entire booking-hero background behind both columns. Credited temporary desktop/phone previews show readable copy/form, advancing playback, repeat and no horizontal overflow. The research identified compression, softened joining and phone framing as delivery requirements. Marvin approved implementation afterward; those local changes and evidence are recorded below.
 
@@ -56,18 +86,20 @@ Chef cooking background is deployed as a READY [Singapore Preview](https://resta
 
 - The canonical working files are on Marvin's Windows Desktop: `C:\Users\burgo_w8uuyg3\OneDrive\Desktop\restaurant-reservation-system` (tool path `/mnt/c/Users/burgo_w8uuyg3/OneDrive/Desktop/restaurant-reservation-system`). Continue all future edits there. The existing ignored `.env`, full Git history and Marvin author identity are preserved. The previous Linux entry points to the Desktop after relocation; `/home/morkmork26/marvin/restaurant-reservation-system-linux-backup-2026-10-06` retains a recovery copy. Main MySQL records remain in Docker storage, not in the source folder.
 
-- The fictional demo venue address is Lipa City, Batangas, Philippines. No street address or actual venue location is claimed.
+- Bella Vista is presented as an academic project using the supplied profile. Static hero/footer/contact surfaces no longer claim the old Lipa address or invented phone number. No real client address/contact/affiliation is verified; catalog conversion remains pending.
 
-- Marvin selected a ten-minute server-side hold and two-hour self-service cancellation cutoff. Modification uses the same cutoff to prevent a move-then-cancel bypass.
-- Fictional venue policy, room limits, 1–16 party size, and R01–R22 are in `PLAN.md`.
+- Main Lumina retains the ten-minute checkout hold and two-hour self-service cutoff. Isolated B5 uses the inclusive 24-hour cutoff and 15-minute arrival grace; checkout holds remain a separate ten-minute safeguard.
+- Current Lumina room limits, 1–16 party size and R01–R22 remain documented as historical policy in PLAN.md. The new target is the Bella Vista requirement matrix and B0–B8, including nine reservable units and VIP up to 20.
 - No real email/SMS delivery or payment collection is authorized.
 - A reference is a public label. A private booking link authorizes access; only its hash is stored in MySQL, with binding, expiry, and revocation support.
-- Guests browse the menu; staff place orders for seated parties. Staff start inactive and activate through private one-use invitations with their own passwords.
+- Main guests browse the menu; staff place seated orders. Guest booking-linked pre-orders are delivered only in isolated B4/B5. Staff start inactive and activate through private one-use invitations with their own passwords.
 - Staff roles are admin, manager, host, server, and kitchen. Server claims and edits its own orders; kitchen prepares tickets; neither gets host/admin access. Admin/manager can use all three workspaces. Reuse `StaffAccess` and `StaffSession`.
 - The main checkpoint has one privately activated staff account. Use the existing sign-in; new staff choose their own passwords through private invitations. App passwords are separate from Ubuntu/GitHub.
 - Order service closure uses `closed`, never invented `paid`. Kitchen marks ready; server confirms delivery. Host completion is separate and refuses unfinished food.
 
 ## What Exists and Works
+
+The following entries record earlier Lumina deliveries and their historical evidence, not fresh Bella Vista acceptance or current database counts. Reverify reusable features under B8.
 
 The guest hero uses the existing local Michel Stockman dining photo with a dark gradient and an opaque booking card. Photo failure preserves the base background, text, layout and usable controls. Staff/admin/server/kitchen headers share the palette and italic display typography without new operational effects. Research section 14 records the inspected preview and the full-stream access limit. No backend, policy, authentication or polling code changed.
 
@@ -101,7 +133,7 @@ The original Seating view renders and inspiration sources are locally credited u
 
 The room-card image regression reported in Marvin’s 2026-10-06 screenshot was corrected: all four cards now show the original local inspiration photographs rather than CSS ovals. Twelve focused read-only photo/navigation/mobile/accessibility/fallback checks passed; the permanent showcase suite now also checks these card pictures.
 
-Booking Guests and Room preference now filter one another using database room-party limits and catalog.max_party. Guest-first16 offers only Group Tables; room-firstVIP offers2–10 guests. Any room restores the full guest range. Valid values remain selected; incompatible values adjust to the nearest supported count with a polite notice. Changes clear stale availability/previews. The shared public/management search passed34 focused,12 guest/management and41 showcase checks; server policy/auth remain unchanged.
+Booking Guests and Room preference now filter one another using database room-party limits and catalog.max_party. Guest-first16 offers only Group Tables; room-firstVIP offers2–10 guests. Any room restores the full guest range. Valid values remain selected; incompatible values adjust to the nearest supported count with a polite notice. Changes clear stale availability/previews. The shared public/management search passed 34 focused,12 guest/management and 41 showcase checks; server policy/auth remain unchanged.
 
 ## Known Limitations
 
@@ -113,10 +145,11 @@ None. Reopen Ubuntu after Docker group changes; older sessions may lack Docker s
 
 ## Next Recommended Actions
 
-1. Review the verified GitHub publication receipt in PLAN.md; continue future requested work locally. A Git-connected Vercel build does not copy local records or activate hosted database changes.
-2. Implement and verify the next requested change locally; preserve configuration and database records.
-3. Push to GitHub or deploy to Vercel only when Marvin explicitly asks. Featured Dish, E3/E4 and story/location remain deferred until requested.
+1. Read PLAN.md's Bella Vista assignment alignment and research/15_bella_vista_requirements_research.md, then review the verified isolated B2 delivery and fulfill the queued screenshot/realistic-visual request, then continue B4 guest cart/fee confirmation. Main activation remains a separately approved, fresh recovery batch.
+2. Keep B1 In progress for its delivered name alignment and unfinished branding/content; B2 is In progress pending main activation; B3 is In progress with isolated billing delivery; B4–B8 remain Pending until each has fresh acceptance evidence. Do not treat old Lumina test counts as Bella Vista acceptance. Proposal work in B7 can progress as facts become available; do not invent team details, costs or deadlines.
+3. UI-01/02 and needed UI-03/04 remain queued within B6; the first guest batch/signature dish are delivered. Company/history content is mandatory B1 work; extra photographic effects remain optional.
+4. Continue in the canonical Desktop project; preserve local uncommitted guest work, private configuration and main records. Isolated B2 conversion/rebuild/restore was authorized and verified; no main conversion/reset/seed, real payment, push or deployment was performed or authorized by that batch.
 
 ## Last Updated
 
-2026-10-08
+2026-10-18

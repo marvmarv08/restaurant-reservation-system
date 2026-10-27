@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+if(process.env.BOOKING_TEST_MODE!=='isolated')throw new Error('B2 browser checks require isolated stack');
+const {chromium}=await import(pathToFileURL(resolve(process.env.PLAYWRIGHT_MODULE)).href);
+const base='http://127.0.0.1:18080',artifacts='/tmp/bella-vista-b2';await mkdir(artifacts,{recursive:true});
+const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:1366,height:1000},reducedMotion:'reduce'}),page=await context.newPage();
+page.setDefaultTimeout(12000);
+const errors=[];page.on('pageerror',e=>errors.push(e.message));let checks=0;
+const check=async(name,fn)=>{await fn();checks++;console.log('PASS '+name);};
+try{
+ const response=await context.request.get(base+'/api/catalog');const {catalog}=await response.json();assert.equal(catalog.profile,'bella_vista_b2');
+ await page.goto(base);const guests=page.getByLabel('Guests',{exact:true}),rooms=page.getByLabel('Room preference');await guests.waitFor();
+ await check('B2 service copy shows assigned hours',async()=>{assert.match(await page.locator('.hero-service').innerText(),/10:00–22:00/);assert.doesNotMatch(await page.locator('.hero-service').innerText(),/17:30/);});
+ await check('B2 twenty guests and nine target showcase units',async()=>{assert.equal(await guests.locator('option[value="20"]').count(),1);assert.equal(await page.locator('.showcase-tile').count(),9);});
+ await rooms.selectOption('bv_vip');await guests.selectOption('20');
+ const day=new Date(catalog.today+'T12:00:00Z');day.setUTCDate(day.getUTCDate()+21);while(day.getUTCDay()!==2)day.setUTCDate(day.getUTCDate()+1);let date=day.toISOString().slice(0,10);
+ for(let attempt=0;attempt<5;attempt++){const data=await (await context.request.get(base+'/api/availability?'+new URLSearchParams({date,party_size:'20',room_type:'bv_vip'}))).json();if(data.availability.slots.find(s=>s.time==='19:00')?.options.length===2)break;day.setUTCDate(day.getUTCDate()+7);date=day.toISOString().slice(0,10);}
+ await page.getByLabel('Date · Manila time').fill(date);await page.getByRole('button',{name:'Find a table',exact:true}).click();await page.locator('.table-picker').waitFor();
+ await check('B2 20-person VIP search exposes correct final slot',async()=>{assert.equal(await page.locator('[data-time="20:00"]').count()>0,true);assert.match(await page.locator('#booking').innerText(),/120-minute dining/);assert.doesNotMatch(await page.locator('#booking').innerText(),/12-hour notice/);});
+ await check('B2 guest floor contains exactly two available VIP units',async()=>assert.equal(await page.locator('.floor-table.available').count(),2));
+ await page.screenshot({path:artifacts+'/guest-1366.png',fullPage:true});
+ for(const width of [390,320]){await page.setViewportSize({width,height:900});await check('B2 mobile layout '+width,async()=>assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false));await page.screenshot({path:artifacts+'/guest-'+width+'.png',fullPage:true});}
+ await page.setViewportSize({width:1366,height:1000});
+ await page.getByRole('button',{name:'Continue with this table',exact:true}).click();
+ await page.getByLabel('Full name',{exact:true}).fill('B2 Browser Guest');
+ await page.getByLabel('Phone number',{exact:true}).fill('+639000000003');
+ await page.getByLabel('Email',{exact:true}).fill('b2-browser@lumina.test');
+ await page.getByRole('button',{name:'Confirm reservation',exact:true}).click();await page.locator('.booking-code').waitFor();
+ const guestCode=await page.locator('.booking-code').textContent();
+ await page.reload();await page.locator('.booking-code').waitFor();
+ await check('B2 guest twenty-person booking persists after reload',async()=>{assert.equal(await page.locator('.booking-code').textContent(),guestCode);assert.match(await page.locator('#flow').innerText(),/20/);});
+ await page.goto(base+'/staff/login');await page.getByLabel('Staff email',{exact:true}).fill('b2-staff@lumina.test');await page.getByLabel('Password',{exact:true}).fill('Isolated staff passphrase 2026!');await page.getByRole('button',{name:'Sign in',exact:true}).click();
+ await page.getByRole('heading',{name:'Service overview.',exact:true}).waitFor();
+ await page.getByRole('button',{name:'New reservation',exact:true}).click();const dialog=page.getByRole('dialog');
+ await check('B2 staff controls expose twenty guests and Standard default',async()=>{assert.equal(await dialog.locator('[name=party_size]').getAttribute('max'),'20');assert.equal(await dialog.locator('[name=room_type]').inputValue(),'bv_standard');});
+ await dialog.locator('[name=party_size]').fill('20');await dialog.locator('[name=room_type]').selectOption('bv_vip');await dialog.locator('[name=date]').fill(date);
+ await dialog.getByRole('button',{name:'Find available tables',exact:true}).click();await dialog.locator('[data-time="20:00"]').click();
+ await dialog.getByLabel('Guest full name',{exact:true}).fill('B2 Browser Staff Booking');await dialog.getByLabel('Guest phone',{exact:true}).fill('+639000000004');
+ const created=page.waitForResponse(r=>r.url().endsWith('/api/admin/reservations')&&r.request().method()==='POST');
+ await dialog.getByRole('button',{name:'Create reservation',exact:true}).click();const result=await (await created).json();assert.equal(result.ok,true);await dialog.waitFor({state:'hidden'});
+ await check('B2 actual staff twenty-person final-slot booking',async()=>assert.equal(result.booking.status,'confirmed'));
+ await page.screenshot({path:artifacts+'/staff-1366.png',fullPage:true});
+ await page.getByRole('button',{name:'Booking settings',exact:true}).click();await page.getByRole('heading',{name:'Booking settings.',exact:true}).waitFor();
+ await check('B2 fixed service note preserves blackout and adjustable settings controls',async()=>{await page.getByRole('button',{name:'Add blackout',exact:true}).waitFor();assert.equal(await page.locator('[name=hold_ttl_sec]').count(),1);assert.equal(await page.locator('[name=max_party_online]').count(),0);});
+ await page.screenshot({path:artifacts+'/settings-1366.png',fullPage:true});
+ await page.setViewportSize({width:320,height:900});await check('B2 staff mobile settings layout',async()=>assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false));await page.screenshot({path:artifacts+'/settings-320.png',fullPage:true});
+ await check('B2 no JavaScript errors',async()=>assert.deepEqual(errors,[]));
+ console.log('Bella Vista browser: '+checks+' checks passed.');
+}finally{await context.close();await browser.close();}

@@ -8,7 +8,18 @@ use App\Controller\ManagementController;
 use App\Controller\StaffController;
 use App\Controller\OrderController;
 
+use App\Controller\BillingController;
+
 return [
+    ['GET', '/reports', [\App\Controller\ReportController::class, 'page']],
+    ['GET', '/api/admin/reports', [\App\Controller\ReportController::class, 'daily']],
+    ['POST','/api/preorders/quote',[BookingController::class,'preorderQuote']],
+    ['POST','/api/manage/preorders/quote',[ManagementController::class,'preorderQuote']],
+    ['POST','/api/manage/preorders/save',[ManagementController::class,'preorderSave']],
+    ['GET','/billing',[BillingController::class,'page']],
+    ['GET','/api/billing/reservations',[BillingController::class,'listing']],
+    ['GET','/api/billing/quote',[BillingController::class,'quote']],
+    ['POST','/api/billing/record',[BillingController::class,'mutate']],
     ['GET', '/server', [OrderController::class, 'serverPage']],
     ['GET', '/kitchen', [OrderController::class, 'kitchenPage']],
     ['GET', '/api/service/menu', [OrderController::class, 'menu']],

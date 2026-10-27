@@ -34,7 +34,9 @@
     svg.setAttribute('viewBox','0 0 600 430');svg.setAttribute('role','img');
     svg.setAttribute('aria-label',`Illustrative ${table.shape} table with ${table.capacity_max} seats`);
     const add=(tag,attrs)=>{const n=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);svg.append(n);};
-    const n=Math.max(1,Math.min(24,Number(table.capacity_max))), w=table.shape==='joined'?300:table.shape==='rect'?220:140;
+    const n=Math.max(1,Math.min(24,Number(table.capacity_max)));
+    const rowSeats=Math.ceil((n-2)/2);
+    const w=table.shape==='joined'?300:table.shape==='rect'?Math.min(420,Math.max(220,rowSeats*46)):140;
     for(let i=0;i<n;i++){
       let x,y;
       if(table.shape==='round'){x=Math.cos(i/n*Math.PI*2)*112;y=Math.sin(i/n*Math.PI*2)*112;}
@@ -50,7 +52,7 @@
   function image(table, className='') {
     const wrap=el('span',{class:className,'aria-hidden':'true'}), img=el('img',{alt:'',width:960,height:720,loading:'lazy'});
     img.addEventListener('error',()=>wrap.replaceChildren(fallback(table)),{once:true});
-    img.src=assetRoot+encodeURIComponent(table.code)+'.jpg';wrap.append(img);return wrap;
+    img.src=assetRoot+(catalog.profile==='bella_vista_b2'?'bella-vista/':'')+encodeURIComponent(table.code)+'.jpg';wrap.append(img);return wrap;
   }
   function tile(table, cls, action) {
     const b=button('',()=>action?action():open(table.id,b),cls);b.dataset.table=table.code;
@@ -69,7 +71,7 @@
     const option=optionFor(table);
     const members=option?.kind==='group'?catalog.tables.filter(t=>option.table_ids.includes(Number(t.id))):[];
     const joined=members.map(t=>t.code).sort().join('-')==='G1-G2';
-    const filename=view==='photo'?({vip:'round-table-reference.jpg',terrace:'terrace-reference.jpg'}[type(table).code]||'main-dining-reference.jpg'):(joined?'G1-G2.jpg':table.code+'.jpg');
+    const filename=view==='photo'?({bv_vip:'round-table-reference.jpg',vip:'round-table-reference.jpg',terrace:'terrace-reference.jpg'}[type(table).code]||'main-dining-reference.jpg'):(joined?'G1-G2.jpg':table.code+'.jpg');
     const key=view+':'+filename;
     if(ui.hero.dataset.image===key)return;
     ui.hero.dataset.image=key;const version=++imageRevision;
@@ -96,7 +98,7 @@
     },{once:true});
     img.addEventListener('error',()=>{if(version!==imageRevision || !dialog.open)return;clearImageFade();ui.hero.replaceChildren(fallback(joined?{...table,shape:'joined',capacity_max:16}:table));ui.hero.setAttribute('aria-busy','false');ui.caption.textContent='Picture unavailable; the seating layout and availability controls still work.';},{once:true});
     // Keep the displayed image and its caption until the latest request has loaded.
-    img.src=assetRoot+encodeURIComponent(filename);
+    img.src=assetRoot+(catalog.profile==='bella_vista_b2'&&view!=='photo'?'bella-vista/':'')+encodeURIComponent(filename);
 
   }
   function syncStatus() {
@@ -126,7 +128,14 @@
     ui.location.textContent='Concept location: '+window.LuminaFloorLayout.location(table)+'. Gold marks the table shown.';
     ui.map.replaceChildren(window.LuminaFloorLayout.roomPreview(catalog,table));
     ui.facts.replaceChildren();
-    for(const [name,value] of [['Seats',`${table.capacity_min}–${table.capacity_max} guests individually`],['Shape',table.shape==='rect'?'Rectangular':table.shape==='round'?'Round':'Square'],['Minimum spend',Number(type(table).min_spend_cents)?new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(Number(type(table).min_spend_cents)/100):'None'],['Booking notice',Number(type(table).min_notice_hours)?type(table).min_notice_hours+' hours':'Same-day bookings']]){
+    const assignedFees={
+      bv_standard:'No reservation fee · ₱1,000 food minimum at seating',
+      bv_family:'₱500 consumable base fee',
+      bv_vip:'₱2,500 consumable base for up to 15 guests · ₱300 per additional guest (maximum 20); extras are not food credit'
+    };
+    const feeLabel=catalog.profile==='bella_vista_b2'?'Fee / food policy':'Minimum spend';
+    const feeDescription=catalog.profile==='bella_vista_b2'?assignedFees[type(table).code]:Number(type(table).min_spend_cents)?new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(Number(type(table).min_spend_cents)/100):'None';
+    for(const [name,value] of [['Seats',`${table.capacity_min}–${table.capacity_max} guests individually`],['Shape',table.shape==='rect'?'Rectangular':table.shape==='round'?'Round':'Square'],[feeLabel,feeDescription],['Booking notice',Number(type(table).min_notice_hours)?type(table).min_notice_hours+' hours':'Same-day bookings']]){
       const row=el('div');row.append(el('dt',{},name),el('dd',{},value));ui.facts.append(row);
     }
     ui.status.replaceChildren(badge(table));

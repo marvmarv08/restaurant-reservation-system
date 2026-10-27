@@ -14,6 +14,7 @@ final class AvailabilityService
 
     public function search(string $date, int $party, string $roomType = 'any', ?int $excludeReservation = null): array
     {
+        if(ReservationPolicyService::enabled($this->pdo)&&!$this->pdo->inTransaction())(new ReservationPolicyService($this->pdo,$this->clock))->reconcile();
         $policy = new BookingPolicy($this->pdo);
         $now = $this->clock->now();
         $day = $policy->date($date, $now);
@@ -80,6 +81,8 @@ final class AvailabilityService
             }
         }
         $options = $includeGroups ? array_merge($singles, $groups) : ($singles !== [] ? $singles : $groups);
+        if(($policy->settings['policy_profile']??'')==='bella_vista_b5')foreach($options as &$o)$o['policy_fees']=BillingFees::assess($o['room_type'],$party);
+        unset($o);
         usort($options, static fn (array $a, array $b): int =>
             [$a['capacity_max'], $a['priority'], $a['id']] <=> [$b['capacity_max'], $b['priority'], $b['id']]);
         return $options;

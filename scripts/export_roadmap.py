@@ -41,7 +41,17 @@ def main() -> None:
     if set(statuses) != {f"P{i}" for i in range(8)}:
         raise RuntimeError("Phase progress must contain P0 through P7 exactly once")
 
-    lines = ["RESTAURANT RESERVATION SYSTEM - ROADMAP", "Source of truth: PLAN.md", ""]
+    lines = ["BELLA VISTA DINING - RESERVATION AND FOOD ORDERING ROADMAP", "Source of truth: PLAN.md", ""]
+    alignment_heading = "### Bella Vista assignment alignment — 2026-10-17"
+    history_heading = "### Historical Lumina foundation — P0–P7"
+    if alignment_heading not in roadmap or history_heading not in roadmap:
+        raise RuntimeError("Missing active Bella Vista roadmap or historical foundation boundary")
+    alignment = roadmap.split(alignment_heading, 1)[1].split(history_heading, 1)[0]
+    compliance = [row for row in parse_table(alignment, "| B") if re.match(r"^B[0-8] — ", row[0])]
+    if len(compliance) != 9 or {row[0].split(" — ", 1)[0] for row in compliance} != {f"B{i}" for i in range(9)}:
+        raise RuntimeError("Expected exactly nine Bella Vista compliance phases B0 through B8")
+    lines.extend(["ACTIVE BELLA VISTA ASSIGNMENT ALIGNMENT — 2026-10-17", alignment.strip(), "",
+                  "HISTORICAL LUMINA FOUNDATION — completed under the previous scope; not Bella Vista acceptance", ""])
     for phase, work, done in phases:
         code = phase.split(" ", 1)[0]
         status, evidence = statuses[code]
@@ -53,6 +63,11 @@ def main() -> None:
         if not match:
             raise RuntimeError(f"Missing {label} in PLAN.md")
         lines.extend([match.group().replace("**", "").replace("`", ""), ""])
+
+    backlog_heading = "### Pending desktop UI improvements — next-session backlog"
+    if backlog_heading in roadmap:
+        backlog = roadmap.split(backlog_heading, 1)[1].split("\n### ", 1)[0]
+        lines.extend(["PENDING DESKTOP UI IMPROVEMENTS — QUEUED BEHIND COMPLIANCE WORK" + backlog, ""])
 
     target = Path(sys.argv[1]) if len(sys.argv) > 1 else desktop_file()
     target.write_text("\n".join(lines), encoding="utf-8")

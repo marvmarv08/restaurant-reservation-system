@@ -1,0 +1,17 @@
+.preorder-editor,.preorder-summary { min-width:0; border:1px solid var(--line); border-radius:6px; padding:18px; margin:16px 0; }
+.preorder-editor legend { color:var(--accent); font-weight:600; padding:0 6px; }
+.preorder-add { display:grid; grid-template-columns:minmax(0,1fr) 95px; gap:12px; align-items:end; }
+.preorder-add > .button { grid-column:1/-1; }
+.preorder-editor label { display:flex; flex-direction:column; gap:6px; font-size:.85rem; }
+.preorder-editor select,.preorder-editor input[type=number] { width:100%; min-width:0; }
+.preorder-line { display:grid; grid-template-columns:minmax(0,1fr) 80px auto; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); }
+.preorder-line > span { overflow-wrap:anywhere; }
+.preorder-editor .preorder-accept { display:flex; flex-direction:row; align-items:flex-start; gap:12px; padding:12px 0; line-height:1.6; }
+.preorder-accept input { flex:0 0 auto; width:20px; height:20px; margin-top:3px; }
+.preorder-quote:empty { display:none; }
+.preorder-quote { margin-top:18px; }
+.preorder-summary details summary { cursor:pointer; padding:10px 0; color:var(--accent); }
+.preorder-totals div { gap:12px; }
+.preorder-totals dd { overflow-wrap:anywhere; }
+.preorder-summary ul,.preorder-quote ul { padding-left:20px; }
+@media(max-width:420px) { .preorder-editor,.preorder-summary { padding:12px; } .preorder-add { grid-template-columns:minmax(0,1fr) 72px; } .preorder-line { grid-template-columns:minmax(0,1fr) 72px; } .preorder-line button { grid-column:1/-1; } .preorder-totals div { flex-wrap:wrap; } }

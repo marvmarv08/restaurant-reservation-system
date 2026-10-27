@@ -81,10 +81,18 @@ final class BookingController
             if (!isset($data['guest']) || !is_array($data['guest'])) {
                 throw new BookingError('invalid_guest', 'Provide guest details.');
             }
-            $booking = $service->confirm($this->string($data, 'hold_token'), $data['guest'], $session->ownerHash);
+            $booking = $service->confirm($this->string($data, 'hold_token'), $data['guest'], $session->ownerHash, isset($data['preorder'])&&is_array($data['preorder'])?$data['preorder']:null);
             $booking['manage_path'] = (new ManagementService($pdo, new BookingClock($pdo)))
                 ->issueForHold($this->string($data, 'hold_token'), $session->ownerHash, $session->managementSeed);
             return Response::json(['ok' => true, 'booking' => $booking], $booking['created'] ? 201 : 200);
+        });
+    }
+
+    public function preorderQuote(Request $request):Response
+    {
+        return $this->respond(function()use($request):Response{
+            [$session,$data,$service]=$this->mutation($request);
+            return Response::json(['ok'=>true,'quote'=>$service->preorderQuote($this->string($data,'hold_token'),$session->ownerHash,$data['cart']??null)]);
         });
     }
 

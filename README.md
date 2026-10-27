@@ -4,6 +4,26 @@ Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaSc
 
 This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The guest website uses real MySQL availability, expiring holds, transactional confirmation, and private links for changing or cancelling a booking. Staff workspaces provide secure sign-in, reservation management, seating, waitlist offers, settings, audit history, food ordering, and persistent kitchen tickets.
 
+## Bella Vista website release
+
+The latest Bella Vista source is being verified for GitHub and a new Vercel Preview backed by a separate online database. The old online application and records remain available. Always-running no-show worker hosting is deferred by agreement; request-driven reconciliation and server-side seating cutoffs remain enforced. See [the deployment guide](docs/vercel-deployment.md#bella-vista-website-release--2026-10-27) for release status, recovery and verification. The local-phase notes below describe the earlier isolated delivery boundaries.
+
+## Bella Vista assignment alignment
+
+The local application now displays **Bella Vista Dining** across guest/staff/service screens and future simulated messages. Main uses the existing foundation; the nine-unit/schedule delivery is isolated as described below. Guest pre-orders/quote acceptance are delivered only in the isolated preview. Assigned cancellation/grace workflows are delivered only in isolated B5. Daily food-sales reporting and operational table states are delivered only in isolated B6. Original logo, About/History, a company banner and palette guide are verified only in isolated B1. The wider proposal package is **not yet delivered**. Fee/minimum and onsite-recording delivery is isolated as described below. Read [the current roadmap](PLAN.md#bella-vista-assignment-alignment--2026-10-17) for the requirement matrix, open decisions and B0–B8 acceptance phases. Earlier completed phases describe the previous scope. The [deep research report](research/15_bella_vista_requirements_research.md) adds restaurant identity checks, comparable venues, official implementation references and proposed acceptance scenarios.
+
+The isolated Bella Vista B2 preview is available at **http://localhost:18080** with nine target units and the approved schedule/capacities. Main **http://localhost:8080** retains its existing inventory/rules. B0 decisions/recovery planning is verified; B1/B2/B3/B4/B5/B6 remain In progress pending separate main activation. The protected [isolated cashier](http://127.0.0.1:18080/billing) records demo onsite receipts/credits; it does not process payments. Assigned cancellation/grace reconciliation is isolated B5 work. The protected [daily report](http://localhost:18080/reports) is available to admin/manager in isolated B6: finalized food uses the dining date; actual receipts/refunds use the transaction date.
+
+B2 uses separate explicit schema preparation and transactional catalog activation; neither runs during normal startup. Verification includes 19 target MySQL scenarios, 126 legacy scenarios, 12 actual browser checks and populated isolated restore with historical/current private booking reads. See [the B2 delivery evidence](PLAN.md#b2-inventory-and-schedule--isolated-delivery-2026-10-17). Never use an isolated dump as the main database's recovery backup.
+
+B3 verification: 18 fee checks, 20 MySQL billing scenarios, 145 B2/legacy regressions and 15 real browser checks, plus populated 41-table restore. Staff Standard seating validates an actual ₱1,000 menu order atomically. Only test admin/manager can record receipts; final bills and financial history are protected. Unused-credit review is explicit; guest cancellation/refund integration remains B5. See [B3 evidence](PLAN.md#b3-fees-and-onsite-records--isolated-delivery-2026-10-18).
+
+B4 delivers the isolated guest cart, explicit server quote acceptance, private food edits and once-only kitchen handoff. Three combined categories retain 36 actual priced dishes while preserving legacy identities. Verified 21 MySQL cases, 25 guest browser checks, 4 staff/billing integration checks, 165 prior MySQL cases and 32 legacy browser checks; populated 43-table restore preserves all fingerprints. [The pre-order guide](docs/preorders-api.md) explains quote/retry/deadline handling and the B5 boundaries. Open port 18080, choose a table, add food, then review/accept the quote. No online payments or main activation.
+
+B5 adds full accepted terms, preserved 24-hour deadlines, safe food/fee-aware changes, actual refund review and autonomous 15-minute arrival release only in isolation. Verified 26 MySQL and22 guest/staff/cashier browser checks, worker restart/catch-up and populated 46-table restore, plus prior-feature regressions. Read [the policy workflow guide](docs/policies-api.md). No online money transfers; main activation remains separate. B6 operations/food-sales reporting is delivered in isolation as recorded below.
+
+B1 branding is available at [About Us](http://localhost:18080/#about) and [Company History](http://localhost:18080/#history), with an original local emblem across all workspaces. The [branding guide](docs/branding/bella-vista-identity.md) explains the palette, original logo and [company banner](public/assets/brand/bella-vista-banner.svg). Verified 19 branding and 21 preserved seating browser checks, exact supplied profile/history, responsive/accessibility checks, lint/syntax/smoke and main/source preservation. The running main image remains unchanged. Next: B7 team profile/DFD/timeline/cost proposal inputs.
+
 ## Working from the Windows Desktop
 
 The working project is saved in `C:\Users\burgo_w8uuyg3\OneDrive\Desktop\restaurant-reservation-system`. Open this folder in File Explorer or VS Code for future work. The complete source, plans, research, Git history and existing ignored `.env` are retained. Open `.env` with Notepad to view the local database connection values; keep them private.
@@ -70,7 +90,13 @@ Treat the private link like a password: anyone with it can manage that booking u
 
 Buttons show a specific pending label while a request runs, then restore their original label. Slow table searches show stationary placeholders; fast responses finish immediately. Success messages use polite status feedback, while errors stay visible with a recovery action. Motion follows the device’s reduced-motion preference. Guest booking panels use a short entrance after deliberate navigation, menu changes keep focus on the chosen category, and the hero enters once per page load. Typed guest details survive choosing another table within the same page; completion or a new reservation clears the draft. The draft is not added to browser storage.
 
-Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. Styles and scripts are local, fonts use the system, and graphics use CSS/inline SVG and locally stored rendered images with source credits. The live app does not need a CDN or internet connection once Docker images are prepared.
+Guests can browse the menu. Authorized staff place food orders for seated parties through the server workspace; guests cannot submit kitchen orders directly. Styles and scripts are local; guest pages use locally hosted display/body fonts with system fallbacks, while operational views keep their existing system fonts. Graphics use CSS/inline SVG and locally stored rendered images with source credits. The live app does not need a CDN or internet connection once Docker images are prepared.
+
+## Desktop guest presentation
+
+The guest home uses locally hosted Cormorant Garamond and Inter fonts. On a laptop, the headline stays anchored while search results expand, and the navigation remains visible with the active room/menu section marked. Heading entrances run once; Reduce Motion and missing font/animation support keep booking usable. The booking steps show completed form work while the confirmation badge retains the actual confirmed or awaiting-approval state.
+
+Open [localhost:8080](http://localhost:8080), search for a table, then browse Rooms and Menu. The signature feature uses an available signature-tagged catalog dish with its real price and dietary tags, and is omitted when no eligible dish exists. Photos remain illustrative and credited. Staff/kitchen retain their existing presentation. Research, laptop views, test evidence and delivery notes: [desktop UI research](research/14_ui_motion_refresh_research.md#first-desktop-guest-batch-delivered--2026-10-14).
 
 ## Room and table motion
 
@@ -86,7 +112,7 @@ The full guest booking hero uses a silent, gently moving evening dining-room vid
 
 ## Explore the food showcase
 
-Below the booking hero, the food inspiration gallery uses six locally saved, credited photographs selected for Lumina's coastal/hearth menu and warm palette. Desktop columns move gently and continuously while visible, including during hover or keyboard focus. On a phone, the strip moves automatically and remains swipeable. There is no Pause/Resume button; the decorative chef video also loops while visible. Reduced-motion settings keep the gallery still. Explore the menu opens the real database catalog; the stock photographs illustrate the atmosphere rather than exact menu dishes. Open Photography credits for the original sources.
+Below the booking hero, the food inspiration gallery uses six locally saved, credited photographs retained from the original concept and its warm palette. Desktop columns move gently and continuously while visible, including during hover or keyboard focus. On a phone, the strip moves automatically and remains swipeable. There is no Pause/Resume button; the decorative chef video also loops while visible. Reduced-motion settings keep the gallery still. Explore the menu opens the real database catalog; the stock photographs illustrate the atmosphere rather than exact menu dishes. Open Photography credits for the original sources.
 
 ## Browse menu photos and categories
 
@@ -215,3 +241,5 @@ After a phase passes its completion check, update the phase progress in `PLAN.md
 ## Stack
 
 PHP 8.3 - MySQL 8.4 - vanilla JavaScript - CSS - Docker Compose
+
+B6 operations: named Available / Reserved / Occupied / Clean-up states, temporary holds/manual closures, clearer kitchen cards and live pre-order server assignment. See [operations/report definitions and verification](docs/operations-reports.md). B6 is verified only on port 18080; normal startup never activates it on main. B1 original branding/About/History is now verified in isolation too; next is B7 proposal documentation, then B8 final acceptance.

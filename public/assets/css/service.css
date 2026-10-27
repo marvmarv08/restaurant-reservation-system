@@ -16,8 +16,8 @@
 .service-header .brand {
   font: italic 1.7rem Georgia, serif;
   letter-spacing: 0.02em;
-  display: grid;
-  gap: 5px;
+  display: flex;
+  gap: 10px;
 }
 .service-header .brand span {
   font-family: Arial, Helvetica, sans-serif;
@@ -390,3 +390,5 @@
     font-size: 3rem;
   }
 }
+
+body[data-operations="1"] .ticket h2{font-size:clamp(1.8rem,3vw,2.4rem);line-height:1.15;font-variant-numeric:tabular-nums}body[data-operations="1"] .ticket .service-badge{font-size:.85rem;letter-spacing:.035em;white-space:normal;font-weight:700;padding:8px 10px}body[data-operations="1"] .ticket-lines li{padding-block:12px;line-height:1.55}body[data-operations="1"] .ticket-lines strong{font-size:1.08rem}body[data-operations="1"] .ticket-timer{font-size:2rem;font-variant-numeric:tabular-nums}body[data-operations="1"] .ticket-allergy{border-width:5px;font-size:1rem}body[data-operations="1"] .service-badge[data-state=queued]{border-color:#e6bb78;color:#f2d5a7}body[data-operations="1"] .service-badge[data-state=preparing]{border-color:#e9ba72;color:#f4cf96}body[data-operations="1"] .service-badge[data-state=served]{border-color:#92baa0;color:#bae1c7}

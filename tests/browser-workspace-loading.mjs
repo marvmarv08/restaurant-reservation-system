@@ -60,7 +60,10 @@ try{
  await check('Saved reservation survives an older dashboard response',async()=>{
   await page.goto(base+'/admin');await page.waitForFunction(()=>document.querySelector('#staff-stats')?.textContent.includes('Reservations'));
   const date=new Date(Date.now()+42*86400000);while(date.getUTCDay()!==2)date.setUTCDate(date.getUTCDate()+1);
+  const guestName='Pending read QA '+Date.now();
   await page.getByLabel('Service date',{exact:true}).fill(date.toISOString().slice(0,10));
+  // All dates are paginated; isolate the saved row before freezing the old response.
+  await page.getByLabel('Guest, phone, or reference',{exact:true}).fill(guestName);
   const initial=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/admin/dashboard');await page.getByRole('button',{name:'Refresh',exact:true}).click();await(await initial).finished();await page.getByRole('button',{name:'Refresh',exact:true}).waitFor();
   const gate=deferred(),captured=deferred(),fresh=deferred();let first=true;const handlers=[];
   const handler=async route=>{const work=(async()=>{if(first){first=false;const response=await route.fetch();captured.resolve();await gate.promise;await route.fulfill({response});}else{fresh.resolve();await route.continue();}})();handlers.push(work);await work;};
@@ -70,13 +73,14 @@ try{
    await page.getByRole('button',{name:'Refresh',exact:true}).click();await waitForSignal(captured.promise);
    await page.getByRole('button',{name:'New reservation',exact:true}).click();const dialog=page.getByRole('dialog');
    await dialog.getByRole('button',{name:'Find available tables',exact:true}).click();await dialog.locator('.options input').first().waitFor();
-   await dialog.getByLabel('Guest full name',{exact:true}).fill('Pending read QA');await dialog.getByLabel('Guest phone',{exact:true}).fill('+639000000010');
+   await dialog.getByLabel('Guest full name',{exact:true}).fill(guestName);await dialog.getByLabel('Guest phone',{exact:true}).fill('+639000000010');
    const saved=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/admin/reservations'&&r.request().method()==='POST');
    await dialog.getByRole('button',{name:'Create reservation',exact:true}).click();assert.equal((await saved).ok(),true);
    rechecked=await startedWithin(fresh.promise);
   }finally{gate.resolve();await Promise.all(handlers);await page.unroute('**/api/admin/dashboard?*',handler);}
   assert.equal(rechecked,true,'Post-save refresh reused a read from before the save');
-  await page.locator('#staff-rows').getByText('Pending read QA').waitFor();
+  const savedRow=page.locator('#staff-rows tr').filter({hasText:guestName});
+  await savedRow.waitFor();assert.equal(await savedRow.count(),1);
  });
  await check('Saved order survives an older service response',async()=>{
   const data=JSON.parse(execFileSync('docker',['compose','-f','docker-compose.test.yml','exec','-T','app','php','tests/order-fixture.php'],{input:JSON.stringify({action:'prepare'}),stdio:['pipe','pipe','pipe']}).toString());

@@ -17,7 +17,7 @@ try{
  const page=await open(),video=page.locator('#hero-dining-video');
  await check('Whole hero plays a decorative silent video behind both heading and usable form',async()=>{
   assert.equal(await video.count(),1,'The full hero needs its own dining video');
-  await page.waitForFunction(()=>document.querySelector('#hero-dining-video').currentTime>0.2);
+  await page.waitForFunction(()=>{const v=document.querySelector('#hero-dining-video');return v.currentTime>0.2&&Number(getComputedStyle(v).opacity)===1;});
   assert.equal(await video.evaluate(v=>v.muted&&v.loop&&v.playsInline&&v.closest('[aria-hidden=true]')!==null&&Number(getComputedStyle(v).opacity)===1),true);
   const backdrop=await page.locator('.hero-backdrop').boundingBox();
   for(const selector of ['.hero-copy','.booking-card']){const b=await page.locator(selector).boundingBox();assert.ok(b.x>=backdrop.x&&b.x+b.width<=backdrop.x+backdrop.width+1);}

@@ -31,6 +31,11 @@ final class BookingPolicy
         $this->pacing = $pdo->query('SELECT * FROM pacing_rules ORDER BY id')->fetchAll();
     }
 
+    public function bellaVista(): bool
+    {
+        return ($this->settings['catalog_profile'] ?? '') === BellaVistaCatalog::PROFILE;
+    }
+
     public function number(string $key): int
     {
         $value = $this->settings[$key] ?? null;
@@ -64,8 +69,9 @@ final class BookingPolicy
 
     public function validateParty(int $party): void
     {
-        if ($party < 1 || $party > $this->number('max_party_online') || $party > 16) {
-            throw new BookingError('party_out_of_range', 'Online bookings accept parties of 1 to 16.');
+        $max = min($this->bellaVista() ? 20 : 16, $this->number('max_party_online'));
+        if ($party < 1 || $party > $max) {
+            throw new BookingError('party_out_of_range', 'Online bookings accept parties of 1 to ' . $max . '.');
         }
     }
 
@@ -83,6 +89,9 @@ final class BookingPolicy
 
     public function turn(int $party): int
     {
+        if ($this->bellaVista()) {
+            return 120;
+        }
         foreach ($this->turns as $turn) {
             if ($party >= (int) $turn['party_min'] && $party <= (int) $turn['party_max']) {
                 return (int) $turn['turn_time_min'];
@@ -126,7 +135,7 @@ final class BookingPolicy
             if ($close <= $open) {
                 $close = $close->modify('+1 day');
             }
-            if ($start >= $open && $start <= $last && $block <= $close
+            if ($start >= $open && $start <= $last && ($this->bellaVista() ? $end : $block) <= $close
                 && ($start->getTimestamp() - $open->getTimestamp()) % $grid === 0) {
                 return ['starts_at' => $start->format('Y-m-d H:i:s'), 'ends_at' => $end->format('Y-m-d H:i:s'),
                     'blocks_until' => $block->format('Y-m-d H:i:s'), 'turn_time_min' => $turn];

@@ -246,6 +246,9 @@ final class StaffController
                 throw new BookingError("invalid_time", "Use HH:MM.");
             }
             $at = $date . " " . $time . ":00";
+            $operations=\App\Service\OperationsProfile::enabled($this->pdo);
+            $live=$operations&&$date===$now->format('Y-m-d')&&!isset($request->query['time']);
+            if($live)$at=$now->format('Y-m-d H:i:s');
             $q = $this->pdo->prepare(
                 "SELECT a.table_id,r.code,r.status,g.full_name,r.party_size FROM reservation_tables a JOIN reservations r ON r.id=a.reservation_id JOIN guests g ON g.id=r.guest_id WHERE a.released_at IS NULL AND r.status IN ('pending','confirmed','seated') AND ((r.starts_at<=? AND r.blocks_until>?) OR (r.status='seated' AND DATE(r.starts_at)=?)) ORDER BY r.status='seated'",
             );
@@ -271,6 +274,7 @@ final class StaffController
                 "floor" => $floor,
                 "holds" => $holds,
                 "blackouts" => $q->fetchAll(),
+                ...($operations?['table_states'=>(new \App\Service\FloorStatusService($this->pdo,$this->clock))->snapshot($at),'floor_is_live'=>$live,'server_date'=>$now->format('Y-m-d')]:[]),
                 "server_time_epoch" => $now->getTimestamp(),
             ];
         });
@@ -283,6 +287,7 @@ final class StaffController
             $row = (new StaffReservationService($this->pdo, $this->clock))->row(
                 $this->text($request->query, "code", 10),
             );
+            $row['preorder']=\App\Service\PreorderService::read($this->pdo,(int)$row['id']);
             $q = $this->pdo->prepare(
                 "SELECT full_name,phone,email FROM guests WHERE id=?",
             );
@@ -375,6 +380,7 @@ final class StaffController
             [$session, $data] = $this->mutation($request);
             $actor = $session->requireActor();
             StaffAccess::require($this->pdo, $actor, "reservations.write");
+            if (isset($data['initial_items']) && (!is_array($data['initial_items']) || !array_is_list($data['initial_items']))) throw new BookingError('invalid_cart','Initial menu items must be a list.');
             return (new StaffReservationService(
                 $this->pdo,
                 $this->clock,
@@ -384,6 +390,7 @@ final class StaffController
                 $this->integer($data, "version"),
                 $this->text($data, "action", 24),
                 $this->text($data, "reason", 255),
+                $data['initial_items'] ?? [],
             );
         });
     }
@@ -412,6 +419,7 @@ final class StaffController
                 "code" => $this->text($data, "code", 10),
                 "version" => $this->integer($data, "version"),
                 "reason" => $this->text($data, "reason", 255),
+                'policy_acceptance'=>is_array($data['policy_acceptance']??null)?$data['policy_acceptance']:null,
                 "special_requests" => $this->text(
                     $data,
                     "special_requests",

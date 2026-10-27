@@ -1,0 +1,50 @@
+{
+  "source": "Bella Vista assignment inventory; restaurant.docx and approved B2 catalog. Geometry is illustrative, not surveyed.",
+  "tables": [
+    {
+      "code": "S1",
+      "shape": "rect",
+      "capacity_max": 4
+    },
+    {
+      "code": "S2",
+      "shape": "rect",
+      "capacity_max": 4
+    },
+    {
+      "code": "S3",
+      "shape": "rect",
+      "capacity_max": 4
+    },
+    {
+      "code": "S4",
+      "shape": "rect",
+      "capacity_max": 4
+    },
+    {
+      "code": "F1",
+      "shape": "rect",
+      "capacity_max": 8
+    },
+    {
+      "code": "F2",
+      "shape": "rect",
+      "capacity_max": 8
+    },
+    {
+      "code": "F3",
+      "shape": "rect",
+      "capacity_max": 8
+    },
+    {
+      "code": "VIP1",
+      "shape": "rect",
+      "capacity_max": 20
+    },
+    {
+      "code": "VIP2",
+      "shape": "rect",
+      "capacity_max": 20
+    }
+  ]
+}

@@ -611,7 +611,7 @@ $tests->test(
         $t->assert(
             (int) $t->pdo
                 ->query(
-                    "SELECT COUNT(*) FROM outbox WHERE subject='Lumina waitlist offer'",
+                    "SELECT COUNT(*) FROM outbox WHERE subject='Bella Vista Dining waitlist offer'",
                 )
                 ->fetchColumn() === 1,
         );
@@ -721,7 +721,7 @@ $tests->test(
         $t->assert(
             (int) $t->pdo
                 ->query(
-                    "SELECT COUNT(*) FROM outbox WHERE subject='Lumina waitlist offer'",
+                    "SELECT COUNT(*) FROM outbox WHERE subject='Bella Vista Dining waitlist offer'",
                 )
                 ->fetchColumn() === 1,
         );

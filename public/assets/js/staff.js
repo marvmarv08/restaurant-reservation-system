@@ -208,7 +208,7 @@
     const card = node(
       "section",
       { class: "auth-card" },
-      node("p", { class: "eyebrow" }, "Lumina staff"),
+      node("p", { class: "eyebrow" }, "Bella Vista Dining staff"),
       node(
         "h1",
         {},
@@ -321,7 +321,7 @@
       node(
         "div",
         {},
-        node("p", { class: "eyebrow" }, "Lumina operations"),
+        node("p", { class: "eyebrow" }, "Bella Vista Dining operations"),
         node("h1", {}, heading),
         note(description),
       ),
@@ -482,7 +482,7 @@
           node(
             "div",
             { class: "staff-floor-legend" },
-            ...["Free", "Reserved", "Seated", "Held", "Blocked / reset"].map(
+            ...(catalog.operations_enabled?["Available","Reserved","Occupied","Clean-up","Temporary hold","Unavailable"]:["Free", "Reserved", "Seated", "Held", "Blocked / reset"]).map(
               (text) => node("span", {}, text),
             ),
           ),
@@ -573,7 +573,7 @@
               node("time", { datetime: row.starts_at.replace(" ", "T") + "+08:00" }, row.starts_at.slice(0, 10) + " · " + row.starts_at.slice(11, 16)),
               node("small", { class: "table-reference" }, row.code),
             ),
-            node("td", {}, row.full_name, node("small", {}, row.phone)),
+            node("td", {}, node("strong",{},row.full_name), node("small", {}, row.phone)),
             node(
               "td",
               {},
@@ -638,6 +638,8 @@
     if ($("#staff-floor")) renderFloor(data);
   }
   function renderFloor(data) {
+    const floorControl=document.activeElement.closest('#staff-floor .staff-floor-controls button');
+    const restoreFloorControl=floorControl?.classList.contains('live-floor-time')?'.live-floor-time':floorControl?.classList.contains('show-floor-time')?'.show-floor-time':null;
     const ns = "http://www.w3.org/2000/svg",
       svgNode = (tag, attrs, text) => {
         const el = document.createElementNS(ns, tag);
@@ -676,9 +678,10 @@
     }
     window.LuminaFloorLayout.guides(svg);
     for (const item of layout.tables) {
+      const tracked=data.table_states?.find(row=>row.id===Number(item.id));
       const occupied = data.floor
           .filter((row) => Number(row.table_id) === Number(item.id))
-          .at(-1),
+          .at(-1)||(tracked?.reservation_code?{code:tracked.reservation_code,full_name:''}:null),
         held = data.holds.some(
           (row) => Number(row.table_id) === Number(item.id),
         );
@@ -699,7 +702,7 @@
             (row.scope === "room_type" &&
               Number(row.scope_id) === Number(room.room_type_id))),
       );
-      const state = occupied
+      const state = tracked?({available:'free',occupied:'seated',clean_up:'cleanup'}[tracked.state]||tracked.state):occupied
         ? occupied.status === "seated"
           ? "seated"
           : "reserved"
@@ -708,6 +711,7 @@
           : held
             ? "held"
             : "free";
+      const stateLabel=tracked?.label||state;
       const attrs =
         item.shape === "round"
           ? { cx: item.pos_x, cy: item.pos_y, r: item.radius }
@@ -728,7 +732,7 @@
         shape.setAttribute("tabindex", "0");
         shape.setAttribute(
           "aria-label",
-          `${item.code}, ${state}, ${occupied.code}, ${occupied.full_name}`,
+          `${item.code}, ${stateLabel}, ${occupied.code}, ${occupied.full_name}`,
         );
         shape.addEventListener("click", () => openDetail(occupied.code));
         shape.addEventListener("keydown", (event) => {
@@ -742,7 +746,7 @@
         svgNode(
           "title",
           {},
-          `${item.code} · ${state}${occupied ? " · " + occupied.code : ""}`,
+          `${item.code} · ${stateLabel}${occupied ? " · " + occupied.code : ""}`,
         ),
       );
       svg.append(shape);
@@ -777,21 +781,28 @@
       { type: "submit", class: "button ghost small" },
       "Show time",
     );
+    timeForm.classList.add('staff-floor-controls');apply.classList.add('show-floor-time');
     timeForm.append(apply);
+    if(catalog.operations_enabled)timeForm.append(button('Use live time',()=>busy(timeForm.querySelector('.live-floor-time'),async()=>{
+      filters.date=data.server_date;delete filters.time;page=1;const date=workspace.querySelector('[name=date]');if(date)date.value=data.server_date;await refreshDashboard();workspace.querySelector('.live-floor-time')?.focus({preventScroll:true});
+    }),'button ghost small live-floor-time'));
     timeForm.addEventListener("submit", (event) => {
       event.preventDefault();
       busy(apply, async () => {
         filters.time = timeForm.elements.time.value;
         await refreshDashboard();
+        if(catalog.operations_enabled)workspace.querySelector(".show-floor-time")?.focus({preventScroll:true});
       });
     });
     $("#staff-floor").replaceChildren(
       timeForm,
-      note(`Physical status at ${data.date}, ${data.time} (Manila).`),
+      note(catalog.operations_enabled?`${data.floor_is_live?'Live floor':'Selected-time operational view'} at ${data.date}, ${data.time} (Manila). Current recorded states; this is not a historical replay.`:`Physical status at ${data.date}, ${data.time} (Manila).`),
       note("Concept layout · not to scale. Dashed lines show circulation; gaps mark room access."),
       node("div", {class: "floor-viewport", tabindex: "0", role: "region", "aria-label": "Scrollable concept floor map"}, svg),
       node("p", {class: "fine-print floor-pan-note"}, "Swipe the map sideways to explore all rooms."),
+      ...(data.table_states?[node('ul',{class:'floor-status-list','aria-label':'Table status list'},data.table_states.map(t=>node('li',{'data-state':t.state},t.reservation_code?button(t.code+' · '+t.label,()=>openDetail(t.reservation_code),'button ghost small'):node('span',{},t.code+' · '+t.label))))]:[]),
     );
+    if(restoreFloorControl)workspace.querySelector(restoreFloorControl)?.focus({preventScroll:true});
   }
   async function openDetail(code) {
     try {
@@ -839,6 +850,11 @@
         node("h3", {}, "Special requests"),
         node("p", {}, booking.special_requests || "None supplied"),
       );
+      if(booking.preorder){
+        contact.append(node('h3',{},'Accepted food pre-order'),note(({scheduled:'Scheduled food releases once when seating is validated.',handed_off:'Released to the kitchen.',cancelled:'Scheduled food cancelled.'})[booking.preorder.status]||'Food status is unavailable.'));
+        const items=node('ul');for(const item of booking.preorder.quote.lines)items.append(node('li',{},`${item.qty} × ${item.name} · ${money(item.qty*item.unit_price_cents)}`));
+        contact.append(items,note('Accepted food subtotal: '+money(booking.preorder.quote.food_cents)));
+      }
       const actions = [];
       if (["pending", "confirmed"].includes(booking.status))
         actions.push(
@@ -864,9 +880,9 @@
           Date.parse(booking.ends_at.replace(" ", "T") + "+08:00") / 1000;
         const now = Number(data.server_time_epoch),
           seat = button("Seat party", () => confirmAction(booking, "seat"));
-        seat.disabled = now < start - 1800 || now >= end;
+        seat.disabled = now < start - 1800 || now >= (catalog.policies_enabled?start+900:end);
         seat.title = seat.disabled
-          ? "Seating is available from 30 minutes before start until the dining interval ends."
+          ? catalog.policies_enabled?"Seat before the 15-minute arrival grace ends.":"Seating is available from 30 minutes before start until the dining interval ends."
           : "Seat this party";
         actions.push(seat);
       }
@@ -998,6 +1014,11 @@
         maxlength: 255,
       }),
     );
+    if(action==='seat'&&booking.preorder?.status==='scheduled')form.append(note('Accepted pre-order: '+money(booking.preorder.quote.food_cents)+'. It will be sent to the kitchen once. Use the existing order unless adding more food.'));
+    if (action === "seat" && catalog.billing_enabled && booking.room_code === "bv_standard") {
+      const menu = catalog.menu.filter(item => Number(item.is_available) === 1);
+      form.append(note("Standard tables require at least ₱1,000 of food upon seating. Choose an initial dish/quantity; prices are checked by the server."),field("Initial menu item",{tag:"select",name:"initial_item"},[node("option",{value:""},"Use existing order only"),...menu.map(item=>node("option",{value:item.id},item.name+" · "+money(item.price_cents)))]),field("Initial quantity",{name:"initial_qty",type:"number",min:1,max:30,value:1}));
+    }
     const submit = node(
       "button",
       {
@@ -1029,6 +1050,7 @@
           version: Number(booking.version),
           action,
           reason: form.elements.reason.value,
+          ...(form.elements.initial_item?.value ? {initial_items:[{id:Number(form.elements.initial_item.value),qty:Number(form.elements.initial_qty.value)}]} : {}),
         });
         dialog.close();
         await refreshDashboard();
@@ -1054,7 +1076,7 @@
         type: "number",
         name: "party_size",
         min: 1,
-        max: 16,
+        max: catalog.max_party,
         value: booking?.party_size || 2,
         required: "",
       }),
@@ -1075,11 +1097,11 @@
     form.append(
       node("div", { class: "staff-form-grid" }, party, date, room, source),
     );
-    form.elements.room_type.value = booking?.room_code || "common";
+    form.elements.room_type.value = booking?.room_code || (catalog.profile === "bella_vista_b2" ? "bv_standard" : "common");
     form.elements.source.value =
       booking?.source === "walk_in" ? "walk_in" : "phone";
     if (booking) form.elements.source.disabled = true;
-    const results = node("div");
+    const results = node("div"), changeAck=node("input",{type:"checkbox",id:"staff-change-terms"}), changeTerms=node("div");
     let picked,
       selectedTime,
       requestKey = crypto.randomUUID();
@@ -1166,6 +1188,12 @@
                 showPicked();
               }
               function showPicked() {
+                if(booking&&catalog.policies_enabled){
+                  changeAck.checked=false;
+                  const fees=picked.policy_fees, terms=node('details',{},node('summary',{},'Reservation change terms'));
+                  for(const text of catalog.terms)terms.append(node('p',{},text));
+                  changeTerms.replaceChildren(note(`Replacement: ${money(fees.base_fee_cents)} consumable base; ${money(fees.extra_cents)} separate extras; ${money(fees.minimum_cents)} food minimum. The earlier deadline and original history remain. Paid same-day bookings require cancellation-policy resolution before replacement.`),terms,node('label',{},changeAck,' I reviewed the replacement schedule, fees and terms with the guest.'));
+                }
                 for (const radio of options.querySelectorAll("input"))
                   radio.checked = radio.value === `${picked.kind}:${picked.id}`;
                 summary.textContent = `${picked.label} · ${picked.turn_time_min} min · ${Number(picked.min_spend_cents) ? money(picked.min_spend_cents) + " minimum spend" : "No minimum spend"}${picked.approval_required ? " · Manager approval required" : ""}`;
@@ -1213,6 +1241,7 @@
       ))
         control.addEventListener("change", () => {
           picked = null;
+          changeAck.checked=false;changeTerms.replaceChildren();
           results.replaceChildren();
         });
     }
@@ -1269,10 +1298,11 @@
           ? "Add to waitlist"
           : "Create reservation",
     );
-    form.append(save);
+    form.append(changeTerms,save);
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       busy(save, async () => {
+        if(booking&&catalog.policies_enabled&&!changeAck.checked)throw new Error("Review and accept replacement fees and terms first.");
         if (!waitlist && !picked)
           throw new Error("Find availability and choose a time/table first.");
         const data = Object.fromEntries(new FormData(form));
@@ -1290,6 +1320,7 @@
             code: booking.code,
             version: Number(booking.version),
             reason: data.reason,
+            ...(catalog.policies_enabled?{policy_acceptance:{version:catalog.terms_version,...picked.policy_fees}}:{}),
             special_requests: data.special_requests,
           });
         else
@@ -1353,9 +1384,14 @@
         "Changes are version checked and recorded in audit history. Existing bookings retain their saved intervals.",
       ),
     );
+    if (catalog.profile === "bella_vista_b2") {
+      workspace.append(note("Bella Vista service profile: Tuesday–Sunday 10:00–22:00, 15-minute starts, 120-minute dining and 15-minute cleanup. Nine units, up to 20 guests. These assignment rules are fixed; existing bookings keep their saved intervals."));
+    }
+    const profileFixed = catalog.profile === "bella_vista_b2";
+    const fixedKeys = new Set(["slot_interval_min","buffer_min","min_lead_time_min","max_party_online","max_covers_per_slot","max_reservations_per_slot","manager_approval_party_min"]);
     if (allowed("settings.write")) {
       const form = node("form", { class: "staff-setting-grid" });
-      for (const [key, limits] of Object.entries(config.limits))
+      for (const [key, limits] of Object.entries(config.limits).filter(([key]) => !profileFixed || !fixedKeys.has(key)))
         form.append(
           field(key.replaceAll("_", " "), {
             type: "number",
@@ -1366,7 +1402,7 @@
             value: config.settings[key],
           }),
         );
-      form.append(
+      if (!profileFixed) form.append(
         field("Last seating time", {
           type: "time",
           name: "last_seating_time",
@@ -1391,11 +1427,11 @@
         ),
       );
     }
-    for (const kind of [
+    for (const kind of (profileFixed ? [] : [
       "hours",
       "turns",
       ...(allowed("settings.write") ? ["pacing"] : []),
-    ]) {
+    ])) {
       const form = node("form", { class: "staff-setting-grid" }),
         rows = [];
       for (const row of config[kind]) {
@@ -2023,6 +2059,7 @@
         return;
       }
       catalog = initialCatalog.catalog;
+      document.body.classList.toggle("bella-operations",Boolean(catalog.operations_enabled));
       filters = { date: catalog.today, status: "all", q: "" };
       $("#staff-user").textContent = user.full_name + " · " + user.role;
       $("#staff-logout").hidden = false;
@@ -2034,6 +2071,8 @@
         workspaceLinks.append(
           node("a", { href: "/kitchen" }, "Kitchen tickets ↗"),
         );
+      if (catalog.billing_enabled && ['admin','manager'].includes(user.role)) workspaceLinks.append(node('a',{href:'/billing'},'Cashier ↗'));
+      if(catalog.operations_enabled&&['admin','manager'].includes(user.role))workspaceLinks.append(node('a',{href:'/reports'},'Daily reports ↗'));
       $("#staff-sidebar").append(workspaceLinks);
       for (const control of $("#staff-sidebar nav").children) {
         const needed = {
@@ -2052,7 +2091,7 @@
           dialog.open ||
           !["service", "waitlist"].includes(tab) ||
           document.activeElement.matches("input,select,textarea") ||
-          document.activeElement.closest(".staff-table,.staff-floor")
+          document.activeElement.closest(".staff-table,.staff-floor,.floor-status-list")
         )
           return;
         try {

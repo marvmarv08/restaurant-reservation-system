@@ -26,6 +26,7 @@ final class BookingService
     public function hold(string $date, string $time, int $party, string $roomType, string $session,
         ?string $kind = null, ?int $optionId = null): array
     {
+        if(ReservationPolicyService::enabled($this->pdo))(new ReservationPolicyService($this->pdo,$this->clock))->reconcile();
         $this->validateSession($session);
         if (($kind === null) !== ($optionId === null) || ($kind !== null && !in_array($kind, ['table', 'group'], true))
             || ($optionId !== null && $optionId < 1)) {
@@ -70,10 +71,10 @@ final class BookingService
         });
     }
 
-    public function confirm(string $token, array $details, string $session): array
+    public function confirm(string $token, array $details, string $session, ?array $preorder = null): array
     {
         $details = $this->guestDetails($details);
-        return $this->transaction(function () use ($token, $details, $session): array {
+        return $this->transaction(function () use ($token, $details, $session, $preorder): array {
             $hold = $this->lockOwnedHold($token, $session);
             if ($hold['status'] === 'consumed') {
                 $query = $this->pdo->prepare('SELECT reservation_id FROM hold_reservations WHERE hold_id = ?');
@@ -82,6 +83,7 @@ final class BookingService
                 if ($id === false) {
                     throw new RuntimeException('Consumed hold has no reservation');
                 }
+                if (PreorderService::enabled($this->pdo)) (new PreorderService($this->pdo,$this->clock))->replay((int)$id,$details,$preorder);
                 return $this->booking((int) $id, false);
             }
             $now = $this->clock->now();
@@ -105,6 +107,11 @@ final class BookingService
             $option = $this->choose($options, $kind, $optionId);
             if ($option['table_ids'] !== $hold['members']) {
                 throw new BookingError('inventory_changed', 'The held table combination changed. Search again.', 409);
+            }
+            $acceptance=null;
+            if(PreorderService::enabled($this->pdo)){
+                $hold['room_type_id']=$option['room_type_id'];
+                $acceptance=(new PreorderService($this->pdo,$this->clock))->acceptBooking($hold,$preorder??[],$details);
             }
             $insert = $this->pdo->prepare('INSERT INTO guests (full_name, phone, email, notes) VALUES (?, ?, ?, ?)');
             $insert->execute([$details['full_name'], $details['phone'], $details['email'], $details['special_requests']]);
@@ -137,13 +144,24 @@ final class BookingService
             }
             $this->pdo->prepare('INSERT INTO hold_reservations (hold_id, reservation_id) VALUES (?, ?)')->execute([$hold['id'], $reservationId]);
             $this->pdo->prepare("UPDATE holds SET status = 'consumed' WHERE id = ?")->execute([$hold['id']]);
+            if($acceptance!==null)(new PreorderService($this->pdo,$this->clock))->saveBooking($reservationId,$acceptance);
             $this->history($reservationId, null, $status, 'Guest booking');
             if ($details['email'] !== null) {
                 $this->pdo->prepare("INSERT INTO outbox (reservation_id, channel, recipient, subject, body)
-                    VALUES (?, 'email', ?, 'Lumina booking', ?)")
+                    VALUES (?, 'email', ?, 'Bella Vista Dining booking', ?)")
                     ->execute([$reservationId, $details['email'], "Demo notification: {$code}, {$status}, {$option['starts_at']} Asia/Manila. No payment collected."]);
             }
             return $this->booking($reservationId, true);
+        });
+    }
+
+    public function preorderQuote(string $token,string $session,mixed $cart):array
+    {
+        return $this->transaction(function()use($token,$session,$cart):array{
+            $h=$this->lockOwnedHold($token,$session);
+            if($h['status']!=='active'||$h['expires_at']<=$this->clock->now()->format('Y-m-d H:i:s'))throw new BookingError('hold_expired','The hold has ended. Search again.',410);
+            $q=$this->pdo->prepare('SELECT r.room_type_id FROM `tables` t JOIN rooms r ON r.id=t.room_id WHERE t.id=?');$q->execute([$h['members'][0]]);$h['room_type_id']=(int)$q->fetchColumn();
+            return (new PreorderService($this->pdo,$this->clock))->review($h,$cart,true);
         });
     }
 
@@ -164,9 +182,9 @@ final class BookingService
     }
 
     // Internal domain operation. P4/P5 controllers must authorize the caller before invoking it.
-    public function cancel(int $reservationId, string $reason, ?Closure $authorize = null): array
+    public function cancel(int $reservationId, string $reason, ?Closure $authorize = null, string $outcome='cancelled'): array
     {
-        return $this->transaction(function () use ($reservationId, $reason, $authorize): array {
+        return $this->transaction(function () use ($reservationId, $reason, $authorize, $outcome): array {
             $query = $this->pdo->prepare('SELECT starts_at FROM reservations WHERE id = ?');
             $query->execute([$reservationId]);
             $start = $query->fetchColumn();
@@ -182,16 +200,21 @@ final class BookingService
             if ($authorize !== null) {
                 $authorize();
             }
-            if ($status !== 'cancelled') {
+            if ($status !== $outcome) {
+                if(!in_array($outcome,['cancelled','no_show'],true)||($outcome==='no_show'&&!ReservationPolicyService::enabled($this->pdo)))throw new BookingError('invalid_transition','Invalid release outcome.',409);
+                if(ReservationPolicyService::enabled($this->pdo))(new ReservationPolicyService($this->pdo,$this->clock))->terminal($reservationId,$outcome);
+                else BillingService::protectReservation($this->pdo,$reservationId);
+                PreorderService::stop($this->pdo,$reservationId);
                 if (!in_array($status, ['pending', 'confirmed', 'waitlisted'], true)) {
                     throw new BookingError('invalid_transition', 'This booking cannot be cancelled in its current state.', 409);
                 }
                 $now = $this->clock->now()->format('Y-m-d H:i:s');
-                $this->pdo->prepare("UPDATE reservations SET status = 'cancelled', cancelled_at = ?, version = version + 1 WHERE id = ?")
-                    ->execute([$now, $reservationId]);
+                $this->pdo->prepare("UPDATE reservations SET status = ?, cancelled_at = ?, version = version + 1 WHERE id = ?")
+                    ->execute([$outcome,$outcome==='cancelled'?$now:null, $reservationId]);
+                if($outcome==='no_show')$this->pdo->prepare('UPDATE guests SET no_show_count=no_show_count+1 WHERE id=(SELECT guest_id FROM reservations WHERE id=?)')->execute([$reservationId]);
                 $this->pdo->prepare('UPDATE reservation_tables SET released_at = ? WHERE reservation_id = ? AND released_at IS NULL')
                     ->execute([$now, $reservationId]);
-                $this->history($reservationId, $status, 'cancelled', $reason);
+                $this->history($reservationId, $status, $outcome, $reason);
                 $waitlist->promoteLocked(substr((string) $start, 0, 10));
             }
             return $this->booking($reservationId, false);
@@ -307,8 +330,10 @@ final class BookingService
         $booking = $query->fetch();
         $policy = new BookingPolicy($this->pdo);
         $start = new DateTimeImmutable($booking['starts_at'], $policy->timezone);
-        return $booking + ['created' => $created, 'timezone' => 'Asia/Manila',
-            'cancel_deadline' => $start->modify('-' . $policy->number('cancel_cutoff_min') . ' minutes')->format('Y-m-d H:i:s')];
+        $preorder=PreorderService::read($this->pdo,$id);
+        $deadline=ReservationPolicyService::enabled($this->pdo)?(new ReservationPolicyService($this->pdo,$this->clock))->deadline(['id'=>$id]+$booking):$start->modify('-' . ($preorder!==null?1440:$policy->number('cancel_cutoff_min')) . ' minutes');
+        return $booking + ['preorder'=>$preorder,'created' => $created, 'timezone' => 'Asia/Manila',
+            'cancel_deadline' => $deadline->format('Y-m-d H:i:s')];
     }
 
     private function history(int $id, ?string $from, string $to, string $reason): void

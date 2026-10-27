@@ -70,7 +70,7 @@ final class ManagementService
     }
 
     public function modify(string $code, string $token, int $version, string $date, string $time,
-        int $party, string $room, ?string $kind, ?int $optionId, string $notes): array
+        int $party, string $room, ?string $kind, ?int $optionId, string $notes, ?array $policyAcceptance=null): array
     {
         if (($kind === null) !== ($optionId === null) || ($kind !== null && !in_array($kind, ['table', 'group'], true))
             || ($optionId !== null && $optionId < 1) || strlen($notes) > 2000
@@ -83,7 +83,7 @@ final class ManagementService
         $policy->start($date, $time, $this->clock->now());
         $policy->validateParty($party);
         $policy->types($room);
-        return $this->transactions->run(function () use ($code, $token, $version, $date, $time, $party, $room, $kind, $optionId, $notes, $oldDate): array {
+        return $this->transactions->run(function () use ($code, $token, $version, $date, $time, $party, $room, $kind, $optionId, $notes, $oldDate, $policyAcceptance): array {
             $this->transactions->lockDays([$oldDate, $date]);
             $current = $this->authorize($code, $token);
             if (substr($current['starts_at'], 0, 10) !== $oldDate) {
@@ -100,6 +100,8 @@ final class ManagementService
             $waitlist = new WaitlistService($this->pdo, $this->clock);
             $this->transactions->lockTables($waitlist->tableIds(), false);
             $current = $this->authorize($code, $token, true);
+            if(ReservationPolicyService::enabled($this->pdo))(new ReservationPolicyService($this->pdo,$this->clock))->checkChange($current,$option['room_type'],$party,$policyAcceptance);
+            else{BillingService::protectReservation($this->pdo,(int)$current['id']);PreorderService::protectChange($this->pdo,(int)$current['id']);}
             $this->requireVersion($current, $version);
             $this->requireChangeAllowed($current);
             $policy = new BookingPolicy($this->pdo);
@@ -121,6 +123,11 @@ final class ManagementService
                 ->execute([$option['room_type_id'], $option['kind'] === 'group' ? $option['id'] : null, $party,
                     $option['starts_at'], $option['ends_at'], $option['blocks_until'], $option['turn_time_min'],
                     $status, $option['approval_required'] ? 'awaiting' : 'not_required', trim($notes) === '' ? null : trim($notes), $current['id']]);
+            if(ReservationPolicyService::enabled($this->pdo)){
+                $updated=$this->authorize($code,$token);
+                (new ReservationPolicyService($this->pdo,$this->clock))->changed($current,$updated);
+                $this->requireChangeAllowed($updated);
+            }
             $after = $this->snapshot((int) $current['id']);
             $this->pdo->prepare('INSERT INTO reservation_change_history (reservation_id, before_json, after_json) VALUES (?, ?, ?)')
                 ->execute([$current['id'], json_encode($before, JSON_THROW_ON_ERROR), json_encode($after, JSON_THROW_ON_ERROR)]);
@@ -131,6 +138,17 @@ final class ManagementService
                 ->execute([$expires->format('Y-m-d H:i:s'), $current['id']]);
             $waitlist->promoteLocked($oldDate);
             return $this->details($this->authorize($code, $token));
+        });
+    }
+
+    public function preorder(string $code,string $token,mixed $cart,?int $version=null,?array $payload=null):array
+    {
+        return $this->transactions->run(function()use($code,$token,$cart,$version,$payload):array{
+            $row=$this->authorize($code,$token,true);
+            $service=new PreorderService($this->pdo,$this->clock);
+            if($payload===null){$service->requireEditable($row);return ['quote'=>$service->review($row,$cart,false)];}
+            $service->edit($row,$version??0,$payload);
+            return ['booking'=>$this->details($this->authorize($code,$token))];
         });
     }
 
@@ -168,8 +186,9 @@ final class ManagementService
         }
         $policy = new BookingPolicy($this->pdo);
         $start = new DateTimeImmutable($row['starts_at'], $policy->timezone);
+        if(ReservationPolicyService::enabled($this->pdo)){if($this->clock->now()>(new ReservationPolicyService($this->pdo,$this->clock))->deadline($row))throw new BookingError('cutoff_passed','Online changes and cancellation have closed. Please contact staff.',403);return;}
         // Applies to modifications too, preventing a last-minute move from bypassing cancellation policy.
-        if ($start->getTimestamp() - $this->clock->now()->getTimestamp() < $policy->number('cancel_cutoff_min') * 60) {
+        if ($start->getTimestamp() - $this->clock->now()->getTimestamp() < (PreorderService::read($this->pdo,(int)$row['id'])!==null?1440:$policy->number('cancel_cutoff_min')) * 60) {
             throw new BookingError('cutoff_passed', 'Online changes and cancellation have closed. Please contact the restaurant.', 403);
         }
     }
@@ -201,7 +220,7 @@ final class ManagementService
         $policy = new BookingPolicy($this->pdo);
         $now = $this->clock->now();
         $start = new DateTimeImmutable($row['starts_at'], $policy->timezone);
-        $deadline = $start->modify('-' . $policy->number('cancel_cutoff_min') . ' minutes');
+        $deadline = $start->modify('-' . (PreorderService::read($this->pdo,(int)$row['id'])!==null?1440:$policy->number('cancel_cutoff_min')) . ' minutes');
         $query = $this->pdo->prepare('SELECT full_name, phone, email FROM guests WHERE id = ?');
         $query->execute([$row['guest_id']]);
         $guest = $query->fetch();
@@ -225,7 +244,14 @@ final class ManagementService
                 $tables = array_values(array_filter($tables, static fn (array $table): bool => in_array((int) $table['id'], $ids, true)));
             }
         }
-        return ['code' => $row['code'], 'version' => (int) $row['version'], 'status' => $row['status'],
+        if(ReservationPolicyService::enabled($this->pdo))$deadline=(new ReservationPolicyService($this->pdo,$this->clock))->deadline($row);
+        $policyState=ReservationPolicyService::read($this->pdo,(int)$row['id']);
+        $refund=null;
+        if($policyState&&in_array($row['status'],['cancelled','no_show'],true)){
+            $balance=(new ReservationPolicyService($this->pdo,$this->clock))->balances((int)$row['id']);
+            $refund=['reviewed'=>$policyState['reviewed'],'forfeited_base_cents'=>$policyState['forfeited_base_cents'],'eligible_base_cents'=>max(0,$balance['net_base_cents']-$policyState['forfeited_base_cents']),'eligible_extra_cents'=>$balance['net_extra_cents'],'refunded_cents'=>$balance['refund_base']+$balance['refund_extra']];
+        }
+        return ['policy'=>$policyState,'policy_refund'=>$refund,'preorder'=>PreorderService::read($this->pdo,(int)$row['id']), 'code' => $row['code'], 'version' => (int) $row['version'], 'status' => $row['status'],
             'party_size' => (int) $row['party_size'], 'starts_at' => $row['starts_at'], 'ends_at' => $row['ends_at'],
             'approval_state' => $row['approval_state'], 'room' => $room, 'tables' => $tables, 'guest' => $guest,
             'special_requests' => $row['special_requests'], 'cancel_deadline' => $deadline->format('Y-m-d H:i:s'),

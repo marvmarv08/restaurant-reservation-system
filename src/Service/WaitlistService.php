@@ -164,7 +164,7 @@ final class WaitlistService
                     $row["id"],
                     $channel,
                     $recipient,
-                    "Lumina waitlist offer",
+                    "Bella Vista Dining waitlist offer",
                     "Demo notification: " .
                     $row["code"] .
                     ", tables held until " .

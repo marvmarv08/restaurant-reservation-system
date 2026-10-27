@@ -1,0 +1,20 @@
+# Isolated B5 writer only; combine with docker-compose.test.yml. Never use main Compose.
+services:
+  policy-worker:
+    image: tablebook-test:local
+    command: ["php", "bin/policy-worker.php"]
+    restart: unless-stopped
+    environment:
+      APP_ENV: test
+      APP_TZ: Asia/Manila
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: tablebook_p3_test
+      DB_USERNAME: ${DB_USERNAME:?Keep your existing .env}
+      DB_PASSWORD: ${DB_PASSWORD:?Keep your existing .env}
+      BOOKING_TEST_MODE: isolated
+    volumes:
+      - .:/var/www/html:ro
+    depends_on:
+      db:
+        condition: service_healthy

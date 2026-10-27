@@ -4,6 +4,168 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-27 — Prepare Bella Vista website publication
+
+- Marvin authorized the latest Bella Vista preview for GitHub/Vercel, approved a separate online database preserving legacy records, and explicitly deferred always-running worker hosting. Local main activation and proposal/full assignment acceptance remain separate.
+- Initialized nine-unit/36-menu Bella Vista profiles without test bookings/payments; retained the existing online staff sign-in within the same service. Protected old database fingerprints matched. Private new-schema backup restored into a separate local recovery schema with all 47 table counts/content hashes matching.
+- Verified 237 MySQL scenarios, disabled-preorder regression, 44 HTTP and 218 browser checks, 18 fee/six terms/five hosted-config checks, nine seating assets, PHP 110-file lint, 14 JS syntax checks and exact-image smoke. The existing local worker passed three autonomous/restart cases; this does not supply hosted worker execution. Original populated isolated preview was restored and its 46-table recovery matched. Service-hours browser testing used only an isolated connection timestamp restored afterward.
+- Independent review found/fixed optional-table access when preorders are disabled and overstated guest automation wording. Each correction had an observed failing/passing regression; terms v2 preserves distinguishable prior acceptances. Disabled Git-triggered deployments so explicit new-database settings are used for this release. Source publication/deployment are the next steps; no Ready deployment is claimed here.
+- New lesson: publishing source code and changing the database are different operations. A separate database can preserve a previous app while a new catalog is released, and a website host that stops idle containers needs separate hosting for a continuously running worker.
+
+## 2026-10-18 — Save next-session roadmap handoff
+
+- At Marvin's request, recorded the exact B7 resume point in PLAN.md and project memory: preserved B1–B6 preview delivery/evidence, workspace/URLs, missing proposal/team inputs, B8 acceptance and separate main activation.
+- Added startup/recovery precautions: preserve existing dirty source/private configuration/volumes, recheck app/worker state, and do not rely on temporary tooling/dumps as durable backups. No product, database or deployment action belongs to this checkpoint save.
+
+## 2026-10-18 — Deliver isolated original identity and required company story
+
+- Added original garden-arch/sprout/plate emblem, local SVG favicon/company banner and palette/type/source guide. Branding is consistent across guest, management and all operational headers.
+- Prominently displayed the complete supplied About/2021 estate-to-independent-restaurant history with an academic-source note. Six-link navigation preserves rooms/menu/manage/Reserve across desktop/tablet/phone; original realistic media and credits remain intact.
+- Verified 19 branding and 21 existing seating browser checks, nine seating assets, exact rendered profile/history against restaurant.docx, valid SVGs, PHP 109 lint, JS syntax and both localhost smoke checks. Main 37-table/configuration and 267 protected files matched; seven intended existing product files changed. Read-only review checked intermediate tablet widths and found no actionable issue. Fixed a visible-label/accessibility-name mismatch without suppressing validation.
+- No main refresh/activation, database reset, account/pricing changes or publication. B1 remains In progress pending main/final acceptance; next is B7 proposal and defense package.
+- New lesson: SVG keeps a simple original logo sharp at different sizes, while real text labels retain accessibility. Branding also needs traceable company content: a supplied history belongs in the project with its source clear, without inventing a real address or affiliation.
+
+## 2026-10-18 — Deliver isolated operational states and reconciled daily reports
+
+- Added real Available/Reserved/Occupied/Clean-up/hold/closure labels, early-arrival/overrun handling, precise cleanup, live-button focus preservation and clearer staff/kitchen hierarchy.
+- Added read-only admin/manager reports: finalized non-void food by dining date, actual receipts/refunds by transaction date, separate fees/retention and credit inside food value. Aggregation, snapshot consistency and protected history prevent misleading totals.
+- Fixed live already-fired pre-order assignment while retaining owner/version/replay and closed/finalized protections. Actual browser rehearsal covers guest booking through kitchen/server/cashier and host cleanup. Test-only arrival relocation is explicit.
+- Verified 25 new MySQL + 32 browser checks; early occupancy/live polling/server claiming have red/green coverage and bounded read-only review. Main activation/publication remain excluded; B6 stays In progress at the isolated/main boundary. Next: finish B1 branding/About/History, then B7/B8.
+- Final affected regressions passed 163 MySQL + 118 browser checks; original populated data restored with only the B6 flag, exact 46-table recovery repeated with both writers, main 37-table/config and 258 protected-file fingerprints matched. PHP 109 lint, syntax, assets and both smoke checks passed.
+- New lesson: a dining date and a payment date answer different questions. Finalizing food makes it reportable; an advance is received money without an extra food sale. Assigning a server to food already in the kitchen must not refire the order.
+
+## 2026-10-18 — Deliver isolated cancellation reconciliation and automatic arrival release
+
+- Added full accepted terms, preserved 24-hour deadlines, fee/food-safe reservation changes, actual base/extra receipt/refund review and separate same-day retained base. Governing terms for staff creations never imply guest consent. No real money transfers.
+- Added isolated autonomous arrival worker/restart catch-up. Seating/release locks preserve one outcome and food handoff; seated parties remain occupied. Recovery stops active/restarting writers and refuses manually paused recovery before mutation.
+- Verified 26 MySQL + 22 actual browser checks, 5 pure policy cases, 3 autonomous worker/restart cases, populated 46-table restore; retained 186 MySQL + 76 browser regressions. Syntax, assets, main 37-table/configuration and 166 protected-source checks passed. Main activation/publication remain separate.
+- Reproduced and fixed same-day/midnight rescheduling bypass, wrong replay deadline, missing staff terms, repeated availability profile queries and Any-room fee lookup. Full B5 integration remains isolated; roadmap B5 stays In progress pending main activation. Next: B6 operations/food-sales reports.
+- New lesson: cancellation, eligibility review and an actual refund are separate records. Never convert an assessed fee into received money. A time-dependent fee guard must run again after database lock waits, and a background worker is a writer that must be stopped during recovery.
+
+## 2026-10-18 — Deliver isolated guest food cart and accepted quote
+
+- Added explicit test-only B4 schema/menu preparation, preserving original menu identities while cloning 36 actual dishes into the three assigned combined categories. Normal startup does not activate it.
+- Guest cart edits/removal/live totals lead to a server-priced review and explicit food/fee acceptance. Transactional confirmation stores original/current snapshots; prices, availability, expiry and canonical replay payloads are validated. No invented payment/food credit and no mandatory Standard prepaid cart.
+- Private scheduled-food edits use capability/version checks and the inclusive 24-hour cutoff, with original acceptance/history retained. Arrival validates stock/minimum/time/inventory and hands scheduled food to one kitchen ticket. Staff see accepted dishes; cancellation stops unfired food. B5 reconciliation still guards schedule/category/guest-count edits/deletion and protects financial records.
+- Verified 21 real MySQL,25 guest browser and 4 staff/billing checks; 165 prior MySQL and 32 existing browser regressions; actual populated 43-table restore and exact preview recovery,88-file PHP lint,JS syntax, nine preserved seating assets, smoke/main/source checks. Main data/config/image unchanged; no real payment, commit or publication.
+- Review corrections: keep ambiguous confirmation retry available after hold expiry, clear definitively expired orphan state, scope pending food saves by booking, handle same-tab private links, retain updated labels after loading, and recheck quote/edit deadlines after row-lock waits. Added real blocked-worker and committed-response-loss regressions.
+- New lesson: scheduled food and a kitchen ticket represent different promises—save the accepted food now, fire it only on validated arrival. A deadline must still hold after waiting for database locks. Pending requests belong to a specific booking; opening another private link must never reuse its unresolved save.
+- B4 remains In progress at the isolated/main activation boundary; next is B5 reconciliation, not production activation.
+
+## 2026-10-18 — Restore realistic Bella Vista seating previews
+
+- Replaced the target catalog's forced flat diagrams with nine local original Blender images in a dedicated bella-vista folder. Standard/Family/VIP show four/eight/twenty physical chairs. Retained illustrative-concept captions and the existing image loader; a missing VIP image now has twenty nonoverlapping fallback chairs.
+- Preview descriptions accurately distinguish the Standard food minimum, consumable Family/VIP base and separate VIP extras. Booking/financial rules are unchanged.
+- Verified nine asset hashes/seat positions/provenance, 21 real isolated browser checks and 38 legacy concept checks; actual desktop/phone and each arrangement inspected. Syntax and isolated smoke passed. All 37 main table/configuration fingerprints and 261 unaffected source/asset files matched.
+- Independent review caught a legacy recipe-hash regression: preserved the original renderer byte-for-byte and moved assignment orchestration into its own wrapper. The legacy verifier now passes. No main image refresh, database write/reset, payment, commit or publication.
+- New lesson: a realistic picture can remain an illustrative design. Keep physical chair counts aligned with capacity and record the source recipe and texture license; preserve the original recipe so historical images retain truthful provenance.
+- Next: isolated B4 guest cart/fee confirmation. B1/B2/B3 remain In progress; later assignment deliverables remain pending.
+
+## 2026-10-18 — Deliver isolated fees, Standard seating and cashier records
+
+- Added explicit test-only billing preparation with reservation accounts, immutable application receipt/refund events and payload-bound request recovery. Server quotes use saved food lines and integer centavos; base food credit is cumulative and cannot pay non-consumable VIP extras. Direct onsite settlement does not add the base fee twice.
+- Admin/manager cashier records cash/external-card receipts and reviewed unused-credit refunds, without moving money or processing card details. Quote revisions, role/CSRF checks, partial payments and reload-persisted exact retries protect mutations. Finalized bills and financial history cannot be edited/deleted through old order/reservation routes.
+- Standard seating validates at least ₱1,000 in current menu-priced food atomically; below-minimum status/order changes roll back, and later edits/voids preserve the minimum. Below-base Family/VIP bills require explicit manager review of unreceived allowance instead of an invented food minimum. Financial cancellation remains blocked pending B5 reconciliation.
+- Verified 18 fee calculations,20 real billing MySQL scenarios,145 B2/legacy regressions and 15 real cashier browser checks. Actual populated41-table dump/drop/restore matched all counts/hashes; finalized bills/receipts/food links and repeated preparation passed. PHP 82 lint, JS syntax, main/test smoke, CLI guard, change-scope and project-memory checks passed.
+- Independent review found a below-base closure deadlock and qty99/30 mismatch; fixed with focused evidence. Also fixed browser startup-date and accessible-label issues; tested an actually committed receipt with a deliberately lost response, reload and recovery without duplicate payment.
+- B3 stays In progress: isolated core delivered, main activation/B4/B5 integration pending. No real transaction, main schema/data/image change, seed/reset, publication or commit. All 37 main fingerprints/configuration and 206 unmodified protected baseline files matched; ten intended existing source files changed. New files are limited to billing service/schema/controller/view/UI/tests/tooling.
+- New lessons: assessed fees are not receipts; unpaid allowance is not refundable cash. A food credit cannot settle a separate extra-person charge. Retain the exact request after an ambiguous response and recover the saved result instead of issuing another receipt.
+- Next authorized task: inspect Marvin's newest screenshot and make its indicated visuals realistic like the old app, preserving rules.
+
+## 2026-10-17 — Deliver isolated Bella Vista inventory and schedule
+
+- Implemented explicit schema preparation (reservation CHECK 1–20) separately from transactional catalog staging/activation. Nine new target units use new IDs; all 25 legacy identities/history remain. Activation rejects unresolved service/holds/bookings and edited staged policies; retries preserve IDs. Existing startup/init never activates the target profile.
+- Shared profile-aware policy/catalog and guest/staff controls support assigned capacities, Tuesday–Sunday 10–22, 15-minute starts, 120-minute dining and 15-minute reset through 22:15. Fixed settings remain protected while blackouts/technical controls remain available. Main legacy defaults and running image remain untouched.
+- Verified 19 B2 MySQL scenarios, 126 legacy scenarios (41 booking, 14 management, 43 staff, 28 orders), and 12 real browser checks including guest confirmation/reload, staff 20-person final-slot booking and desktop/phone views. PHP 72 lint, JS/Python syntax, main/test smoke and change-scope checks passed.
+- Independent review corrections: reject staged notice/approval/minimum/joinability drift, retain settings/blackout controls, complete actual browser mutation flows. Legacy regressions also prompted preservation of schedule/pacing row IDs. Restore tooling stops the isolated HTTP writer and requires exclusive CLI ownership.
+- Actual populated isolated dump/drop/restore matched all 38 table hashes/counts; old/current private links, twenty-person booking and historical food-order amount passed afterward. Retained/restored the populated preview around final legacy regressions; recovered dump content matched exactly. Dumps stay private outside the repository.
+- B0 decisions/recovery planning is Done; B1/B2 remain In progress (B2 isolated delivered/main pending), B3–B8 Pending. README/PLAN/current-state/verifier map/research pointer/implementation plan/Desktop copy updated. Fees, cart, assigned cancellation/grace and reports are not delivered by B2.
+- All 37 main database fingerprints and private/Compose configuration remained unchanged; only six intended pre-existing product files changed, with unrelated prior work preserved. No main refresh/migration, main seed/reset, real payment/message, commit/push or deployment.
+- Lesson: a PHP capacity change cannot bypass a MySQL CHECK constraint. Prepare schema explicitly, activate catalog transactionally, and prove preservation with real populated restore—not an empty database or assumed rollback around DDL.
+
+## 2026-10-17 — Reconcile operational contracts and nine-unit conversion plan
+
+- Marvin requested continuation and “update all,” retaining supplied-file alignment. Reconciled PLAN.md, README, research status pointer, current state and Desktop export. Selected Standard minimum at seating, arrival-triggered kitchen firing, explicit table/order states, trusted quote review and separate food-sale/receipt date bases.
+- Selected no inherited global/category advance notice, strict future-grid starts, a disclosed existing 60-day technical horizon, VIP minimum 1 where the brief supplies no lower bound, and no joined target tables or 13+ approval gate. Required limits remain Standard 2–4, Family 5–8 and VIP maximum 20; no extra charges/mandatory food minimums were invented.
+- Read-only main audit found 25 legacy active units and G1-G2, with zero reservations, bindings, live holds and orders. Recorded exact legacy families/IDs and nine new target identities; preserve old IDs/history, retire from new availability, do not fabricate a one-to-one conversion. Re-audit before activation.
+- First implementation batch is isolated B2 inventory/schedule; fresh/populated conversion, retry/interruption, legacy-read, concurrency and actual restore checks remain required. B0/B1 stay In progress; B2–B8 stay Pending. No product changes, main migration, seed/reset, payment, external message or publication.
+- Verification: direct assigned inventory/minimum/menu/report wording and all three DOCX fingerprints matched; actual read-only catalog/dependency audit, category boundary arithmetic, all nine phase states, active-doc status and Desktop export passed. All 209 protected source/configuration/exporter files and all 37 main table fingerprints matched the baseline. git diff --check and PMM doctor passed. Standalone arithmetic is not app-test evidence; no restore rehearsal is claimed.
+- Lesson: retiring a table stops new bookings without erasing its identity. A current empty database simplifies a plan but cannot replace a populated-data migration/restore test or a fresh activation check.
+
+## 2026-10-17 — Select file-aligned cancellation and refund rules
+
+- Marvin asked the assistant to choose the best recommendations, provided they align with the supplied files. Selected an exact 24-hour guest cutoff and preserved mandatory same-day Family/VIP paid-base non-refundability. Late cross-midnight requests are not mislabeled same-day; exceptional staff recording does not make a request timely.
+- Added clearly labeled project policies for timely refunds of actual eligible receipts, reviewed unused VIP-extra refunds, unresolved residual-credit manager handling, unpaid/no-show distinctions and immutable cancellation history. No new automatic penalties or charges. Refund approval and actual completion remain different states.
+- Removed the earlier proposed general Standard-minimum waiver: the required ₱1,000 minimum must be maintained through corrected/replacement orders. No product behavior was changed.
+- Lesson: notice eligibility, calendar-date fee forfeiture and actual money movement are separate checks. A cancellation does not prove a refund, and an unpaid fee cannot be recorded as money forfeited.
+- Roadmap/project-memory/Desktop documentation only; B0 remains In progress and implementation phases remain Pending. Verification uses standalone boundary models, not running-app test claims.
+
+## 2026-10-17 — Approve onsite payment for the first version
+
+- Marvin approved onsite cash/card settlement after the meal. Booking confirmation does not require online payment; authorized staff record actual receipts. The app does not process cards or store card details.
+- Retain separate food, consumable-fee and non-consumable VIP-extra lines, with no double collection. This choice does not approve unresolved unused-credit, cancellation/refund or no-show policies.
+- Updated PLAN.md, current state and Desktop roadmap. Documentation only; no application, configuration, database or payment action. B0 remains In progress and B3 remains Pending.
+
+## 2026-10-17 — Approve base-only VIP consumable credit
+
+- Marvin selected ₱2,500 base-only food credit and separate non-consumable ₱300 charges for each guest above 15, up to five extras. Updated the requirement matrix, decision status, examples and next action; other policy proposals remain pending.
+- With 16 guests and ₱5,000 food, total is ₱5,300. A paid ₱2,500 base leaves ₱2,800 due; a paid ₱2,800 base-plus-extra leaves ₱2,500 due. The extra charge never reduces food value. Refund/cancellation treatment of extras remains unresolved.
+- Documentation and Desktop export only; B0 remains In progress and B3 remains Pending. No app, configuration or database changes.
+
+## 2026-10-17 — Prepare remaining B0 policy package
+
+- Added a reviewable proposal in PLAN.md covering onsite settlement, received-funds-only consumable credit, Standard minimum upon seating, guest/staff cancellation boundaries, arrival-triggered kitchen handoff and dated food/receipt reports. Explicitly distinguish assigned rules from proposed choices; only the earlier schedule is approved.
+- Included Family/VIP arithmetic showing why extra-person consumability changes the final bill, a residual-credit example and cross-midnight cancellation. VIP extras, unused funds, VIP minimum and exact lead time remain decisions rather than hidden assumptions.
+- Added a staged conversion design: read-only legacy mapping, additive schema versus catalog activation, isolated fresh/existing/retry rehearsal, private backup/restore verification and write-aware recovery. No migration or backup is claimed performed.
+- Lesson: a consumable reservation fee is not automatically an extra food charge. “Assessed,” “received” and “applied” amounts need separate records, and cancellation eligibility differs from refund entitlement.
+- Scope remained documentation and Desktop export; no product/configuration/database writes or external actions.
+
+## 2026-10-17 — Approve rolling two-hour dining schedule
+
+- Marvin approved starts every 15 minutes, full 120-minute dining and 15-minute cleanup. Service remains Tuesday–Sunday 10:00–22:00; last dining is 20:00–22:00 with internal cleanup through 22:15. Monday remains closed.
+- Distinguished explicit assignment wording from implementation choices: two-hour dining, service days and hours are supplied requirements; the rolling grid and cleanup placement are approved interpretations. Replaced the earlier unapproved fixed-start recommendation in PLAN.md; B0 and B1 are In progress, B2–B8 remain Pending.
+- Recorded same-table reuse, closing/occupied-table boundaries and future B2 coverage. Standalone interval arithmetic is documentation evidence only, not running-app acceptance. Other B0 financial, cancellation, conversion and kitchen/report decisions remain open.
+- Lesson: the spacing between selectable starts differs from the length of a reservation. Cleanup blocks table reuse without shortening dining; final dining closure and internal cleanup completion need separate boundaries.
+- Scope: roadmap, project memory and Desktop export only; no application/configuration/database changes, main seed, payment, messaging, publication or deployment.
+
+## 2026-10-17 — Align the visible restaurant name with Bella Vista Dining
+
+- Implemented Marvin's approved restaurant-name choice across guest/staff/service titles/headers, visible floor/signature/operations labels and future simulated outbox subjects. Retained original technical globals/storage keys, account identities, booking references and old message history.
+- Used the supplied Filipino/continental concept for introductory copy and removed invented demo phone/location claims from static identity/contact surfaces. Footer identifies the academic project; existing licensed media and visual design remain. B1 is In progress, with custom logo/full About/History and all business-rule conversion still unfinished.
+- Verified 43 isolated staff MySQL scenarios, 32 guest/staff/order browser scenarios, 20 desktop checks and 30 focused public/authenticated branding/layout checks. Final guest recheck passed after copy review. PHP lint (65 files), JS syntax, main/test smoke, credit JSON and all ten changed application-file hashes passed. Actual desktop/phone views reviewed; no JavaScript errors.
+- Refreshed only the main app container with `--no-deps --no-build` after building its image. All 37 main table fingerprints and existing configuration matched the pre-change snapshot. Kept the former image as `tablebook-app:before-bella-name`; no main seed/reset, account migration, real message/payment, push or deployment.
+- Lesson: a restaurant's display name can change without renaming saved account addresses or internal software identifiers. Keep assignment progress honest: a correct name does not establish correct inventory, schedule, fees or completed branding.
+
+## 2026-10-17 — Research Bella Vista requirements and restaurant references
+
+- Checked exact-name/profile matches and first-party namesakes in La Union, New Jersey, Bali and Santa Barbara. No reviewed source establishes the assignment's exact real client/history; do not infer affiliation or founding from a shared name/copyright year.
+- Compared Farmer's Table, Sonya's Garden, Balay Dako and Qsina. Three read-only desktop browser visits produced inspected captures; no forms/transactions were submitted. Farmer's Table is the concept recommendation, not an approved rebrand; Balay Dako's no-reservations regular dining is explicitly excluded as policy inspiration.
+- Saved research/15_bella_vista_requirements_research.md with official platform/technical/W3C/DFD/estimating sources, current-code findings, B0 options, a proposed DFD and future acceptance cases. PLAN.md/README/current-state link it and add specific B0–B8 safeguards without marking implementation complete.
+- New lessons: MySQL atomic DDL is not a multi-statement rollback plan; a preorder is not a fired ticket; consumable advances require one-time allocations across food rounds; food sales and receipt-date collections can legitimately differ. A same-name business is not proof of client identity.
+- Verification: 32 unique primary-source links on reviewed official domains, three HTTP-200 read-only browser capture records, source-code references, supplied-document fingerprints, pending phase/authority boundaries, calculation examples, complete Desktop export and exporter syntax checked. All 211 protected source/configuration/exporter files matched research-start hashes; git diff --check and PMM doctor passed. No product test suite or final DFD rendering is claimed. Scope remained research/documentation/export; no database/configuration/product behavior, real payments, publication or deployment changed.
+
+## 2026-10-17 — Align the roadmap with the Bella Vista assignment
+
+- Read all text/tables in Marvin's three supplied DOCX files; record file hashes and source-to-requirement traceability in PLAN.md. Assignment business rules replace conflicting Lumina targets; existing P0–P7 and guest UI delivery evidence remain historical.
+- Added B0–B8 for decisions, branding/company history, exact nine-unit inventory and hours, fees/consumable credits, guest pre-orders, policy enforcement, operational reports, proposal deliverables and final acceptance. Recorded all rubric weights, boundary examples and genuine ambiguities without claiming implementation or an earned score.
+- Reprioritized UI-01 into B6 and required company/history into B1. Added a README scope notice and current-state recovery pointers. The Desktop export now includes the active compliance roadmap ahead of historical phases.
+- Verification: all three source hashes, B0–B8 pending states, preserved P0–P7 history, requirement/proposal coverage, rubric weights, calculation arithmetic, complete Desktop export and Python syntax passed. All 210 protected application/configuration/test files matched task-start hashes; git diff --check and PMM doctor passed. Scope remained documentation/export only, with no application/configuration/database changes, payment, publication or deployment.
+- Lesson: passing tests against an earlier business policy does not prove compliance with a newly supplied assignment. Track each assigned rule, its current evidence and a future acceptance check; a consumable fee is a credit against a bill, not extra revenue to count twice.
+
+## 2026-10-14 — Deliver the approved desktop guest UI batch
+
+- Added guest-only local display/body fonts, stable hero alignment after real searches, persistent desktop navigation and anchor/focus offsets, coordinated heading motion, truthful completed form-step markers and an available signature-dish spotlight. The larger Kinilaw photograph retains its original author, license and source records; menu list thumbnails and staff/kitchen source behavior remain unchanged.
+- Verified 20 focused desktop checks, 126 database, 44 HTTP and 296 existing browser checks, plus the returning-browser cache regression. PHP lint on 65 files, JS syntax, main/test smoke, local asset/hash checks and actual 1280/1366/1440px views passed. Real main searches showed 0px headline shift. An app-only image refresh retained all 37 main table fingerprints and existing configuration; no main seed/reset or publication.
+- Verification repairs: isolate font fallback from heading-animation timing; wait for the actual completed video fade; and search a uniquely named saved row when the all-date list is paginated. Independent review’s hidden-feature concern was covered by the existing important hide rule and an actual visibility assertion.
+- New lessons: guest-only font/style loading protects operational views that share base CSS; sticky navigation needs focus/anchor offsets; enlarged photos need adequate source pixels; and completed form steps describe progress while booking badges show the server’s saved status.
+
+## 2026-10-14 — Desktop UI and motion research
+
+- Marvin requested deep UI/motion research, then clarified that laptop/computer presentation takes priority. Inspected actual guest screens and six public restaurant references; five reference visits produced visual evidence, while Amici timed out. Official product, motion, browser and font sources support the comparison. Authenticated operational recommendations are based on source/public documentation, not an executed staff demonstration.
+- Proposed first batch: stable desktop composition after search, local display/body typography, persistent navigation, heading choreography, completed booking-step markers and a genuine signature-dish spotlight. Existing room/menu/photo motion is explicitly retained as delivered work. Later batches cover changed-record feedback and a separately reviewed voluntary motion control.
+- Read-only startup measurements show booking controls fit at 1366×768 and 1280×720; the 720px card has little remaining vertical room. Baseline screenshots and verification requirements are in `research/14_ui_motion_refresh_research.md`. No application code, configuration, main database writes, seed/reset, push or deployment.
+- New lesson: before adding an effect, compare it with the running app. Coordinated typography and stable layout may improve a presentation more than duplicating animations that already exist; update cues must follow real record changes rather than every refresh.
+
 ## 2026-10-07 — Licensed chef cooking background
 
 - Marvin chose a subtle looping cooking video behind the existing food-showcase text. Compared 12 source pages and visually inspected three eligible clips; selected Pexels 8964522 for its dark pan/flame imagery. Restricted personal-use Mixkit downloads were excluded.
@@ -105,7 +267,7 @@ Skip when: You only need the active task or current state.
 
 - Request/change: Marvin’s screenshot showed an incompatible one-guest VIP search. Linked the two booking dropdowns using room_types.min_party/max_party and the global catalog.max_party: guest-first choices hide incompatible rooms, and room-first choices show only supported guest counts. Initial defaults allow either field to be chosen first; submitted/restored searches preserve their capacity context. Valid values survive changes. An incompatible count moves to the nearest valid count with a visible polite announcement. Any room restores all guest choices.
 - Safety: Capacity changes clear old time/table results and preview eligibility. Public and private-management searches share this helper; existing booking data stays unchanged until the established Continue/Save action. PHP availability and transaction validation remain authoritative. No database/schema/auth/policy changes were made.
-- Evidence: 34 focused catalog/availability/browser checks passed across counts1–16, all room ranges, VIP2–10, Group5–16, preserved/adjusted values, Any-room escape, legacy query normalization, real group16 search, stale-result clearing, keyboard focus, four widths and zero automated A/AA issues. Existing12 guest/management and41 live showcase scenarios passed, including joined groups, protected management, photos and failure recovery. Local main smoke, source matching and unchanged-record verification passed after recreation without seed/reset.
+- Evidence: 34 focused catalog/availability/browser checks passed across counts1–16, all room ranges, VIP2–10, Group5–16, preserved/adjusted values, Any-room escape, legacy query normalization, real group16 search, stale-result clearing, keyboard focus, four widths and zero automated A/AA issues. Existing12 guest/management and 41 live showcase scenarios passed, including joined groups, protected management, photos and failure recovery. Local main smoke, source matching and unchanged-record verification passed after recreation without seed/reset.
 - Lesson: Dependent dropdowns should use the database rules, preserve compatible choices and explain any automatic change. An escape choice prevents users becoming stuck in a restricted range. Capacity matching helps form input; date/time availability still needs the server check.
 
 ## 2026-10-06 — Restore photos on the room cards

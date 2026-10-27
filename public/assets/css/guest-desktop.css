@@ -1,0 +1,132 @@
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+  src: url("/assets/fonts/cormorant-garamond-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/cormorant-garamond-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/assets/fonts/inter-normal.woff2") format("woff2");
+}
+/* This stylesheet belongs to guest pages; operational workspaces keep their own type. */
+body[data-page] {
+  --motion-heading: 320ms;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+body[data-page] h1,
+body[data-page] h2 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+}
+.brand b { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 500; }
+.site-header nav > a[aria-current="location"]:not(.button) {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 9px;
+}
+.hero h1 {
+  font-weight: 500;
+  font-style: normal;
+  font-size: clamp(5.25rem, 8vw, 7.4rem);
+  line-height: 1.02;
+  letter-spacing: -.04em;
+  margin: 24px 0;
+}
+.hero h1 em { font-weight: 500; }
+.booking-card h2 { font-size: 2.5rem; margin-bottom: 20px; }
+.steps { align-items: start; gap: 12px; }
+.steps li { font-size: .7rem; line-height: 1.4; min-width: 0; }
+.step-number {
+  display: grid;
+  place-items: center;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-variant-numeric: tabular-nums;
+}
+.steps li.current .step-number {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+.steps li.completed { color: var(--text); }
+.steps li.completed .step-number { border-color: var(--accent); color: var(--accent); font-size: 0; }
+.steps li.completed .step-number::after { content: "✓"; font-size: .8rem; }
+.confirmation-mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--accent);
+}
+.confirmation-mark.is-confirmed { border-color: var(--green); color: var(--green); }
+.room-copy h3 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-size: 1.65rem; }
+.section-heading h2 { font-size: clamp(2.8rem, 3.5vw, 3.4rem); line-height: 1.1; }
+.signature-dish {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  margin-bottom: 42px;
+  background: var(--surface);
+}
+.signature-dish .menu-image { width: 100%; height: 100%; min-height: 260px; border: 0; border-radius: 0; }
+.signature-dish .menu-image img { max-height: 360px; }
+.signature-copy { padding: 32px 36px; align-self: center; min-width: 0; }
+.signature-copy .eyebrow { margin-bottom: 15px; }
+.signature-copy h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2rem, 2.7vw, 2.6rem);
+  line-height: 1.12;
+  margin-bottom: 14px;
+}
+.signature-description { font-size: .9rem; color: var(--muted); margin-bottom: 18px; }
+.signature-price { color: var(--accent); font-size: 1.1rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.signature-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+.signature-tags span { padding: 5px 9px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); font-size: .68rem; }
+@media (min-width: 761px) {
+  .site-header { position: sticky; top: 0; z-index: 10; background: #100e0cf7; }
+  /* Expanded search results must not re-center the neighboring headline. */
+  .hero.wrap { align-items: start; padding-top: 64px; padding-bottom: 64px; }
+  #booking, #rooms, #menu, #food-showcase, #flow-title, #manage-title,
+  .menu-results-heading { scroll-margin-top: 116px; }
+  .menu-navigation { top: 116px; }
+  .menu-results .menu-item h3 { font-family: "Inter", Arial, sans-serif; font-weight: 500; font-size: 1.02rem; }
+}
+@media (max-width: 760px) {
+  .hero h1 { font-size: 4.8rem; }
+  .section-heading h2 { font-size: 2.3rem; }
+  .room-copy h3 { font-size: 1.35rem; }
+  .signature-dish { grid-template-columns: 1fr; }
+  .signature-dish .menu-image { height: 230px; min-height: 0; }
+  .signature-copy { padding: 24px; }
+  .steps { gap: 8px; }
+  .steps li { gap: 5px; font-size: .63rem; }
+  .step-number { flex-basis: 20px; width: 20px; height: 20px; }
+}
+@media (max-width: 380px) {
+  .hero h1 { font-size: 4.2rem; }
+  .steps li { font-size: .59rem; }
+}

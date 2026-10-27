@@ -1,0 +1,484 @@
+[
+  {
+    "code": "S1",
+    "shape": "rect",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        -1.095,
+        0
+      ],
+      [
+        1.095,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "S1.jpg",
+    "bytes": 38502,
+    "sha256": "d82c5bda5bc316a33220e2da860d0c972b5a092aec85f0bf54e5c2bbb8a43875",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  },
+  {
+    "code": "S2",
+    "shape": "rect",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        -1.095,
+        0
+      ],
+      [
+        1.095,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "S2.jpg",
+    "bytes": 38502,
+    "sha256": "d82c5bda5bc316a33220e2da860d0c972b5a092aec85f0bf54e5c2bbb8a43875",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  },
+  {
+    "code": "S3",
+    "shape": "rect",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        -1.095,
+        0
+      ],
+      [
+        1.095,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "S3.jpg",
+    "bytes": 38502,
+    "sha256": "d82c5bda5bc316a33220e2da860d0c972b5a092aec85f0bf54e5c2bbb8a43875",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  },
+  {
+    "code": "S4",
+    "shape": "rect",
+    "seats": 4,
+    "seat_positions": [
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        -1.095,
+        0
+      ],
+      [
+        1.095,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "S4.jpg",
+    "bytes": 38502,
+    "sha256": "d82c5bda5bc316a33220e2da860d0c972b5a092aec85f0bf54e5c2bbb8a43875",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  },
+  {
+    "code": "F1",
+    "shape": "rect",
+    "seats": 8,
+    "seat_positions": [
+      [
+        -0.6199999999999999,
+        -0.87
+      ],
+      [
+        -0.6199999999999999,
+        0.87
+      ],
+      [
+        1.1102230246251565e-16,
+        -0.87
+      ],
+      [
+        1.1102230246251565e-16,
+        0.87
+      ],
+      [
+        0.6199999999999999,
+        -0.87
+      ],
+      [
+        0.6199999999999999,
+        0.87
+      ],
+      [
+        -1.2999999999999998,
+        0
+      ],
+      [
+        1.2999999999999998,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "F1.jpg",
+    "bytes": 49676,
+    "sha256": "e22b4c70ca122a037ac4a2f97bee092416933a3cfe26192e65f64337b4095a40",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  },
+  {
+    "code": "F2",
+    "shape": "rect",
+    "seats": 8,
+    "seat_positions": [
+      [
+        -0.6199999999999999,
+        -0.87
+      ],
+      [
+        -0.6199999999999999,
+        0.87
+      ],
+      [
+        1.1102230246251565e-16,
+        -0.87
+      ],
+      [
+        1.1102230246251565e-16,
+        0.87
+      ],
+      [
+        0.6199999999999999,
+        -0.87
+      ],
+      [
+        0.6199999999999999,
+        0.87
+      ],
+      [
+        -1.2999999999999998,
+        0
+      ],
+      [
+        1.2999999999999998,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "F2.jpg",
+    "bytes": 49676,
+    "sha256": "e22b4c70ca122a037ac4a2f97bee092416933a3cfe26192e65f64337b4095a40",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  },
+  {
+    "code": "F3",
+    "shape": "rect",
+    "seats": 8,
+    "seat_positions": [
+      [
+        -0.6199999999999999,
+        -0.87
+      ],
+      [
+        -0.6199999999999999,
+        0.87
+      ],
+      [
+        1.1102230246251565e-16,
+        -0.87
+      ],
+      [
+        1.1102230246251565e-16,
+        0.87
+      ],
+      [
+        0.6199999999999999,
+        -0.87
+      ],
+      [
+        0.6199999999999999,
+        0.87
+      ],
+      [
+        -1.2999999999999998,
+        0
+      ],
+      [
+        1.2999999999999998,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "F3.jpg",
+    "bytes": 49676,
+    "sha256": "e22b4c70ca122a037ac4a2f97bee092416933a3cfe26192e65f64337b4095a40",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  },
+  {
+    "code": "VIP1",
+    "shape": "rect",
+    "seats": 20,
+    "seat_positions": [
+      [
+        -2.48,
+        -0.87
+      ],
+      [
+        -2.48,
+        0.87
+      ],
+      [
+        -1.8599999999999999,
+        -0.87
+      ],
+      [
+        -1.8599999999999999,
+        0.87
+      ],
+      [
+        -1.2400000000000002,
+        -0.87
+      ],
+      [
+        -1.2400000000000002,
+        0.87
+      ],
+      [
+        -0.6200000000000001,
+        -0.87
+      ],
+      [
+        -0.6200000000000001,
+        0.87
+      ],
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        0.6200000000000001,
+        -0.87
+      ],
+      [
+        0.6200000000000001,
+        0.87
+      ],
+      [
+        1.2400000000000002,
+        -0.87
+      ],
+      [
+        1.2400000000000002,
+        0.87
+      ],
+      [
+        1.8600000000000003,
+        -0.87
+      ],
+      [
+        1.8600000000000003,
+        0.87
+      ],
+      [
+        2.4799999999999995,
+        -0.87
+      ],
+      [
+        2.4799999999999995,
+        0.87
+      ],
+      [
+        -3.16,
+        0
+      ],
+      [
+        3.16,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "VIP1.jpg",
+    "bytes": 48384,
+    "sha256": "3bf57a28f52249df79ec73561e5fa229f62396d6a80be2673dd3f52eca011258",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  },
+  {
+    "code": "VIP2",
+    "shape": "rect",
+    "seats": 20,
+    "seat_positions": [
+      [
+        -2.48,
+        -0.87
+      ],
+      [
+        -2.48,
+        0.87
+      ],
+      [
+        -1.8599999999999999,
+        -0.87
+      ],
+      [
+        -1.8599999999999999,
+        0.87
+      ],
+      [
+        -1.2400000000000002,
+        -0.87
+      ],
+      [
+        -1.2400000000000002,
+        0.87
+      ],
+      [
+        -0.6200000000000001,
+        -0.87
+      ],
+      [
+        -0.6200000000000001,
+        0.87
+      ],
+      [
+        0.0,
+        -0.87
+      ],
+      [
+        0.0,
+        0.87
+      ],
+      [
+        0.6200000000000001,
+        -0.87
+      ],
+      [
+        0.6200000000000001,
+        0.87
+      ],
+      [
+        1.2400000000000002,
+        -0.87
+      ],
+      [
+        1.2400000000000002,
+        0.87
+      ],
+      [
+        1.8600000000000003,
+        -0.87
+      ],
+      [
+        1.8600000000000003,
+        0.87
+      ],
+      [
+        2.4799999999999995,
+        -0.87
+      ],
+      [
+        2.4799999999999995,
+        0.87
+      ],
+      [
+        -3.16,
+        0
+      ],
+      [
+        3.16,
+        0
+      ]
+    ],
+    "camera": "overhead with a slight tilt; prior top-view arrangement",
+    "dimensions": "illustrative proportions, not measured venue dimensions",
+    "file": "VIP2.jpg",
+    "bytes": 48384,
+    "sha256": "3bf57a28f52249df79ec73561e5fa229f62396d6a80be2673dd3f52eca011258",
+    "source": "Original Blender geometry / render_seating.py; Bella Vista profile / render_bella_vista_seating.py; CC0 Poly Haven wood texture",
+    "renderer": "4.5.3 LTS",
+    "samples": 32,
+    "recipe_sha256": "8166f2a9bc25895b52a6a70f2a0cd5d4b92c4c4b607ea4d0be2ab083baaa3c81",
+    "profile_recipe_sha256": "9fcbb64a7b88e157c03541d314a61f7744ef7ac498a092b3658f62c1f82d6318",
+    "inventory_sha256": "99f7a6ad76279125720f15812830ebf375d2cd28028f42c2078b7295f8c6c85d"
+  }
+]

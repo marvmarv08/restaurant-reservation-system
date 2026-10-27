@@ -43,6 +43,14 @@ final class BookingHarness
 
     public function reset(): void
     {
+        if((int)$this->pdo->query("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='reservation_policies'")->fetchColumn()>0){foreach(['policy_money_events','reservation_policy_events','reservation_policies'] as $table)$this->pdo->exec("DELETE FROM `$table`");}
+
+        if ((int)$this->pdo->query("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='reservation_preorders'")->fetchColumn() > 0) {
+            $this->pdo->exec('DELETE FROM reservation_preorders');$this->pdo->exec('DELETE FROM preorder_quotes');
+        }
+        if ((int)$this->pdo->query("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='billing_accounts'")->fetchColumn() > 0) {
+            foreach (['billing_events','billing_requests','billing_accounts'] as $table) $this->pdo->exec("DELETE FROM `$table`");
+        }
         foreach (['audit_log', 'order_actions', 'order_events', 'kitchen_tickets', 'staff_requests', 'waitlist_offers', 'reservation_change_history', 'reservation_manage_tokens', 'hold_reservations', 'hold_tables', 'holds', 'order_status_history', 'order_items', 'orders', 'outbox',
             'reservation_status_history', 'reservation_tables', 'reservations', 'guests', 'blackout_dates', 'booking_days'] as $table) {
             $this->pdo->exec("DELETE FROM `{$table}`");

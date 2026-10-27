@@ -19,6 +19,7 @@
     refreshPromise = null,
     refreshRevision = 0,
     dialogOpener = null;
+  const stateLabel=s=>document.body.dataset.operations==='1'?({queued:'Pending',preparing:'Preparing',ready:'Ready',served:'Served',held:'On hold',void:'Void'}[s]||s):s;
   const permitted = (p) => user?.permissions.includes(p);
   const el = (tag, attrs = {}, ...children) => {
     const n = document.createElement(tag);
@@ -321,7 +322,7 @@
       );
     } else if (order.ticket) {
       panel.append(
-        el("p", { class: "help" }, "Kitchen ticket · " + order.ticket.status),
+        el("p", { class: "help" }, "Kitchen ticket · " + stateLabel(order.ticket.status)),
         order.ticket.allergy_snapshot
           ? el(
               "p",
@@ -502,7 +503,7 @@
           el("h2", {}, t.tables || "Released tables"),
           el("p", { class: "muted" }, `${t.party_size} guests · ${t.code}`),
         ),
-        el("span", { class: "service-badge" }, t.status),
+        el("span", { class: "service-badge", "data-state":t.status }, stateLabel(t.status)),
       ),
       el(
         "div",

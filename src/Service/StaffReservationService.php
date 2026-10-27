@@ -298,6 +298,7 @@ final class StaffReservationService
                 }
             }
             $id = (int) $this->pdo->lastInsertId();
+            (new ReservationPolicyService($this->pdo,$this->clock))->staffCreated($id,(int)$user['id'],$input['source']);
             if ($requestKey !== null) {
                 $this->pdo
                     ->prepare(
@@ -349,6 +350,7 @@ final class StaffReservationService
         int $version,
         string $action,
         string $reason,
+        array $initialItems = [],
     ): array {
         if (
             !in_array(
@@ -382,6 +384,7 @@ final class StaffReservationService
             $action,
             $reason,
             $date,
+            $initialItems,
         ): array {
             $tx = new BookingTransaction($this->pdo);
             $waitlist = new WaitlistService($this->pdo, $this->clock);
@@ -465,7 +468,13 @@ final class StaffReservationService
                     409,
                 );
             }
+            if (in_array($action, ['cancel','reject','no_show'], true)){if(ReservationPolicyService::enabled($this->pdo))(new ReservationPolicyService($this->pdo,$this->clock))->terminal((int)$row['id'],$action==='no_show'?'no_show':'cancelled',(int)$user['id']);else BillingService::protectReservation($this->pdo,(int)$row['id']);}
+            if (in_array($action, ['cancel','reject','no_show'], true)) PreorderService::stop($this->pdo,(int)$row['id']);
             if ($action === "seat") {
+                PreorderService::stageArrival($this->pdo,$row,(int)$user['id']);
+                BillingService::seatingOrder($this->pdo,$row,$initialItems,(int)$user['id']);
+                $now=$this->clock->now();
+                if(ReservationPolicyService::enabled($this->pdo)&&$now>=$start->modify('+15 minutes'))throw new BookingError('arrival_window_closed','The 15-minute arrival grace ended. Contact staff about a new reservation.',409);
                 if (
                     $now < $start->modify("-30 minutes") ||
                     $now >=
@@ -533,17 +542,23 @@ final class StaffReservationService
                         );
                     }
                 }
-                $this->pdo
-                    ->prepare(
-                        "INSERT INTO orders (reservation_id, table_id, opened_by) VALUES (?, ?, ?)",
-                    )
-                    ->execute([$row["id"], $ids[0], $user["id"]]);
-                $orderId = (int) $this->pdo->lastInsertId();
+                $existingOrder = $this->pdo->prepare("SELECT id FROM orders WHERE reservation_id=? AND status='open' ORDER BY id LIMIT 1");
+                $existingOrder->execute([$row['id']]);
+                $orderId = BillingService::enabled($this->pdo) ? (int)$existingOrder->fetchColumn() : 0;
+                if ($orderId === 0) {
+                    $this->pdo->prepare("INSERT INTO orders (reservation_id, table_id, opened_by) VALUES (?, ?, ?)")->execute([$row['id'],$ids[0],$user['id']]);
+                    $orderId=(int)$this->pdo->lastInsertId();
+                }
                 $this->pdo
                     ->prepare(
                         "INSERT INTO order_status_history (order_id, to_status, actor_user_id) VALUES (?, ?, ?)",
                     )
                     ->execute([$orderId, "open", $user["id"]]);
+            }
+            if ($action === 'seat'){
+                $now=$this->clock->now();
+                if(ReservationPolicyService::enabled($this->pdo)&&$now>=$start->modify('+15 minutes'))throw new BookingError('arrival_window_closed','The arrival grace ended before seating could complete.',409);
+                PreorderService::fireArrival($this->pdo,$row,(int)$user['id'],$now->format('Y-m-d H:i:s'));
             }
             if (
                 $action === "no_show" &&
@@ -559,6 +574,7 @@ final class StaffReservationService
                 );
             }
             if ($action === "complete") {
+                BillingService::checkMinimum($this->pdo,(int)$row['id']);
                 $q = $this->pdo->prepare(
                     "SELECT COUNT(*) FROM orders WHERE reservation_id = ? AND status NOT IN ('open','paid','void','closed')",
                 );
@@ -708,6 +724,8 @@ final class StaffReservationService
             if ((int) $row["version"] !== $version || substr($row["starts_at"], 0, 10) !== $date) {
                 throw new BookingError("booking_changed", "Booking changed. Reload its details.", 409);
             }
+            BillingService::protectReservation($this->pdo,(int)$row['id']);
+            PreorderService::protectChange($this->pdo,(int)$row['id']);
             $orders = $this->pdo->prepare("SELECT id FROM orders WHERE reservation_id = ? LIMIT 1 FOR UPDATE");
             $orders->execute([$row["id"]]);
             if ($orders->fetchColumn() !== false || $row["status"] === "seated") {
@@ -754,6 +772,8 @@ final class StaffReservationService
                 true,
             );
             $row = $this->row($input["code"], true);
+            if(ReservationPolicyService::enabled($this->pdo))(new ReservationPolicyService($this->pdo,$this->clock))->checkChange($row,$input['room_type'],$input['party_size'],$input['policy_acceptance']??null);
+            else{BillingService::protectReservation($this->pdo,(int)$row['id']);PreorderService::protectChange($this->pdo,(int)$row['id']);}
             if (
                 (int) $row["version"] !== $input["version"] ||
                 substr($row["starts_at"], 0, 10) !== $oldDate
@@ -921,6 +941,7 @@ final class StaffReservationService
                 $before,
                 $after,
             );
+            if(ReservationPolicyService::enabled($this->pdo))(new ReservationPolicyService($this->pdo,$this->clock))->changed($row,$this->row($input['code']),(int)$user['id']);
             $waitlist->promoteLocked($oldDate, $user);
             return [
                 "code" => $input["code"],

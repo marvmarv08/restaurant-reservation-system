@@ -509,3 +509,211 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery Evidence: Source commit 93a161a9d43f11be1d80ec0abfbf9de4cd4e868d verified on GitHub main by git ls-remote; publication receipt is included in the documentation follow-up.
 - Verification Evidence: All isolated local application suites green: 470 PASS lines plus guest cache revisit regression; PHP lint65, all JS syntax and main smoke passed. Independent session review, staged snapshot and outgoing27-commit history credential scans clean. Commit93a161a pushed normally; git ls-remote exact SHA93a161a9d43f11be1d80ec0abfbf9de4cd4e868d matched. Primary GitHub Vercel status success/deployment completed for source commit. PLAN/export and current records reflect confirmed publication; documentation receipt pending final push. No local/hosted database migration or direct deployment.
 - Closed At: 2026-10-08T08:58:17Z
+
+## 2026-10-14 lumina-ui-research-20261014
+
+<!-- pmm-task-id: lumina-ui-research-20261014 -->
+
+- Status: done
+- Parent Task: none
+- Title: Research UI and motion improvements for Lumina
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Research verification passed: 30 primary/reference links reviewed with evidence limits; five of six restaurant reference visits visually inspected (Amici timeout); seven own-app screenshot links exist; desktop startup measured at 1280x720 and 1366x768 with no horizontal overflow; 1440x900 search caused a measured 479px hero-copy shift; read-only app requests caused zero blocked mutation attempts in baseline. Desktop roadmap matches October 14 checkpoint; git diff --check and main smoke passed. Critic: recommendations explicitly remain unimplemented; authenticated staff/kitchen and external conversion/performance claims were not verified. No product source change.
+- Closed At: 2026-10-14T10:23:27Z
+
+## 2026-10-14 lumina-desktop-ui-20261014
+
+<!-- pmm-task-id: lumina-desktop-ui-20261014 -->
+
+- Status: done
+- Parent Task: none
+- Title: Deliver approved desktop guest UI batch
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Approved desktop batch delivered locally. Twenty new desktop checks passed after test-first failures; 126 database, 44 HTTP and 296 existing browser checks passed, plus the asset-cache regression. Existing hero readiness and all-date loading verifier assumptions were repaired; six loading checks passed with the preceding pagination fixture. PHP lint 65 files, JS/test syntax, whitespace, isolated/main smoke, font/photo hashes and all 15 exact served guest asset matches passed. Actual 1280x720/1366x768/1440x900 views inspected; real searches had 0px headline shift. Independent review concern was disproved by existing important hidden rule and actual visibility check. App-only refresh preserved all 37 main table fingerprints and configuration. Delivery docs, ten screenshot links and Desktop export verified. No main seed/reset or publication.
+- Closed At: 2026-10-14T11:22:13Z
+
+## 2026-10-17 bella-vista-roadmap-alignment
+
+<!-- pmm-task-id: bella-vista-roadmap-alignment -->
+
+- Status: done
+- Parent Task: none
+- Title: Align roadmap with supplied Bella Vista assignment documents
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Verified three DOCX SHA-256 fingerprints, full assigned-rule/proposal coverage, exact rubric weights, B0–B8 Pending with P0–P7 historical Done retained, calculation arithmetic, complete Desktop export, Python syntax and README/current-state pointers. 210 protected application/configuration/test files unchanged; git diff --check and PMM doctor passed. No Bella Vista implementation claimed.
+- Closed At: 2026-10-17T11:09:08Z
+
+## 2026-10-17 bella-vista-requirements-research
+
+<!-- pmm-task-id: bella-vista-requirements-research -->
+
+- Status: done
+- Parent Task: none
+- Title: Research Bella Vista requirement implementation and strengthen roadmap acceptance
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 32 primary-source links on reviewed official domains; three read-only restaurant browser visits/capture records returned HTTP 200. Identity uncertainty and provider/access limits explicit. Verified DOCX hashes, requirement/proposal coverage, Pending B0–B8, historical P0–P7 boundary, calculation arithmetic, complete Desktop export, code references and Python syntax. 211 protected source/config/exporter files unchanged. git diff --check and PMM doctor passed. Future app tests and conceptual DFD rendering are not claimed.
+- Closed At: 2026-10-17T11:20:50Z
+
+## 2026-10-17 bella-vista-display-name
+
+<!-- pmm-task-id: bella-vista-display-name -->
+
+- Status: done
+- Parent Task: none
+- Title: Align visible restaurant identity with Bella Vista Dining
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Guest name failed before and passed after. 43 isolated staff MySQL, 32 existing guest/staff/order browser scenarios, 20 desktop UI and 30 public/authenticated name-layout checks passed; affected guest rerun passed after final copy edits. Reviewed actual loaded 1280/1366/1440/390/320px captures. PHP lint 65 files, JS syntax, main/test smoke, valid credit JSON and all 10 changed app-file hashes match running main. All 37 main table fingerprints and existing private/Compose config unchanged. Desktop export accurately marks B1 In progress and remaining phases Pending; diff check and PMM doctor passed. No main seed/reset or external publication.
+- Closed At: 2026-10-17T11:35:52Z
+
+## 2026-10-17 bella-vista-schedule-decision
+
+<!-- pmm-task-id: bella-vista-schedule-decision -->
+
+- Status: done
+- Parent Task: none
+- Title: Prepare B0 two-hour dining and cleanup decision
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Approved rolling schedule recorded in PLAN/current-state/change-log and Desktop export. Fourteen standalone interval checks passed (not app tests); three DOCX hashes and exact two-hour wording matched; nine phase rows correct with B0/B1 In progress and B2-B8 Pending; 209 protected source/config/exporter hashes unchanged; git diff --check and PMM doctor passed. Export checker corrected to match actual table wording then passed. No product or database changes.
+- Closed At: 2026-10-17T11:45:04Z
+
+## 2026-10-17 bella-vista-b0-policy-package
+
+<!-- pmm-task-id: bella-vista-b0-policy-package -->
+
+- Status: done
+- Parent Task: none
+- Title: Prepare remaining Bella Vista B0 policy recommendations
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Prepared explicitly proposed remaining B0 package and staged conversion design in PLAN, current-state and change-log; Desktop export refreshed. Assignment wording checked directly; eleven centavo/time model assertions passed (not app tests); all nine phase statuses correct; 209 protected product/config/exporter files unchanged; git diff --check and PMM doctor passed with zero warnings. Only prior schedule approved; financial choices and actual mapping/restore remain open.
+- Closed At: 2026-10-17T11:48:03Z
+
+## 2026-10-17 bella-vista-cancellation-contract
+
+<!-- pmm-task-id: bella-vista-cancellation-contract -->
+
+- Status: done
+- Parent Task: none
+- Title: Finalize file-aligned cancellation and refund contract
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Verified exact source cancellation wording and three DOCX hashes; 12 standalone boundary/money checks passed (not app tests); 209 protected files unchanged; nine phase statuses and Desktop export correct; git diff --check and PMM doctor passed. Required rules distinguished from delegated project choices; documentation only.
+- Closed At: 2026-10-17T11:55:36Z
+
+## 2026-10-17 bella-vista-operational-conversion-plan
+
+<!-- pmm-task-id: bella-vista-operational-conversion-plan -->
+
+- Status: done
+- Parent Task: none
+- Title: Reconcile all active roadmap decisions and inventory conversion plan
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: All active roadmap/status docs and Desktop export reconciled. Direct required inventory/minimum/menu/report wording and three DOCX hashes passed; actual read-only 25-unit catalog/dependency audit and explicit nine-unit new-ID/retirement mapping recorded; category-boundary arithmetic passed (not app tests). All 209 source/config/exporter files and 37 main table fingerprints unchanged; nine phase states and export correct; git diff --check and PMM doctor passed zero warnings. Literal restore-wording checker corrected then passed. B0/B1 in progress; implementation, migration and actual restore rehearsal not claimed.
+- Closed At: 2026-10-17T12:02:40Z
+
+## 2026-10-17 bella-vista-b2-isolated
+
+<!-- pmm-task-id: bella-vista-b2-isolated -->
+
+- Status: done
+- Parent Task: none
+- Title: Implement isolated Bella Vista nine-unit inventory and schedule
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Isolated B2 implemented: separate schema DDL and transactional stage/activation; nine new IDs and legacy preservation; shared schedule/capacity/catalog/UI. RED/GREEN 19 target MySQL; final legacy41booking/14management/43staff/28orders (126); browser12 including actual guest persistence and staff20 final-slot creation, settings/blackouts and desktop/390/320px. Independent read-only review findings fixed with targeted coverage; no re-review claimed. Real populated isolated dump/drop/restore matched38 table hashes/counts; legacy/current private reads/order amount verified; final recovered dump identical. Main37 table/config hashes unchanged; actual catalog main25/test9; six intended existing product files only; PHP72 lint, JS/Python syntax, main/test smoke, CLI/reset guards, phases/export, diff check and PMM doctor passed. B0planning Done, B1/B2 In progress; no main activation/refresh/seed, payment, publication or commit.
+- Closed At: 2026-10-17T12:25:06Z
+
+## 2026-10-18 bella-vista-b3-isolated
+
+<!-- pmm-task-id: bella-vista-b3-isolated -->
+
+- Status: done
+- Parent Task: none
+- Title: Implement isolated fee credit and onsite receipt workflow
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Isolated B3 delivered: server-owned fees/base-only credit, accounts/events/retry history, protected cashier and atomic Standard seating minimum. RED/GREEN18 fee +20 MySQL scenarios; fresh19B2/41booking/14management/43staff/28orders =145 regressions; final browser15 incl actual cash/external-card records, refunds, lost-response reload/replay, manager review, CSRF/roles and1366/390/320px. Independent read-only findings fixed (below-base closure and quantity mismatch); no re-review claimed. Populated41-table real dump/drop/restore and repeated preparation preserve rows; history verify passed. Main37 data/config hashes unchanged; only10 intended existing source files changed,206 other protected files preserved. PHP82 lint, JS syntax, main/test smoke, CLIguard,9phase statuses/export,diff check and doctor passed. B3 In progress with isolated core only; no main activation, real transaction, publication or commit. Queued sc realistic-visual request is next.
+- Closed At: 2026-10-18T01:07:29Z
+
+## 2026-10-18 bella-vista-seating-renders
+
+<!-- pmm-task-id: bella-vista-seating-renders -->
+
+- Status: done
+- Parent Task: none
+- Title: Realistic Bella Vista seating previews
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Nine exact asset/provenance/spacing checks;21 real isolated browser checks;38 legacy concept checks;actual Standard/Family/VIP and desktop/phone visual review;syntax,smoke,diff,PMM,Desktop export;37 main table/config fingerprints and261 unaffected source/assets matched;original renderer byte-identical. Review finding fixed.
+- Closed At: 2026-10-18T01:18:02Z
+
+## 2026-10-18 bella-vista-b4-isolated
+
+<!-- pmm-task-id: bella-vista-b4-isolated -->
+
+- Status: done
+- Parent Task: none
+- Title: Guest pre-order cart and accepted booking quote
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 21 real MySQL B4 scenarios;25 actual guest browser and4 staff/B3 integration checks;126 legacy+19B2+20B3 MySQL and32 legacybrowser regressions;43-table populated restore and exact preview recovery;88 PHP lint,JS syntax,9 seating assets,isolated smoke,nonisolated CLI guard,main37-table/config fingerprints,13 intended source changes/157 protected unchanged,Desktop export/diff/PMM. Independent review fixes tested; no remaining actionable findings. Isolated delivery only; B5 reconciliation/main activation pending.
+- Closed At: 2026-10-18T06:56:06Z
+
+## 2026-10-18 bella-vista-b5-isolated
+
+<!-- pmm-task-id: bella-vista-b5-isolated -->
+
+- Status: done
+- Parent Task: none
+- Title: Cancellation reconciliation and automatic arrival release
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: PASS isolated26 MySQL +22 actual browser checks;5 pure policy and3 autonomous/restart checks; paused-worker fail-closed and target guards; populated46-table restore/hash recovery across sequential resets. Retained186 MySQL +76 browser regressions,18 fee and9 preserved seating checks;98-file PHP lint, JS/Python syntax, main/isolated smoke,37 main table/config fingerprints and166 protected files. Roadmap/Desktop export match; PMM doctor0 failures/warnings. Read-only review issues repaired with actual red/green cases. No main activation, real money, commit or publication.
+- Closed At: 2026-10-18T07:41:47Z
+
+## 2026-10-18 bella-vista-b6-isolated
+
+<!-- pmm-task-id: bella-vista-b6-isolated -->
+
+- Status: done
+- Parent Task: none
+- Title: Operational table states and reconciled daily reports
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 163 real MySQL (25 B6+138 prior),118 actual browser (32 B6+86 prior); PHP109 lint, JS syntax,18 fee/5 policy checks,nine seating assets,main/test smoke. Read-only review and early-floor/live-poll/live-claim red-green repairs. Original pre-B6 data restored plus only operations flag; all46-table populated recovery with both writers resumed; idempotent activation/wrong-schema guard. All37 main table/config fingerprints,258 protected files unchanged; Desktop roadmap exported B6 In progress/main pending, B1 next. No commit/publication/main activation.
+- Closed At: 2026-10-18T11:54:23Z
+
+## 2026-10-18 bella-vista-b1-branding
+
+<!-- pmm-task-id: bella-vista-b1-branding -->
+
+- Status: done
+- Parent Task: none
+- Title: Original Bella Vista identity and assignment-sourced company story
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 19 B1 branding browser checks plus21 preserved seating checks,nine asset/provenance checks; exact full live profile/history match to restaurant.docx,all3 Word hashes unchanged,valid local original SVGs. Desktop/tablet/phone/keyboard/axe,actual availability and every operational header pass; independent b1_review no actionable findings incl761-1024px. PHP109 lint,JS syntax,both localhost smoke,whitespace,PMMdoctor pass. Main37-table/config fingerprints and267 protected files unchanged; seven intended existing files changed. Roadmap/Desktop exported B1 In progress pending main, next B7. No DB reset/main refresh/account or pricing change/publication.
+- Closed At: 2026-10-18T12:26:47Z

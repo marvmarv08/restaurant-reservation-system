@@ -445,7 +445,7 @@ try {
         .getByRole("button", { name: "Demo notifications", exact: true })
         .click();
       await page
-        .getByText("Lumina waitlist offer", { exact: true })
+        .getByText("Bella Vista Dining waitlist offer", { exact: true })
         .first()
         .waitFor();
       assert.match(

@@ -1,5 +1,5 @@
 {
-  "note": "Illustrative menu photography. Some images represent base ingredients or related dishes, not exact Lumina recipes, portions or allergen composition. Wikimedia photo files retain their individual CC licenses.",
+  "note": "Illustrative menu photography. Some images represent base ingredients or related dishes, not exact Bella Vista Dining recipes, portions or allergen composition. Wikimedia photo files retain their individual CC licenses.",
   "photos": [
     {
       "key": "chips",
@@ -528,6 +528,22 @@
       "public_path": "/assets/images/food-showcase/dessert.jpg",
       "title": "Dessert culinary inspiration",
       "changes": "Existing local inspiration image; displayed with a square crop"
+    },
+    {
+      "key": "kinilaw-feature",
+      "title": "File:Pinoy Kinilaw.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File%3APinoy_Kinilaw.jpg",
+      "download": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Pinoy_Kinilaw.jpg/960px-Pinoy_Kinilaw.jpg",
+      "photographer": "Herbertkikoy",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "credit": "Own work",
+      "changes": "Downloaded 960px thumbnail; shown with a CSS crop in the signature-dish feature; retains CC BY-SA 4.0",
+      "bytes": 114910,
+      "file": "kinilaw-feature.jpg",
+      "public_path": "/assets/images/menu/kinilaw-feature.jpg",
+      "accessed": "2026-10-14",
+      "sha256": "b7d9c18e8f9129fc2d8116f32ee644e345547408c3110a2f42e81e73337647eb"
     }
   ],
   "menu_keys": {

@@ -1,0 +1,34 @@
+/* Original Bella Vista garden identity; existing booking and photo layouts stay scoped separately. */
+.company-section { display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:clamp(36px,7vw,110px); }
+.company-intro h2,.company-history h2 { font-size:clamp(2.5rem,4.5vw,4.8rem); line-height:1.06; letter-spacing:-.025em; margin-bottom:28px; }
+.company-intro p:not(.eyebrow),.history-copy p { line-height:1.85; color:var(--muted); max-width:60ch; }
+.company-intro .company-lead,.history-copy .company-lead { color:var(--text); font-size:1.13rem; }
+.company-links { display:flex; flex-wrap:wrap; gap:16px 30px; margin-top:26px; }
+.company-links a { padding-block:12px; }
+.company-emblem { min-width:0; padding:48px 24px; text-align:center; border:1px solid #d7b07855; background:radial-gradient(ellipse at 50% 15%,#a8b89b12,transparent 65%),var(--surface); border-radius:160px 160px 6px 6px; }
+.company-emblem > svg { width:110px; height:110px; color:var(--accent); margin-bottom:22px; }
+.company-wordmark { font-family:"Cormorant Garamond",Georgia,serif; font-size:3.1rem; font-style:italic; margin-bottom:28px; line-height:1; }
+.company-wordmark span { display:block; margin-top:12px; font: .68rem Arial,sans-serif; text-transform:uppercase; letter-spacing:.3em; color:var(--accent); }
+.company-emblem .eyebrow { line-height:1.8; color:#a8b89b; }
+.company-emblem > p:last-child { font-size:.85rem; line-height:1.7; color:var(--muted); margin-bottom:0; }
+.company-history { border-block:1px solid var(--line); background:var(--surface); }
+.history-layout { display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px,7vw,100px); align-items:start; }
+.history-year { font-family:"Cormorant Garamond",Georgia,serif; font-size:4.5rem; color:var(--accent); margin-bottom:0; }
+.history-year span { display:block; font: .7rem Arial,sans-serif; text-transform:uppercase; letter-spacing:.15em; color:var(--muted); margin-bottom:8px; }
+.history-copy .company-source { padding-top:18px; border-top:1px solid var(--line); font-size:.78rem; }
+.company-history .button { margin-top:10px; }
+#about,#history { scroll-margin-top:120px; }
+.site-header nav { gap:clamp(14px,2vw,30px); }
+@media (max-width:760px) {
+ .company-section,.history-layout { grid-template-columns:1fr; gap:32px; }
+ .company-emblem { max-width:460px; width:100%; justify-self:center; padding:34px 20px; }
+ .company-emblem > svg { width:86px; height:86px; }
+ .company-intro h2,.company-history h2 { font-size:2.8rem; }
+ .site-header { height:auto; min-height:130px; flex-wrap:wrap; gap:8px; padding-block:12px; }
+ .site-header nav { width:100%; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px 8px; text-align:center; }
+ .site-header nav > a { display:flex; min-height:38px; align-items:center; justify-content:center; padding:6px; }
+ .site-header .experience-link,.site-header nav > a[href="/#menu"] { display:flex; }
+ .site-header nav > a.button { min-height:38px; }
+ #about,#history,#rooms,#menu,#booking { scroll-margin-top:185px; }
+}
+@media (prefers-reduced-motion:reduce) { #about,#history { scroll-behavior:auto; } }

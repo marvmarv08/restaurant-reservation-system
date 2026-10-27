@@ -316,6 +316,7 @@ final class OrderService
                     "replayed" => true,
                 ];
             }
+            BillingService::protectOrder($this->pdo,(int)$reservation['id'],$action);
             if ((int) $order["version"] !== $version) {
                 $this->fail(
                     "order_changed",
@@ -344,10 +345,12 @@ final class OrderService
             ) {
                 $this->fail("reason_required", "Enter a reason.", 422);
             }
+            // Seating can auto-fire a guest pre-order before any server has claimed it.
+            if($action==='claim'&&!in_array($order['status'],['open','sent_to_kitchen','preparing','ready','served'],true))$this->fail('order_not_open','Only a live order can be claimed.');
             if (
                 in_array(
                     $action,
-                    ["add", "edit", "allergies", "fire", "claim"],
+                    ["add", "edit", "allergies", "fire"],
                     true,
                 ) &&
                 $order["status"] !== "open"
@@ -714,6 +717,7 @@ final class OrderService
                 "UPDATE orders SET subtotal_cents=?,total_cents=? WHERE id=?",
                 [$total, $grandTotal, $id],
             );
+            BillingService::checkMinimum($this->pdo,(int)$reservation['id']);
             $after = $this->row($id);
             $ticketAfter =
                 $this->query("SELECT * FROM kitchen_tickets WHERE order_id=?", [

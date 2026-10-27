@@ -303,3 +303,21 @@ Actual read-only localhost screenshots:
 Verification: The new geometry check reproduced the old G3 overflow before implementation. Six focused layout checks and 94 related checks passed (100 total: 86 browser, 14 HTTP), including all-table previews, containment/no overlap, Terrace label sizing, mobile panning, live availability/selection, staff workflows, retained hero playback, Close scrolling and room-picture motion. A label regression also reproduced 5.4px Terrace text before the correction. Actual main read-only checks, six exact served assets, versioned guest/staff scripts/styles, PHP/JavaScript syntax, build/smoke and whitespace checks passed. Independent review identified the label issue and found no remaining actionable issue after correction.
 
 Main app alone was refreshed with --no-deps. No reservation/configuration data mutation, main seed/reset, GitHub push or Vercel deployment. Diagram spacing is illustrative and is not a measurement of real walking clearance.
+
+## Bella Vista realistic seating follow-up — 2026-10-18
+
+Marvin's screenshot showed a flat twenty-chair VIP diagram with overlapping shapes. The isolated assignment preview now uses original Blender renders matching the former application's wood, linen chairs, lighting and overhead camera. Standard S1–S4 show four seats, Family F1–F3 eight, and VIP1–VIP2 twenty. Images are illustrative furniture arrangements, not actual venue photographs, surveyed dimensions or a promise of exact room furnishings. Repeated units share the same category arrangement intentionally.
+
+The preserved `render_seating.py` continues to reproduce and verify the legacy archive. The separate `render_bella_vista_seating.py` calls its native geometry builder using `bella-vista-inventory.json`; it writes only `assets/bella-vista-seating`. Render with a separately installed Blender 4.5.3:
+
+```bash
+blender --background --threads 6 --python research/table-showcase/render_bella_vista_seating.py -- --samples 32 --size 960
+```
+
+After review, publish those nine JPGs and their manifest under `public/assets/images/table-showcase/bella-vista/`. Keep legacy files intact. The new manifest records each image hash, physical chair positions, original geometry recipe hash, profile wrapper hash and inventory hash; wood provenance remains the existing CC0 Poly Haven credit. This adds no browser 3D engine, remote image dependency or API charge.
+
+The actual gallery and table dialog now use their existing loader, captions, loading/error handling and navigation guards for the new catalog. A missing VIP picture retains a twenty-chair fallback with enough space between the shapes. The outdated billing-pending text is replaced by the approved descriptive policy: Standard ₱1,000 food minimum/no reservation fee, Family ₱500 consumable base, VIP ₱2,500 consumable for up to fifteen plus ₱300 non-consumable per additional guest through twenty. This text does not change server calculations or deliver the future guest cart.
+
+Verification commands: `python3 tests/bella-vista-seating-assets.py`, the read-only isolated `tests/browser-bella-vista-seating.mjs`, and the existing `research/table-showcase/verify.mjs`. The asset check verifies all nine images, hashes, native recipes, inventory and minimum chair spacing. The legacy concept verifier passed all 38 checks after the review correction. Main activation remains separate.
+
+Final visual delivery verification passed: nine asset checks,21 actual isolated browser checks and 38 legacy concept checks. Reviewed captures are `/tmp/bella-vista-seating/{S1,F1,vip-1366,vip-320}.png`; layouts also checked 1280/390px. Syntax, isolated smoke, main 37-table/configuration fingerprints and 261 unaffected existing source/asset files passed. No main container refresh or database mutation.

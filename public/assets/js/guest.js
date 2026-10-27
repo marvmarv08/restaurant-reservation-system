@@ -65,8 +65,10 @@
     const active = document.activeElement;
     if (active === document.body || root.contains(active) || active === heading) {
       const bounds = heading.getBoundingClientRect();
-      if (bounds.top < 0 || bounds.bottom > innerHeight)
-        heading.scrollIntoView({ block: "nearest", behavior: "instant" });
+      const headerBottom = matchMedia("(min-width: 761px)").matches
+        ? $(".site-header")?.getBoundingClientRect().bottom || 0 : 0;
+      if (bounds.top < headerBottom || bounds.bottom > innerHeight)
+        heading.scrollIntoView({ block: "start", behavior: "instant" });
       heading.focus({ preventScroll: true });
     }
     motion?.enter(root);
@@ -75,8 +77,18 @@
     motion?.stop(root);
     showcase?.setContext(null);
     clearInterval(timer);
-    for (const id of ["search", "details", "confirmation"])
-      $("#step-" + id)?.classList.toggle("current", name === id);
+    const steps = ["search", "details", "confirmation"];
+    const current = steps.indexOf(name);
+    steps.forEach((id, index) => {
+      const item = $("#step-" + id);
+      if (!item) return;
+      item.classList.toggle("current", name === id);
+      item.classList.toggle("completed", current > index);
+      if (name === id) item.setAttribute("aria-current", "step");
+      else item.removeAttribute("aria-current");
+      item.querySelector(".step-state").textContent = name === id
+        ? " — current step" : current > index ? " — completed" : "";
+    });
     root.replaceChildren();
   }
   async function api(path, { body, headers = {}, signal } = {}) {
@@ -134,6 +146,7 @@
       message(error.message);
     } finally {
       finish(control.dataset.holdExpired === "true");
+      if(control.dataset.idleLabel)control.textContent=control.dataset.idleLabel;
     }
   }
   const money = (cents) =>
@@ -191,6 +204,8 @@
     }
     history.replaceState(null, "", "/manage");
   }
+  // A second private link in this tab must boot its own capability and pending cart.
+  if(managePage)window.addEventListener('hashchange',()=>{if(location.hash)location.reload();});
   const authHeaders = () => ({ "X-Booking-Token": access.token });
   const queryString = (values) => new URLSearchParams(values).toString();
   function field(label, attrs, children = []) {
@@ -370,7 +385,9 @@
       form,
       capacityNote,
       note(
-        `Book up to 60 days ahead. Closed Monday. VIP: ${catalog.room_types.find((room) => room.code === "vip")?.min_notice_hours ?? 12}-hour notice; group tables: ${catalog.room_types.find((room) => room.code === "group")?.min_notice_hours ?? 12}-hour notice. All times are in Manila.`,
+        catalog.profile === "bella_vista_b2"
+          ? "Tuesday–Sunday, 10:00–22:00. Starts every 15 minutes; 120-minute dining plus 15-minute cleanup. Last start 20:00. Closed Monday. All times are in Manila."
+          : `Book up to 60 days ahead. Closed Monday. VIP: ${catalog.room_types.find((room) => room.code === "vip")?.min_notice_hours ?? 12}-hour notice; group tables: ${catalog.room_types.find((room) => room.code === "group")?.min_notice_hours ?? 12}-hour notice. All times are in Manila.`,
       ),
       results,
     );
@@ -388,9 +405,11 @@
           node(
             "p",
             {},
-            "Try another date, a smaller party, or Any room. Service is Tuesday–Sunday. Longer parties need an earlier seating.",
+            catalog.profile === "bella_vista_b2"
+              ? "Try another date, time or room. Service is Tuesday–Sunday, 10:00–22:00; each booking has two hours of dining."
+              : "Try another date, a smaller party, or Any room. Service is Tuesday–Sunday. Longer parties need an earlier seating.",
           ),
-          node("a", { href: "tel:+63288914420" }, "Contact the restaurant"),
+          note("Contact details are not configured for this academic demo."),
         ),
       );
       motion?.enter(container, "menu");
@@ -445,6 +464,7 @@
   function renderPicker(container, slot, query, preferred = null, fetchedAt = Date.now()) {
     container.replaceChildren();
     selection = slot.options.find(o => preferred && o.kind === preferred.kind && o.id === preferred.id) || slot.options[0];
+    const changeAck = node("input", {type:"checkbox", id:"accept-reservation-change"}), changeTerms = node("div");
     const fieldset = node("fieldset", {}, node("legend", {}, "Choose a table"));
     const options = node("div", { class: "options" }),
       detail = node("div", { class: "selection-note" });
@@ -464,7 +484,7 @@
       "aria-label":
         "Floor plan. Click any table to preview its seating and availability for this search.",
     });
-    svg.append(svgNode("title", {}, "Lumina floor plan"));
+    svg.append(svgNode("title", {}, "Bella Vista Dining floor plan"));
     for (const room of layout.rooms) {
       svg.append(
         svgNode("rect", {
@@ -563,6 +583,13 @@
     }
     function choose(option) {
       selection = option;
+      if(editing&&catalog.policies_enabled){
+        changeAck.checked=false;
+        const fees=option.policy_fees;
+        const terms=node('details',{},node('summary',{},'Reservation change terms'));
+        for(const text of catalog.terms)terms.append(node('p',{},text));
+        changeTerms.replaceChildren(node('p',{},`Replacement fees: ${money(fees.base_fee_cents)} consumable base; ${money(fees.extra_cents)} separate extras; ${money(fees.minimum_cents)} food minimum. The earlier change deadline stays in force: ${dateTime(managed.cancel_deadline)}. Saved food prices and history are preserved.`),terms,node('label',{},changeAck,' I accept the replacement schedule, fees and reservation terms.'));
+      }
       for (const radio of options.querySelectorAll("input"))
         radio.checked = radio.value === `${option.kind}:${option.id}`;
       for (const [id, shape] of shapes) {
@@ -577,7 +604,7 @@
         `${option.turn_time_min} minutes at the table. `,
         Number(option.min_spend_cents)
           ? `Minimum spend ${money(option.min_spend_cents)} per booking. `
-          : "No minimum spend. ",
+          : catalog.preorders_enabled&&option.room_type==='bv_standard' ? "₱1,000 food minimum upon seating. " : catalog.preorders_enabled ? "Assigned consumable fee shown before confirmation. " : "No minimum spend. ",
         option.approval_required
           ? "Requires manager approval; this is a request, not a confirmed booking."
           : "Instant confirmation when your details are submitted.",
@@ -603,6 +630,7 @@
           message();
           const picked = selection;
           if (editing) {
+            if(catalog.policies_enabled&&!changeAck.checked)throw new Error('Review and accept the replacement schedule, fees and terms first.');
             const data = await api("/api/manage/modify", {
               headers: authHeaders(),
               body: {
@@ -612,6 +640,7 @@
                 version: managed.version,
                 option: { kind: picked.kind, id: picked.id },
                 special_requests: $("#change-notes").value,
+                ...(catalog.policies_enabled?{policy_acceptance:{version:catalog.terms_version,...picked.policy_fees}}:{}),
               },
             });
             managed = data.booking;
@@ -622,6 +651,7 @@
               true,
             );
           } else {
+            if(state.pendingConfirmation)throw new Error('Recover the pending confirmation before choosing another table.');
             const data = await api("/api/holds", {
               body: {
                 ...query,
@@ -636,7 +666,7 @@
           }
         }),
     );
-    container.append(fieldset, detail);
+    container.append(fieldset, detail, changeTerms);
     if (editing)
       container.append(
         field(
@@ -709,7 +739,7 @@
       countdown,
     );
     const deadline = new Date(option.starts_at.replace(" ", "T") + "+08:00");
-    deadline.setMinutes(deadline.getMinutes() - catalog.cancel_cutoff_min);
+    deadline.setMinutes(deadline.getMinutes() - (catalog.preorders_enabled?1440:catalog.cancel_cutoff_min));
     root.append(
       held,
       summary([
@@ -760,6 +790,10 @@
         placeholder: "Dietary needs, occasion, or accessibility requests",
       }),
     );
+    const preorderEnabled=Boolean(catalog.preorders_enabled);
+    const draftKey=hold.hold_token;
+    if(preorderEnabled&&state.preorderDraft?.scope!==draftKey)state.preorderDraft={scope:draftKey,cart:state.preorderDraft?.cart||[]};
+    let foodEditor;
     const confirm = node(
       "button",
       { type: "submit", class: "button full", id: "confirm-booking" },
@@ -767,6 +801,14 @@
         ? "Submit booking request"
         : "Confirm reservation",
     );
+    if(preorderEnabled){
+      foodEditor=window.LuminaPreorders.editor({catalog,draft:state.preorderDraft,persist,
+        review:async cart=>(await api('/api/preorders/quote',{body:{hold_token:hold.hold_token,cart}})).quote,
+        changed:reviewed=>{confirm.textContent=confirm.dataset.idleLabel=reviewed?'Confirm reservation':'Review food and fees';},
+        locked:Boolean(state.pendingConfirmation)});
+      form.append(foodEditor.element);
+      confirm.textContent=state.pendingConfirmation?'Retry confirmation':state.preorderDraft.quote?'Confirm reservation':'Review food and fees';
+    }
     const back = button(
       "Choose another table",
       () =>
@@ -782,6 +824,8 @@
         }),
       "button ghost full",
     );
+    back.disabled=Boolean(state.pendingConfirmation);
+    if(state.pendingConfirmation)guestDraft=state.pendingConfirmation.guest;
     for (const [name, value] of Object.entries(guestDraft)) {
       if (form.elements[name]) form.elements[name].value = value;
     }
@@ -797,7 +841,7 @@
     }).format(deadline);
     form.append(
       note(
-        `Online changes and cancellation close ${cutoff} (Manila), two hours before your booking. No payments are collected.`,
+        `Online changes and cancellation close ${cutoff} (Manila), ${preorderEnabled?"24":"two"} hours before your booking. No payments are collected.`,
       ),
       confirm,
       back,
@@ -808,11 +852,18 @@
         message();
         const guest = Object.fromEntries(new FormData(form));
         try {
-          const data = await api("/api/reservations", {
-            body: { hold_token: hold.hold_token, guest },
-          });
+          let body=state.pendingConfirmation;
+          if(!body){
+            const preorder=foodEditor?await foodEditor.prepare():null;
+            if(foodEditor&&!preorder)return;
+            body={hold_token:hold.hold_token,guest,...(preorder?{preorder}:{})};
+            if(preorderEnabled){state.pendingConfirmation=body;persist();foodEditor.lock(true);back.disabled=true;for(const c of form.querySelectorAll('input,textarea,select'))c.disabled=true;}
+          }
+          const data = await api("/api/reservations", {body});
           await complete(data.booking);
         } catch (error) {
+          if(preorderEnabled&&error.status&&error.status<500){delete state.pendingConfirmation;foodEditor.invalidate();foodEditor.lock(false);back.disabled=false;for(const c of form.querySelectorAll('input,textarea,select'))c.disabled=false;persist();}
+          else if(state.pendingConfirmation)confirm.textContent=confirm.dataset.idleLabel='Retry confirmation';
           if (error.code === "network") {
             try {
               const data = await api("/api/holds", {
@@ -840,6 +891,7 @@
       });
     });
     root.append(form);
+    if(state.pendingConfirmation)for(const c of form.querySelectorAll('input,textarea,select'))c.disabled=true;
     holdTiming = {
       expires: Number(hold.expires_at_epoch),
       server: Number(hold.server_time_epoch),
@@ -858,9 +910,11 @@
       countdown.textContent = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
       if (!seconds) {
         clearInterval(timer);
-        confirm.disabled = true;
-        confirm.dataset.holdExpired = "true";
-        message("Your table hold has ended. Search again to choose a table.");
+        const pending=state.pendingConfirmation?.hold_token===hold.hold_token;
+        confirm.disabled = !pending;
+        confirm.dataset.holdExpired = pending ? "false" : "true";
+        if(pending)confirm.textContent=confirm.dataset.idleLabel='Retry confirmation';
+        message(pending?'The hold window ended. Retry the pending confirmation to recover its saved outcome.':'Your table hold has ended. Search again to choose a table.');
         back.textContent = "Search again";
       } else if (seconds <= 60 && !warned) {
         warned = true;
@@ -873,6 +927,8 @@
   }
   async function complete(booking) {
     guestDraft = {};
+    delete state.pendingConfirmation;
+    delete state.preorderDraft;
     state.confirmation = booking;
     state.managePath = booking.manage_path;
     delete state.hold;
@@ -926,6 +982,8 @@
     step("confirmation");
     message();
     root.append(
+      node("span", { class: "confirmation-mark" + (booking.status === "confirmed" ? " is-confirmed" : ""), "aria-hidden": "true" },
+        booking.status === "confirmed" ? "✓" : booking.status === "pending" ? "…" : booking.status === "cancelled" ? "×" : "·"),
       node(
         "span",
         { class: "status " + booking.status },
@@ -933,7 +991,7 @@
           ? "Awaiting manager approval"
           : booking.status === "cancelled"
             ? "Cancelled"
-            : "Confirmed",
+            : ({confirmed:"Confirmed",no_show:"No-show · table released",seated:"Seated",completed:"Completed"}[booking.status]||booking.status),
       ),
       node(
         "h3",
@@ -946,6 +1004,7 @@
       ),
       node("p", { class: "booking-code" }, booking.code),
       bookingSummary(booking),
+      booking.preorder?window.LuminaPreorders.summary(booking.preorder):null,
       node(
         "p",
         { class: "confirmation-copy" },
@@ -1046,10 +1105,11 @@
         { class: "status " + managed.status },
         managed.status === "pending"
           ? "Awaiting manager approval"
-          : managed.status[0].toUpperCase() + managed.status.slice(1),
+          : managed.status === "no_show" ? "No-show · table released" : managed.status[0].toUpperCase() + managed.status.slice(1),
       ),
       node("p", { class: "booking-code" }, managed.code),
       bookingSummary(managed),
+      managed.preorder?window.LuminaPreorders.summary(managed.preorder):null,
     );
     aside.append(
       node("h3", {}, `For ${managed.guest.full_name}`),
@@ -1066,10 +1126,36 @@
       note(
         Number(managed.room.min_spend_cents)
           ? `Minimum spend ${money(managed.room.min_spend_cents)} per booking. No payment is collected here.`
-          : "No minimum spend. No payment is collected.",
+          : managed.preorder ? "See your saved food and fee quote. No payment is collected online." : "No minimum spend. No payment is collected.",
       ),
     );
     card.append(node("div", { class: "manage-layout" }, info, aside));
+    if(catalog.policies_enabled){
+      const terms=node('details',{},node('summary',{},'Current reservation terms'));
+      for(const text of catalog.terms)terms.append(node('p',{},text));
+      card.append(terms,note('Online cancellation and changes close 24 hours before dining. Arrival grace ends 15 minutes after the start; staff cannot seat a party after this cutoff. Overdue, unseated bookings update on the next availability check.'));
+      const refund=managed.policy_refund;
+      if(refund)card.append(node('h3',{},'Cancellation / no-show reconciliation'),note(`${refund.reviewed?'Manager review recorded':'Manager review pending'}. Retained same-day base: ${money(refund.forfeited_base_cents)}. Eligible actual receipts awaiting refund: ${money(refund.eligible_base_cents+refund.eligible_extra_cents)}. Actual policy refunds recorded: ${money(refund.refunded_cents)}. Refunds are handled onsite; cancellation does not transfer money.`));
+    }
+    const foodEdits=state.pendingFoodEdits ||= {};
+    if((managed.preorder?.status==='scheduled'&&managed.can_manage)||Boolean(foodEdits[managed.code])){
+      const editFood=button('Edit food pre-order',()=>{
+        editFood.disabled=true;
+        const draft={cart:managed.preorder.quote.cart.map(i=>({...i}))};
+        const save=button(Boolean(foodEdits[managed.code])?'Retry saving food':'Review updated food and fees',()=>busy(save,async()=>{
+          let body=foodEdits[managed.code];
+          if(!body){const preorder=await editor.prepare();if(!preorder)return;body={code:managed.code,version:managed.version,preorder};foodEdits[managed.code]=body;persist();editor.lock(true);}
+          try{const data=await api('/api/manage/preorders/save',{headers:authHeaders(),body});delete foodEdits[managed.code];persist();managed=data.booking;renderManagement();message('Food pre-order saved. It remains scheduled until arrival.',true);}
+          catch(error){if(error.status&&error.status<500){delete foodEdits[managed.code];persist();editor.lock(false);editor.invalidate();}else save.textContent=save.dataset.idleLabel='Retry saving food';throw error;}
+        }));
+        const editor=window.LuminaPreorders.editor({catalog,draft,locked:Boolean(foodEdits[managed.code]),
+          review:async cart=>(await api('/api/manage/preorders/quote',{headers:authHeaders(),body:{code:managed.code,cart}})).quote,
+          changed:reviewed=>{save.textContent=save.dataset.idleLabel=reviewed?'Save food pre-order':'Review updated food and fees';}});
+        const cancelEdit=button('Keep saved food',()=>{if(foodEdits[managed.code]){message('Retry the pending save first so its outcome can be recovered.');return;}renderManagement();},'button ghost');
+        info.append(editor.element,save,cancelEdit);
+      });
+      card.append(editFood);
+    }
     if (managed.can_manage) {
       const edit = button("Change reservation", () => {
         editing = true;
@@ -1089,13 +1175,13 @@
         },
         "button danger",
       );
-      card.append(node("div", { class: "actions" }, edit, cancel));
+      card.append(node("div", { class: "actions" }, ...(managed.preorder&&!catalog.policies_enabled?[]:[edit]), cancel));
     } else
       card.append(
         note(
           managed.status === "cancelled"
             ? "Your reservation is cancelled and the tables have been released."
-            : "Online changes and cancellation are closed. Please call the restaurant for assistance.",
+            : "Online changes and cancellation are closed. Please contact venue staff for assistance.",
         ),
       );
     const copy = button(
@@ -1108,11 +1194,7 @@
         "div",
         { class: "actions" },
         copy,
-        node(
-          "a",
-          { href: "tel:+63288914420", class: "button ghost small" },
-          "Contact restaurant",
-        ),
+        note("Contact details are not configured for this academic demo."),
       ),
       node(
         "a",
@@ -1148,6 +1230,9 @@
   );
   function renderCatalog() {
     const roomPhotos = {
+      bv_vip: "round-table-reference.jpg",
+      bv_standard: "main-dining-reference.jpg",
+      bv_family: "main-dining-reference.jpg",
       vip: "round-table-reference.jpg",
       common: "main-dining-reference.jpg",
       group: "main-dining-reference.jpg",
@@ -1200,6 +1285,29 @@
         ),
       );
     motion?.revealRooms($("#room-cards"));
+    function menuTags(item) {
+      try {
+        const tags = JSON.parse(item.tags_json || "[]");
+        return Array.isArray(tags) ? tags.filter(tag => typeof tag === "string") : [];
+      } catch {
+        return [];
+      }
+    }
+    const signature = $("#signature-dish");
+    const featured = catalog.menu.find(item => Number(item.is_available) && menuTags(item).includes("signature"));
+    if (signature && featured) {
+      signature.replaceChildren(
+        menuPhotos?.create(featured.image_path, {featured: true}) || node("div", { class: "menu-image", "aria-hidden": "true" }, "Photo pending"),
+        node("div", { class: "signature-copy" },
+          node("p", { class: "eyebrow" }, "A Bella Vista Dining signature"),
+          node("h3", { id: "signature-title" }, featured.name),
+          node("p", { class: "signature-description" }, featured.description),
+          node("span", { class: "signature-price" }, money(featured.price_cents)),
+          node("div", { class: "signature-tags" }, menuTags(featured).map(tag => node("span", {}, tag))),
+        ),
+      );
+      signature.hidden = false;
+    }
     const categories = $("#menu-categories");
     const menuStatus = node("p", { class: "response-announcement", role: "status", "aria-atomic": "true" });
     categories.after(menuStatus);
@@ -1219,12 +1327,7 @@
       $("#menu-category-note").textContent = category.note || "From opening bites to one last glass.";
       $("#menu-result-count").textContent = `${dishes.length} ${dishes.length === 1 ? "item" : "items"}`;
       for (const item of dishes) {
-        let tags = [];
-        try {
-          tags = JSON.parse(item.tags_json || "[]");
-        } catch {
-          /* Invalid optional tags do not hide a dish. */
-        }
+        const tags = menuTags(item);
         items.append(
           node(
             "article",
@@ -1286,6 +1389,7 @@
     persist();
     if (data.hold.status === "active") renderDetails();
     else {
+      if(state.pendingConfirmation?.hold_token===state.hold.hold_token)delete state.pendingConfirmation;
       delete state.hold;
       persist();
       renderSearch();
@@ -1306,6 +1410,12 @@
       ]);
       csrf = session.csrf_token;
       catalog = data.catalog;
+      if (catalog.profile === "bella_vista_b2") {
+        const service = document.querySelector(".hero-service p");
+        if (service) service.replaceChildren(document.createTextNode("Tuesday–Sunday, 10:00–22:00"), document.createElement("br"), node("small", {}, "Last seating 20:00 · Closed Monday"));
+        const footer = document.querySelector(".site-footer > div > p");
+        if (footer) footer.replaceChildren(document.createTextNode("Academic restaurant project · Philippines"), document.createElement("br"), document.createTextNode("Tuesday–Sunday · 10:00–22:00"));
+      }
       showcase?.init(catalog, () => {
         const target = $(managePage ? "#manage-workspace" : "#booking");
         target?.scrollIntoView({block:"start",behavior:"instant"});
@@ -1332,10 +1442,8 @@
           try {
             await restoreHold();
           } catch (error) {
-            delete state.hold;
-            persist();
-            renderSearch();
-            message(error.message);
+            if(state.pendingConfirmation){renderDetails();message('Unable to check your pending confirmation. Retry it to recover the original outcome.');}
+            else{delete state.hold;persist();renderSearch();message(error.message);}
           }
         } else if (state.confirmation?.manage_path) {
           access = privateAccess(state.confirmation.manage_path);

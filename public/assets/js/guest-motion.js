@@ -12,20 +12,20 @@
     animations.delete(target);
   }
 
-  function enter(target, kind = "content") {
+  function enter(target, kind = "content", delay = 0) {
     if (!target) return;
     stop(target);
     if (reduced.matches || !target.isConnected || typeof target.animate !== "function") return;
     const style = getComputedStyle(target);
-    const token = (kind === "hero" || kind === "room") ? "brand" : kind === "menu" ? "feedback" : "content";
+    const token = kind === "heading" ? "heading" : (kind === "hero" || kind === "room") ? "brand" : kind === "menu" ? "feedback" : "content";
     const duration = parseFloat(style.getPropertyValue("--motion-" + token)) || 180;
-    const distance = (kind === "hero" || kind === "room") ? 6 : kind === "menu" ? 0 : 4;
+    const distance = kind === "heading" ? 8 : (kind === "hero" || kind === "room") ? 6 : kind === "menu" ? 0 : 4;
     let animation;
     try {
       animation = target.animate([
         { opacity: .85, transform: `translateY(${distance}px)` },
         { opacity: 1, transform: "none" },
-      ], { duration, easing: style.getPropertyValue("--motion-ease-enter").trim() || "ease-out" });
+      ], { duration, delay, easing: style.getPropertyValue("--motion-ease-enter").trim() || "ease-out" });
     } catch {
       return;
     }
@@ -62,5 +62,25 @@
     }
   });
   window.LuminaGuestMotion = Object.freeze({ enter, stop, revealRooms });
-  if (document.body.dataset.page !== "manage") enter(document.querySelector(".hero-copy"), "hero");
+  if (document.body.dataset.page === "manage") return;
+  const groups = [...document.querySelectorAll(".hero-copy, .food-copy, .section-heading")];
+  const reveal = group => {
+    const parts = [...group.querySelectorAll(".eyebrow, h1, h2, .hero-description")];
+    if (group.classList.contains("section-heading")) {
+      const supporting = group.querySelector(":scope > p");
+      if (supporting) parts.push(supporting);
+    }
+    parts.forEach((part, index) => enter(part, "heading", index * 45));
+  };
+  if (typeof IntersectionObserver === "function") {
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        reveal(entry.target);
+      }
+    }, { threshold: .15 });
+    groups.forEach(group => observer.observe(group));
+  }
+
 })();

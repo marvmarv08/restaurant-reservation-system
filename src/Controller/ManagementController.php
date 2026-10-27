@@ -51,7 +51,22 @@ final class ManagementController
                 $this->integer($data, 'version'), $this->text($data, 'date'), $this->text($data, 'time'),
                 $this->integer($data, 'party_size'), $this->text($data, 'room_type', 'any'),
                 $option === null ? null : $this->text($option, 'kind'), $option === null ? null : $this->integer($option, 'id'),
-                $this->text($data, 'special_requests', '', 2000))];
+                $this->text($data, 'special_requests', '', 2000),is_array($data['policy_acceptance']??null)?$data['policy_acceptance']:null)];
+        });
+    }
+
+    public function preorderQuote(Request $request):Response
+    {
+        return $this->respond(function()use($request):array{
+            $data=$this->mutation($request);
+            return $this->service()->preorder($this->text($data,'code'),$request->header('X-Booking-Token'),$data['cart']??null);
+        });
+    }
+    public function preorderSave(Request $request):Response
+    {
+        return $this->respond(function()use($request):array{
+            $data=$this->mutation($request);
+            return $this->service()->preorder($this->text($data,'code'),$request->header('X-Booking-Token'),null,$this->integer($data,'version'),is_array($data['preorder']??null)?$data['preorder']:[]);
         });
     }
 

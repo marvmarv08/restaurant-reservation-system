@@ -48,8 +48,8 @@ final class OrderController
         }
         return new Response(
             str_replace(
-                "{{mode}}",
-                $mode,
+                ['{{mode}}','{{operations}}','{{service_js_version}}','{{service_css_version}}'],
+                [$mode,\App\Service\OperationsProfile::enabled($this->pdo)?'1':'0',substr(hash_file('sha256',dirname(__DIR__,2).'/public/assets/js/service.js'),0,12),substr(hash_file('sha256',dirname(__DIR__,2).'/public/assets/css/service.css'),0,12)],
                 file_get_contents(dirname(__DIR__) . "/View/service.php"),
             ),
         );
