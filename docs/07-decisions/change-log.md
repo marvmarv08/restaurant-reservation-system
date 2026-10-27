@@ -4,6 +4,11 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-27 — Restrict website and repository access
+
+- At Marvin's request, changed the GitHub repository to PRIVATE and enabled Vercel Authentication for all deployments, including old previews and the Bella Vista alias. Fresh provider metadata confirmed both settings.
+- Kept all deployments, databases and app credentials intact. Public access must remain disabled until Marvin explicitly requests it again; earlier release notes record the previous public state.
+
 ## 2026-10-27 — Publish Bella Vista website and source
 
 - Marvin authorized the latest Bella Vista preview for GitHub/Vercel, approved a separate online database preserving legacy records, and explicitly deferred always-running worker hosting. Local main activation and proposal/full assignment acceptance remain separate.

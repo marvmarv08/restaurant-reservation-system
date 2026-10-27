@@ -6,6 +6,8 @@ This repository contains the engineering plan, research, a clickable browser pro
 
 ## Bella Vista website release
 
+**Access is currently private at Marvin’s request.** The app links require authorized Vercel access, and this GitHub repository is private.
+
 Open [Bella Vista Dining](https://bella-vista-dining-marvmarv08.vercel.app) or [staff sign-in](https://bella-vista-dining-marvmarv08.vercel.app/staff/login). The latest source is published to GitHub and deployed as a Ready Vercel Preview backed by a separate online database. The old online application and records remain available. Always-running no-show worker hosting is deferred by agreement; request-driven reconciliation and server-side seating cutoffs remain enforced. See [the deployment guide](docs/vercel-deployment.md#bella-vista-website-release--2026-10-27) for release status, recovery and verification. The local-phase notes below describe the earlier isolated delivery boundaries.
 
 ## Bella Vista assignment alignment

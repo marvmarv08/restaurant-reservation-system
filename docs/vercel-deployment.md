@@ -2,6 +2,10 @@
 
 This deployment keeps the existing PHP application, booking rules and staff workspaces. Vercel runs the PHP/Apache container; a separate online MySQL service stores reservations, orders and sessions. A session is the server record that remembers the browser after sign-in. Keeping it in MySQL lets another container recognize the same browser after a restart.
 
+## Current access — private (2026-10-27)
+
+Marvin requested temporarily private access after the Bella Vista release. Verified GitHub repository `marvmarv08/restaurant-reservation-system` is PRIVATE. Vercel project `restaurant-reservation-system` now has Vercel Authentication with `deploymentType=all`, covering the Bella Vista alias, immutable deployment URLs and old previews. Only authorized Vercel accounts can access them. Retain these settings until Marvin explicitly requests public access again; prior public-release authorization does not authorize reopening access. Existing deployments, databases and app credentials are retained. Earlier public-release entries below are historical evidence.
+
 ## Bella Vista website release — 2026-10-27
 
 Marvin selected the latest Bella Vista source from the isolated preview for GitHub and Vercel, a separate online database, and a website-first release with always-running worker hosting deferred. GitHub source commit `21f85e2` is published and the [Bella Vista website](https://bella-vista-dining-marvmarv08.vercel.app) is deployed as a Ready Singapore Vercel Preview. Immutable deployment: [https://restaurant-reservation-system-c0pwqm0r5-marvmarv08.vercel.app](https://restaurant-reservation-system-c0pwqm0r5-marvmarv08.vercel.app); ID `dpl_3Vz4Ue97D6a6TBdv6pKJgGAc8zgE`. Metadata verified the correct project/workspace, source SHA, Preview target, `sin1` container, public alias and disabled Vercel Authentication/password protection. The deployed website URL was not fetched; the exact release image was tested locally against its new hosted TLS database, so a live browser acceptance claim is not made.
