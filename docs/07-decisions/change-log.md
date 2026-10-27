@@ -4,12 +4,12 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
-## 2026-10-27 — Prepare Bella Vista website publication
+## 2026-10-27 — Publish Bella Vista website and source
 
 - Marvin authorized the latest Bella Vista preview for GitHub/Vercel, approved a separate online database preserving legacy records, and explicitly deferred always-running worker hosting. Local main activation and proposal/full assignment acceptance remain separate.
 - Initialized nine-unit/36-menu Bella Vista profiles without test bookings/payments; retained the existing online staff sign-in within the same service. Protected old database fingerprints matched. Private new-schema backup restored into a separate local recovery schema with all 47 table counts/content hashes matching.
 - Verified 237 MySQL scenarios, disabled-preorder regression, 44 HTTP and 218 browser checks, 18 fee/six terms/five hosted-config checks, nine seating assets, PHP 110-file lint, 14 JS syntax checks and exact-image smoke. The existing local worker passed three autonomous/restart cases; this does not supply hosted worker execution. Original populated isolated preview was restored and its 46-table recovery matched. Service-hours browser testing used only an isolated connection timestamp restored afterward.
-- Independent review found/fixed optional-table access when preorders are disabled and overstated guest automation wording. Each correction had an observed failing/passing regression; terms v2 preserves distinguishable prior acceptances. Disabled Git-triggered deployments so explicit new-database settings are used for this release. Source publication/deployment are the next steps; no Ready deployment is claimed here.
+- Independent review found/fixed optional-table access when preorders are disabled and overstated guest automation wording. Each correction had an observed failing/passing regression; terms v2 preserves distinguishable prior acceptances. Disabled Git-triggered deployments so explicit new-database settings are used for this release. GitHub source `21f85e2` is published. Public Ready Preview: https://bella-vista-dining-marvmarv08.vercel.app; deployment `dpl_3Vz4Ue97D6a6TBdv6pKJgGAc8zgE` verified as Preview in sin1 with matching source/project and public alias. Vercel Authentication/password protection are off; no direct live URL fetch or full hosted-browser acceptance is claimed.
 - New lesson: publishing source code and changing the database are different operations. A separate database can preserve a previous app while a new catalog is released, and a website host that stops idle containers needs separate hosting for a continuously running worker.
 
 ## 2026-10-18 — Save next-session roadmap handoff

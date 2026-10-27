@@ -9,11 +9,11 @@ delivery_status: not-requested
 owner: codex-reservation-release
 branch: main
 base_sha: 94fe5a212f4e196215ffe6cdb717938c60570aca
-revision: 3
+revision: 4
 verification_head: none
 verification_source_hash: none
 verified_at: none
-updated_at: 2026-10-27T14:02:31Z
+updated_at: 2026-10-27T14:08:30Z
 ---
 
 # Active Task
@@ -56,24 +56,24 @@ Skip when: The task is unrelated to the current execution context.
 
 ## Critic
 
-- Pass/Fail: pending
-- Missing Evidence: required checks have not completed.
-- False-Pass Risk: stale or unrelated evidence must not count.
-- Next Action: execute the first unverified acceptance step.
+- Pass/Fail: passed; independent release review has no remaining critical issue.
+- Missing Evidence: no direct deployed-URL/browser acceptance; metadata and exact-image hosted-TLS smoke are the verified delivery boundary.
+- False-Pass Risk: worker hosting and B7/B8 are explicitly outside this website-first release; Ready metadata does not establish live browser acceptance.
+- Next Action: finalize verified documentation publication and close the authorized website release.
 
 ## Repair
 
 - Last Failure: none
 - Failure Class: none
 - Attempted Fix: none
-- Next Concrete Action: All HTTP/browser release gates pass, including service-hours rehearsal with isolated connection clock restored. Final source image matches 211 packaged file hashes; 14 JS syntax checks pass. Finish targeted policy/worker rerun, restore original populated preview, commit/push source, deploy explicit Bella Vista Preview and verify alias/metadata. Worker hosting deferred by user.
+- Next Concrete Action: GitHub main verified at 21f85e209187bd5198bf20b1ae50f41b6e7b5b52. New Vercel Preview dpl_3Vz4Ue97D6a6TBdv6pKJgGAc8zgE / restaurant-reservation-system-c0pwqm0r5-marvmarv08.vercel.app submitted with explicit Bella Vista DB and alias APP_URL; await Ready, assign bella-vista-dining-marvmarv08.vercel.app, verify public protection/runtime metadata, finalize docs and close. Full tests and original-preview restore passed; online worker remains deferred.
 
 ## Record
 
 - Verification Evidence: pending after checkpoint
 - Delivery Status: not-requested
 - Delivery Evidence: pending
-- Docs Updated: pending
-- Remaining Risk: pending verification.
-- Memory Promotion Decision: pending
+- Docs Updated: README, PLAN, deployment guide, current state, change log and Desktop roadmap.
+- Remaining Risk: always-running hosted worker remains deferred; existing online credentials differ from laptop credentials; no real payment processing or full assignment acceptance claimed.
+- Memory Promotion Decision: durable release facts kept project-local; no secrets or fixture logs promoted.
 - Last Updated: 2026-10-27T13:37:51Z
