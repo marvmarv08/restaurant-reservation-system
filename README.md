@@ -1,4 +1,4 @@
-# Restaurant Table Reservation System
+# SeatFlow
 
 Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaScript, CSS, MySQL 8.4, and Docker Compose.
 
