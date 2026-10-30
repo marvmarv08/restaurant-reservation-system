@@ -847,3 +847,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: Built-in imagegen created original interior from exterior architecture/style reference; output and desktop/phone crops inspected. PNG/prompt/reference/checksums preserved;1100px169736-byte and680px81860-byte WebPs saved. Observed red exterior-versus-interior URL assertion; final10 story checks pass, including decoded image, five-width reflow/axe, caption placement, source disclosure and image failure. Both served image/webp SHA256 match manifest. Template lint, test JS syntax, git diff --check and preview smoke pass. No new dependency, database command, push or deployment. Prior journey/garden suites not rerun for this image-only replacement.
 - Closed At: 2026-10-30T05:46:42Z
+
+## 2026-10-30 private-ui-release-20261030
+
+<!-- pmm-task-id: private-ui-release-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Publish all completed local UI work to private GitHub and Vercel
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: 100 fresh guest checks across7 suites; PHP111 lint,55 JS syntax,5 hosted DB config guards, both localhost smoke,220 exact-image hashes/private exclusions and disposable image smoke pass. Main/preview fingerprints unchanged. Independent reviewer found no issue; extra keyboard/redirect/no-observer edges pass. Staged scope/credential-pattern scan clean;237-file Vercel manifest excludes private/research/test inputs. Source3c01d69f7070defdcd77c259806f9fbc4d11fa55 matches pushed main. READY dpl_Cy3UDNzgwfvhPHoWSU6SnzSDoWPJ matches source/project/owner/container/preview/sin1; alias API confirms existing Bella Vista alias. GitHub PRIVATE and Vercel deploymentType=all verified. No database init/import/reset or privacy change; hosted URL not fetched, full staff/write suite not rerun.
+- Closed At: 2026-10-30T06:11:34Z

@@ -554,3 +554,9 @@ Skip when: You only need the active task or current state.
 - Marvin authorized publishing all completed local work and explicitly restored the repository name from SeatFlow to restaurant-reservation-system. Renamed the same private repository, updated the canonical origin and preserved the remote README-only commit through fast-forward integration.
 - All100 affected guest checks, PHP111 lint,55 JS parse checks, both local smoke checks and unchanged main/preview table fingerprints passed. Independent review found no issue. Dry deployment package excludes private inputs and includes the new optimized visuals. Source publication/deployment completion is recorded separately after verification.
 - Lesson: A repository rename preserves its history/identity, but local remotes and documentation should still match. Website files, database records and access protection are separate release concerns.
+
+## 2026-10-30 — Verified private GitHub/Vercel UI release
+
+- Published application source3c01d69 to main in the restored private restaurant-reservation-system repository. Retained the remote README-only commit and repository ID; no force push.
+- Vercel Ready Preview dpl_Cy3UDNzgwfvhPHoWSU6SnzSDoWPJ matches that source and existing project/team/container/Preview/sin1. Existing Bella Vista alias maps to it; GitHub PRIVATE and Vercel Authentication for all deployments remain verified.
+-100 guest checks, PHP111 lint,55 JS parse checks, five hosted configuration guards, both local smoke checks,220 exact-image hashes/private exclusions, disposable image smoke and unchanged main/preview fingerprints passed. Independent review clean. Existing hosted data/TLS/session configuration reused without migrations or imports. Hosted URL not fetched; full staff/write suites not rerun. Receipt: docs/verification/ui-private-release-2026-10-30.md.
