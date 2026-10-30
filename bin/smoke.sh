@@ -11,8 +11,18 @@ fi
 
 # Consume the full response before checking it; an early-closing pipe can make curl fail.
 guest_page="$(curl -fsS "${base_url}/")"
-if [[ "$guest_page" != *'Reserve a table'* ]]; then
-  printf 'Guest page must include the booking form\n' >&2
+if [[ "$guest_page" == *'data-page="intro"'* ]]; then
+  if [[ "$guest_page" != *'Continue to reservation'* ]]; then
+    printf 'Introduction must expose the reservation link\n' >&2
+    exit 1
+  fi
+  guest_page="$(curl -fsS "${base_url}/reserve")"
+  for asset in assets/css/intro.css assets/js/intro.js assets/images/intro/garden-estate-concept.webp; do
+    curl -fsS "${base_url}/${asset}" >/dev/null
+  done
+fi
+if [[ "$guest_page" != *'Reserve a table'* || "$guest_page" != *'id="flow"'* ]]; then
+  printf 'Reservation destination must include the booking form\n' >&2
   exit 1
 fi
 curl -fsS "${base_url}/assets/css/app.css" >/dev/null

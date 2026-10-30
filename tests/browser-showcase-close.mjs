@@ -8,7 +8,7 @@ async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
 try{for(const width of [1440,390,320]){
  const page=await browser.newPage({viewport:{width,height:600},reducedMotion:'reduce'});page.setDefaultNavigationTimeout(30000);page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/*',r=>{assert.equal(new URL(r.request().url()).origin,'http://127.0.0.1:18080');if(!['GET','HEAD'].includes(r.request().method()))writes.push(r.request().method());return r.continue();});
- await page.goto('http://127.0.0.1:18080/');await page.locator('.room-card[data-room-type=terrace]').click();await page.waitForFunction(()=>document.querySelector('.showcase-hero').getAttribute('aria-busy')==='false');
+ await page.goto('http://127.0.0.1:18080/reserve');await page.locator('.room-card[data-room-type=terrace]').click();await page.waitForFunction(()=>document.querySelector('.showcase-hero').getAttribute('aria-busy')==='false');
  const close=page.getByRole('button',{name:'Close table showcase',exact:true}),title=page.locator('#table-showcase-title');
  await check(width+'px Close stays visible while the table title scrolls away',async()=>{
   const before=await close.boundingBox(),titleBefore=await title.boundingBox();

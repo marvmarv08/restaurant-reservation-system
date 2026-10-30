@@ -1,0 +1,20 @@
+{
+  "description": "Original AI-generated garden-estate restaurant concept for the Bella Vista academic project; not a photograph of an actual venue.",
+  "created": "2026-10-27",
+  "generator": "OpenAI image generation tool",
+  "reference_use": "Original composition inspired by brick arches and garden hospitality; no real venue image or logo copied.",
+  "original": "research/intro-assets/garden-estate-concept-original.png",
+  "original_sha256": "bc586d761f05b92e5b308db1b31064a7464853c1041a4ffcec496d06f1d480ee",
+  "files": [
+    {
+      "file": "garden-estate-concept.webp",
+      "bytes": 322334,
+      "sha256": "c534923a8bd9793e47fd2d27ec887492061bed1f8c06b82d59bc6ba0e27c993b"
+    },
+    {
+      "file": "garden-estate-concept-small.webp",
+      "bytes": 99672,
+      "sha256": "193f83b5354927dd55bf1167bb988d4df63ccede3651e4eaa49253630e97a195"
+    }
+  ]
+}

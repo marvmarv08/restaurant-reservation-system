@@ -1297,7 +1297,7 @@
     const featured = catalog.menu.find(item => Number(item.is_available) && menuTags(item).includes("signature"));
     if (signature && featured) {
       signature.replaceChildren(
-        menuPhotos?.create(featured.image_path, {featured: true}) || node("div", { class: "menu-image", "aria-hidden": "true" }, "Photo pending"),
+        menuPhotos?.create(featured.image_path, {featured: true, name: featured.name}) || node("div", { class: "menu-image", "aria-hidden": "true" }, "Photo pending"),
         node("div", { class: "signature-copy" },
           node("p", { class: "eyebrow" }, "A Bella Vista Dining signature"),
           node("h3", { id: "signature-title" }, featured.name),
@@ -1332,7 +1332,7 @@
           node(
             "article",
             { class: "menu-item" },
-            menuPhotos?.create(item.image_path) || node("div", {class: "menu-image", "aria-hidden": "true"}, "Photo pending"),
+            menuPhotos?.create(item.image_path, {name: item.name}) || node("div", {class: "menu-image", "aria-hidden": "true"}, "Photo pending"),
             node(
               "div",
               { class: "menu-item-copy" },

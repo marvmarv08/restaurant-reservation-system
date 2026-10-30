@@ -32,7 +32,7 @@
       <svg class="bella-vista-mark" viewBox="0 0 48 48" width="36" height="36" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 32V21a15 15 0 0 1 30 0v11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 35h34M11 39c7 5 19 5 26 0M24 31V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M24 25c-7 0-11-4-11-9 7 0 11 3 11 9Zm0-4c0-7 4-10 10-10 0 6-3 10-10 10Z" fill="currentColor"/></svg>
       <span><b>Bella Vista</b> <small>Dining</small></span>
     </a>
-    <nav aria-label="Primary navigation"><a href="/#about">About us</a><a href="/#history">Our story</a><a class="experience-link" href="/#rooms">The rooms</a><a href="/#menu">Menu</a><a href="/manage">My booking</a><a class="button small" href="/#booking">Reserve</a></nav>
+    <nav aria-label="Primary navigation"><a href="/#about">About us</a><a href="/#history">Our story</a><a class="experience-link" href="/reserve#rooms">The rooms</a><a href="/reserve#menu">Menu</a><a href="/manage">My booking</a><a class="button small" href="/reserve#booking">Reserve</a></nav>
   </header>
   <main>
     <div class="guest-content">

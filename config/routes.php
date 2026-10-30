@@ -28,6 +28,7 @@ return [
     ['GET', '/api/kitchen/tickets', [OrderController::class, 'kitchen']],
     ['POST', '/api/service/orders/action', [OrderController::class, 'mutate']],
     ['GET', '/', [HomeController::class, 'index']],
+    ['GET', '/reserve', [HomeController::class, 'reserve']],
     ['GET', '/manage', [HomeController::class, 'manage']],
     ['GET', '/health', [HealthController::class, 'show']],
     ['GET', '/api/session', [BookingController::class, 'session']],

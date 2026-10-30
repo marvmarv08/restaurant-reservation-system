@@ -1,0 +1,27 @@
+{
+  "description": "Original AI-generated interior concept matching the Bella Vista exterior architecture and evening lighting; not a real venue photograph.",
+  "created": "2026-10-30",
+  "generator": "OpenAI built-in image generation tool",
+  "reference": "public/assets/images/intro/garden-estate-concept.webp",
+  "reference_sha256": "c534923a8bd9793e47fd2d27ec887492061bed1f8c06b82d59bc6ba0e27c993b",
+  "original": "research/intro-assets/garden-interior-concept-original.png",
+  "original_dimensions": [
+    1448,
+    1086
+  ],
+  "original_sha256": "aa2f1bcd9b2b4aa6695a92717b798fa0cdd89d9da69882e2f924388eb3b27fa8",
+  "prompt": "Use case: photorealistic-natural. Asset type: original restaurant interior concept image for Bella Vista Dining website About section, a single image, not a website mockup. Input image is a STYLE AND ARCHITECTURAL REFERENCE ONLY of the exterior. Generate a completely new interior view plausibly belonging inside this same garden-estate restaurant. Preserve visual identity: weathered reddish brown brick walls, tall black metal framed arched windows/doors with pale limestone arch surrounds, amber wall lanterns, lush tropical garden glimpses outside at blue-hour dusk. Inside: intimate elegant Filipino/continental garden-estate dining room, a few well-spaced dark walnut tables, upholstered warm brown dining chairs, subtle cream linen runners and simple ceramic table settings, brass warm lamps, restrained potted tropical greenery. Camera eye-level from within the room looking diagonally along dining tables toward arched windows overlooking the garden. Realistic material texture and physically coherent straight furniture, cozy premium hospitality, restrained and believable, no people. Lighting warm amber and deep brown with muted green, match the exterior evening atmosphere, no overexposure. Composition near-square 4:3 landscape with central dining/table and arched-window focal point safe for both square desktop and slightly landscape phone crop. Natural editorial architectural photography, 35mm perspective, not fisheye. No text, no logos, no watermarks, no border, no collage, no exterior-only scene. This must clearly show the INTERIOR of the same concept building, not a different rustic cafe.",
+  "processing": "WebP quality82, method6;1100px desktop and680px phone; proportional downscaling only.",
+  "files": [
+    {
+      "file": "garden-interior-concept.webp",
+      "bytes": 169736,
+      "sha256": "f1a5f5d418474af4e19cfc1f0e0b32d1bda319508cc043613467e7a1d9099cf7"
+    },
+    {
+      "file": "garden-interior-concept-small.webp",
+      "bytes": 81860,
+      "sha256": "42ad2a25f5e4a12cc5aa60925b9b126f62e2f50e4841e794d43e88774c254cbf"
+    }
+  ]
+}

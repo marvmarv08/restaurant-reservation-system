@@ -67,7 +67,7 @@ async function pageFor(viewport = { width: 1440, height: 1000 }) {
     if (/Content Security Policy|Refused to/.test(entry.text()))
       errors.push(entry.text());
   });
-  await page.goto(base);
+  await page.goto(base + '/reserve');
   await page
     .getByRole("button", { name: "Find a table", exact: true })
     .waitFor();

@@ -8,7 +8,7 @@ const check=async(name,fn)=>{await fn();checks++;console.log('PASS '+name);};
 try{
  const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/*',r=>{assert.equal(new URL(r.request().url()).origin,base);assert.ok(['GET','HEAD'].includes(r.request().method()));return r.continue();});
- await page.goto(base,{timeout:30000});const catalog=(await(await page.request.get(base+'/api/catalog')).json()).catalog;
+ await page.goto(base + '/reserve',{timeout:30000});const catalog=(await(await page.request.get(base+'/api/catalog')).json()).catalog;
  const d=new Date();d.setUTCDate(d.getUTCDate()+42);while(d.getUTCDay()!==2)d.setUTCDate(d.getUTCDate()+1);const day=d.toISOString().slice(0,10);
  await page.getByLabel('Date · Manila time').fill(day);await page.getByRole('button',{name:'Find a table',exact:true}).click();await page.locator('.floor-table').first().waitFor();
  await check('All 25 tables fit inside their assigned rooms, including G3',async()=>{

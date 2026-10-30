@@ -24,7 +24,7 @@ const browser = await chromium.launch({ headless: true });
 const errors = [], outside = [], contexts = [];
 let checks = 0;
 async function check(name, work) { await work(); checks++; console.log('PASS ' + name); }
-async function pageFor(path = '/') {
+async function pageFor(path = '/reserve') {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   contexts.push(context);
   // Internet is unavailable, but localhost remains reachable, as on an offline laptop.

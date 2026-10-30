@@ -46,7 +46,7 @@ day.setUTCDate(day.getUTCDate() + 42);
 while (day.getUTCDay() !== 2) day.setUTCDate(day.getUTCDate() + 1);
 const date = day.toISOString().slice(0, 10);
 async function searchPage(page) {
-  await page.goto(base);
+  await page.goto(base + '/reserve');
   await page.getByLabel('Date · Manila time').fill(date);
   await page.getByLabel('Room preference').selectOption('common');
 }

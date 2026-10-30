@@ -8,7 +8,7 @@ async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
 async function open(options={}){
  const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'no-preference',...options});const page=await context.newPage();page.setDefaultTimeout(10000);
  await page.route('**/*',r=>{assert.equal(new URL(r.request().url()).origin,base);if(!['GET','HEAD'].includes(r.request().method()))writes.push(r.request().method());return r.continue();});
- page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(/Content Security Policy|Refused to/.test(m.text()))errors.push(m.text());});await page.goto(base);return page;
+ page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(/Content Security Policy|Refused to/.test(m.text()))errors.push(m.text());});await page.goto(base + '/reserve');return page;
 }
 try{
  const page=await open({viewport:{width:1440,height:600}});const video=page.locator('#food-cooking-video');

@@ -49,7 +49,7 @@ async function open(options = {}, setup) {
   page.setDefaultTimeout(10000);
   page.on('pageerror', (e) => errors.push(e.message));
   if (setup) await setup(page);
-  await page.goto(base);
+  await page.goto(base + '/reserve');
   await page
     .getByRole('button', { name: 'Find a table', exact: true })
     .waitFor();
@@ -198,10 +198,10 @@ try {
       'Desktop navigation remains visible with truthful active section and unoccluded anchors',
       async () => {
         const page = await open({ reducedMotion: 'reduce' });
-        await page.locator('.site-header a[href="/#rooms"]').click();
+        await page.locator('.site-header a[href="/reserve#rooms"]').click();
         await page.waitForTimeout(150);
         const reserve = await page
-          .locator('.site-header a[href="/#booking"]')
+          .locator('.site-header a[href="/reserve#booking"]')
           .boundingBox();
         assert.ok(
           reserve.y >= 0 && reserve.y + reserve.height < 120,
@@ -209,7 +209,7 @@ try {
         );
         assert.equal(
           await page
-            .locator('.site-header a[href="/#rooms"]')
+            .locator('.site-header a[href="/reserve#rooms"]')
             .getAttribute('aria-current'),
           'location',
         );
@@ -219,11 +219,11 @@ try {
           heading.y >= header.y + header.height,
           'Room heading is covered by sticky navigation',
         );
-        await page.locator('.site-header a[href="/#menu"]').click();
+        await page.locator('.site-header a[href="/reserve#menu"]').click();
         await page.waitForTimeout(150);
         assert.equal(
           await page
-            .locator('.site-header a[href="/#menu"]')
+            .locator('.site-header a[href="/reserve#menu"]')
             .getAttribute('aria-current'),
           'location',
         );
@@ -235,7 +235,7 @@ try {
           menuHeading.y >= header.height - 1,
           'Category heading is covered',
         );
-        await page.locator('.site-header a[href="/#booking"]').click();
+        await page.locator('.site-header a[href="/reserve#booking"]').click();
         const booking = await page.locator('#flow-title').boundingBox();
         assert.ok(booking.y >= header.height);
         await page.close();
@@ -571,7 +571,7 @@ try {
           [],
         );
         await page.keyboard.press('Home');
-        await page.locator('.site-header a[href="/#rooms"]').focus();
+        await page.locator('.site-header a[href="/reserve#rooms"]').focus();
         await page.keyboard.press('Enter');
         assert.ok(await page.locator('#rooms-title').isVisible());
         await page.close();

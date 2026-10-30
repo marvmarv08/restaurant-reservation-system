@@ -11,7 +11,7 @@ const errors=[];page.on('pageerror',e=>errors.push(e.message));let checks=0;
 const check=async(name,fn)=>{await fn();checks++;console.log('PASS '+name);};
 try{
  const response=await context.request.get(base+'/api/catalog');const {catalog}=await response.json();assert.equal(catalog.profile,'bella_vista_b2');
- await page.goto(base);const guests=page.getByLabel('Guests',{exact:true}),rooms=page.getByLabel('Room preference');await guests.waitFor();
+ await page.goto(base + '/reserve');const guests=page.getByLabel('Guests',{exact:true}),rooms=page.getByLabel('Room preference');await guests.waitFor();
  await check('B2 service copy shows assigned hours',async()=>{assert.match(await page.locator('.hero-service').innerText(),/10:00–22:00/);assert.doesNotMatch(await page.locator('.hero-service').innerText(),/17:30/);});
  await check('B2 twenty guests and nine target showcase units',async()=>{assert.equal(await guests.locator('option[value="20"]').count(),1);assert.equal(await page.locator('.showcase-tile').count(),9);});
  await rooms.selectOption('bv_vip');await guests.selectOption('20');

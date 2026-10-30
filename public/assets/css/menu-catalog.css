@@ -55,3 +55,21 @@
   .menu-results-heading h3 { font-size: 1.45rem; }
   .menu-photo-credits ul { grid-template-columns: 1fr; }
 }
+
+/* Native modal keeps the rest of the page inert while a photograph is open. */
+button.menu-image { padding: 0; position: relative; cursor: zoom-in; color: var(--text); }
+button.menu-image:hover:not(:disabled), button.menu-image:focus-visible { border-color: var(--accent); }
+button.menu-image:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+button.menu-image::after { content: "⤢"; position: absolute; right: 3px; bottom: 3px; width: 22px; height: 22px; display: grid; place-items: center; background: #100e0ce6; color: var(--text); border-radius: 3px; font-size: 16px; line-height: 1; }
+button.menu-image:disabled { cursor: default; }
+button.menu-image:disabled::after { display: none; }
+.menu-photo-dialog { box-sizing: border-box; width: min(900px, calc(100vw - 24px)); max-width: none; max-height: calc(100dvh - 24px); padding: clamp(14px, 3vw, 24px); border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); overflow: auto; overscroll-behavior: contain; }
+.menu-photo-dialog::backdrop { background: #080706e8; }
+.menu-photo-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.menu-photo-heading h2 { margin: 0; font-size: clamp(1.15rem, 3vw, 1.65rem); overflow-wrap: anywhere; }
+.menu-photo-heading button { min-width: 80px; min-height: 44px; flex-shrink: 0; }
+.menu-photo-full { display: block; width: 100%; height: auto; max-height: min(65dvh, 620px); object-fit: contain; background: #100e0c; }
+.menu-photo-full[hidden], #menu-photo-error[hidden] { display: none; }
+.menu-photo-dialog .menu-photo-disclosure { margin: 12px 0 0; font-size: .75rem; color: var(--muted); }
+#menu-photo-error { padding: 32px 0; }
+@media (max-height: 450px) { .menu-photo-full { max-height: 45dvh; } }

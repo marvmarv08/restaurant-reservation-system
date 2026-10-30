@@ -19,7 +19,7 @@ async function open(options={}){
    return animation;
   };
  });
- await page.goto(base);await page.locator('.room-card').last().waitFor();return page;
+ await page.goto(base + '/reserve');await page.locator('.room-card').last().waitFor();return page;
 }
 async function picture(page){await page.waitForFunction(()=>document.querySelector('.showcase-hero')?.getAttribute('aria-busy')==='false'&&document.querySelector('.showcase-hero img')?.complete&&document.querySelector('.showcase-hero img')?.naturalWidth>0);}
 async function gate(page,file){let release,entered;const blocked=new Promise(r=>release=r),started=new Promise(r=>entered=r);const pattern='**/assets/images/table-showcase/'+file;await page.route(pattern,async r=>{const response=await r.fetch();entered();await blocked;await r.fulfill({response});});return {started,finish:async()=>{release();await page.unroute(pattern);}};}

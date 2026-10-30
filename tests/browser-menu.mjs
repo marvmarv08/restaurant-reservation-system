@@ -23,7 +23,7 @@ async function makePage(options = {}) {
   page.on('pageerror', e => errors.push(e.message));
   return page;
 }
-async function open(page) {await page.goto(base + '/#menu'); await page.locator('.menu-item').first().waitFor();}
+async function open(page) {await page.goto(base + '/reserve#menu'); await page.locator('.menu-item').first().waitFor();}
 async function assertDishes(page, categoryId = 0) {
   const expected = catalog.menu.filter(i => !categoryId || Number(i.category_id) === categoryId);
   const actual = await page.locator('.menu-item h3').allTextContents();
@@ -75,7 +75,7 @@ try {
   });
   for (const width of [320, 390, 768, 1440]) await check('Menu reflow, keyboard visibility and automated A/AA at ' + width + 'px', async () => {
     await page.setViewportSize({width, height: 1000}); await page.locator('#menu').scrollIntoViewIfNeeded();
-    await page.getByRole('button', {name: 'Sweet', exact: true}).click();
+    await page.getByRole('button', {name: catalog.categories.at(-1).name, exact: true}).click();
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     const violations = (await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze()).violations;
     assert.deepEqual(violations.map(v => ({id: v.id, targets: v.nodes.map(n => n.target)})), []);
@@ -90,8 +90,8 @@ try {
   });
   await check('Broken menu images leave stable geometry, names, prices and category controls usable', async () => {
     const failed = await makePage(); await failed.route('**/assets/images/**', route => route.abort()); await open(failed);
-    await failed.getByRole('button', {name: 'Bar', exact: true}).click();
-    await assertDishes(failed, Number(catalog.categories.find(c => c.name === 'Bar').id));
+    await failed.getByRole('button', {name: catalog.categories.at(-1).name, exact: true}).click();
+    await assertDishes(failed, Number(catalog.categories.at(-1).id));
     await failed.waitForFunction(() => document.querySelectorAll('.menu-image.is-missing').length > 0);
     assert.ok(await failed.locator('.menu-image').evaluateAll(nodes => nodes.every(e => e.getBoundingClientRect().height >= 60)));
   });
@@ -111,7 +111,7 @@ try {
     assert.match(await fallback.locator('.menu-item').first().locator('.menu-tags').innerText(), /Currently unavailable/i);
   });
   await check('Reduced-motion category switching is immediately usable and remains static', async () => {
-    await page.emulateMedia({reducedMotion: 'reduce'}); await page.getByRole('button', {name: 'Bar', exact: true}).click();
+    await page.emulateMedia({reducedMotion: 'reduce'}); await page.getByRole('button', {name: catalog.categories.at(-1).name, exact: true}).click();
     assert.equal(await page.locator('#menu-items').evaluate(e => e.getAnimations({subtree:true}).filter(a => a.playState === 'running').length), 0);
   });
   await check('Photo credits include original authors, sources and Creative Commons license links', async () => {

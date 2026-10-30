@@ -32,7 +32,7 @@ async function search(party='2',room='common'){
 async function open(code){await page.locator('.floor-table[data-table="'+code+'"]').click();await ready();await picture();}
 try{
  fixture({action:'showcase-unblock'});fixture({action:'cleanup'});
- await page.goto(base);await page.locator('.room-card').last().waitFor();
+ await page.goto(base + '/reserve');await page.locator('.room-card').last().waitFor();
  await page.locator('#room-cards').scrollIntoViewIfNeeded();
  await page.waitForFunction(()=>{const images=[...document.querySelectorAll('.room-card .room-art img')];return images.length===4&&images.every(i=>i.complete&&i.naturalWidth>0);});
  await check('Room cards retain their local photo previews rather than CSS placeholders',async()=>{
@@ -112,7 +112,7 @@ try{
  await page.clock.install();await open('C7');fixture({action:'showcase-block',date:day,table:'C7'});await page.clock.fastForward(30001);await page.waitForFunction(()=>document.querySelector('.showcase-details .showcase-badge')?.dataset.state==='unavailable');
  await check('Visible-open periodic refresh reflects a real database change',async()=>assert.equal(await badge.getAttribute('data-state'),'unavailable'));
  fixture({action:'showcase-unblock'});await page.getByRole('button',{name:'Refresh availability',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.showcase-details .showcase-badge')?.dataset.state==='available');await close();
- const expiryPage=await context.newPage();await expiryPage.clock.install();await expiryPage.goto(base);
+ const expiryPage=await context.newPage();await expiryPage.clock.install();await expiryPage.goto(base + '/reserve');
  await expiryPage.getByRole('button',{name:'Find a table',exact:true}).waitFor();
  await expiryPage.getByLabel('Date · Manila time').fill(day);await expiryPage.getByLabel('Room preference').selectOption('common');await expiryPage.getByRole('button',{name:'Find a table',exact:true}).click();
  await expiryPage.waitForFunction(()=>document.querySelector('.showcase-tile[data-table=C7] .showcase-badge')?.dataset.state==='available');

@@ -25,7 +25,7 @@ async function open(options = {}) {
   // Full-page asset loads on Docker Desktop need a separate navigation budget.
   page.setDefaultNavigationTimeout(30000);
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto(base);
+  await page.goto(base + '/reserve');
   await page.getByRole('button', {name: 'Find a table', exact: true}).waitFor();
   return page;
 }
@@ -178,7 +178,7 @@ try {
   await check('JavaScript-disabled browsing retains the photos, credits and menu link', async () => {
     const staticPage = await browser.newPage({javaScriptEnabled: false, viewport: {width: 1440, height: 1000}});
     try {
-      await staticPage.goto(base); const staticRegion = await gallery(staticPage);
+      await staticPage.goto(base + '/reserve'); const staticRegion = await gallery(staticPage);
       assert.equal(await staticRegion.locator('figure').count(), 6);
       assert.ok(await staticRegion.getByRole('link', {name: 'Explore the menu', exact: true}).isVisible());
       assert.equal(await staticRegion.getByRole('button', {name: /motion/}).count(), 0);

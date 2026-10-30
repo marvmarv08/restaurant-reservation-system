@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## 2026-10-27 — Add a local restaurant introduction before reservations
+
+- Added a source-researched homepage with original garden-estate concept imagery, supplied company story and an immediate native Continue action. Existing reservations move to `/reserve`; direct management/staff routes remain available. Root booking/menu fragments and queries retain their destinations.
+- Kept images/fonts/scripts local, optimized desktop/phone backgrounds, provided keyboard/no-JavaScript/image-failure navigation and scoped styling. Booking APIs, rules, data and online privacy settings were preserved.
+- Verified 27 intro/navigation and 21 existing seating checks, eight widths, desktop/phone review, accessibility, PHP111/JS/test syntax, both localhost smoke checks and identical main/preview database fingerprints. Independent review has no application blocker; migrated full branding/staff checks are not claimed as rerun.
+- New lesson: a restaurant introduction can communicate identity and story while keeping reservation links immediate and directly reachable. A native link keeps browser history, keyboard use and no-JavaScript navigation working; decorative media must not control task access.
+
 ## 2026-10-27 — Restrict website and repository access
 
 - At Marvin's request, changed the GitHub repository to PRIVATE and enabled Vercel Authentication for all deployments, including old previews and the Bella Vista alias. Fresh provider metadata confirmed both settings.
@@ -499,3 +506,51 @@ Skip when: You only need the active task or current state.
 - git push origin main succeeded; git ls-remote matched source SHA 93a161a9d43f11be1d80ec0abfbf9de4cd4e868d. PLAN and memory now record the verified receipt in a documentation follow-up.
 - GitHub reported the linked Vercel deployment completed successfully for 93a161a; live UI and hosted rules were not revalidated. Local data, private settings and backups remain excluded. No hosted database migration or direct Vercel deployment. Future pushes still require a new request.
 - Lesson: A GitHub push transfers committed project files. Database records/configuration remain separate; verify the remote commit rather than assuming a successful local commit is published.
+
+## 2026-10-28 — Controlled local introduction motion
+
+- Delivered the approved existing-image zoom with stationary reading/action targets, brief decorative feedback, once-only story reveals and an accessible remembered Pause/Resume control. Reduced motion, hidden tabs/offscreen sections and failure fallbacks are handled without new video/dependencies.
+- Observed the initial failing control test; final 20 motion and 27 existing journey checks passed. Desktop/phone review, three-width accessibility, explicit phone non-overlap, PHP111 lint, JS syntax, preview smoke and preserved image/routing/database fingerprints passed. Independent review has no remaining important defect. No publication or database change.
+- Lesson: Decorative movement needs independent user control and a static starting experience. Animate the background while keeping reading and click targets stable; test actual movement and pause behavior rather than checking only CSS names.
+
+## 2026-10-28 — Accessible local menu image enlargement
+
+- Menu and signature-dish photographs open a responsive dark/gold viewer with uncropped imagery, dish title, illustrative-photo note and visible Close. Escape/backdrop dismissal, keyboard containment, focus restoration and image failure handling are verified. Existing allowlisted assets are reused; no ordering/database/publication behavior changed.
+- Nine focused browser checks and 17 existing menu regressions passed; desktop/phone visuals, three-width modal accessibility, syntax, whitespace and smoke passed. Corrected stale legacy Sweet/Bar labels in the menu verifier to use real current categories.
+- Lesson: A clickable image needs a named keyboard control and a predictable way back. Showing the full photograph with contain preserves its composition; enlargement cannot add detail missing from the original file.
+
+## 2026-10-30 — Static intro and hero cleanup
+
+- Removed the screenshot-selected Pause/Resume button and bottom hero image-credit caption, together with the background zoom and obsolete ambient-motion state. Kept the restaurant image, navigation, brief arrow feedback and story reveals. Asset source details remain in project files.
+- Five focused static-intro checks, JS syntax, whitespace and preview smoke passed. No database writes, push or deployment.
+- Lesson: Very subtle decorative motion can appear absent. When the user prefers a static image, remove both the animation and its now-unnecessary control rather than leaving a misleading button.
+
+## 2026-10-30 — Controlled garden ambience
+
+- Marvin approved moving warm garden lights and soft entrance glow over the static photo. Added lightweight decorative layers and compact accessible Pause/Resume control, respecting reduced motion, offscreen/hidden states, storage failure and image/no-JavaScript fallback. No zoom, new footage, database command or publication.
+- Observed the initial missing-effect failure. Final 11 garden-effect, five static-image and 27 intro journey checks passed; syntax, whitespace, preview smoke, three-width accessibility and desktop/phone visual inspection passed. Corrected a verifier race by waiting for the browser's media-preference change event; CSS also hides effects/controls immediately in reduced-motion mode.
+- Lesson: Separate decorative animation from the original photograph. This allows independent user control without moving reading targets, and avoids downloading a video for effects that CSS can provide.
+
+## 2026-10-30 — Photo-led About and visual History
+
+- Delivered Marvin's delegated design update: arched dining/food composition with brand seal, plus exterior concept panel and two-part history timeline. Kept supplied company paragraphs, dark/gold palette, action links and existing garden ambience. Reused local credited images; expandable notes clarify illustration/provenance without implying a real venue or archival2021 photograph.
+-10 focused story checks,27 existing intro journey and11 garden checks passed; five-width accessibility/non-overlap, desktop/tablet/phone visuals, failed-image reflow, PHP lint, JS syntax, whitespace and preview smoke passed. Fixed tablet caption overlap and narrow-screen intrinsic grid overflow. Initial accessibility harness setup was corrected to use an explicit browser context.
+- Lesson: Visual hierarchy comes from composition, spacing and relevant imagery. Overlapping cards need explicit text-clearance checks; grid columns should be allowed to shrink even when an image fails and its alternative text becomes visible.
+
+## 2026-10-30 — Cohesive single-image About visual
+
+- Replaced the stock interior/bread collage with the existing garden-estate concept matching the homepage. Removed floating badge, food card, decorative outline and obsolete collage styles; retained a small caption below the image and updated displayed-image provenance.
+-10 updated story and27 existing intro checks passed. Five-width accessibility/reflow, decoded image, absent floating elements, caption placement and image-failure checks passed, along with PHP lint, test syntax, whitespace and preview smoke. Desktop/phone screenshots inspected. No data changes or publication.
+- Lesson: Matching color alone does not make imagery cohesive. Architecture, lighting and restaurant character should agree across sections; one relevant image can communicate more clearly than several unrelated decorative layers.
+
+## 2026-10-30 — Matching garden-estate interior concept
+
+- Generated an original interior using the exterior as architectural/style reference, and replaced only the About image. Retained the clean frame, supplied text, hero, history and garden effects. Added optimized desktop/phone WebPs, original PNG and full prompt/reference provenance.
+- Observed the failing exterior-versus-interior assertion; final10 story checks passed, with five-width accessibility/reflow, desktop/phone visuals, served-image hash/MIME verification, template/test syntax, whitespace and preview smoke. No database command, dependency or publication.
+- Lesson: A reference image can guide material, architecture and light consistency across different views. Save its role and generation prompt, and deliver appropriately sized images rather than the original PNG to visitors.
+
+## 2026-10-30 — Private UI release preparation and repository identity
+
+- Marvin authorized publishing all completed local work and explicitly restored the repository name from SeatFlow to restaurant-reservation-system. Renamed the same private repository, updated the canonical origin and preserved the remote README-only commit through fast-forward integration.
+- All100 affected guest checks, PHP111 lint,55 JS parse checks, both local smoke checks and unchanged main/preview table fingerprints passed. Independent review found no issue. Dry deployment package excludes private inputs and includes the new optimized visuals. Source publication/deployment completion is recorded separately after verification.
+- Lesson: A repository rename preserves its history/identity, but local remotes and documentation should still match. Website files, database records and access protection are separate release concerns.

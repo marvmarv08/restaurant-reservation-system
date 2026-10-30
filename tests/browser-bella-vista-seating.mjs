@@ -23,7 +23,7 @@ const open=async code=>{await page.locator('.showcase-tile[data-table="'+code+'"
 let checks=0;
 const check=async(name,fn)=>{await fn();console.log('PASS '+name);checks++;};
 try{
- await page.goto(base);await page.locator('.showcase-inventory summary').click();
+ await page.goto(base + '/reserve');await page.locator('.showcase-inventory summary').click();
  const catalog=(await(await page.request.get(base+'/api/catalog')).json()).catalog;
  assert.equal(catalog.profile,'bella_vista_b2');assert.equal(catalog.tables.length,9);
  for(const table of catalog.tables){
@@ -50,7 +50,7 @@ try{
  let release,requested;
  const requestedPromise=new Promise(r=>requested=r),gate=new Promise(r=>release=r);
  await page.route('**/VIP1.jpg',async r=>{requested();await gate;await r.continue();});
- await page.goto(base,{waitUntil:'domcontentloaded'});
+ await page.goto(base + '/reserve',{waitUntil:'domcontentloaded'});
  await page.locator('.showcase-inventory summary').click();
  await page.locator('.showcase-tile[data-table=VIP1]').click();
  let timer;
@@ -64,7 +64,7 @@ try{
  });
  await close();
  await page.route('**/VIP2.jpg',r=>r.abort('failed'));
- await page.goto(base,{waitUntil:'domcontentloaded'});
+ await page.goto(base + '/reserve',{waitUntil:'domcontentloaded'});
  await page.locator('.showcase-inventory summary').click();
  await page.locator('.showcase-tile[data-table=VIP2]').click();await page.locator('.showcase-hero svg').waitFor();
  await check('Missing VIP render retains twenty distinct nonoverlapping fallback chairs',async()=>{

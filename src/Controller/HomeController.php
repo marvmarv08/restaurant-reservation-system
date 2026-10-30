@@ -10,6 +10,11 @@ final class HomeController
 {
     public function index(Request $request): Response
     {
+        return $this->page('intro');
+    }
+
+    public function reserve(Request $request): Response
+    {
         return $this->page('guest');
     }
 
@@ -20,7 +25,8 @@ final class HomeController
 
     private function page(string $page): Response
     {
-        $html = file_get_contents(dirname(__DIR__) . '/View/guest.php');
+        $view = $page === 'intro' ? 'intro' : 'guest';
+        $html = file_get_contents(dirname(__DIR__) . '/View/' . $view . '.php');
         $public = dirname(__DIR__, 2) . '/public';
         // Changed file contents get a new URL so returning browsers cannot reuse older assets.
         $html = preg_replace_callback(

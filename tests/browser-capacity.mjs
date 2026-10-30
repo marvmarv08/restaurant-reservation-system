@@ -14,7 +14,7 @@ const fit=(t,count)=>count>=Number(t.min_party)&&count<=Number(t.max_party);
 let checks=0;const check=async(name,fn)=>{await fn();checks++;console.log('PASS '+name);};
 const catalog=(await(await context.request.get(base+'/api/catalog')).json()).catalog;
 const numbers=Array.from({length:catalog.max_party},(_,i)=>i+1);
-async function fresh(query){await page.goto(base);if(query){await page.evaluate(q=>sessionStorage.setItem('lumina.guest.v1',JSON.stringify({query:q})),query);await page.reload();}else{await page.evaluate(()=>sessionStorage.clear());await page.reload();}await guests.waitFor();}
+async function fresh(query){await page.goto(base + '/reserve');if(query){await page.evaluate(q=>sessionStorage.setItem('lumina.guest.v1',JSON.stringify({query:q})),query);await page.reload();}else{await page.evaluate(()=>sessionStorage.clear());await page.reload();}await guests.waitFor();}
 try{
  await fresh();
  await check('Initial form supports room-first selection from all active room types',async()=>assert.deepEqual(await options(rooms),['any',...catalog.room_types.map(t=>t.code)]));

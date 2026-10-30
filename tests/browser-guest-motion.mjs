@@ -72,7 +72,7 @@ async function gateImage(page, filename) {
 }
 try {
   const page = await makePage();
-  await page.goto(base);
+  await page.goto(base + '/reserve');
   await page.getByRole('button', {name: 'Find a table', exact: true}).waitFor();
   await check('Hero headline has one short entrance and the initial booking form stays immediately usable', async () => {
     const hero = await animations(page, 'hero-title');
@@ -191,7 +191,7 @@ try {
     assert.equal(await manage.getByLabel('Guests', {exact: true}).isEnabled(), true);
   });
   const pictures = await makePage({reducedMotion: 'reduce'});
-  await pictures.goto(base); await pictures.locator('.room-card').last().waitFor();
+  await pictures.goto(base + '/reserve'); await pictures.locator('.room-card').last().waitFor();
   const delayed = await gateImage(pictures, 'V2.jpg');
   await pictures.locator('.room-card[data-room-type=vip]').click();
   await pictures.waitForFunction(() => document.querySelector('.showcase-hero')?.getAttribute('aria-busy') === 'false' && document.querySelector('.showcase-hero img.is-ready'));
@@ -224,7 +224,7 @@ try {
   await pictures.keyboard.press('Escape');
   await check('Escape returns focus to the exact room opener after interrupted loading', async () => assert.equal(await pictures.locator('.room-card[data-room-type=terrace]').evaluate(e => e === document.activeElement), true));
   const fallback = await makePage({fallback: true});
-  await fallback.goto(base); await search(fallback); await details(fallback);
+  await fallback.goto(base + '/reserve'); await search(fallback); await details(fallback);
   await check('Missing animation API leaves the actual hold/details flow static and editable', async () => {
     assert.equal(await fallback.locator('#flow').evaluate(e => e.getAnimations().length), 0);
     assert.equal(await fallback.getByLabel('Full name', {exact: true}).isEditable(), true);

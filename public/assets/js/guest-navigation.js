@@ -5,7 +5,10 @@
   if (!header) return;
   const sections = ["booking", "about", "history", "rooms", "menu"].map(id => ({
     section: document.getElementById(id),
-    link: header.querySelector(`a[href="/#${id}"]`),
+    link: [...header.querySelectorAll("a[href]")].find(link => {
+      const url = new URL(link.href);
+      return url.pathname === location.pathname && url.hash === `#${id}`;
+    }),
   })).filter(item => item.section && item.link);
   let scheduled = false;
   function update() {

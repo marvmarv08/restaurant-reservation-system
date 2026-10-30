@@ -5,7 +5,7 @@ if(process.env.BOOKING_TEST_MODE!=='isolated')throw Error('Use the isolated brow
 const {chromium}=await import(pathToFileURL(resolve(process.env.PLAYWRIGHT_MODULE)).href);
 const browser=await chromium.launch(),base='http://127.0.0.1:18080',errors=[],writes=[];let checks=0;
 async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
-async function open(options={},setup,path='/'){
+async function open(options={},setup,path = '/reserve'){
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference',...options});
  const page=await context.newPage();page.setDefaultTimeout(10000);
  await page.route('**/*',r=>{assert.equal(new URL(r.request().url()).origin,base);if(!['GET','HEAD'].includes(r.request().method()))writes.push(r.request().method());return r.continue();});

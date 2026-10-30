@@ -20,7 +20,7 @@ async function guest(){await page.getByLabel('Full name',{exact:true}).fill('B4 
 const confirm=()=>page.locator('#confirm-booking');
 let other;
 try{
- await page.goto(base);await page.getByLabel('Date · Manila time').waitFor();await search();await guest();
+ await page.goto(base + '/reserve');await page.getByLabel('Date · Manila time').waitFor();await search();await guest();
  await page.getByLabel('Food item',{exact:true}).selectOption(String(data.menu[0].id));await page.getByLabel('Quantity to add',{exact:true}).fill(String(data.menu[0].qty));await page.getByRole('button',{name:'Add dish',exact:true}).click();
  await check('Cart supports real assigned category choices and live food subtotal',async()=>{
   assert.equal(await page.locator('.preorder-add optgroup').count(),3);assert.equal(await page.locator('.preorder-line').count(),1);assert.match(await page.locator('.preorder-subtotal').innerText(),/₱/);
@@ -87,7 +87,7 @@ try{
  await check('Confirmed arrival hands accepted food to the real kitchen exactly once',async()=>{assert.equal(tickets.status(),200);assert.equal(fixture({action:'verify'}).tickets,1);assert.equal(fixture({action:'verify'}).orders,1);assert.ok(JSON.stringify(kitchen).includes(code));});
  await privatePage.reload();await privatePage.locator('.preorder-summary').waitFor();await check('Guest management reflects kitchen release and removes cart editing',async()=>{assert.match(await privatePage.locator('.preorder-summary').innerText(),/Released to the kitchen/);assert.equal(await privatePage.getByRole('button',{name:'Edit food pre-order',exact:true}).count(),0);});
  // A new VIP booking demonstrates the approved fee/credit split before acceptance.
- await context.clearCookies();await page.goto(base);await page.evaluate(()=>sessionStorage.clear());await page.reload();await search('16','bv_vip');await guest();await confirm().click();await page.locator('.preorder-quote h3').waitFor();
+ await context.clearCookies();await page.goto(base + '/reserve');await page.evaluate(()=>sessionStorage.clear());await page.reload();await search('16','bv_vip');await guest();await confirm().click();await page.locator('.preorder-quote h3').waitFor();
  await check('VIP sixteen guests shows ₱2,500 unpaid base and separate ₱300 extras',async()=>{const text=await page.locator('.preorder-quote').innerText();assert.match(text,/₱2,500.00/);assert.match(text,/₱300.00/);assert.match(text,/not food credit/);});
  await page.screenshot({path:artifacts+'/vip-quote.png'});
  const session=await(await page.request.get(base+'/api/session')).json();

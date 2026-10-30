@@ -730,3 +730,120 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: 237 MySQL, 44 HTTP, 218 browser, disabled-preorder regression, 18 fee, 6 terms, 5 TLS/config, 9 seating assets, 3 local worker checks passed; PHP 110 lint and JS14 syntax passed. Final runtime image matched211 packaged hashes and passed local smoke against new hosted TLS DB. New DB backup actual restore47 table hashes; original preview recovery46 hashes. Runtime/tests unchanged from published/deployed21f85e2; current GitHub docs branch verified568dc1a. Independent review no remaining critical issue. Ready/Preview/sin1/public-alias metadata verified; no direct deployed-URL fetch or hosted browser acceptance claimed.
 - Closed At: 2026-10-27T14:30:28Z
+
+## 2026-10-27 restaurant-intro-local-20261027
+
+<!-- pmm-task-id: restaurant-intro-local-20261027 -->
+
+- Status: done
+- Parent Task: none
+- Title: Add a researched Bella Vista introduction before the reservation interface
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Local intro27 and existing seating21 browser checks passed; eight widths, desktop/phone visual review, accessibility, no-JS/image fallback/reduced motion, direct reservation/manage and old fragment/query navigation verified. PHP111, product JS/all browser-test syntax, whitespace and both smoke checks pass; all main/preview database hashes/counts preserved. Independent review has no application blocker. Full branding/staff suite was not rerun. No commit/push/deploy; local feature branch only.
+- Closed At: 2026-10-27T15:21:31Z
+
+## 2026-10-27 intro-motion-research-20261028
+
+<!-- pmm-task-id: intro-motion-research-20261028 -->
+
+- Status: done
+- Parent Task: none
+- Title: Research suitable movement and interaction for the Bella Vista intro
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Latest065318 screenshot, current source/asset provenance and11 primary UX/accessibility/browser/performance/media resources reviewed. Research17 records comparison, recommendation, proposed tuning, source limits and acceptance contract. Product hashes unchanged. Marvin explicitly selected recommended local implementation.
+- Closed At: 2026-10-27T23:13:46Z
+
+## 2026-10-27 intro-ambient-motion-local-20261028
+
+<!-- pmm-task-id: intro-ambient-motion-local-20261028 -->
+
+- Status: done
+- Parent Task: none
+- Title: Add controlled ambient motion and interaction to the local Bella Vista intro
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Observed red missing control before implementation; final20 browser motion checks and27 intro journey checks passed. PHP111 lint, JS syntax, git diff --check, preview smoke, desktop/phone visuals and1366/390/320px axe passed. Explicit phone rectangle non-overlap passes. Original image and reservation routing/navigation hashes unchanged. Main/preview all-table fingerprints unchanged. Independent review found no remaining important defect. Limited1.8s Chromium sample:0 extra layouts. No video/external resource/HTTP writes. Local uncommitted delivery only; no push/deploy/access changes.
+- Closed At: 2026-10-27T23:31:54Z
+
+## 2026-10-27 menu-image-viewer-local-20261028
+
+<!-- pmm-task-id: menu-image-viewer-local-20261028 -->
+
+- Status: done
+- Parent Task: none
+- Title: Enlarge menu photos in an accessible local image viewer
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Red missing-viewer assertion observed; final9 real browser checks passed, plus17 existing current-catalog menu checks. Actual enlargement, correct title, contain rendering, keyboard trap/Escape/focus/scroll, backdrop, category re-render and featured dish, image failure and1366/390/320px axe passed. Desktop/phone screenshots inspected. JS syntax/diff whitespace/preview smoke passed. Fresh before/after main/preview all-table hashes matched; no HTTP write requests or JS errors. Legacy category label mismatch corrected in verifier. Self-review completed; no remaining issue in bounded display scope. Source local/uncommitted, no deployment or remote access change.
+- Closed At: 2026-10-27T23:44:02Z
+
+## 2026-10-29 intro-static-local-20261030
+
+<!-- pmm-task-id: intro-static-local-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Remove intro zoom control and hero credit caption
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Red removal assertion observed. Final5 static and27 existing intro journey checks passed. JS syntax, whitespace and preview smoke passed. Background has no image animation or changing transform; control/caption absent;390/320px reflow and Continue work. Local source only; no DB command, push or deployment. Asset provenance retained.
+- Closed At: 2026-10-29T23:14:28Z
+
+## 2026-10-30 garden-ambience-local-20261030
+
+<!-- pmm-task-id: garden-ambience-local-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Add controlled garden light ambience to local intro
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Observed initial missing-effect failure. Final11 garden checks,5 static-image checks and27 intro/navigation checks passed. Actual moving light transforms with stable image/CTA; keyboard pause/freeze/persistence/resume; offscreen, simulated hidden-document events, reduced-motion, blocked storage and image/no-JS fallbacks verified. Axe and control non-overlap at1366/390/320px pass. Desktop/phone visual review, JS syntax, git diff --check and preview smoke pass. No video download, DB command, HTTP write, push or deployment. Self-review: effect/control readiness and static defaults verified; physical-device performance not claimed.
+- Closed At: 2026-10-30T05:26:07Z
+
+## 2026-10-30 intro-story-design-local-20261030
+
+<!-- pmm-task-id: intro-story-design-local-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Make About and History visually engaging with restaurant imagery and story layout
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Initial missing-photo assertion observed before implementation. Final10 story-design checks pass:3 decoded local images, supplied facts/links,1440/1024/768/390/320px axe/reflow/caption non-overlap, attribution and failed-image fallback; no HTTP writes/browser errors. Existing27 intro journey and11 garden checks passed. Desktop/tablet/phone screenshots inspected; PHP template lint, test JS syntax, git diff --check and preview smoke passed. Fixed failed-image intrinsic grid overflow and tablet caption overlap. Self-review confirms supplied paragraph preservation, lazy local assets, clear stock/concept attribution and no new dependencies. No database command, push or deployment. Physical-device performance/full staff suite not claimed.
+- Closed At: 2026-10-30T05:33:54Z
+
+## 2026-10-30 about-cohesion-local-20261030
+
+<!-- pmm-task-id: about-cohesion-local-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Simplify About visual to match the garden-estate identity
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Observed red2-images-versus1 assertion before change. Final10 updated story and27 intro journey checks passed. Matching decoded concept image, removed floating cards/badge, caption below image, source note, five-width axe/reflow and image-failure fallback verified. Desktop/phone visuals inspected. PHP template lint, test JS syntax, git diff --check and preview smoke passed. Only About markup/styles and source notes changed; History and garden behavior retained. No new asset/dependency, database command, push or deployment.
+- Closed At: 2026-10-30T05:40:16Z
+
+## 2026-10-30 matching-interior-local-20261030
+
+<!-- pmm-task-id: matching-interior-local-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Create a matching garden-estate interior image for About
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Built-in imagegen created original interior from exterior architecture/style reference; output and desktop/phone crops inspected. PNG/prompt/reference/checksums preserved;1100px169736-byte and680px81860-byte WebPs saved. Observed red exterior-versus-interior URL assertion; final10 story checks pass, including decoded image, five-width reflow/axe, caption placement, source disclosure and image failure. Both served image/webp SHA256 match manifest. Template lint, test JS syntax, git diff --check and preview smoke pass. No new dependency, database command, push or deployment. Prior journey/garden suites not rerun for this image-only replacement.
+- Closed At: 2026-10-30T05:46:42Z
