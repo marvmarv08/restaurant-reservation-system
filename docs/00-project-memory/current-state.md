@@ -8,6 +8,12 @@ Skip when: Only reading historical decisions or one-off command output.
 
 Marvin requested temporarily private access after the Bella Vista release. Verified GitHub repository `marvmarv08/restaurant-reservation-system` is PRIVATE. Vercel project `restaurant-reservation-system` now has Vercel Authentication with `deploymentType=all`, covering the Bella Vista alias, immutable deployment URLs and old previews. Only authorized Vercel accounts can access them. Retain these settings until Marvin explicitly requests public access again; prior public-release authorization does not authorize reopening access. Existing deployments, databases and app credentials are retained. Earlier public-release entries below are historical evidence.
 
+## Continuous motion while scrolling — 2026-10-30
+
+Marvin rejected scroll-triggered pauses and requested continuous videos/effects while scrolling. Restored uninterrupted visible hero/chef playback, gallery drift and entrance effects; removed the shared scroll activity script/timer and its subscriptions. Retained navigation caching so unchanged active-section attributes are not rewritten. Normal offscreen/hidden/reduced-motion/media-failure guards remain. The earlier160ms-pause strategy below is historical and superseded.
+
+Updated8 scrolling checks verify advancing media/gallery during actual viewport scrolling, entrances remaining enabled, form state, phone behavior, zero redundant navigation writes and normal lifecycle guards. Existing12 hero,8 chef,20 gallery,27 intro and17 menu checks pass (92 total). Independent review found no issue; exact release image220 hashes/private exclusions and disposable HTTP smoke passed.237-file Vercel dry package excludes private inputs and the obsolete scroll script. Existing record fingerprints match. Private GitHub/Vercel publication is authorized as refinement of the scrolling fix; readiness/alias receipt follows. No new FPS guarantee, image/quality change, database operation or access change.
+
 ## Reservation scrolling optimization — 2026-10-30
 
 Marvin reported lag on /reserve and explicitly approved publishing the verified fix privately. Shared passive viewport-scroll activity now pauses decorative hero/chef videos and gallery motion, suppresses/cancels entrances, and resumes allowed media160ms after scrolling settles. Hero keeps its last frame; text/form remain immediately usable. Navigation updates only when the active section changes. Horizontal gallery swipes remain independent. Existing hidden/offscreen/reduced-motion/failure behavior is preserved.

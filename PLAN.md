@@ -3,6 +3,12 @@
 Project: class competition deliverable. Stack mandated: JavaScript (vanilla), PHP (vanilla), CSS, HTML, Docker.
 Status (2026-10-30): **Latest private GitHub/Vercel release includes the reservation scrolling optimization:** https://bella-vista-dining-marvmarv08.vercel.app. Source24a2d87 follows the completed introduction/menu release. Ready protected Preview, unchanged hosted records/configuration,92 focused checks and exact-image verification are recorded below. Physical-device scroll acceptance, worker hosting, local main-image activation and B7/B8 remain separate.
 
+## Continuous motion while scrolling — 2026-10-30
+
+Marvin rejected scroll-triggered pauses and requested continuous videos/effects while scrolling. Restored uninterrupted visible hero/chef playback, gallery drift and entrance effects; removed the shared scroll activity script/timer and its subscriptions. Retained navigation caching so unchanged active-section attributes are not rewritten. Normal offscreen/hidden/reduced-motion/media-failure guards remain. The earlier160ms-pause strategy below is historical and superseded.
+
+Updated8 scrolling checks verify advancing media/gallery during actual viewport scrolling, entrances remaining enabled, form state, phone behavior, zero redundant navigation writes and normal lifecycle guards. Existing12 hero,8 chef,20 gallery,27 intro and17 menu checks pass (92 total). Independent review found no issue; exact release image220 hashes/private exclusions and disposable HTTP smoke passed.237-file Vercel dry package excludes private inputs and the obsolete scroll script. Existing record fingerprints match. Private GitHub/Vercel publication is authorized as refinement of the scrolling fix; readiness/alias receipt follows. No new FPS guarantee, image/quality change, database operation or access change.
+
 ## Reservation scrolling optimization — 2026-10-30
 
 Marvin reported lag on /reserve and explicitly approved publishing the verified fix privately. Shared passive viewport-scroll activity now pauses decorative hero/chef videos and gallery motion, suppresses/cancels entrances, and resumes allowed media160ms after scrolling settles. Hero keeps its last frame; text/form remain immediately usable. Navigation updates only when the active section changes. Horizontal gallery swipes remain independent. Existing hidden/offscreen/reduced-motion/failure behavior is preserved.

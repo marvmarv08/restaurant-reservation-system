@@ -1,5 +1,7 @@
 # Reservation-page scrolling performance — 2026-10-30
 
+**Latest behavior:** Marvin requested continuous motion during scrolling after reviewing the pause-based release. The160ms viewport-pause/entrance-suppression strategy described below is superseded. Current videos/gallery/entrances continue while visible; redundant navigation updates remain eliminated. The shared activity script/timer is removed. Normal offscreen/hidden/reduced-motion guards remain.92 updated/relevant checks and independent review pass; see the latest project deployment receipt.
+
 Marvin reported lag while scrolling the reservation page (Screenshot2026-10-30 141739) and explicitly approved private GitHub/Vercel publication after local verification. Preserve the existing restaurant design, form, data, responsive layout and video ambience when stationary.
 
 ## Diagnosis and implemented change

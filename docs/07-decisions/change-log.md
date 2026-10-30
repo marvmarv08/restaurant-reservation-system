@@ -571,3 +571,9 @@ Skip when: You only need the active task or current state.
 
 - Application source24a2d87 is pushed to private main and deployed as Ready Preview dpl_CwsVvNhrjhzxvuM5DN22NTridZPR. Existing Bella Vista alias maps to it; source/project/owner/container/Preview/sin1 and all-deployment authentication verified through metadata.
 -92 focused browser checks, PHP111 lint,57 JS parse checks,221 exact-image hashes/private exclusions and local smoke passed; main/preview fingerprints unchanged. No database reset/migration or privacy change. Hosted URL not fetched; physical-device smoothness remains user acceptance. Research20 records the variable frame timings without claiming guaranteed FPS.
+
+## 2026-10-30 — Restore continuous motion during scrolling
+
+- Marvin clarified that videos/effects should remain continuous. Removed viewport-triggered pausing, entrance suppression and the shared scroll timer/script. Retained zero redundant navigation writes and normal offscreen/hidden/reduced-motion/failure guards.
+-8 revised continuity checks and84 existing hero/chef/gallery/intro/menu checks pass. Independent review clean;220 image hashes/private exclusions, exact-image smoke and record preservation pass. Private publication is an authorized refinement; metadata receipt recorded after Ready.
+- Lesson: Performance changes must preserve the intended interaction. Keep low-risk work reductions that retain the experience, and do not equate a scheduling tradeoff or variable headless frame sample with a guaranteed device-speed improvement.
