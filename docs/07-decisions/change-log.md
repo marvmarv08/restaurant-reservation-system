@@ -560,3 +560,9 @@ Skip when: You only need the active task or current state.
 - Published application source3c01d69 to main in the restored private restaurant-reservation-system repository. Retained the remote README-only commit and repository ID; no force push.
 - Vercel Ready Preview dpl_Cy3UDNzgwfvhPHoWSU6SnzSDoWPJ matches that source and existing project/team/container/Preview/sin1. Existing Bella Vista alias maps to it; GitHub PRIVATE and Vercel Authentication for all deployments remain verified.
 -100 guest checks, PHP111 lint,55 JS parse checks, five hosted configuration guards, both local smoke checks,220 exact-image hashes/private exclusions, disposable image smoke and unchanged main/preview fingerprints passed. Independent review clean. Existing hosted data/TLS/session configuration reused without migrations or imports. Hosted URL not fetched; full staff/write suites not rerun. Receipt: docs/verification/ui-private-release-2026-10-30.md.
+
+## 2026-10-30 — Reservation scroll workload reduction
+
+- Reproduced decorative-media/entrance work and repeated navigation writes during scrolling. Added a shared passive viewport-scroll signal: pause decorative motion, retain the hero frame, skip/cancel entrances and resume permitted media after160ms idle. Navigation writes only on section changes; horizontal gallery scrolling stays independent.
+- Observed failing pause and entrance assertions, then92 relevant browser checks passed on the final fix. Independent review passed; exact-image221 hashes/private exclusions, smoke, syntax and unchanged local database fingerprints passed. Headless frame timing varies; no universal FPS claim. Private publication explicitly authorized and recorded separately after readiness verification.
+- Lesson: Attractive animation competes with scrolling for rendering time. Schedule decorative work around user interaction and measure actual work removed; a small browser benchmark does not guarantee smoothness on every device.

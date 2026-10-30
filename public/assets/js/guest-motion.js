@@ -3,6 +3,7 @@
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const animations = new WeakMap();
   const running = new Set();
+  const scroll = window.LuminaScrollActivity;
 
   function stop(target) {
     const animation = animations.get(target);
@@ -15,7 +16,7 @@
   function enter(target, kind = "content", delay = 0) {
     if (!target) return;
     stop(target);
-    if (reduced.matches || !target.isConnected || typeof target.animate !== "function") return;
+    if (reduced.matches || scroll?.active || !target.isConnected || typeof target.animate !== "function") return;
     const style = getComputedStyle(target);
     const token = kind === "heading" ? "heading" : (kind === "hero" || kind === "room") ? "brand" : kind === "menu" ? "feedback" : "content";
     const duration = parseFloat(style.getPropertyValue("--motion-" + token)) || 180;
@@ -55,6 +56,11 @@
     for (const photo of photos) observer.observe(photo);
   }
 
+  scroll?.subscribe(() => {
+    if (!scroll.active) return;
+    for (const animation of running) animation.cancel();
+    running.clear();
+  });
   reduced.addEventListener("change", () => {
     if (reduced.matches) {
       for (const animation of running) animation.cancel();

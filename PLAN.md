@@ -3,6 +3,12 @@
 Project: class competition deliverable. Stack mandated: JavaScript (vanilla), PHP (vanilla), CSS, HTML, Docker.
 Status (2026-10-30): **Latest completed UI is pushed to private GitHub and deployed as a Ready protected Vercel Preview:** https://bella-vista-dining-marvmarv08.vercel.app. Source3c01d69 adds the introduction, original exterior/interior imagery, garden ambience and menu image viewer. Existing hosted records are retained. Worker hosting, local main-image activation, B7 proposal and full B8 acceptance remain separate.
 
+## Reservation scrolling optimization — 2026-10-30
+
+Marvin reported lag on /reserve and explicitly approved publishing the verified fix privately. Shared passive viewport-scroll activity now pauses decorative hero/chef videos and gallery motion, suppresses/cancels entrances, and resumes allowed media160ms after scrolling settles. Hero keeps its last frame; text/form remain immediately usable. Navigation updates only when the active section changes. Horizontal gallery swipes remain independent. Existing hidden/offscreen/reduced-motion/failure behavior is preserved.
+
+Final92 browser checks passed (8 scrolling,12 hero,8 chef,20 gallery,27 intro,17 menu), with independent review and extra lifecycle/phone checks. Exact image221 hashes/private exclusions, disposable smoke, PHP111 lint, syntax/whitespace and unchanged main/preview fingerprints passed. Profiling confirms119→0 redundant navigation writes; frame timing samples overlap and do not establish guaranteed device FPS improvement. Full fixture-resetting guest-motion/write suites were not rerun. Research/evidence: `research/20_reservation_scroll_performance.md`. GitHub/Vercel publication is authorized and pending readiness/alias verification; retain existing private access and hosted data.
+
 ## Private UI release delivered — 2026-10-30
 
 All completed unpublished local introduction/menu work is committed and pushed to private `marvmarv08/restaurant-reservation-system`, application source `3c01d69f7070defdcd77c259806f9fbc4d11fa55`. Marvin explicitly restored the repository name from SeatFlow; the same repository ID/history was preserved, its README-only remote commit integrated, and the local origin/title restored. The canonical working branch is now main.

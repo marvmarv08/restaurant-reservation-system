@@ -15,6 +15,7 @@
   if (typeof IntersectionObserver !== "function") return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const desktop = matchMedia("(min-width: 761px)");
+  const scroll = window.LuminaScrollActivity;
   let visible = false;
   let frame = null, lastFrame = null, position = 0, direction = 1;
   for (const group of gallery.querySelectorAll(".food-set")) {
@@ -43,7 +44,7 @@
   }
   function update() {
     const enabled = !reduced.matches;
-    const running = enabled && visible && !document.hidden;
+    const running = enabled && visible && !document.hidden && !scroll?.active;
     section.dataset.motionReady = String(enabled && desktop.matches);
     section.dataset.mobileMotion = String(enabled && !desktop.matches);
     section.dataset.running = String(running);
@@ -59,12 +60,13 @@
       lastFrame = null;
     }
     if (video) {
-      if (enabled && videoVisible && !document.hidden && !videoFailed) {
+      if (enabled && videoVisible && !document.hidden && !videoFailed && !scroll?.active) {
         if (!video.getAttribute("src")) video.src = video.dataset.src;
         if (video.paused) video.play().catch(() => {});
       } else video.pause();
     }
   }
+  scroll?.subscribe(update);
   reduced.addEventListener("change", update);
   desktop.addEventListener("change", update);
   document.addEventListener("visibilitychange", update);

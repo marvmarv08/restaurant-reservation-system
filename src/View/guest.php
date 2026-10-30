@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/assets/css/ui-feedback.css">
   <link rel="stylesheet" href="/assets/css/guest-desktop.css">
   <script src="/assets/js/ui-feedback.js" defer></script>
+  <script src="/assets/js/guest-scroll.js" defer></script>
   <script src="/assets/js/guest-motion.js" defer></script>
   <script src="/assets/js/guest-navigation.js" defer></script>
   <script src="/assets/js/floor-layout.js" defer></script>

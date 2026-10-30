@@ -10,7 +10,7 @@
       return url.pathname === location.pathname && url.hash === `#${id}`;
     }),
   })).filter(item => item.section && item.link);
-  let scheduled = false;
+  let scheduled = false, selected = null;
   function update() {
     scheduled = false;
     const edge = header.getBoundingClientRect().height + 160;
@@ -18,6 +18,8 @@
     for (const item of sections) {
       if (item.section.getBoundingClientRect().top <= edge) current = item;
     }
+    if (current === selected) return;
+    selected = current;
     for (const item of sections) {
       if (item === current) item.link.setAttribute("aria-current", "location");
       else item.link.removeAttribute("aria-current");
