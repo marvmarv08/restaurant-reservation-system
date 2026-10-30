@@ -873,3 +873,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: Observed failing active-scroll media and2-running-entrances assertions before fixes. Final92 checks:8 scrolling,12 hero,8 chef,20 gallery,27 intro,17 menu passed. Independent review and extra phone/horizontal/hidden/reduced/entrance checks clean. PHP111 lint,57 JS parse, whitespace/smoke,221 exact-image hashes/private exclusions and script order pass; main/preview hashes unchanged. Controlled headless timings vary;119-to0 navigation writes consistent, no universal FPS claim. Source24a2d87 matches private GitHub main. READY dpl_CwsVvNhrjhzxvuM5DN22NTridZPR matches SHA/project/owner/container/Preview/sin1; alias API matches and deploymentType=all retained.238-file upload excludes private inputs. No DB init/reset/import; hosted URL not fetched.
 - Closed At: 2026-10-30T06:45:25Z
+
+## 2026-10-30 continuous-scroll-motion-20261030
+
+<!-- pmm-task-id: continuous-scroll-motion-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Preserve continuous reservation motion while scrolling
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: Observed red visible-hero-paused assertion. Updated8 continuity checks and84 existing hero/chef/gallery/intro/menu checks passed. Independent review5 targeted lifecycle/mobile/delayed-playback checks clean. Zero repeated nav writes retained; scroll singleton/script and suppressions removed. PHP111 lint,56 JS parse, whitespace/preview smoke,220 exact-image hashes/private exclusions, disposable smoke and unchanged record fingerprints pass.237-file upload excludes obsolete script/private inputs. Sourcebb646751dfc3f01f1e5875355e9bede42879c985 matches private GitHub main. READY dpl_HRNaQdqT57q7qk3RkhQRWTEPT1Qe exact SHA/project/owner/container/Preview/sin1; alias API matches, deploymentType=all retained. No DB init/import/reset or new FPS guarantee; hosted URL not fetched.
+- Closed At: 2026-10-30T07:05:41Z
