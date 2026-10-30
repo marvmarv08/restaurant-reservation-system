@@ -860,3 +860,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: 100 fresh guest checks across7 suites; PHP111 lint,55 JS syntax,5 hosted DB config guards, both localhost smoke,220 exact-image hashes/private exclusions and disposable image smoke pass. Main/preview fingerprints unchanged. Independent reviewer found no issue; extra keyboard/redirect/no-observer edges pass. Staged scope/credential-pattern scan clean;237-file Vercel manifest excludes private/research/test inputs. Source3c01d69f7070defdcd77c259806f9fbc4d11fa55 matches pushed main. READY dpl_Cy3UDNzgwfvhPHoWSU6SnzSDoWPJ matches source/project/owner/container/preview/sin1; alias API confirms existing Bella Vista alias. GitHub PRIVATE and Vercel deploymentType=all verified. No database init/import/reset or privacy change; hosted URL not fetched, full staff/write suite not rerun.
 - Closed At: 2026-10-30T06:11:34Z
+
+## 2026-10-30 reservation-scroll-performance-20261030
+
+<!-- pmm-task-id: reservation-scroll-performance-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Diagnose and improve reservation-page scrolling
+- Execution State: done
+- Verification State: passed
+- Delivery State: deployed
+- Verification Evidence: Observed failing active-scroll media and2-running-entrances assertions before fixes. Final92 checks:8 scrolling,12 hero,8 chef,20 gallery,27 intro,17 menu passed. Independent review and extra phone/horizontal/hidden/reduced/entrance checks clean. PHP111 lint,57 JS parse, whitespace/smoke,221 exact-image hashes/private exclusions and script order pass; main/preview hashes unchanged. Controlled headless timings vary;119-to0 navigation writes consistent, no universal FPS claim. Source24a2d87 matches private GitHub main. READY dpl_CwsVvNhrjhzxvuM5DN22NTridZPR matches SHA/project/owner/container/Preview/sin1; alias API matches and deploymentType=all retained.238-file upload excludes private inputs. No DB init/reset/import; hosted URL not fetched.
+- Closed At: 2026-10-30T06:45:25Z

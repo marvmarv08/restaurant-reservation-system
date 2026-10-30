@@ -566,3 +566,8 @@ Skip when: You only need the active task or current state.
 - Reproduced decorative-media/entrance work and repeated navigation writes during scrolling. Added a shared passive viewport-scroll signal: pause decorative motion, retain the hero frame, skip/cancel entrances and resume permitted media after160ms idle. Navigation writes only on section changes; horizontal gallery scrolling stays independent.
 - Observed failing pause and entrance assertions, then92 relevant browser checks passed on the final fix. Independent review passed; exact-image221 hashes/private exclusions, smoke, syntax and unchanged local database fingerprints passed. Headless frame timing varies; no universal FPS claim. Private publication explicitly authorized and recorded separately after readiness verification.
 - Lesson: Attractive animation competes with scrolling for rendering time. Schedule decorative work around user interaction and measure actual work removed; a small browser benchmark does not guarantee smoothness on every device.
+
+## 2026-10-30 — Scrolling fix published privately
+
+- Application source24a2d87 is pushed to private main and deployed as Ready Preview dpl_CwsVvNhrjhzxvuM5DN22NTridZPR. Existing Bella Vista alias maps to it; source/project/owner/container/Preview/sin1 and all-deployment authentication verified through metadata.
+-92 focused browser checks, PHP111 lint,57 JS parse checks,221 exact-image hashes/private exclusions and local smoke passed; main/preview fingerprints unchanged. No database reset/migration or privacy change. Hosted URL not fetched; physical-device smoothness remains user acceptance. Research20 records the variable frame timings without claiming guaranteed FPS.

@@ -6,6 +6,12 @@ This deployment keeps the existing PHP application, booking rules and staff work
 
 Marvin requested temporarily private access after the Bella Vista release. Verified GitHub repository `marvmarv08/restaurant-reservation-system` is PRIVATE. Vercel project `restaurant-reservation-system` now has Vercel Authentication with `deploymentType=all`, covering the Bella Vista alias, immutable deployment URLs and old previews. Only authorized Vercel accounts can access them. Retain these settings until Marvin explicitly requests public access again; prior public-release authorization does not authorize reopening access. Existing deployments, databases and app credentials are retained. Earlier public-release entries below are historical evidence.
 
+## Scrolling performance follow-up — 2026-10-30
+
+The verified fix is now pushed as application source24a2d87690a7b56ea49c44ef21485100d131d9f3 and deployed as Ready protected Preview dpl_CwsVvNhrjhzxvuM5DN22NTridZPR (https://restaurant-reservation-system-4m1yi5td7-marvmarv08.vercel.app). The existing https://bella-vista-dining-marvmarv08.vercel.app alias independently maps to this deployment. Metadata verifies exact SHA, existing project/owner, Preview, container framework and sin1. GitHub stays private and Vercel Authentication stays deploymentType=all; hosted database/runtime/TLS settings are retained. The hosted URL was not fetched under the deployment skill, so live device smoothness remains Marvin's acceptance check.
+
+Viewport scrolling now temporarily suspends decorative video/gallery/entry motion, retains the hero frame and resumes permitted media after160ms idle. Navigation avoids repeated unchanged aria-current writes.92 focused browser checks, PHP111 lint,57 public/test JS parse checks,221 exact-image hashes/private exclusions, local smoke and unchanged main/preview fingerprints passed; independent review found no defect. Frame timing samples vary and do not guarantee device FPS. No database initializer/import/reset or hosting/privacy change. Evidence: `research/20_reservation_scroll_performance.md`.
+
 ## Private UI release delivered — 2026-10-30
 
 All completed unpublished local introduction/menu work is committed and pushed to private `marvmarv08/restaurant-reservation-system`, application source `3c01d69f7070defdcd77c259806f9fbc4d11fa55`. Marvin explicitly restored the repository name from SeatFlow; the same repository ID/history was preserved, its README-only remote commit integrated, and the local origin/title restored. The canonical working branch is now main.
