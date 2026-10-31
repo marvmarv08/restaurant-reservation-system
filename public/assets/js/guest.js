@@ -1229,6 +1229,11 @@
     }),
   );
   function renderCatalog() {
+    const categoryPhotos = {
+      bv_standard: { file: "standard-overview.webp", alt: "Small square walnut table with four chairs beside Bella Vista's arched garden windows" },
+      bv_family: { file: "family-overview.webp", alt: "Long family table with woven chairs in Bella Vista's shared garden dining room" },
+      bv_vip: { file: "vip-overview.webp", alt: "Private VIP room with a long group dining table and garden-facing arched window" },
+    };
     const roomPhotos = {
       bv_vip: "round-table-reference.jpg",
       bv_standard: "main-dining-reference.jpg",
@@ -1239,17 +1244,19 @@
       terrace: "terrace-reference.jpg",
     };
     function roomPicture(room) {
+      const categoryPhoto = categoryPhotos[room.code];
       const image = node("img", {
-        src: "/assets/images/table-showcase/" + roomPhotos[room.code],
-        alt: "",
-        width: 1200,
-        height: 800,
+        src: categoryPhoto ? "/assets/images/table-showcase/categories/" + categoryPhoto.file : "/assets/images/table-showcase/" + roomPhotos[room.code],
+        alt: categoryPhoto?.alt || "",
+        width: categoryPhoto ? 960 : 1200,
+        height: categoryPhoto ? 600 : 800,
         loading: "lazy",
       });
-      const caption = node("span", { class: "room-image-caption" }, "Room inspiration");
+      const caption = node("span", { class: "room-image-caption", hidden: Boolean(categoryPhoto) }, categoryPhoto ? "" : "Room inspiration");
       image.addEventListener("error", () => {
         image.hidden = true;
         caption.textContent = "Room picture unavailable";
+        caption.hidden = false;
       }, { once: true });
       return node("div", { class: "room-art " + room.code }, image, caption);
     }

@@ -19,7 +19,7 @@
   <script src="/assets/js/food-showcase.js" defer></script>
   <script src="/assets/js/hero-background.js" defer></script>
   <script src="/assets/js/menu-photos.js" defer></script>
-  <link rel="icon" type="image/svg+xml" href="/assets/brand/bella-vista-mark.svg">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/brand/bella-vista-favicon.png">
   <link rel="stylesheet" href="/assets/css/bella-vista-brand.css">
   <link rel="stylesheet" href="/assets/css/guest-preorders.css">
   <script src="/assets/js/guest-preorders.js" defer></script>
@@ -29,7 +29,7 @@
   <a class="skip-link" href="#booking">Skip to booking</a>
   <header class="site-header">
     <a class="brand" href="/">
-      <svg class="bella-vista-mark" viewBox="0 0 48 48" width="36" height="36" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 32V21a15 15 0 0 1 30 0v11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 35h34M11 39c7 5 19 5 26 0M24 31V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M24 25c-7 0-11-4-11-9 7 0 11 3 11 9Zm0-4c0-7 4-10 10-10 0 6-3 10-10 10Z" fill="currentColor"/></svg>
+      <img class="bella-vista-mark" src="/assets/brand/bella-vista-monogram.webp" alt="" width="48" height="48" decoding="async">
       <span><b>Bella Vista</b> <small>Dining</small></span>
     </a>
     <nav aria-label="Primary navigation"><a href="/#about">About us</a><a href="/#history">Our story</a><a class="experience-link" href="/reserve#rooms">The rooms</a><a href="/reserve#menu">Menu</a><a href="/manage">My booking</a><a class="button small" href="/reserve#booking">Reserve</a></nav>
@@ -60,7 +60,7 @@
       </section>
       <section class="section wrap company-section" id="about" aria-labelledby="about-title" tabindex="-1">
         <div class="company-intro"><p class="eyebrow">About Us</p><h2 id="about-title">A place to gather.<br>A taste of <em>home.</em></h2><p class="company-lead">Bella Vista Dining is a premier farm-to-table restaurant offering a cozy, ambient, and modern dining experience.</p><p>It serves a fusion of local Filipino comfort food and continental specialties, designed for families, couples, and groups seeking a delightful culinary escape.</p><div class="company-links"><a class="text-link" href="#menu">Discover the menu <span aria-hidden="true">↗</span></a><a class="text-link" href="#history">Read our history <span aria-hidden="true">↓</span></a></div></div>
-        <aside class="company-emblem" aria-label="Bella Vista Dining identity"><svg class="bella-vista-mark" viewBox="0 0 48 48" width="36" height="36" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 32V21a15 15 0 0 1 30 0v11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 35h34M11 39c7 5 19 5 26 0M24 31V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M24 25c-7 0-11-4-11-9 7 0 11 3 11 9Zm0-4c0-7 4-10 10-10 0 6-3 10-10 10Z" fill="currentColor"/></svg><p class="company-wordmark">Bella Vista <span>Dining</span></p><p class="eyebrow">Rooted in the garden.<br>Made for the table.</p><p>Filipino comfort food<br>&amp; continental specialties</p></aside>
+        <aside class="company-emblem" aria-label="Bella Vista Dining identity"><img class="bella-vista-mark" src="/assets/brand/bella-vista-monogram.webp" alt="" width="48" height="48" decoding="async"><p class="company-wordmark">Bella Vista <span>Dining</span></p><p class="eyebrow">Rooted in the garden.<br>Made for the table.</p><p>Filipino comfort food<br>&amp; continental specialties</p></aside>
       </section>
       <section class="company-history section" id="history" aria-labelledby="history-title" tabindex="-1"><div class="wrap history-layout">
         <div><p class="eyebrow">Company History</p><h2 id="history-title">From the estate<br>to <em>your table.</em></h2><p class="history-year"><span>Our beginning</span>2021</p></div>
@@ -86,7 +86,7 @@
         <details class="wrap food-credits"><summary>Photography credits</summary><p>Food inspiration photographed by <a href="https://www.pexels.com/photo/bread-and-butter-on-the-table-16471855/">hello aesthe</a> · <a href="https://www.pexels.com/photo/close-up-photo-of-a-black-plate-with-crispy-roasted-pork-8408373/">AMANDA LIM</a> · <a href="https://www.pexels.com/photo/oysters-on-plate-2647936/">Elle Hughes</a> · <a href="https://www.pexels.com/photo/grilled-fish-in-a-plate-6046671/">elif tekkaya</a> · <a href="https://www.pexels.com/photo/cold-cocktail-in-glass-on-black-background-16806420/">Blue Arauz</a> · <a href="https://www.pexels.com/photo/chocolate-dessert-on-a-plate-with-berries-5945557/">Any Lane</a>. Used under the <a href="https://www.pexels.com/license/">Pexels License</a>. Cooking footage: <a href="https://www.pexels.com/video/chef-cooking-at-the-kitchen-8964522/">PureRaw: Camera &amp; Film Grain / Pexels</a>, trimmed and crossfaded under the Pexels License. Stock imagery illustrates the culinary mood; exact dishes and presentation may differ.</p></details>
       </section>
       <section class="section wrap" id="rooms" aria-labelledby="rooms-title">
-        <div class="section-heading"><div><p class="eyebrow">Four ways to spend the evening</p><h2 id="rooms-title">Find your corner.</h2></div><p>A quiet suite, a place by the hearth,<br>or a table to gather with friends.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">A place for every occasion</p><h2 id="rooms-title">Find your corner.</h2></div><p>A quiet suite, a place by the hearth,<br>or a table to gather with friends.</p></div>
         <div id="room-cards" class="room-grid"></div>
       </section>
       <section class="section menu-section" id="menu" aria-labelledby="menu-title"><div class="wrap">

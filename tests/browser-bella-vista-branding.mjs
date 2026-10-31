@@ -17,10 +17,10 @@ try{
   for(const text of ['premier farm-to-table restaurant','cozy, ambient, and modern dining experience','local Filipino comfort food and continental specialties','families, couples, and groups'])assert.ok(about.includes(text),text);
   for(const text of ['Bella Vista estate in 2021','initially catered exclusively to in-house guests','overwhelming public demand','signature dishes and scenic garden views','independent destination restaurant','exceptional customer service','academic project'])assert.ok(history.includes(text),text);
  });
- await check('Original emblem/banner are local accessible SVGs and favicon loads',async()=>{
+ await check('Generated emblem/favicon load locally and historical SVG artwork stays accessible',async()=>{
   assert.equal(await page.locator('.site-header .bella-vista-mark').count(),1);
   for(const asset of ['bella-vista-mark.svg','bella-vista-banner.svg']){const response=await context.request.get(base+'/assets/brand/'+asset);assert.equal(response.status(),200);assert.match(response.headers()['content-type'],/image\/svg/);const svg=await response.text();assert.match(svg,/<title/);assert.doesNotMatch(svg, /<script|<image|(?:href|src)=["']https?:/i);}
-  assert.equal(await page.locator('link[rel=icon]').getAttribute('href'),'/assets/brand/bella-vista-mark.svg');
+  assert.equal(await page.locator('link[rel=icon]').getAttribute('href'),'/assets/brand/bella-vista-favicon.png');assert.equal(await page.locator('.site-header img.bella-vista-mark').getAttribute('src'),'/assets/brand/bella-vista-monogram.webp');await page.waitForFunction(()=>document.querySelector('.site-header img.bella-vista-mark').naturalWidth===256);
  });
  for(const width of [768,820,1024,1280,1366,1440,390,320]){
   await page.setViewportSize({width,height:900});await page.goto(base);await page.locator('#intro-title').waitFor();

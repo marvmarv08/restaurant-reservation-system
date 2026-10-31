@@ -13,28 +13,12 @@
   if (!image) return;
   const hero = image.closest(".intro-hero");
   const reduced = typeof matchMedia === "function" ? matchMedia("(prefers-reduced-motion: reduce)") : null;
-  const control = document.getElementById("garden-toggle");
-  const storageKey = "bellaVista.intro.garden.v1";
-  let paused = false;
-  try { paused = localStorage.getItem(storageKey) === "paused"; } catch { /* Optional preference storage. */ }
   let visible = true;
   function syncGarden() {
-    const ready = Boolean(control && reduced && !reduced.matches && image.complete && image.naturalWidth);
+    const ready = Boolean(reduced && !reduced.matches && image.complete && image.naturalWidth);
     document.body.dataset.gardenReady = String(ready);
-    document.body.dataset.gardenRunning = String(ready && !paused && visible && !document.hidden);
-    if (control) {
-      control.hidden = !ready;
-      control.dataset.paused = String(paused);
-      const label = paused ? "Resume garden animation" : "Pause garden animation";
-      control.setAttribute("aria-label", label);
-      control.title = label;
-    }
+    document.body.dataset.gardenRunning = String(ready && visible && !document.hidden);
   }
-  control?.addEventListener("click", () => {
-    paused = !paused;
-    try { localStorage.setItem(storageKey, paused ? "paused" : "enabled"); } catch { /* Control works without storage. */ }
-    syncGarden();
-  });
   image.addEventListener("load", syncGarden);
   image.addEventListener("error", syncGarden);
   reduced?.addEventListener("change", syncGarden);

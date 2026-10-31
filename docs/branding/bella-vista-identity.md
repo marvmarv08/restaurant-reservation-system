@@ -4,10 +4,10 @@ This is the original visual identity for Marvin's academic restaurant system. Th
 
 ## Logo and banner
 
-- [Original emblem](../../public/assets/brand/bella-vista-mark.svg): garden arch, sprout and plate, built from original SVG paths. The arch refers to the garden/estate narrative, the sprout to farm-to-table food, and the plate to shared dining. It replaces the previous generic flame mark.
-- [Company banner](../../public/assets/brand/bella-vista-banner.svg): 1200 × 360 vector artwork, with the emblem, Bella Vista Dining name and Filipino/continental concept. It scales without blurring and can be inserted into a proposal that supports SVG.
-- The emblem appears in guest, management, staff sign-in/host, server/kitchen, cashier and reports headers, with the restaurant name as selectable text. A local SVG favicon uses the same mark. Decorative copies are hidden from screen readers; the standalone files have accessible titles.
-- Artwork was created for this project, with no borrowed restaurant logo, external image/font references or script. The company banner uses Georgia/Arial system fonts; exact letter shapes can vary by device. Preserve this source rather than presenting it as a traced real-business logo.
+- [Active generated emblem](../../public/assets/brand/bella-vista-monogram.webp): transparent warm-gold BV monogram with garden arch, sprig and plate. Generated with the built-in OpenAI tool for this project; optimized256×256 lossless WebP. Full prompt, original and verification: [logo report](../../research/24_bella_vista_logo_refresh.md).
+- [Browser icon](../../public/assets/brand/bella-vista-favicon.png): matching64×64 transparent PNG. Guest, management, staff/login/host, server/kitchen, cashier and reports use the same emblem/favicon. Restaurant name remains selectable text; the adjacent emblem is decorative for screen readers.
+- [Earlier SVG emblem](../../public/assets/brand/bella-vista-mark.svg) is retained as historical source artwork. The [company banner](../../public/assets/brand/bella-vista-banner.svg) remains the earlier1200×360 vector artwork and still uses that previous mark. The banner was not redesigned as part of the active application-logo refresh.
+- Original PNG and full prompt/hash metadata are saved locally. This generated identity is project artwork; no real-business ownership or affiliation is claimed.
 
 ## Palette and aesthetic
 
@@ -74,3 +74,29 @@ Marvin found the stock dining/bread collage inconsistent with the garden-estate 
 ## Matching original interior — 2026-10-30
 
 Marvin requested an interior instead of repeating the exterior in About. A new original generated interior uses the exterior as reference for brick arches, black window frames, limestone surrounds, warm amber lighting and garden greenery. The same single-image frame/caption remains. Responsive WebPs are169736 and81860 bytes; original PNG and full prompt/checksums are retained. These are concept views, not evidence of an actual venue. Read `research/19_matching_interior.md` for the prompt, assets and verification.10 updated story checks, five-width accessibility/reflow, desktop/phone visual review, exact served hashes, syntax and smoke passed.
+
+## Right-side About photo fan — 2026-10-30
+
+The user-selected right-side About image is now a five-view restaurant fan. Warm cream/gold borders and restrained static shadows adapt the reference interaction to Bella Vista's dark palette. Existing generated interior/exterior are joined by matching terrace, private-dining and tableside concepts with the same brick arches, lamps, walnut/rattan furniture and greenery. Company copy stays on the left at desktop widths; the fan follows it on phones.
+
+Front click/tap advances, side cards/dots select, previous/next/arrows/Home/End/Space provide alternatives. Captions, counter,44px controls and status announcements retain clarity. Only finite transform/opacity transitions run on interaction; no auto-slide or request loop. Reduced-motion switching is immediate; native source links/static grid survive no JavaScript. Fallbacks recover after successful responsive loads. Asset provenance: public/assets/images/intro/gallery/credits.json. Local verification:20 gallery and53 existing checks, seven responsive widths and inspected desktop/phone visuals. No publication in this task.
+
+## Ten-view showcase refinement — 2026-10-30
+
+The right-side About collection now has ten photos but shows only five neighboring cards. Matching courtyard, walkway, family long table, VIP room and garden path extend the same venue materials and dusk lighting. Visible arrow buttons are removed; front click/tap, exposed side cards, ten dots and keyboard provide navigation. Two five-dot rows fit phones. Full prompt/asset record and the distinction between illustrative rooms and actual reservation inventory: `research/22_ten_photo_showcase.md`. Local-only verification: 73 browser checks, seven-width gallery accessibility and independent review. This supersedes the previous five-view controls described above.
+
+## Local control cleanup — 2026-10-30
+
+Final request: remove only the hero garden Pause button and visible photo counter (1 / 10); keep the ten working photo dots. Supersedes earlier control descriptions. The fan keeps front/side clicks, dots, keyboard and accessible status announcements. Garden motion no longer depends on a missing control or a stored manual-pause preference; existing reduced-motion, hidden-document, offscreen and image-failure guards remain. No pause-on-scroll was added. No images, inventory or hosted access changed; local only. Verified 20 gallery, 11 garden and 10 story browser checks, including seven-width gallery accessibility, retained dot selection, removed controls, continuing motion and lifecycle fallbacks. PHP template and affected JavaScript syntax plus whitespace passed; phone screenshot inspected.
+
+## Compact joined photo dots — 2026-10-30
+
+Marvin requested the Screenshot 2026-10-30 202557 reference: all ten dots in one horizontal row with small gaps, with the active dot joined to its following neighbor. Implemented a stable 240px row using separate 24×44px buttons and 7px marks. The active mark extends across to the following dot; on photo two, dots two and three form one gold pill. On the last photo, dots nine and ten join to keep the pill inside the row. Only the actual active dot has aria-current; all ten remain distinct selectors and accessible labels. The row does not shift as photos change. Brief indicator transitions respect reduced motion. Pause and numeric counter remain removed.
+
+Observed the missing joined-state check before implementation. Final 20 gallery checks passed: full cycling, dot selection, seven-width single-row geometry/accessibility from1920px to320px, reduced motion and failure/no-JS recovery. Additional actual-browser assertions and inspected screenshots confirm second/third and last/previous pairing. JavaScript syntax and whitespace passed. This small CSS/indicator change did not require booking-write or database suites. Local only; no GitHub or Vercel update.
+
+## Category-specific table overview photos — 2026-10-31
+
+Replaced the Bella Vista Standard/Family/VIP category-card images with three original matching landscape concepts: a small four-chair table, family long table, and private VIP group room. Generated using the built-in tool with existing venue references; retained full originals/prompts/hashes. Three960×600 WebPs total420894 bytes. Specific alt text and “Dining concept” labels distinguish the views. Existing responsive card sizes, category preview actions, inventory and legacy photo mappings remain.
+
+Verified three distinct decoded/mapped images, nine-width layout, Rooms accessibility at1440/820/320, six real preview/Escape-focus checks, blocked-image fallbacks, no mutation requests/browser errors, served hashes/MIME and JS syntax/whitespace. Desktop/phone visuals inspected. No full booking-write suite or deployment. Details and full prompts: research/23_table_category_overviews.md. Review http://localhost:18080/reserve#rooms; local only.

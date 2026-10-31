@@ -1,0 +1,131 @@
+{
+  "created": "2026-10-30",
+  "description": "Original AI-generated restaurant concept views for Bella Vista; illustrative, not photographs of an actual venue or promises of exact room layout.",
+  "generator": "OpenAI built-in image generation tool",
+  "reference_use": "Exterior/interior architectural and lighting consistency only; no reference-site photos copied.",
+  "references": [
+    {
+      "file": "public/assets/images/intro/garden-estate-concept.webp",
+      "sha256": "c534923a8bd9793e47fd2d27ec887492061bed1f8c06b82d59bc6ba0e27c993b"
+    },
+    {
+      "file": "public/assets/images/intro/garden-interior-concept.webp",
+      "sha256": "f1a5f5d418474af4e19cfc1f0e0b32d1bda319508cc043613467e7a1d9099cf7"
+    }
+  ],
+  "processing": "cwebp quality80/method6; proportional600px-wide encoding; no creative image edits.",
+  "images": [
+    {
+      "key": "garden-terrace",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE original architectural restaurant concept photo for a Bella Vista Dining website photo-card gallery, not a UI mockup or collage. Reference image 1 is the restaurant EXTERIOR; reference image 2 is its INTERIOR. Use them only as architectural/material/lighting references, create a NEW different view of the SAME believable garden-estate restaurant: reddish brown weathered brick, pale stone arched surrounds, black metal window/door frames, amber lanterns, dark walnut and brown/rattan dining furniture, restrained cream linens, lush tropical greenery, warm gold and deep brown palette, evening blue-hour ambience. Eye-level architectural editorial photograph, straight coherent geometry, no people, text, logos, watermarks or borders. Portrait 3:4 composition, architectural and table focal points centered for responsive cards. Keep venue scale intimate and realistic. Scene: an intimate garden terrace just outside the reference restaurant. View from a small elegantly set dark walnut dining table toward the reddish brick arched doorways, garden greenery framing the sides, subtle path and lantern lighting, dusk sky glimpses. This is outdoor dining within the same estate, not a beach resort, city cafe or palace.",
+      "original": "research/intro-assets/gallery/garden-terrace.png",
+      "original_dimensions": [
+        1086,
+        1448
+      ],
+      "original_sha256": "33e85c05e80dd3629830d1804babbc60bc3c22cb572e2415934ea980f9741c5a",
+      "file": "garden-terrace.webp",
+      "width": 600,
+      "bytes": 114012,
+      "sha256": "2ff509fdbb179c3c61d326325ae4e0ca226b9e625e77b7bb85b965117dfced9b"
+    },
+    {
+      "key": "private-dining",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE original architectural restaurant concept photo for a Bella Vista Dining website photo-card gallery, not a UI mockup or collage. Reference image 1 is the restaurant EXTERIOR; reference image 2 is its INTERIOR. Use them only as architectural/material/lighting references, create a NEW different view of the SAME believable garden-estate restaurant: reddish brown weathered brick, pale stone arched surrounds, black metal window/door frames, amber lanterns, dark walnut and brown/rattan dining furniture, restrained cream linens, lush tropical greenery, warm gold and deep brown palette, evening blue-hour ambience. Eye-level architectural editorial photograph, straight coherent geometry, no people, text, logos, watermarks or borders. Portrait 3:4 composition, architectural and table focal points centered for responsive cards. Keep venue scale intimate and realistic. Scene: a cozy private dining nook inside the same restaurant. A single rectangular walnut table set for six, warm brown upholstered/rattan chairs, simple ceramic plates, cream linen runner, brass table lamp and tasteful potted greenery. A tall black-framed arched window with pale stone surround and exposed brick wall overlooks the dusk garden. Private-room concept, no signage. Camera from the doorway with the whole table and architectural arch in view.",
+      "original": "research/intro-assets/gallery/private-dining.png",
+      "original_dimensions": [
+        1086,
+        1448
+      ],
+      "original_sha256": "98297c5659d3e521ba254c527e9cf0918931ac4554d1201fc5af7f1f40d9e21d",
+      "file": "private-dining.webp",
+      "width": 600,
+      "bytes": 101474,
+      "sha256": "90d6cef86b8eeff527bbe74308aa022c09c86823313d28e33947dba63927db51"
+    },
+    {
+      "key": "tableside",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE original architectural restaurant concept photo for a Bella Vista Dining website photo-card gallery, not a UI mockup or collage. Reference image 1 is the restaurant EXTERIOR; reference image 2 is its INTERIOR. Use them only as architectural/material/lighting references, create a NEW different view of the SAME believable garden-estate restaurant: reddish brown weathered brick, pale stone arched surrounds, black metal window/door frames, amber lanterns, dark walnut and brown/rattan dining furniture, restrained cream linens, lush tropical greenery, warm gold and deep brown palette, evening blue-hour ambience. Eye-level architectural editorial photograph, straight coherent geometry, no people, text, logos, watermarks or borders. Portrait 3:4 composition, architectural and table focal points centered for responsive cards. Keep venue scale intimate and realistic. Scene: a closer tableside view inside the same restaurant, inviting but not an extreme macro. A walnut table set for two with elegant simple ceramics, glasses, cream linen runner, compact warm brass lamp and small natural greenery arrangement. Brown woven dining chairs in foreground, reddish brick wall and black-framed arched window overlooking tropical garden in the middle background. Preserve recognizable architecture, not just food props. No prepared food, no people.",
+      "original": "research/intro-assets/gallery/tableside.png",
+      "original_dimensions": [
+        1086,
+        1448
+      ],
+      "original_sha256": "efb282778883835228d76fda1f37f5f02ab1d98f3014b7c8409ae78dbf9275f0",
+      "file": "tableside.webp",
+      "width": 600,
+      "bytes": 84154,
+      "sha256": "2bf2874920ab1f7e06e614b42816f65e100ec63258f7bb173ad1c390232ad9ef"
+    },
+    {
+      "key": "courtyard-arrival",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE new original architectural concept photo for Bella Vista Dining's restaurant photo-card showcase, not a collage or UI. Reference 1: existing exterior; reference 2: existing interior. Use references ONLY to keep the SAME believable intimate garden-estate venue: reddish weathered brick, pale stone arch surrounds, tall black metal framed arches, amber wall lanterns, dark walnut/rattan/brown dining furniture, restrained cream linen, lush tropical greenery, warm gold/deep brown atmosphere at blue-hour dusk. A NEW clearly different architectural viewpoint, not a duplicate crop. Eye-level architectural editorial photography with coherent straight geometry and natural material detail. Portrait3:4, centered composition safe for small cards. No people, food closeup, text, logo, watermark, borders or signage. Scene: arrival courtyard looking back toward the restaurant's welcoming arched front entrance. Low natural stone garden borders, a modest paved court with a few lit planters, subtle path lights and lush foliage frame the reddish brick facade. Show the sense of arriving at the same intimate restaurant, not a palace or hotel. Architectural entrance remains the focal point.",
+      "original": "research/intro-assets/gallery/courtyard-arrival.png",
+      "original_dimensions": [
+        1086,
+        1448
+      ],
+      "original_sha256": "d4e019380471f1568965e5608bdd60c9e0997f1b291581aa9bd893f9afc7e3d0",
+      "file": "courtyard-arrival.webp",
+      "width": 600,
+      "bytes": 115048,
+      "sha256": "08f0280b3e9ba39a2a072e196569ba7d7c203070843bdfa4f674263a769d0b34"
+    },
+    {
+      "key": "arched-walkway",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE new original architectural concept photo for Bella Vista Dining's restaurant photo-card showcase, not a collage or UI. Reference 1: existing exterior; reference 2: existing interior. Use references ONLY to keep the SAME believable intimate garden-estate venue: reddish weathered brick, pale stone arch surrounds, tall black metal framed arches, amber wall lanterns, dark walnut/rattan/brown dining furniture, restrained cream linen, lush tropical greenery, warm gold/deep brown atmosphere at blue-hour dusk. A NEW clearly different architectural viewpoint, not a duplicate crop. Eye-level architectural editorial photography with coherent straight geometry and natural material detail. Portrait3:4, centered composition safe for small cards. No people, food closeup, text, logo, watermark, borders or signage. Scene: a covered exterior walkway along the restaurant garden facade, viewed diagonally through a sequence of two or three pale stone-trimmed brick arches. Dark framed windows at one side, tropical greenery and the evening garden open at the other side, amber lanterns and stone paving. No tables foreground; emphasize the cozy architecture and path connecting dining spaces.",
+      "original": "research/intro-assets/gallery/arched-walkway.png",
+      "original_dimensions": [
+        1086,
+        1448
+      ],
+      "original_sha256": "f98242e5aae25b2d90920566dea5fd1648789e2f9ea64c43665dddc25f553ac7",
+      "file": "arched-walkway.webp",
+      "width": 600,
+      "bytes": 108622,
+      "sha256": "b1fc7164eeac106168158b033ca45e95c1c8c88fb73fb00c547226ab7d26d758"
+    },
+    {
+      "key": "garden-path",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE new original architectural concept photo for Bella Vista Dining's restaurant photo-card showcase, not a collage or UI. Reference 1: existing exterior; reference 2: existing interior. Use references ONLY to keep the SAME believable intimate garden-estate venue: reddish weathered brick, pale stone arch surrounds, tall black metal framed arches, amber wall lanterns, dark walnut/rattan/brown dining furniture, restrained cream linen, lush tropical greenery, warm gold/deep brown atmosphere at blue-hour dusk. A NEW clearly different architectural viewpoint, not a duplicate crop. Eye-level architectural editorial photography with coherent straight geometry and natural material detail. Portrait3:4, centered composition safe for small cards. No people, food closeup, text, logo, watermark, borders or signage. Scene: a peaceful tropical garden path leading toward the side of the same brick-arched restaurant at dusk. Curved modest stone walkway and low amber path lights, leafy plants and a small mature tree create depth. The warmly glowing restaurant windows and brick arches are visible at the far end. No dining table foreground; focus on the garden approach and warm hospitality, not a huge resort.",
+      "original": "research/intro-assets/gallery/garden-path.png",
+      "original_dimensions": [
+        1086,
+        1448
+      ],
+      "original_sha256": "3f81ac08e9e47e48b473cc44f03079f29d79e8b5029af0d021a88fb002591b47",
+      "file": "garden-path.webp",
+      "width": 600,
+      "bytes": 124654,
+      "sha256": "86a73bb0c5c3286681785e4f0c734edc4c09a7635013d740f058854288195b9d"
+    },
+    {
+      "key": "long-table",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE new original Bella Vista Dining restaurant architectural concept photo for a photo-card showcase. Reference image1 is the exterior, image2 is the interior; use only as SAME VENUE architecture/material/lighting references. Preserve reddish weathered brick, pale stone arch surrounds, black arched window frames, amber wall lanterns, dark walnut/rattan/brown furniture, simple cream linens, restrained ceramics and lush tropical garden views at blue-hour dusk. Intimate elegant Filipino/continental garden-estate restaurant, realistic coherent furniture geometry, warm gold and deep brown colors. Portrait3:4, clear centered table and chairs, eye-level35mm editorial architectural photography, no people, text, logo, watermark, collage or borders. Not a hotel ballroom, conference office or palace. Scene: family-style LONG RECTANGULAR dining table in the restaurant's warm shared family-dining area. Make the elongated walnut tabletop and eight comfortable brown/rattan chairs easy to see, roughly three chairs on each long side and one at each end, with real spacing and coherent perspective. Simple cream linen runner, ceramic place settings, glasses and two small brass table lamps, restrained greenery. Camera from a front corner along the length so the full long table, chairs, surrounding brick arches and garden window are visible. The image is an illustrative family/group-table concept, not a floorplan or exact product photo.",
+      "original": "research/intro-assets/gallery/long-table.png",
+      "original_dimensions": [
+        1086,
+        1448
+      ],
+      "original_sha256": "753c4699665ada4c6bdb6ccd40e94288296f648a92d2631dde4075642b19c16b",
+      "file": "long-table.webp",
+      "width": 600,
+      "bytes": 109670,
+      "sha256": "f5d2b33da33ba0a6a9bebec8fbacc6583b4d28357b19dadd20ba4805b3bdae91"
+    },
+    {
+      "key": "vip-dining",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE new original Bella Vista Dining restaurant architectural concept photo for a photo-card showcase. Reference image1 is the exterior, image2 is the interior; use only as SAME VENUE architecture/material/lighting references. Preserve reddish weathered brick, pale stone arch surrounds, black arched window frames, amber wall lanterns, dark walnut/rattan/brown furniture, simple cream linens, restrained ceramics and lush tropical garden views at blue-hour dusk. Intimate elegant Filipino/continental garden-estate restaurant, realistic coherent furniture geometry, warm gold and deep brown colors. Portrait3:4, clear centered table and chairs, eye-level35mm editorial architectural photography, no people, text, logo, watermark, collage or borders. Not a hotel ballroom, conference office or palace. Scene: a PRIVATE VIP DINING ROOM connected to this same garden-estate restaurant. A long dark walnut dining table for a larger group, many comfortably spaced brown upholstered/rattan chairs down its sides, simple cream runner/ceramic/glass settings, restrained warm brass lighting and plants. Camera from an entry corner reveals the long tabletop and a secluded room, brick walls, a tall black-framed arched garden window and warm amber wall lanterns. Elegant but believable scale, suitable as an illustrative private room for groups with up-to20 capacity, do not add capacity signage or imply a literal measured floorplan. Make the private-room setting and long VIP table clearly different from the family shared-space photo while keeping the same venue materials.",
+      "original": "research/intro-assets/gallery/vip-dining.png",
+      "original_dimensions": [
+        1086,
+        1448
+      ],
+      "original_sha256": "d50f3d1a9e5d9a18943a6a815a069009b4cbf749314bce82b28b01cd3b804c58",
+      "file": "vip-dining.webp",
+      "width": 600,
+      "bytes": 89558,
+      "sha256": "8f1771cab742c345a374c692bef1591e67736df5323557ef2f3f88423cb63d31"
+    }
+  ]
+}

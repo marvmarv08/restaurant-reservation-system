@@ -579,3 +579,44 @@ Skip when: You only need the active task or current state.
 - Lesson: Performance changes must preserve the intended interaction. Keep low-risk work reductions that retain the experience, and do not equate a scheduling tradeoff or variable headless frame sample with a guaranteed device-speed improvement.
 
 Continuous-motion publication verified: sourcebb64675, Ready dpl_HRNaQdqT57q7qk3RkhQRWTEPT1Qe, existing Bella Vista alias, matching owner/project/container/Preview/sin1 and all-deployment protection.92 relevant checks, PHP111 lint,56 JS parse,220 packaged hashes and exact-image smoke passed. No data operation or privacy change.
+
+## 2026-10-30 — Local restaurant photo-fan showcase
+
+- Replaced the user-selected right-side About image with a five-view restaurant fan inspired by the inspected marwieang.com/about interaction. Added three original matching restaurant views and optimized WebPs; retained full prompts/source hashes. No reference-site photographs copied.
+- Added front/side/dot/arrow and keyboard/touch operation, deterministic wrap/rapid-input handling, reduced/no-JS/error/recovery fallbacks, captions and status. No autoplay or idle gallery animation. Supplied text, history, hero and booking behavior remain.
+-20 gallery and53 existing intro/story/motion checks passed; seven-width geometry/accessibility, desktop/phone visuals, PHP111 lint,58 JS parse, smoke, whitespace, exact served hashes and preserved database fingerprints passed. Independent review's minor image recovery issue was reproduced and fixed. Local/uncommitted only; hosted release stays private and unchanged.
+- Lesson: A layered photo interaction still needs obvious controls and a usable static fallback. Responsive image recovery should restore the successful source, and pointer tests should distinguish real page movement from the test runner's automatic target scrolling.
+
+## 2026-10-30 — Ten-photo gallery without arrow buttons
+
+- Followed Marvin’s refinement: add five connected restaurant views including family long-table and VIP dining; ten total, only five visible at once, all reachable through circular selection. Removed visible arrows; retained front/side clicks, direct dots and keyboard. Hidden cards are excluded from accessibility and keyboard navigation.
+- Generated with the built-in tool using the same exterior/interior references; selected originals, optimized assets and complete prompts/hashes retained. Five new WebPs total 547552 bytes.
+- Final 73 browser checks, seven-width gallery geometry/accessibility, independent review, application PHP lint, JS syntax, served image hashes/MIME, smoke and whitespace passed. Main fingerprints match; populated preview differs from the old baseline, including an independently confirmed automatic no-show event. No reset/import/manual restoration or publication. Detailed limitations and evidence: research/22_ten_photo_showcase.md.
+
+## Local control cleanup — 2026-10-30
+
+Final request: remove only the hero garden Pause button and visible photo counter (1 / 10); keep the ten working photo dots. Supersedes earlier control descriptions. The fan keeps front/side clicks, dots, keyboard and accessible status announcements. Garden motion no longer depends on a missing control or a stored manual-pause preference; existing reduced-motion, hidden-document, offscreen and image-failure guards remain. No pause-on-scroll was added. No images, inventory or hosted access changed; local only. Verified 20 gallery, 11 garden and 10 story browser checks, including seven-width gallery accessibility, retained dot selection, removed controls, continuing motion and lifecycle fallbacks. PHP template and affected JavaScript syntax plus whitespace passed; phone screenshot inspected.
+
+## Compact joined photo dots — 2026-10-30
+
+Marvin requested the Screenshot 2026-10-30 202557 reference: all ten dots in one horizontal row with small gaps, with the active dot joined to its following neighbor. Implemented a stable 240px row using separate 24×44px buttons and 7px marks. The active mark extends across to the following dot; on photo two, dots two and three form one gold pill. On the last photo, dots nine and ten join to keep the pill inside the row. Only the actual active dot has aria-current; all ten remain distinct selectors and accessible labels. The row does not shift as photos change. Brief indicator transitions respect reduced motion. Pause and numeric counter remain removed.
+
+Observed the missing joined-state check before implementation. Final 20 gallery checks passed: full cycling, dot selection, seven-width single-row geometry/accessibility from1920px to320px, reduced motion and failure/no-JS recovery. Additional actual-browser assertions and inspected screenshots confirm second/third and last/previous pairing. JavaScript syntax and whitespace passed. This small CSS/indicator change did not require booking-write or database suites. Local only; no GitHub or Vercel update.
+
+## Centered reservation category cards — 2026-10-31
+
+Fixed the right-side gap in Marvin's Screenshot 2026-10-31 082123. The three Bella Vista categories inherited a fixed four-column grid, leaving an unused 304.5px area at a1702px viewport. The desktop grid now adapts to the actual card count: three equal388px cards fill the1200px container with18px gaps. At601–1050px two cards occupy the first row and the third is centered at the same width. At600px and below cards stack at full container width. Images scale at16:10 instead of a fixed185px height. Changed the stale “Four ways” eyebrow to “A place for every occasion.” Category identities, inventory, preview actions and booking rules are retained.
+
+Observed the failing right-edge geometry before implementation. Final checks passed at1920/1702/1440/1050/820/760/600/390/320px: equal card widths, correct rows, centered tablet remainder, proportional images, no text or viewport overflow. Accessibility passed for the Rooms section at1440/820/320px; all three category previews opened and Escape restored focus at desktop and320px. No mutation requests or JavaScript errors were observed. Inspected desktop/tablet/phone screenshots; guest PHP lint, existing guest JS parse and whitespace passed. Corrected the accessibility harness to use an explicit context before its passing run. Full booking-write suites were not rerun for this CSS/template adjustment. Local only: http://localhost:18080/reserve#rooms. No push or deployment.
+
+## Category-specific table overview photos — 2026-10-31
+
+Replaced the Bella Vista Standard/Family/VIP category-card images with three original matching landscape concepts: a small four-chair table, family long table, and private VIP group room. Generated using the built-in tool with existing venue references; retained full originals/prompts/hashes. Three960×600 WebPs total420894 bytes. Specific alt text and “Dining concept” labels distinguish the views. Existing responsive card sizes, category preview actions, inventory and legacy photo mappings remain.
+
+Verified three distinct decoded/mapped images, nine-width layout, Rooms accessibility at1440/820/320, six real preview/Escape-focus checks, blocked-image fallbacks, no mutation requests/browser errors, served hashes/MIME and JS syntax/whitespace. Desktop/phone visuals inspected. No full booking-write suite or deployment. Details and full prompts: research/23_table_category_overviews.md. Review http://localhost:18080/reserve#rooms; local only.
+
+## Generated BV monogram applied locally — 2026-10-31
+
+Marvin requested a new fitting logo across the system. The active emblem is now an original transparent warm-gold BV monogram with garden arch, sprig and plate; the restaurant name remains real text. All six shared intro/guest/staff/service/cashier/report view templates use one256px WebP and a matching64px PNG favicon. Desktop mark sizing is48px (52px intro),40px on phones. Old SVG emblem/banner are preserved historical artwork; the banner still uses the earlier mark.
+
+Verified28 responsive header checks plus27 existing introduction/navigation checks (55 total). Actual public/login routes and scripts-disabled protected-header template previews pass image decoding, transparent corners, favicon, brand text, no-overflow and targeted accessibility; desktop/phone screenshots inspected. All6 changed PHP templates, updated verifier JS syntax, exact original/asset/served hashes and whitespace pass. Full authenticated staff/booking-write suites were not rerun. Independent focused review found no defect. New web assets total27290 bytes. Complete generation prompt, original and saved paths: research/24_bella_vista_logo_refresh.md. Local only; private GitHub/Vercel remain unchanged.

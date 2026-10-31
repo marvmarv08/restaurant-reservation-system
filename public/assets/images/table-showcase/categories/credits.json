@@ -1,0 +1,67 @@
+{
+  "created": "2026-10-31",
+  "generator": "OpenAI built-in image generation tool",
+  "description": "Original matching category overview concepts; illustrative, not actual property photographs or measured seating plans.",
+  "references": [
+    {
+      "file": "public/assets/images/intro/garden-interior-concept.webp",
+      "sha256": "f1a5f5d418474af4e19cfc1f0e0b32d1bda319508cc043613467e7a1d9099cf7"
+    },
+    {
+      "file": "public/assets/images/intro/gallery/long-table.webp",
+      "sha256": "f5d2b33da33ba0a6a9bebec8fbacc6583b4d28357b19dadd20ba4805b3bdae91"
+    },
+    {
+      "file": "public/assets/images/intro/gallery/vip-dining.webp",
+      "sha256": "8f1771cab742c345a374c692bef1591e67736df5323557ef2f3f88423cb63d31"
+    }
+  ],
+  "processing": "Near16:10 source normalized to960x600 with cwebp quality80/method6.",
+  "images": [
+    {
+      "key": "standard-overview",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE original architectural dining-category overview photo for Bella Vista Dining website card, not a collage, not a UI. Landscape 16:10 composition. Reference1 is the existing main dining room, reference2 the family long-table concept, reference3 the private VIP room concept. Use them only for SAME VENUE architecture/material/light consistency: reddish exposed brick, pale stone arch surrounds, black arched garden window frames, dark walnut tables, brown woven/upholstered chairs, simple cream runners and restrained ceramic/glass settings, brass amber lamps, tropical greenery and dusk garden views. Warm gold/deep brown palette. Realistic intimate restaurant scale, coherent table/chair geometry, natural architectural editorial photography. Eye level slightly elevated from a front corner so the WHOLE main table, tabletop, chairs and surrounding floor clearance are clearly visible, table occupies center sixty percent, generous safe framing for 16:10 card crop. No people, no text, signage, watermark, logo or borders, no extreme wide-angle distortion, no food macro, not a hotel ballroom or office. Image is illustrative restaurant concept, not a measured floorplan. Scene: STANDARD SMALL TABLE category, one modest square walnut dining table for FOUR with exactly four brown woven chairs, one on each side, all four seats easily read. Clearly small/intimate, normal dining height, simple four place settings and one small table lamp. The main table must be separate and fully visible, with arched garden windows and restrained plants in the background; do not make it a long group table.",
+      "original": "research/table-category-assets/standard-overview.png",
+      "original_dimensions": [
+        1586,
+        992
+      ],
+      "original_sha256": "40d20250f54a011fba6f9543d763ed1491ad9e5fdd334dbda4a18b703080fa10",
+      "file": "standard-overview.webp",
+      "width": 960,
+      "height": 600,
+      "bytes": 135952,
+      "sha256": "d50e502c156328cb8cea566122b1c0db8d3c64404090a027ede2542fa51986f1"
+    },
+    {
+      "key": "family-overview",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE original architectural dining-category overview photo for Bella Vista Dining website card, not a collage, not a UI. Landscape 16:10 composition. Reference1 is the existing main dining room, reference2 the family long-table concept, reference3 the private VIP room concept. Use them only for SAME VENUE architecture/material/light consistency: reddish exposed brick, pale stone arch surrounds, black arched garden window frames, dark walnut tables, brown woven/upholstered chairs, simple cream runners and restrained ceramic/glass settings, brass amber lamps, tropical greenery and dusk garden views. Warm gold/deep brown palette. Realistic intimate restaurant scale, coherent table/chair geometry, natural architectural editorial photography. Eye level slightly elevated from a front corner so the WHOLE main table, tabletop, chairs and surrounding floor clearance are clearly visible, table occupies center sixty percent, generous safe framing for 16:10 card crop. No people, no text, signage, watermark, logo or borders, no extreme wide-angle distortion, no food macro, not a hotel ballroom or office. Image is illustrative restaurant concept, not a measured floorplan. Scene: FAMILY LONG TABLE category in the shared main dining area. One full elongated rectangular walnut table for EIGHT with three brown woven chairs on each long side and one chair at each end. Clear full table outline and chair positions, four chairs on visible near side not required; honor three on each long side and one per end. Comfortable realistic spacing, eight place settings, cream runner and two small brass lamps. Arched garden windows and one smaller distant table in background make shared-room context clear. Long table must read as clearly larger than a small four-person table, but distinctly smaller than a private event room.",
+      "original": "research/table-category-assets/family-overview.png",
+      "original_dimensions": [
+        1586,
+        992
+      ],
+      "original_sha256": "3c3d587d94857e32d4557305a266adb6ecf52ea8e8f313b0a46d71e57b098d3c",
+      "file": "family-overview.webp",
+      "width": 960,
+      "height": 600,
+      "bytes": 148094,
+      "sha256": "3c0e5bf311d7495aee3d03200579a2135d37e4694c09948162d789d4be563af6"
+    },
+    {
+      "key": "vip-overview",
+      "prompt": "Use case: photorealistic-natural. Asset: ONE original architectural dining-category overview photo for Bella Vista Dining website card, not a collage, not a UI. Landscape 16:10 composition. Reference1 is the existing main dining room, reference2 the family long-table concept, reference3 the private VIP room concept. Use them only for SAME VENUE architecture/material/light consistency: reddish exposed brick, pale stone arch surrounds, black arched garden window frames, dark walnut tables, brown woven/upholstered chairs, simple cream runners and restrained ceramic/glass settings, brass amber lamps, tropical greenery and dusk garden views. Warm gold/deep brown palette. Realistic intimate restaurant scale, coherent table/chair geometry, natural architectural editorial photography. Eye level slightly elevated from a front corner so the WHOLE main table, tabletop, chairs and surrounding floor clearance are clearly visible, table occupies center sixty percent, generous safe framing for 16:10 card crop. No people, no text, signage, watermark, logo or borders, no extreme wide-angle distortion, no food macro, not a hotel ballroom or office. Image is illustrative restaurant concept, not a measured floorplan. Scene: VIP PRIVATE DINING ROOM category, viewed from a broad front corner, an intimate separate enclosed room with a long banquet walnut table for a larger group, many comfortably spaced brown upholstered/woven chairs along both sides and ends, several brass lamps and restrained flowers. Reveal the full table length with walkway clearance, brick walls on two sides, one tall arched garden window, a doorway edge suggesting privacy and discreet sideboard. Larger group concept suitable for the website's up-to20 VIP room category, no capacity labels or claims of exact seating count. Clearly different from shared family dining: the entire private-room setting should be visible, not merely a close crop of chairs.",
+      "original": "research/table-category-assets/vip-overview.png",
+      "original_dimensions": [
+        1586,
+        992
+      ],
+      "original_sha256": "d72e80a936d2fa37bb18599c3b15e7734fb9651a17f294319ec706260ce273e7",
+      "file": "vip-overview.webp",
+      "width": 960,
+      "height": 600,
+      "bytes": 136848,
+      "sha256": "00dc965af390a6cbf9e688e364f5a3b4ba54f51080c5e572172be7d3331b53e3"
+    }
+  ]
+}

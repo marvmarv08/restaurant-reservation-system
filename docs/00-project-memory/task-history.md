@@ -886,3 +886,94 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: deployed
 - Verification Evidence: Observed red visible-hero-paused assertion. Updated8 continuity checks and84 existing hero/chef/gallery/intro/menu checks passed. Independent review5 targeted lifecycle/mobile/delayed-playback checks clean. Zero repeated nav writes retained; scroll singleton/script and suppressions removed. PHP111 lint,56 JS parse, whitespace/preview smoke,220 exact-image hashes/private exclusions, disposable smoke and unchanged record fingerprints pass.237-file upload excludes obsolete script/private inputs. Sourcebb646751dfc3f01f1e5875355e9bede42879c985 matches private GitHub main. READY dpl_HRNaQdqT57q7qk3RkhQRWTEPT1Qe exact SHA/project/owner/container/Preview/sin1; alias API matches, deploymentType=all retained. No DB init/import/reset or new FPS guarantee; hosted URL not fetched.
 - Closed At: 2026-10-30T07:05:41Z
+
+## 2026-10-30 restaurant-photo-fan-local-20261030
+
+<!-- pmm-task-id: restaurant-photo-fan-local-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Add a restaurant photo fan to the right-side About image
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Observed missing-fan red0-versus5 and responsive-recovery red invisible-desktop-source assertions. Final20 gallery checks plus53 story/intro/garden/static regressions passed. Real front/side pointer and genuine phone taps, deterministic rapid/wrap controls, keyboard/focus, no page jump, no autoplay/idle animation, reduced/noJS/failure/recovery and7-width geometry/axe verified. Inspected desktop/tablet/phone screenshots. Independent review found only minor recovery issue, fixed with red/green regression. PHP111 lint,58 JS parse, preview smoke, git diff --check,3 new served WebP SHA/MIME and unchanged main/preview fingerprints pass.3 original matching views saved with full prompts/provenance;299640 WebP bytes. No copied reference photos/library, database operation, GitHub/Vercel action or FPS guarantee; local uncommitted source only.
+- Closed At: 2026-10-30T11:55:42Z
+
+## 2026-10-30 restaurant-photo-fan-ten-local-20261030
+
+<!-- pmm-task-id: restaurant-photo-fan-ten-local-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Expand restaurant fan to ten photos and remove arrow buttons
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 20 gallery +10 story +27 intro +11 garden +5 static browser checks passed; 7 gallery widths and visual review; independent read-only reviewer clean; PHP55/JS58 parse;8 asset original/served hashes+MIME;HTTP smoke and diff-check; main fingerprints equal, preview older baseline differs with confirmed automatic no-show event, no data reset. Research22 records assets/full prompts and limitations.
+- Closed At: 2026-10-30T12:17:24Z
+
+## 2026-10-30 remove-intro-controls-20261030
+
+<!-- pmm-task-id: remove-intro-controls-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Remove screenshot-selected garden and gallery controls locally
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Final request removes only Pause and visible counter; keeps working dots. Fresh20 gallery+11 garden+10 story checks pass; seven-width accessibility, old pause preference ignored, lifecycle/reduced-motion/failure preserved; JS/template syntax and whitespace pass; phone screenshot inspected. Local only.
+- Closed At: 2026-10-30T12:27:23Z
+
+## 2026-10-30 compact-photo-dots-20261030
+
+<!-- pmm-task-id: compact-photo-dots-20261030 -->
+
+- Status: done
+- Parent Task: none
+- Title: Compact single-row photo dots with joined active pair
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 20 gallery checks passed incl single-row compact geometry/accessibility at7 widths1920..320, ten dot selection, full cycling, reduced motion/failures; observed red before change; actual second/third and last/previous pair assertions/screenshots inspected; JS syntax and diff-check pass. Local only.
+- Closed At: 2026-10-30T12:33:38Z
+
+## 2026-10-31 centered-room-cards-20261031
+
+<!-- pmm-task-id: centered-room-cards-20261031 -->
+
+- Status: done
+- Parent Task: none
+- Title: Resize and center reservation category cards
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Reproduced304.5px unused fourth column at1702; after correction3x388px cards fill1200px. Nine viewport geometry checks1920..320 passed; Rooms accessibility1440/820/320; six real category open/Escape-focus checks; proportional images/no overflow; screenshots inspected; PHP template/guest JS syntax and diff-check pass. No mutation requests or browser errors. Local only.
+- Closed At: 2026-10-31T00:29:36Z
+
+## 2026-10-31 category-overview-photos-20261031
+
+<!-- pmm-task-id: category-overview-photos-20261031 -->
+
+- Status: done
+- Parent Task: none
+- Title: Give each dining category a distinct matching overview photo
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Distinct decoded960x600 Standard/Family/VIP assets; all3 original/optimized/served hashes+WebP MIME;9 viewport geometry checks1920..320; Rooms accessibility1440/820/320;6 actual card open/Escape-focus checks; blocked-image fallback3cards; no mutation requests/browser errors; JS syntax and whitespace; original/card screenshots inspected; full prompts/references retained. Local only.
+- Closed At: 2026-10-31T00:41:08Z
+
+## 2026-10-31 bella-vista-logo-refresh-20261031
+
+<!-- pmm-task-id: bella-vista-logo-refresh-20261031 -->
+
+- Status: done
+- Parent Task: none
+- Title: Generate and integrate the Bella Vista monogram logo
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 28 actual-public/login and protected-header-template responsive checks +27 existing intro checks pass (55). Alpha0 corners, decoded256 image,64PNGfavicon, accessible real brand text, nooverflow; independent focused reviewer clean;6PHP templates/JS syntax, original+optimized+served hashes, screenshot review and diff-check pass. Authenticated workflows not exercised. All6active templates integrated, historicalSVG/banner preserved. Local only.
+- Closed At: 2026-10-31T05:03:21Z

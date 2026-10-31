@@ -8,11 +8,11 @@ const browser=await chromium.launch();let checks=0;const errors=[],writes=[];
 async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
 try{
  const context=await browser.newContext({viewport:{width:1366,height:900},reducedMotion:'reduce'});const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!['GET','HEAD'].includes(r.method()))writes.push(r.url());});await page.goto('http://127.0.0.1:18080/#about');
- await check('About uses one matching interior visual without floating decorations',async()=>{
-  assert.equal(await page.locator('#about .story-photo img').count(),1,'About should have one coherent restaurant image');
+ await check('About uses a matching restaurant photo fan without unrelated decoration',async()=>{
+  assert.equal(await page.locator('#about .restaurant-gallery img').count(),10,'About should have ten coherent restaurant views');
   assert.equal(await page.locator('#about .story-food,#about .story-seal').count(),0);
-  assert.match(await page.locator('#about .story-photo img').getAttribute('src'),/images\/intro\/garden-interior-concept/);
-  const images=page.locator('.story-photo img,.history-scene img');await images.evaluateAll(nodes=>nodes.forEach(e=>e.loading='eager'));await page.waitForFunction(()=>[...document.querySelectorAll('.story-photo img,.history-scene img')].every(e=>e.complete&&e.naturalWidth>0));assert.equal(await images.count(),2);
+  assert.match(await page.locator('#about .restaurant-gallery img').first().getAttribute('src'),/images\/intro\/garden-interior-concept/);
+  const images=page.locator('.restaurant-gallery img,.history-scene img');await images.evaluateAll(nodes=>nodes.forEach(e=>e.loading='eager'));await page.waitForFunction(()=>[...document.querySelectorAll('.restaurant-gallery img,.history-scene img')].every(e=>e.complete&&e.naturalWidth>0));assert.equal(await images.count(),11);
  });
  await check('Visual timeline keeps original company facts without invented later dates',async()=>{
   assert.equal(await page.locator('.story-timeline li').count(),2);
@@ -22,7 +22,7 @@ try{
  await mkdir('/tmp/bella-intro-story',{recursive:true});
  for(const width of [1440,1024,768,390,320])await check('Story sections reflow and pass accessibility at '+width+'px',async()=>{
   await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-  const caption=await page.locator('.story-dining figcaption').boundingBox(),photo=await page.locator('.story-dining img').boundingBox();
+  const caption=await page.locator('.gallery-caption').boundingBox(),photo=await page.locator('.photo-fan-card[aria-current=true] img').boundingBox();
   assert.ok(caption.y>=photo.y+photo.height-1,'Small caption belongs below the photo without overlap');
   for(const id of ['about','history']){await page.locator('#'+id).scrollIntoViewIfNeeded();await page.locator('#'+id).screenshot({path:`/tmp/bella-intro-story/${id}-${width}.png`});}
   assert.deepEqual((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[]);

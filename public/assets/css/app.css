@@ -104,6 +104,11 @@ small,
   align-items: center;
   gap: 12px;
 }
+.brand > .bella-vista-mark {
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .brand svg {
   color: var(--accent);
   flex-shrink: 0;
@@ -680,9 +685,10 @@ textarea:focus {
   margin: 0;
 }
 .room-grid {
+  --room-gap: 18px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--room-gap);
 }
 .room-card {
   border: 1px solid var(--line);
@@ -962,6 +968,10 @@ dialog h2 {
   .brand svg {
     width: 27px;
   }
+  .brand > img.bella-vista-mark {
+    width: 40px;
+    height: 40px;
+  }
   .site-header nav {
     gap: 17px;
     font-size: 0.72rem;
@@ -1028,7 +1038,7 @@ dialog h2 {
     margin-top: 15px;
   }
   .room-grid {
-    gap: 12px;
+    --room-gap: 12px;
   }
   .room-copy {
     padding: 15px;
@@ -1130,4 +1140,15 @@ dialog h2 {
       background 0.15s,
       border-color 0.15s;
   }
+}
+
+@media (min-width: 601px) and (max-width: 1050px) {
+  .room-grid > .room-card:nth-child(3):last-child {
+    grid-column: 1 / -1;
+    width: calc((100% - var(--room-gap)) / 2);
+    justify-self: center;
+  }
+}
+@media (max-width: 600px) {
+  .room-grid { grid-template-columns: minmax(0, 1fr); }
 }

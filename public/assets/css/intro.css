@@ -51,7 +51,7 @@
 @media(max-width:700px){
  .intro-page .wrap{width:calc(100% - 40px)}
  .intro-header{height:auto;min-height:116px;padding:18px 20px 8px;gap:8px;flex-wrap:wrap;align-items:flex-start}
- .intro-header .brand b{font-size:1.9rem}.intro-header .brand img{width:33px;height:33px}.intro-header .brand small{font-size:.5rem}
+ .intro-header .brand b{font-size:1.9rem}.intro-header .brand img{width:40px;height:40px}.intro-header .brand small{font-size:.5rem}
  .intro-header nav{width:100%;display:flex;justify-content:space-between;gap:12px;font-size:.75rem}.intro-header nav>a{display:inline-flex;min-height:40px;padding:5px 0;gap:9px}
  .intro-hero{min-height:100svh;padding:158px 0 110px;align-items:center}
  .intro-backdrop img{object-position:68% center}
@@ -83,10 +83,6 @@
 .intro-garden{display:none;position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .intro-copy{position:relative;z-index:1}
 .intro-caption{z-index:1;align-items:center}
-.garden-toggle{display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #d7b07880;border-radius:50%;background:#100e0cdb;color:#f0c98e;cursor:pointer;flex-shrink:0}
-.garden-toggle:hover{background:#332719;border-color:#f0c98e}
-.garden-toggle .garden-play,.garden-toggle[data-paused="true"] .garden-pause{display:none}
-.garden-toggle[data-paused="true"] .garden-play{display:block}
 @media(prefers-reduced-motion:no-preference){
  .intro-page[data-garden-ready="true"] .intro-garden{display:block}
  .garden-mote{position:absolute;left:64%;top:72%;width:5px;height:5px;border-radius:50%;background:#ffe7a7;box-shadow:0 0 6px 2px #edbb6580,0 0 20px 5px #edbb6526;animation:garden-float 7s ease-in-out infinite alternate;animation-play-state:paused;opacity:.75}
@@ -108,15 +104,11 @@
  .garden-mote:nth-child(n+6){display:none}
 }
 
-@media(prefers-reduced-motion:reduce){.intro-garden,.garden-toggle{display:none}}
+@media(prefers-reduced-motion:reduce){.intro-garden{display:none}}
 
-/* A single matching interior visual continues the homepage identity. */
+/* The About showcase shares the homepage garden-estate identity. */
 .intro-about{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(40px,6vw,90px);padding-block:100px}
 .intro-about .story-visual{max-width:520px;width:100%;padding:0;border:0;border-radius:0;background:none;text-align:left}
-.story-photo{margin:0;overflow:hidden;background:#191510}
-.story-dining{border:1px solid #d7b07840;border-radius:5px}
-.story-dining img{display:block;width:100%;height:clamp(280px,32vw,440px);object-fit:cover;object-position:55% center}
-.story-dining figcaption{padding:15px 18px;border-top:1px solid #d7b07830;font-size:.75rem;line-height:1.6;color:#d9cbb7}
 .intro-history{background:radial-gradient(ellipse at 0 100%,#d7b07809,transparent 60%),#191510}
 .intro-history .history-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,105px)}
 .history-heading h2{margin-bottom:32px}
@@ -139,13 +131,11 @@
 @media(max-width:800px){
  .intro-about{grid-template-columns:1fr;padding-block:70px;gap:42px}
  .intro-about .story-visual{justify-self:center;width:100%;max-width:520px}
- .story-dining img{height:320px}
  .intro-history .history-layout{grid-template-columns:minmax(0,1fr);gap:36px}
  .history-scene{max-width:none;height:230px}
  .story-timeline{margin-top:0}
 }
 @media(max-width:420px){
- .story-dining img{height:280px}
  .history-scene{height:200px}.history-scene figcaption{padding:20px;gap:16px}.history-scene .history-year{font-size:4.2rem}
 }
 

@@ -1,0 +1,25 @@
+{
+  "created": "2026-10-31",
+  "generator": "OpenAI built-in image generation tool",
+  "prompt": "Use case: logo-brand. Create ONE original final logo SYMBOL for Bella Vista Dining, an elegant warm garden-estate restaurant serving Filipino and continental dining. Deliver only the emblem, no mockups or presentation sheet. Truly TRANSPARENT background with preserved alpha, no dark or white square. Square canvas, compact centered symbol filling roughly84 percent of width and height with even margin. A beautifully resolved custom interlocking B and V monogram inside a simple soft architectural arch inspired by the restaurant's brick-arched garden windows. The monogram and arch should feel like one cohesive visual mark, not pasted letters. A subtle small pair of leaves may emerge from the lower V as a restrained garden cue, and a simple shallow plate/baseline can finish the mark if it remains visually clean. Prioritize clean strong silhouette and clarity at32px; medium-bold strokes, generous open negative spaces, no tiny engraving, no busy ornament. Premium understated restaurant identity, balanced geometric structure with gently elegant curves. Flat SINGLE warm champagne-gold color hex D7B078; no gradients, bevel, shadows, metallic texture, photographic elements or 3D. No crown, cutlery clipart, chef hat, stock laurel wreath, extra initials, circular seal, outer box or watermark. Text: ONLY stylized B and V forming the monogram; NO restaurant name or other lettering, because the website renders the wordmark separately as real text. Make it practical as a navbar brand emblem and favicon on near-black warm backgrounds.",
+  "description": "Original warm-gold BV monogram, garden arch, sprig and plate; generated transparent background. Existing restaurant name stays real text.",
+  "original": "research/branding-assets/bella-vista-monogram-original.png",
+  "original_dimensions": [
+    1254,
+    1254
+  ],
+  "original_sha256": "a9e4684e1172d34fac8594ace262b9328cdab2cc861f9afdf1a8f84438a0567a",
+  "processing": "cwebp lossless/method6 resize256x256; favicon resized64x64 lossless and decoded toPNG. Alpha preserved; no creative pixel editing.",
+  "assets": [
+    {
+      "file": "public/assets/brand/bella-vista-monogram.webp",
+      "bytes": 22950,
+      "sha256": "fd9077907baaf21225196ff4df9e263294aa5d03eb343f5a81bb619ace374c8d"
+    },
+    {
+      "file": "public/assets/brand/bella-vista-favicon.png",
+      "bytes": 4340,
+      "sha256": "aacfb1104780ee0e7dc50ebf44eb01891366fdfdd5b707d88feafb0d6187c673"
+    }
+  ]
+}

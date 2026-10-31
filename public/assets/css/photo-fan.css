@@ -1,0 +1,32 @@
+.restaurant-gallery{width:100%;min-width:0}
+.gallery-kicker{margin:0 0 14px;font-size:.62rem;line-height:1.7;letter-spacing:.18em;text-transform:uppercase;color:#e3bc80}
+.photo-fan-stage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.photo-fan-card{position:relative;display:block;aspect-ratio:3/4;overflow:hidden;background:#211c16;border:2px solid #9f8967;border-radius:12px;color:#f4efe6}
+.photo-fan-card:first-child{grid-column:1/-1;aspect-ratio:4/3}
+.photo-fan-card picture,.photo-fan-card img{display:block;width:100%;height:100%}
+.photo-fan-card img{object-fit:cover;object-position:center}
+.photo-label{position:absolute;inset:auto 0 0;padding:28px 12px 12px;background:linear-gradient(transparent,#100e0cf2);font-size:.72rem;line-height:1.6}
+.photo-fallback{position:absolute;inset:0;display:grid;place-items:center;padding:16px;background:radial-gradient(ellipse at top,#403220,#191510);color:#e3bc80;font-size:.75rem;line-height:1.6;text-align:center}
+.restaurant-gallery[data-ready="true"] .photo-fan-stage{--fan-near:22%;--fan-far:40%;display:block;position:relative;isolation:isolate;aspect-ratio:1.3;margin-bottom:12px}
+.restaurant-gallery[data-ready="true"] .photo-fan-card{position:absolute;top:8px;left:50%;width:52%;aspect-ratio:3/4;transform-origin:center;transform:translateX(-50%);transition:transform 380ms cubic-bezier(.2,.7,.2,1),opacity 380ms ease;box-shadow:0 12px 26px #0005;cursor:pointer}
+.restaurant-gallery[data-ready="true"] .photo-label{display:none}
+.restaurant-gallery[data-ready="true"] .photo-fan-card[data-slot="0"]{z-index:5;border-color:#e4c596}
+.restaurant-gallery[data-ready="true"] .photo-fan-card[data-slot="-1"]{z-index:3;transform:translateX(calc(-50% - var(--fan-near))) translateY(8px) rotate(-6deg) scale(.94);opacity:.95}
+.restaurant-gallery[data-ready="true"] .photo-fan-card[data-slot="1"]{z-index:3;transform:translateX(calc(-50% + var(--fan-near))) translateY(8px) rotate(6deg) scale(.94);opacity:.95}
+.restaurant-gallery[data-ready="true"] .photo-fan-card[data-slot="-2"]{z-index:1;transform:translateX(calc(-50% - var(--fan-far))) translateY(16px) rotate(-12deg) scale(.86);opacity:.86}
+.restaurant-gallery[data-ready="true"] .photo-fan-card[data-slot="2"]{z-index:1;transform:translateX(calc(-50% + var(--fan-far))) translateY(16px) rotate(12deg) scale(.86);opacity:.86}
+.restaurant-gallery[data-ready="true"] .photo-fan-card[data-visible="false"]{visibility:hidden;opacity:0;pointer-events:none}
+.gallery-nav{text-align:center}
+.gallery-caption{margin:0;font-size:.85rem;line-height:1.5;color:#f4efe6}
+.gallery-dots{display:flex;justify-content:center;gap:0;margin-top:8px}
+.gallery-dot{position:relative;display:inline-grid;place-items:center;flex:0 0 24px;min-width:24px;min-height:44px;padding:0;border:0;border-radius:4px;background:transparent;color:#e3bc80;cursor:pointer}
+.gallery-dot span{position:absolute;left:calc(50% - 3.5px);width:7px;height:7px;border-radius:999px;background:#897d6b;pointer-events:none;transition:width 180ms ease,background-color 180ms ease}
+.gallery-dot[aria-current="true"] span,.gallery-dot[data-joined="true"] span{background:#e3bc80}
+.gallery-dot[aria-current="true"] span{width:31px}
+.gallery-dot[data-bridge="backward"] span{left:auto;right:calc(50% - 3.5px)}
+.gallery-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+@media(max-width:600px){
+ .restaurant-gallery[data-ready="true"] .photo-fan-stage{--fan-near:16%;--fan-far:27%;aspect-ratio:1.15}
+ .restaurant-gallery[data-ready="true"] .photo-fan-card{width:58%}
+}
+@media(prefers-reduced-motion:reduce){.restaurant-gallery[data-ready="true"] .photo-fan-card{transition:none}.gallery-dot span{transition:none}}
