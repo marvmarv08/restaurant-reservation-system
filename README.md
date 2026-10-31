@@ -12,7 +12,7 @@ Open [Bella Vista Dining](https://bella-vista-dining-marvmarv08.vercel.app) or [
 
 ## Resume the next development session
 
-Read [the concise current checkpoint](docs/00-project-memory/current-state.md), [PLAN.md](PLAN.md) and [the latest UI release receipt](docs/verification/private-ui-release-2026-10-31.md). The2026-10-31 gallery/category/logo work is verified; its authorized private publication is in progress until the receipt records a Ready deployment. Latest local preview is http://localhost:18080. Preserve the old8080 app, database volumes and private environment. B7 proposal/defense inputs, full B8 acceptance and hosted worker remain separate pending work.
+Read [the concise current checkpoint](docs/00-project-memory/current-state.md), [PLAN.md](PLAN.md) and [the latest UI release receipt](docs/verification/private-ui-release-2026-10-31.md). The2026-10-31 gallery/category/logo work is delivered from application source `8de51e9` to a Ready protected Vercel Preview. The app remains private; the receipt identifies the exact source, deployment and verification limits. Latest local preview is http://localhost:18080. Preserve the old8080 app, database volumes and private environment. B7 proposal/defense inputs, full B8 acceptance and hosted worker remain separate pending work.
 
 ## Bella Vista assignment alignment
 

@@ -1,6 +1,6 @@
 # Private UI release — 2026-10-31
 
-Marvin explicitly authorized publishing all completed local UI work to his GitHub and existing private Vercel project, and requested an easy next-session handoff. Source commit/deployment metadata are pending completion of the publication steps below.
+Marvin explicitly authorized publishing all completed local UI work to his GitHub and existing private Vercel project, and requested an easy next-session handoff. The release is delivered; source/deployment/privacy metadata are recorded below.
 
 ## Changes included
 
@@ -35,11 +35,21 @@ Protected-workspace headers were reviewed from script-disabled templates; authen
 
 Vercel dry manifest detects Container and includes255 files, including optimized new images/logo/gallery code; private inputs, original research and tests are excluded. Exact Dockerfile.vercel copies runtime directories explicitly. Its uploads placeholder is intentionally omitted by .dockerignore; no expected application file is missing. The disposable smoke container used existing isolated records with test-only local/files sessions and was removed with its private temporary environment file. Hosted Preview retains database sessions and inherited TLS credentials.
 
-Fresh main/preview table fingerprints were captured before release checks and are checked again before delivery. Do not substitute the older gallery baseline or restore records merely to make a hash match. No migration, initializer, import, fixture reset or manual data correction is part of this release.
+Fresh main/preview table fingerprints were captured before release checks and matched again after deployment. Do not substitute the older gallery baseline or restore records merely to make a hash match. No migration, initializer, import, fixture reset or manual data correction is part of this release.
 
 ## Publication receipt
 
-Pending: source SHA, private GitHub remote confirmation, Ready protected Preview ID/URL, existing alias mapping and verification timestamp. Keep previous protected deployment dpl_HRNaQdqT57q7qk3RkhQRWTEPT1Qe available for source rollback; do not roll back or reset databases.
+- Application source: `8de51e96a029d44e57a1ce3e0dba6cdcb39223c2`. Verified exact private GitHub main revision before deployment. A documentation-only receipt commit follows it.
+- Ready Preview: `dpl_6ikTjKCiKRyuVvCUeJbi94AyjnF3`; https://restaurant-reservation-system-n33genf4c-marvmarv08.vercel.app.
+- Existing alias: https://bella-vista-dining-marvmarv08.vercel.app; independent alias API maps it to the above deployment/project.
+- Project/workspace: `prj_Lulyel25nldfU6vSTel2Gt01RGf2` / `team_iFSlIHJejPUYm3ONVSXzLiG6`, verified marvmarv08 Hobby account.
+- API target=null identifies this Preview; CLI productionUrl=null. Deployment projectSettings.framework=container, regions=[sin1].
+- GitHub repository remains PRIVATE; Vercel Authentication deploymentType=all is unchanged after alias assignment. CLI also reports vercel_authentication protection.
+- Runtime overrides retain DB_DATABASE=tablebook_bella_vista, APP_URL=the existing Bella Vista alias, APP_ENV=hosted, APP_TZ=Asia/Manila and SESSION_DRIVER=database. Inherited database/TLS credentials are retained, not copied to command arguments or Git.
+- Metadata verified at `2026-10-31T05:24:19.365188+00:00`. No deployed-site HTTP request was made.
+- Previous protected deployment `dpl_HRNaQdqT57q7qk3RkhQRWTEPT1Qe` remains available for source rollback. Reassign the alias only after appropriate source verification; preserve current/legacy databases and records.
+
+CLI65.9.0 was pinned for repeatability. The unpinned no-install invocation could not resolve a cached latest CLI; the pinned CLI verified the existing Marvin account and project, without creating a project or changing the shared account. The image hash verifier was corrected to exclude the intentionally omitted uploads/.gitkeep placeholder before its passing238-file comparison. These were verifier/tool setup corrections, not product changes. Five hosted database trust-configuration guards also passed.
 
 ## Resume next session
 

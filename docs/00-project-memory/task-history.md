@@ -977,3 +977,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: 28 actual-public/login and protected-header-template responsive checks +27 existing intro checks pass (55). Alpha0 corners, decoded256 image,64PNGfavicon, accessible real brand text, nooverflow; independent focused reviewer clean;6PHP templates/JS syntax, original+optimized+served hashes, screenshot review and diff-check pass. Authenticated workflows not exercised. All6active templates integrated, historicalSVG/banner preserved. Local only.
 - Closed At: 2026-10-31T05:03:21Z
+
+## 2026-10-31 private-ui-release-20261031
+
+<!-- pmm-task-id: private-ui-release-20261031 -->
+
+- Status: done
+- Parent Task: none
+- Title: Publish local Bella Vista refinements privately and prepare next-session handoff
+- Execution State: done
+- Verification State: passed
+- Delivery State: released
+- Verification Evidence: 118 targeted UI checks;111PHP/58JS parse;5hosted config guards;238exact image hashes/private exclusions;255file Container dry manifest; both local/disposable smoke; independent review; fresh main/preview fingerprints match. Source8de51e96 pushed to PRIVATE Marvin repo, Ready Preview dpl_6ikTjKCiKRyuVvCUeJbi94AyjnF3 exact SHA/owner/project/Container/sin1 verified; existing alias maps to it and Vercel Authentication all retained. Roadmap/current-state42lines/export and receipt updated. Hosted website not fetched; authenticated workflows not rerun.
+- Closed At: 2026-10-31T05:27:39Z

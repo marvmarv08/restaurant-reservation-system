@@ -4,7 +4,7 @@ Purpose: Read this and AGENTS.md first to resume Marvin's Bella Vista project. P
 
 ## Active release checkpoint — 2026-10-31
 
-All requested gallery, category-card and logo refinements are complete locally and verified. Marvin authorized pushing everything to private GitHub and Vercel on2026-10-31. Publication is in progress under task private-ui-release-20261031; do not describe the new UI as deployed until its Ready/alias receipt is recorded. Prior private app source is bb646751dfc3f01f1e5875355e9bede42879c985.
+Release delivered. Application source `8de51e96a029d44e57a1ce3e0dba6cdcb39223c2` is pushed to private GitHub main and deployed as Ready protected Vercel Preview `dpl_6ikTjKCiKRyuVvCUeJbi94AyjnF3`. The existing alias https://bella-vista-dining-marvmarv08.vercel.app points to https://restaurant-reservation-system-n33genf4c-marvmarv08.vercel.app. Verified at2026-10-31T05:24:19.365188+00:00: exact source/project/workspace, Container/sin1, alias mapping and Vercel Authentication for all deployments. GitHub remains PRIVATE. A documentation-only receipt commit follows the application-source commit; no second app deployment is needed for that receipt.
 
 ## Working project and access
 
@@ -28,11 +28,11 @@ Fresh release checks:118 targeted checks (20 fan,10 story,11 garden,5 static,27 
 
 Header checks use actual public/login pages and script-disabled protected-header template previews. Full authenticated staff/write suites and physical-device performance are not newly verified. Do not claim a successful build proves live guest/staff booking acceptance. Hosted site fetch is outside this deployment workflow; use Ready/source/project/alias/privacy metadata for the release receipt.
 
-The release changes UI/assets/docs only. Existing hosted Bella Vista database tablebook_bella_vista, old defaultdb, hosted TLS settings and database sessions must remain intact. Never initialize/import/reset them for a UI deployment. Fresh local release baseline is separate from the older photo-task baseline that already recorded automatic no-show changes.
+The release changes UI/assets/docs only. Existing hosted Bella Vista database tablebook_bella_vista, old defaultdb, hosted TLS settings and database sessions must remain intact. Never initialize/import/reset them for a UI deployment. Fresh main/preview all-table fingerprints match before/after this release. That baseline is separate from the older photo-task baseline that already recorded automatic no-show changes.
 
 ## Remaining work and next session
 
-1. Finish this release task only if its delivery receipt is still pending. Check active-task.md before repeating a push or deployment.
+1. This release is complete. Check active-task.md and the delivery receipt; do not repeat completed image generation, commits or deployment just to resume.
 2. After delivery, review the protected app on Marvin's presentation laptop and report any visual refinements. No new feature is automatically authorized by a resume.
 3. Assignment work: B7 proposal/defense package remains pending (team profile, implementation-based DFD, timeline and itemized estimated costs). Unknown team roles, contacts, dates and commercial assumptions need real inputs.
 4. B8 full assignment acceptance and separate local-main activation remain pending. Always-running worker hosting is deferred; request-driven no-show reconciliation and server seating deadlines already exist. No real online payment processing is delivered.
