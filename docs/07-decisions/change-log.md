@@ -4,6 +4,13 @@ Purpose: Chronological record of durable project behavior, requirement, implemen
 Read when: You need recent durable changes or must record a state-changing task.
 Skip when: You only need the active task or current state.
 
+## Public access restored — 2026-11-07
+
+Marvin explicitly requested public GitHub and Vercel access. GitHub metadata confirms `marvmarv08/restaurant-reservation-system` is PUBLIC. Vercel project `prj_Lulyel25nldfU6vSTel2Gt01RGf2` in Marvin's verified workspace has `ssoProtection=null`, `passwordProtection=null` and `trustedIps=null`. The existing alias https://bella-vista-dining-marvmarv08.vercel.app still maps to Ready deployment `dpl_6ikTjKCiKRyuVvCUeJbi94AyjnF3`; no rebuild or alias change was needed. The earlier private-release entries are historical.
+
+Before publication, checked 1,609 tracked history objects for sensitive filenames and scanned 862 text blobs for credential signatures and four known private local values; no matches were found. This is a bounded scan, not a guarantee that every possible secret pattern is detectable. Staff authentication, deployed application source, existing database records and private environment configuration are preserved. Verification used provider metadata; no live booking/staff acceptance or hosted HTTP check is claimed. B7 proposal, B8 acceptance and deferred worker hosting remain pending.
+
+
 ## 2026-10-27 — Add a local restaurant introduction before reservations
 
 - Added a source-researched homepage with original garden-estate concept imagery, supplied company story and an immediate native Continue action. Existing reservations move to `/reserve`; direct management/staff routes remain available. Root booking/menu fragments and queries retain their destinations.

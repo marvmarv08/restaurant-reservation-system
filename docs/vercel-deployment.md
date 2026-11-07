@@ -1,5 +1,11 @@
 # Full-system Vercel deployment
 
+## Public access restored — 2026-11-07
+
+Marvin explicitly requested public GitHub and Vercel access. GitHub metadata confirms `marvmarv08/restaurant-reservation-system` is PUBLIC. Vercel project `prj_Lulyel25nldfU6vSTel2Gt01RGf2` in Marvin's verified workspace has `ssoProtection=null`, `passwordProtection=null` and `trustedIps=null`. The existing alias https://bella-vista-dining-marvmarv08.vercel.app still maps to Ready deployment `dpl_6ikTjKCiKRyuVvCUeJbi94AyjnF3`; no rebuild or alias change was needed. The earlier private-release entries are historical.
+
+Before publication, checked 1,609 tracked history objects for sensitive filenames and scanned 862 text blobs for credential signatures and four known private local values; no matches were found. This is a bounded scan, not a guarantee that every possible secret pattern is detectable. Staff authentication, deployed application source, existing database records and private environment configuration are preserved. Verification used provider metadata; no live booking/staff acceptance or hosted HTTP check is claimed. B7 proposal, B8 acceptance and deferred worker hosting remain pending.
+
 ## Latest private UI update — 2026-10-31
 
 The completed photo-fan, category-card/overview and generated-logo refinements are published from application source `8de51e96a029d44e57a1ce3e0dba6cdcb39223c2` to Ready protected Preview `dpl_6ikTjKCiKRyuVvCUeJbi94AyjnF3`: https://restaurant-reservation-system-n33genf4c-marvmarv08.vercel.app. Existing alias https://bella-vista-dining-marvmarv08.vercel.app maps to it. GitHub is PRIVATE and Vercel Authentication remains deploymentType=all. Verified owner/project, exact source, Container framework and sin1; current/legacy databases, TLS configuration and database sessions are preserved. No live-site HTTP check is claimed. Full receipt and next-session handoff: [private UI release](verification/private-ui-release-2026-10-31.md) and [current state](00-project-memory/current-state.md).
@@ -8,7 +14,7 @@ Use pinned `npx --yes vercel@65.9.0` with the existing dedicated profile, explic
 
 This deployment keeps the existing PHP application, booking rules and staff workspaces. Vercel runs the PHP/Apache container; a separate online MySQL service stores reservations, orders and sessions. A session is the server record that remembers the browser after sign-in. Keeping it in MySQL lets another container recognize the same browser after a restart.
 
-## Current access — private (2026-10-27)
+## Historical access restriction — 2026-10-27
 
 Marvin requested temporarily private access after the Bella Vista release. Verified GitHub repository `marvmarv08/restaurant-reservation-system` is PRIVATE. Vercel project `restaurant-reservation-system` now has Vercel Authentication with `deploymentType=all`, covering the Bella Vista alias, immutable deployment URLs and old previews. Only authorized Vercel accounts can access them. Retain these settings until Marvin explicitly requests public access again; prior public-release authorization does not authorize reopening access. Existing deployments, databases and app credentials are retained. Earlier public-release entries below are historical evidence.
 

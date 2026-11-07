@@ -6,13 +6,13 @@ This repository contains the engineering plan, research, a clickable browser pro
 
 ## Bella Vista website release
 
-**Access is currently private at Marvin’s request.** The app links require authorized Vercel access, and this GitHub repository is private.
+**Public access restored on 7 November 2026 at Marvin’s request.** The guest website opens without Vercel sign-in, and this GitHub repository is public. Staff workspaces retain their application sign-in.
 
-Open [Bella Vista Dining](https://bella-vista-dining-marvmarv08.vercel.app) or [staff sign-in](https://bella-vista-dining-marvmarv08.vercel.app/staff/login). The latest source is published to GitHub and deployed as a Ready Vercel Preview backed by a separate online database. The old online application and records remain available. Always-running no-show worker hosting is deferred by agreement; request-driven reconciliation and server-side seating cutoffs remain enforced. See [the deployment guide](docs/vercel-deployment.md#bella-vista-website-release--2026-10-27) for release status, recovery and verification. The local-phase notes below describe the earlier isolated delivery boundaries.
+Open [Bella Vista Dining](https://bella-vista-dining-marvmarv08.vercel.app) or [staff sign-in](https://bella-vista-dining-marvmarv08.vercel.app/staff/login). The latest source is published to GitHub and deployed as a Ready public Vercel Preview backed by a separate online database. The old online application and records remain available. Always-running no-show worker hosting is deferred by agreement; request-driven reconciliation and server-side seating cutoffs remain enforced. See [the deployment guide](docs/vercel-deployment.md#bella-vista-website-release--2026-10-27) for release status, recovery and verification. The local-phase notes below describe the earlier isolated delivery boundaries.
 
 ## Resume the next development session
 
-Read [the concise current checkpoint](docs/00-project-memory/current-state.md), [PLAN.md](PLAN.md) and [the latest UI release receipt](docs/verification/private-ui-release-2026-10-31.md). The2026-10-31 gallery/category/logo work is delivered from application source `8de51e9` to a Ready protected Vercel Preview. The app remains private; the receipt identifies the exact source, deployment and verification limits. Latest local preview is http://localhost:18080. Preserve the old8080 app, database volumes and private environment. B7 proposal/defense inputs, full B8 acceptance and hosted worker remain separate pending work.
+Read [the concise current checkpoint](docs/00-project-memory/current-state.md), [PLAN.md](PLAN.md) and [the latest UI release receipt](docs/verification/private-ui-release-2026-10-31.md). The2026-10-31 gallery/category/logo work is delivered from application source `8de51e9` to a Ready Vercel Preview, made public on 7 November 2026. The original release receipt identifies the exact source, deployment and verification limits. Latest local preview is http://localhost:18080. Preserve the old8080 app, database volumes and private environment. B7 proposal/defense inputs, full B8 acceptance and hosted worker remain separate pending work.
 
 ## Bella Vista assignment alignment
 

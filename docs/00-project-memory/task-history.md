@@ -990,3 +990,16 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: released
 - Verification Evidence: 118 targeted UI checks;111PHP/58JS parse;5hosted config guards;238exact image hashes/private exclusions;255file Container dry manifest; both local/disposable smoke; independent review; fresh main/preview fingerprints match. Source8de51e96 pushed to PRIVATE Marvin repo, Ready Preview dpl_6ikTjKCiKRyuVvCUeJbi94AyjnF3 exact SHA/owner/project/Container/sin1 verified; existing alias maps to it and Vercel Authentication all retained. Roadmap/current-state42lines/export and receipt updated. Hosted website not fetched; authenticated workflows not rerun.
 - Closed At: 2026-10-31T05:27:39Z
+
+## 2026-11-07 public-access-20261107
+
+<!-- pmm-task-id: public-access-20261107 -->
+
+- Status: done
+- Parent Task: none
+- Title: Make the existing GitHub repository and Bella Vista website public
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Anonymous GitHub API returned HTTP 200 and visibility=public; Marvin GitHub/Vercel identities verified; Vercel ssoProtection/passwordProtection/trustedIps are null; Ready existing deployment and unchanged alias verified; 1609 history objects and 862 text blobs scanned with zero findings; Desktop roadmap checkpoint and git diff --check pass. Critic: provider metadata proves access settings, not full live application acceptance; no source, staff-auth or database changes.
+- Closed At: 2026-11-07T12:11:02Z
