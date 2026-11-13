@@ -39,6 +39,33 @@
   "tasting7": "/assets/images/menu/tasting.jpg",
   "pairing": "/assets/images/menu/wine.jpg"
 }));
+  const curatedPhotos = {
+  "bv26_inasal": "/assets/images/menu/curated-2026/bv26_inasal.jpg",
+  "bv26_adobo": "/assets/images/menu/curated-2026/bv26_adobo.jpg",
+  "bv26_kawali": "/assets/images/menu/curated-2026/bv26_kawali.jpg",
+  "bv26_karekare": "/assets/images/menu/curated-2026/bv26_karekare.jpg",
+  "bv26_kaldereta": "/assets/images/menu/curated-2026/bv26_kaldereta.jpg",
+  "bv26_prawns": "/assets/images/menu/curated-2026/bv26_prawns.jpg",
+  "bv26_palabok": "/assets/images/menu/curated-2026/bv26_palabok.jpg",
+  "bv26_rice": "/assets/images/menu/curated-2026/bv26_rice.jpg",
+  "bv26_lumpia": "/assets/images/menu/curated-2026/bv26_lumpia.jpg",
+  "bv26_sinigang": "/assets/images/menu/curated-2026/bv26_sinigang.jpg",
+  "bv26_chopsuey": "/assets/images/menu/curated-2026/bv26_chopsuey.jpg",
+  "bv26_tomato": "/assets/images/menu/curated-2026/bv26_tomato.jpg",
+  "bv26_kinilaw": "/assets/images/menu/curated-2026/bv26_kinilaw.jpg",
+  "bv26_flan": "/assets/images/menu/curated-2026/bv26_flan.jpg",
+  "bv26_ube": "/assets/images/menu/curated-2026/bv26_ube.jpg",
+  "bv26_maja": "/assets/images/menu/curated-2026/bv26_maja.jpg",
+  "bv26_bibingka": "/assets/images/menu/curated-2026/bv26_bibingka.jpg",
+  "bv26_turon": "/assets/images/menu/curated-2026/bv26_turon.jpg",
+  "bv26_sapin": "/assets/images/menu/curated-2026/bv26_sapin.jpg",
+  "bv26_ginataan": "/assets/images/menu/curated-2026/bv26_ginataan.jpg",
+  "bv26_buko": "/assets/images/menu/curated-2026/bv26_buko.jpg",
+  "bv26_mangoshake": "/assets/images/menu/curated-2026/bv26_mangoshake.jpg",
+  "bv26_sago": "/assets/images/menu/curated-2026/bv26_sago.jpg",
+  "bv26_icedtea": "/assets/images/menu/curated-2026/bv26_icedtea.jpg"
+};
+  for (const [key, path] of Object.entries(curatedPhotos)) photos.set(key, path);
   const featurePhotos = new Map([["kinilaw", "/assets/images/menu/kinilaw-feature.jpg"]]);
   let viewer;
   function openPhoto(path, name, trigger) {
@@ -87,6 +114,7 @@
     const path = (featured ? featurePhotos.get(key) : null) || photos.get(key);
     const wrapper = document.createElement(path ? "button" : "div");
     wrapper.className = "menu-image";
+    if (Object.hasOwn(curatedPhotos, key)) wrapper.classList.add("menu-image--uncropped");
     if (path) {
       wrapper.type = "button";
       wrapper.setAttribute("aria-label", `View photo of ${name}`);

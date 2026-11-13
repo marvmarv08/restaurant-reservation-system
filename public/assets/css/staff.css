@@ -510,3 +510,11 @@
 
 /* B6: text states accompany colors; operational rows retain their scrolling container. */
 .bella-operations .staff-table th{font-size:.85rem;letter-spacing:.025em;padding:16px}.bella-operations .staff-table td{padding:18px 16px;line-height:1.5}.bella-operations .staff-table time{white-space:nowrap}.bella-operations .table-reference{margin-top:8px;font-variant-numeric:tabular-nums}.bella-operations .staff-table td strong{font-weight:650}.bella-operations .staff-floor .floor-table.cleanup{fill:#55401d;stroke:#e6bb78}.bella-operations .staff-floor-legend span:nth-child(4):before{background:#e6bb78}.bella-operations .staff-floor-legend span:nth-child(5):before{background:#b098ce}.bella-operations .staff-floor-legend span:nth-child(6):before{background:#d98b76}.floor-status-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;list-style:none;padding:0;margin-top:20px}.floor-status-list li{min-width:0;padding:8px;border:1px solid #74624a;border-radius:6px;overflow-wrap:anywhere}.floor-status-list button{width:100%;white-space:normal}.floor-status-list li[data-state=occupied]{border-color:#c8a76a}.floor-status-list li[data-state=clean_up]{border-color:#e6bb78}.staff-floor-controls{flex-wrap:wrap}@media(max-width:600px){.floor-status-list{grid-template-columns:repeat(2,minmax(0,1fr))}.floor-status-list li{padding:6px}.floor-status-list button{padding:8px}}
+
+.account-request-section {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.account-request-section h2 { font-size: 1.25rem; }
+.account-request-section a { overflow-wrap: anywhere; }

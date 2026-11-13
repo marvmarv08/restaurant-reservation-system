@@ -19,6 +19,10 @@ Authentication proves who signed in; authorization decides what that person may 
 
 The table covers host/admin permissions. Phase 6 adds separate `/server` and `/kitchen` workspaces: server can claim and manage its own food orders; kitchen can prepare, ready, hold/resume, and recall tickets. Neither role gains host/admin access. Admin/manager can use both workspaces and void orders. See [the order permission map](orders-api.md#permissions). The last active admin cannot be deactivated or demoted through account management.
 
+## Pending account requests
+
+The public login page accepts a name/Gmail request without creating a login account. A local Docker operator lists pending requests, selects the role and approves the exact address; activation remains the existing 24-hour, one-use invitation flow. See [account request setup and safeguards](staff-account-requests.md). Public callers cannot choose roles, set passwords, view requests or obtain links. Existing active accounts are preserved. No Gmail ownership verification or email delivery is provided.
+
 ## Activation, password, and session handling
 
 - A trusted local CLI operator can issue an invitation with `php bin/invite-staff.php EMAIL 'FULL NAME' ROLE`. In the container, prefix this with `docker compose exec app`. Signed-in admins can also issue invitations, with sign-in within the preceding 15 minutes required for account writes.

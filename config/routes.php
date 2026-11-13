@@ -48,6 +48,7 @@ return [
     ['GET', '/api/auth/me', [StaffController::class, 'me']],
     ['POST', '/api/auth/login', [StaffController::class, 'login']],
     ['POST', '/api/auth/activate', [StaffController::class, 'activate']],
+    ['POST', '/api/auth/account-requests', [StaffController::class, 'requestAccount']],
     ['POST', '/api/auth/logout', [StaffController::class, 'logout']],
     ['GET', '/api/admin/dashboard', [StaffController::class, 'dashboard']],
     ['GET', '/api/admin/request', [StaffController::class, 'requestStatus']],

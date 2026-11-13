@@ -73,3 +73,6 @@ button.menu-image:disabled::after { display: none; }
 .menu-photo-dialog .menu-photo-disclosure { margin: 12px 0 0; font-size: .75rem; color: var(--muted); }
 #menu-photo-error { padding: 32px 0; }
 @media (max-height: 450px) { .menu-photo-full { max-height: 45dvh; } }
+
+/* Preserve the complete photographs and their original license conditions. */
+.menu-image--uncropped img { object-fit: contain; }

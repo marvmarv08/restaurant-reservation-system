@@ -1,5 +1,9 @@
 # Restaurant Table Reservation System
 
+## Download for teammates
+
+See [teammate setup](docs/teammate-setup.md) for the source, a sanitized 47-table database with the updated 24-item menu, and a separate Docker setup. Create your own `.env` and staff login; existing private accounts and bookings are excluded.
+
 Restaurant table reservation platform built with vanilla PHP 8.3, vanilla JavaScript, CSS, MySQL 8.4, and Docker Compose.
 
 This repository contains the engineering plan, research, a clickable browser prototype, and the PHP/MySQL application. The guest website uses real MySQL availability, expiring holds, transactional confirmation, and private links for changing or cancelling a booking. Staff workspaces provide secure sign-in, reservation management, seating, waitlist offers, settings, audit history, food ordering, and persistent kitchen tickets.
@@ -9,6 +13,10 @@ This repository contains the engineering plan, research, a clickable browser pro
 **Public access restored on 7 November 2026 at Marvin’s request.** The guest website opens without Vercel sign-in, and this GitHub repository is public. Staff workspaces retain their application sign-in.
 
 Open [Bella Vista Dining](https://bella-vista-dining-marvmarv08.vercel.app) or [staff sign-in](https://bella-vista-dining-marvmarv08.vercel.app/staff/login). The latest source is published to GitHub and deployed as a Ready public Vercel Preview backed by a separate online database. The old online application and records remain available. Always-running no-show worker hosting is deferred by agreement; request-driven reconciliation and server-side seating cutoffs remain enforced. See [the deployment guide](docs/vercel-deployment.md#bella-vista-website-release--2026-10-27) for release status, recovery and verification. The local-phase notes below describe the earlier isolated delivery boundaries.
+
+## Latest local menu
+
+The local preview at [localhost:18080/reserve#menu](http://localhost:18080/reserve#menu) now has24 curated dishes, original academic-demo PHP prices/descriptions, matching high-resolution photos and per-dish photo credits. Older menu items are retained for history. New-menu pricing is verified through the booking, seating, kitchen and final-bill services (43 checks), with14 additional browser/API checks of persisted orders, cashier screens and kitchen records on a disposable local copy. See [the menu selection and verification](research/25_menu_reference_refresh.md). This update is local only; the hosted Aiven service is currently powered off after its trial/credit issue, so public Vercel booking needs database recovery.
 
 ## Resume the next development session
 
@@ -123,6 +131,10 @@ Below the booking hero, the food inspiration gallery uses six locally saved, cre
 ## Browse menu photos and categories
 
 Open [the menu](http://localhost:8080/#menu). All 36 catalog dishes have locally stored illustrative thumbnails. Choose a category from the desktop sidebar or swipe the category buttons on a phone; All dishes restores the full list. The heading and count show the selected group. Names, descriptions, prices, dietary tags and availability come from the database. Photographs may differ from exact recipes or presentation; read the dish details and expand Menu photo credits for authors, original sources and licenses. If an image fails, its dish details and category controls remain usable.
+
+## Request an account and approve it locally
+
+The staff login page now includes **Request account activation**. A requester submits their name/Gmail; only a trusted Docker operator can approve the email and choose a role. Approval issues the existing private, one-use activation link so the person sets their own password. Requests never overwrite existing staff accounts. Install the additive request-table setup before using this feature on an existing database. See [the teammate setup and approval guide](docs/staff-account-requests.md) for exact commands, limits and recovery.
 
 ## Activate the first admin and try the staff workflow
 

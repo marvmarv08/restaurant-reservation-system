@@ -1,0 +1,43 @@
+name: bella-vista-teammate
+services:
+  app:
+    build: .
+    ports:
+    - 127.0.0.1:18080:80
+    environment:
+      APP_ENV: local
+      APP_URL: http://localhost:18080
+      APP_TZ: Asia/Manila
+      DB_HOST: db
+      DB_PORT: '3306'
+      DB_DATABASE: bella_vista_teammate
+      DB_USERNAME: ${DB_USERNAME:?Copy .env.example to .env and choose local credentials}
+      DB_PASSWORD: ${DB_PASSWORD:?Choose a private local password}
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: mysql:8.4
+    command:
+    - --character-set-server=utf8mb4
+    - --collation-server=utf8mb4_unicode_ci
+    - --default-time-zone=+08:00
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Choose a private root password}
+      MYSQL_DATABASE: bella_vista_teammate
+      MYSQL_USER: ${DB_USERNAME:?Choose a local database user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Choose a private local password}
+    volumes:
+    - teammate_dbdata:/var/lib/mysql
+    - ./database/share/bella-vista-starter.sql:/docker-entrypoint-initdb.d/01-starter.sql:ro
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - MYSQL_PWD="$$MYSQL_PASSWORD" mysql --protocol=tcp -h 127.0.0.1 -u "$$MYSQL_USER"
+        "$$MYSQL_DATABASE" -e 'SELECT 1' >/dev/null 2>&1
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+volumes:
+  teammate_dbdata: null

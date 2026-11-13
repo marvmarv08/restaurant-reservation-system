@@ -583,5 +583,6 @@
     "tasting11": "tasting",
     "tasting7": "tasting",
     "pairing": "wine"
-  }
+  },
+  "active_catalog": "curated-2026/credits.json"
 }

@@ -154,7 +154,7 @@ final class StaffAuthService
             );
         }
         $token = bin2hex(random_bytes(32));
-        return (new BookingTransaction($this->pdo))->run(function () use (
+        $issue = function () use (
             $email,
             $name,
             $role,
@@ -236,7 +236,9 @@ final class StaffAuthService
                     ->modify("+24 hours")
                     ->format("Y-m-d H:i:s"),
             ];
-        });
+        };
+        // Account-request approval wraps invitation and request state in one transaction.
+        return $this->pdo->inTransaction() ? $issue() : (new BookingTransaction($this->pdo))->run($issue);
     }
 
     public function activate(string $token, string $password): array

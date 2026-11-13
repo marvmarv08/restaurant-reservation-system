@@ -1003,3 +1003,81 @@ Purpose: Append-only compact summaries of closed tasks.
 - Delivery State: not-requested
 - Verification Evidence: Anonymous GitHub API returned HTTP 200 and visibility=public; Marvin GitHub/Vercel identities verified; Vercel ssoProtection/passwordProtection/trustedIps are null; Ready existing deployment and unchanged alias verified; 1609 history objects and 862 text blobs scanned with zero findings; Desktop roadmap checkpoint and git diff --check pass. Critic: provider metadata proves access settings, not full live application acceptance; no source, staff-auth or database changes.
 - Closed At: 2026-11-07T12:11:02Z
+
+## 2026-11-07 group-testing-tunnel-20261107
+
+<!-- pmm-task-id: group-testing-tunnel-20261107 -->
+
+- Status: done
+- Parent Task: none
+- Title: Refresh the local Bella Vista menu from Marvin's food references; retain the paused tunnel in the queue
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Local menu refresh verified: 18 menu browser checks,9 viewer checks,8 real-cart/server-quote checks; all24 decoded unique high-resolution photo hashes match. Target refusals,dry-run,transactional application,idempotent replay and2 real self-cleaning old-preorder dependency probes pass. Original menu identities and44 unrelated table fingerprints matched before intentional cart verifier hold/quote creation. Local smoke,PHP/JS syntax,Desktop export and git diff --check pass; focused independent review has no blocker. Source-page licenses and actual photos manually reviewed. Only localhost preview updated; hosted/main unchanged; tunnel paused in queue.
+- Closed At: 2026-11-07T14:23:55Z
+
+## 2026-11-07 menu-order-e2e-20261107
+
+<!-- pmm-task-id: menu-order-e2e-20261107 -->
+
+- Status: done
+- Parent Task: none
+- Title: Verify curated menu prices through booking, kitchen and final bill
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: 43 actual-service/MySQL checks and14 real staff/kitchen browser/API checks pass on guarded disposable copy using all24 current prices. Standard PHP1160, Family PHP8050 less500 credit, VIP18 PHP8050+900 extra less2500 credit; final balances0. Kitchen prepare/ready/serve/close, persisted snapshots, retries, minimum refusal, role denials and sales totals verified. Arrival clocks valid-hour test-only; full every-click guest-to-kitchen browser flow not claimed. Original full SQL export unchanged excluding dump timestamp; localhost18080 healthy; labeled temporary containers/storage/network/envfiles removed. Test syntax, Desktop export and git diff --check pass; independent review has no blocker.
+- Closed At: 2026-11-07T14:40:09Z
+
+## 2026-11-11 teammate-handoff-20261111
+
+<!-- pmm-task-id: teammate-handoff-20261111 -->
+
+- Status: done
+- Parent Task: none
+- Title: Prepare private teammate transfer with saved database
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: ZIP CRC and SHA-256 equality for 438 files; byte-identical complete 46-table November7 snapshot; YAML and no-seed guards; original credentials/provider profiles excluded. Docker unavailable: restore/startup explicitly unverified.
+- Closed At: 2026-11-11T04:09:44Z
+
+## 2026-11-11 staff-activation-requests-20261111
+
+<!-- pmm-task-id: staff-activation-requests-20261111 -->
+
+- Status: done
+- Parent Task: none
+- Title: Add staff account requests with Docker approval
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Cancellation rollback verified: five originally-clean tracked files match HEAD byte-for-byte; six new feature/test files removed from source and retained privately; prior project changes preserved. This verifies rollback only, not delivery of the canceled feature.
+- Closed At: 2026-11-11T07:03:23Z
+
+## 2026-11-11 staff-activation-resumed-20261111
+
+<!-- pmm-task-id: staff-activation-resumed-20261111 -->
+
+- Status: done
+- Parent Task: none
+- Title: Resume Docker-approved staff account requests
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: Final source: 29 service/MySQL +14 HTTP +14 browser checks pass; PHP118 lint and changed JS/whitespace pass. Independent security review cleared important issues. Existing regressions staff43, management14, orders28 pass; booking40/41 has the identical date-dependent demo-seed failure reproduced on untouched HEAD, documented as a remaining baseline limitation. ZIP13 files CRC/SHA equality pass; recipient installation not claimed.
+- Closed At: 2026-11-11T07:20:16Z
+
+## 2026-11-13 teammate-source-database-20261113
+
+<!-- pmm-task-id: teammate-source-database-20261113 -->
+
+- Status: done
+- Parent Task: none
+- Title: Publish pending source and sanitized teammate database
+- Execution State: done
+- Verification State: passed
+- Delivery State: not-requested
+- Verification Evidence: PHP 8.3 AST parsing 118 files and Node syntax 74 files passed; 537 candidate files scanned for private paths, known local secret values and credential signatures; 47 SQL tables and strict 13-table public data allowlist passed; all 24 menu entries/photos present; Compose YAML and shell quoting passed; git diff --check passed. Docker engine unavailable: actual import/startup/browser acceptance not run; no live database writes or deployment.
+- Closed At: 2026-11-13T03:10:28Z

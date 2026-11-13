@@ -45,6 +45,12 @@ try {
     assert.ok(await page.locator('.menu-item img').evaluateAll(nodes => nodes.every(e => e.getAttribute('loading') === 'lazy' && e.src.startsWith(location.origin + '/assets/images/'))));
     assert.ok(await page.locator('.menu-photo-note').isVisible());
   });
+  await check('All 24 curated photographs load sharply and retain their uncropped display', async () => {
+    assert.equal(catalog.menu.length, 24);
+    await page.locator('.menu-item img').evaluateAll(nodes => nodes.forEach(image => {image.loading = 'eager';}));
+    await page.waitForFunction(() => [...document.querySelectorAll('.menu-item img')].every(image => image.complete && image.naturalWidth >= 800 && image.naturalHeight >= 500));
+    assert.ok(await page.locator('.menu-item img').evaluateAll(nodes => nodes.every(image => getComputedStyle(image).objectFit === 'contain')));
+  });
   await check('Desktop categories sit beside the menu and keep a visible selected state', async () => {
     const nav = await page.locator('#menu-categories').boundingBox(), items = await page.locator('#menu-items').boundingBox();
     assert.ok(nav.x + nav.width < items.x);
@@ -116,10 +122,15 @@ try {
   });
   await check('Photo credits include original authors, sources and Creative Commons license links', async () => {
     const credits = page.locator('#menu-photo-credits'); await credits.locator('summary').click();
-    assert.ok(await credits.locator('li').filter({hasText: 'Arnold Gatilao'}).isVisible());
-    assert.ok(await credits.getByRole('link', {name: 'File:Chicken adobo (Philippines).jpg', exact: true}).isVisible());
-    assert.ok(await credits.getByRole('link', {name: 'CC BY-SA 4.0', exact: true}).count() > 0);
-    assert.ok(await credits.getByRole('link', {name: 'CC BY 2.0', exact: true}).count() > 0);
+    const selected = (await (await fetch(base + '/assets/images/menu/curated-2026/credits.json')).json()).photos;
+    assert.equal(await credits.locator('li').count(), selected.length);
+    for (const photo of selected) {
+      const row = credits.locator('li').filter({hasText: photo.menu_name});
+      assert.equal(await row.count(), 1);
+      assert.ok((await row.innerText()).includes(photo.photographer));
+      assert.equal(await row.getByRole('link', {name: photo.title, exact: true}).getAttribute('href'), photo.source);
+      assert.equal(await row.getByRole('link', {name: photo.license, exact: true}).getAttribute('href'), photo.license_url);
+    }
   });
   await check('Menu browsing creates no holds/orders, needs no external assets and produces no JS errors', async () => {
     assert.deepEqual(mutations, []); assert.deepEqual(external, []); assert.deepEqual(errors, []);

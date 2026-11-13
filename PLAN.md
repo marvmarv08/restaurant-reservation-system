@@ -1,7 +1,27 @@
 # Bella Vista Dining — Reservation and Food Ordering Roadmap
 
 Project: class competition deliverable. Stack mandated: JavaScript (vanilla), PHP (vanilla), CSS, HTML, Docker.
-Status (2026-11-07): **GitHub and the existing Bella Vista website are public at Marvin's request.** App: https://bella-vista-dining-marvmarv08.vercel.app. Source: https://github.com/marvmarv08/restaurant-reservation-system. Provider metadata verifies PUBLIC repository, disabled Vercel access gates and the existing Ready deployment/alias. Application source and database records are unchanged. B7 proposal and B8 full acceptance remain pending.
+Status (2026-11-07): **The local preview now has the curated24-item menu, matching sharp photos and complete credits.** Open http://localhost:18080/reserve#menu. Verified35 browser checks,24 image checks, guarded/idempotent catalog update and live-preorder refusal checks; earlier identities/order history are retained. GitHub/Vercel access remains public, but hosted database recovery is needed for online booking. No deployment is included in this local refresh; the public tunnel remains paused.
+
+## Teammate source and starter database publication — 2026-11-13
+
+Marvin requested publishing all pending source, explicitly including the previously canceled staff account-request feature, so teammates can download the project. The package adds `compose.teammate.yaml`, `docs/teammate-setup.md` and `database/share/bella-vista-starter.sql`: 47 tables with only reviewed venue/menu configuration retained from the November 7 preview. Existing accounts/password hashes, guests, reservations, private links, sessions, financial records and audit history are excluded; private `.env` files remain ignored and unchanged. Teammates create their own local configuration and first admin through the existing invitation CLI. The dedicated Compose project uses separate local storage and does not run the historical reservation seed.
+
+Verification covers PHP 8.3 parser and JavaScript syntax, SQL table/data allowlist, all 24 menu entries/photos, Compose YAML/healthcheck quoting, private-file/known-secret/credential-signature scanning and whitespace. PHP parser checks do not execute the application. Docker Desktop's Linux engine is unavailable, so fresh SQL import, startup and browser acceptance remain unverified. This is source/database setup delivery, not hosted database recovery, main activation or a new Vercel deployment.
+
+## Staff activation requests — local source and teammate patch, 2026-11-11
+
+Implemented the approved request → Docker approval → private-link activation flow. Existing accounts remain protected. Verification:57 new checks pass; staff43,management14,orders28 pass; booking40/41 retains a date-dependent seed-test failure reproduced on untouched HEAD. See docs/staff-account-requests.md. Recipient installation and explicit additive setup are required. No original/hosted database activation, GitHub push or Vercel deployment was performed.
+
+## Local menu refresh — 2026-11-07
+
+Marvin's supplied food references now drive a 24-item local Bella Vista menu: eight mains, five appetizers/soups and eleven desserts/drinks. Original academic-demo PHP prices, descriptions and fitting food names are stored in database/catalogs/bella-vista-menu-20261107.json. Sharp, matching local photos and visible per-dish credits replace the previous mismatched offerings. Review at http://localhost:18080/reserve#menu; click a photo to enlarge it and open Menu photo credits below the list.
+
+Verified 35 browser checks (18 menu, nine image viewer, eight real cart/server-quote), four widths including320px, accessibility scans, all24 image hashes/unique contents/resolutions, guarded target refusal, actual update/idempotent replay and two real live-dependency refusal probes. Original menu identities and44 unrelated-table fingerprints matched immediately after application; the later cart verifier intentionally created/released its own temporary hold without confirming any reservation/payment. Focused independent review found no remaining blocker. Local smoke and syntax checks pass.
+
+The 36 prior active dishes are archived, not deleted. Updater defaults to dry-run, targets only tablebook_p3_test and requires the ignored pre-change catalog snapshot; it refuses retirement while live old-menu preorders or active food reviews remain. Main/hosted data and original assets are preserved. Twenty photos use Ang Sarap's noncommercial/no-derivatives license, retained unchanged and uncropped; commercial reuse needs separate permission or replacement assets. Research/selection/credits/recovery: research/25_menu_reference_refresh.md.
+
+This refresh is local only. The hosted Aiven database is powered off after its trial/credit issue, as confirmed in Marvin's screenshot; public Vercel booking is not currently healthy. Local Docker preview works. The temporary public tunnel remains paused in task-queue.md. B7 proposal and B8 full acceptance remain pending.
 
 ## Public access restored — 2026-11-07
 
@@ -475,11 +495,11 @@ About us/Our story links work alongside rooms/menu/My booking/Reserve. Small scr
 
 Verification also passed exact live profile/history comparison to restaurant.docx, valid local SVG XML, PHP 109-file lint, JS syntax and both localhost smoke checks. All 37 main table/private/Compose fingerprints matched; exactly seven intended pre-existing product files changed, with 267 protected existing source/assets/config files unchanged. No resetting database suite, main image refresh, account/pricing change, publication or real payment operation ran. B1 remains In progress at the isolated/main acceptance boundary; the complete proposal and final assignment score are not claimed.
 
-**Current checkpoint (2026-11-07):** Public access is restored for GitHub and Vercel; the existing Ready deployment and alias are retained. Earlier UI release evidence follows:  Private UI release delivered from application source `8de51e96a029d44e57a1ce3e0dba6cdcb39223c2` to Ready protected Preview `dpl_6ikTjKCiKRyuVvCUeJbi94AyjnF3` (https://restaurant-reservation-system-n33genf4c-marvmarv08.vercel.app); existing alias https://bella-vista-dining-marvmarv08.vercel.app maps to it. Verified Marvin ownership/source, Container/sin1, GitHub PRIVATE and Vercel Authentication deploymentType=all.118 targeted checks,111 PHP/58 JS parse,5 hosted guards,238 exact runtime hashes and both local/disposable smoke pass; fresh local DB fingerprints match. Read docs/00-project-memory/current-state.md and docs/verification/private-ui-release-2026-10-31.md. Documentation receipt commits follow the deployed source; no source or database activation is pending for this UI batch.
+**Current checkpoint (2026-11-11):** Staff account-request feature and private teammate patch are implemented and verified on disposable data. The latest local menu/lifecycle work remains preserved. Existing booking seed-test failure is reproduced on original HEAD; full B8 acceptance, hosted database recovery and main activation remain separate.
 
 **Historical checkpoint (2026-10-18):** Saved for next-session resume at Marvin's request; B7 has not started and no implementation task remains active. B0 planning is Done. B1 original branding/company content and B2–B6 functionality are verified only on port 18080 and remain In progress pending separate main activation. Main port 8080, existing data/configuration and running image remain unchanged. B7–B8, main activation, real payment processing and final assignment acceptance are not delivered by this batch.
 
-**Next concrete action:** Marvin reviews the public app on the presentation laptop. In the next session, read AGENTS.md → current-state.md → this checkpoint/release receipt, then choose a reported UI refinement or B7 proposal/defense inputs. B8 full acceptance, always-running worker hosting and separate local-main activation remain pending. Preserve both databases/private settings; do not repeat completed generations/deployment or reset/import records just to resume.
+**Next concrete action:** Install the teammate account-activation update and run the explicit additive setup; then submit an unused Gmail, approve its role in Docker and set a password using the private link. See docs/staff-account-requests.md. No public tunnel, original-account reset or hosted/main activation is part of this task.
 
 ### Next-session handoff — saved 2026-10-18
 

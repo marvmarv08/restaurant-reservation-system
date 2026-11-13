@@ -109,6 +109,21 @@ final class StaffController
         });
     }
 
+    public function requestAccount(Request $request): Response
+    {
+        return $this->respond(function () use ($request): array {
+            [, $data] = $this->mutation($request);
+            if (array_diff(array_keys($data), ['email', 'full_name']) !== []) {
+                throw new BookingError('account_request_invalid', 'Submit only your full name and Gmail address.');
+            }
+            return (new \App\Service\StaffAccountRequestService($this->pdo, $this->clock))->request(
+                $this->text($data, 'email', 190),
+                $this->text($data, 'full_name', 120),
+                $_SERVER['REMOTE_ADDR'] ?? 'local',
+            );
+        });
+    }
+
     public function activate(Request $request): Response
     {
         return $this->respond(function () use ($request): array {

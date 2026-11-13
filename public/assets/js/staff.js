@@ -309,10 +309,38 @@
     card.append(
       form,
       note(
-        "Need access or a new activation link? Contact your administrator. No public staff registration is available.",
+        "Need a replacement activation link? Contact your administrator. Approval is required before account activation.",
       ),
     );
+    if (view === "login") card.append(accountRequestSection());
     workspace.replaceChildren(card);
+  }
+  function accountRequestSection() {
+    const status = node("p", { role: "status", tabindex: "-1", class: "form-note", hidden: "" });
+    const form = node("form", { "aria-label": "Request staff account activation" },
+      field("Full name", { name: "full_name", required: "", maxlength: 120, autocomplete: "name" }),
+      field("Gmail address", { name: "email", type: "email", required: "", maxlength: 190, autocomplete: "email", placeholder: "name@gmail.com" }),
+    );
+    const submit = node("button", { type: "submit", class: "button full" }, "Request account activation");
+    form.append(submit);
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      busy(submit, async () => {
+        status.hidden = true;
+        const result = await api("/api/auth/account-requests", Object.fromEntries(new FormData(form)));
+        form.reset();
+        status.textContent = result.message;
+        status.hidden = false;
+        status.focus();
+      });
+    });
+    return node("section", { class: "account-request-section", "aria-labelledby": "account-request-heading" },
+      node("h2", { id: "account-request-heading" }, "Request account activation"),
+      note("New staff member? Submit your name and Gmail for administrator review. You cannot sign in until approved and activated."),
+      form, status,
+      note("Your administrator selects your role and shares a private activation link. No verification email is sent."),
+      node("a", { href: "/staff/activate" }, "Already have an activation link? Activate your account"),
+    );
   }
   function title(heading, description, ...actions) {
     return node(

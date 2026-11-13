@@ -1,0 +1,57 @@
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {mkdir} from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+const {chromium}=await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE || 'C:/Users/burgo/AppData/Local/Temp/bella-activation-browser/node_modules/playwright-core/index.mjs').href);
+if (process.env.ACCOUNT_REQUEST_TEST !== 'disposable') throw new Error('Requires ACCOUNT_REQUEST_TEST=disposable and the dedicated port 18090 test app');
+const base='http://127.0.0.1:18090';
+const docker=process.env.DOCKER_EXE || 'C:/Users/burgo/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe';
+const artifacts=process.env.BROWSER_ARTIFACT_DIR || 'C:/Users/burgo/AppData/Local/Temp/bella-activation-evidence';
+await mkdir(artifacts,{recursive:true});
+const browser=await chromium.launch({headless:true,executablePath:process.env.BROWSER_CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+let passed=0;const errors=[];
+function check(name,ok){assert.ok(ok,name);passed++;console.log('PASS '+name);}
+function cli(...args){return execFileSync(docker,['exec','bella-activation-test-app','php','bin/staff-account-requests.php',...args],{encoding:'utf8'});}
+try {
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/staff/login');
+ const form=page.getByRole('form',{name:'Request staff account activation'});
+ await form.waitFor();check('Login includes a labeled account activation request section',await page.getByRole('heading',{name:'Request account activation',exact:true}).isVisible());
+ check('Request form collects no password or role',await form.locator('input[type=password],select,input[name=role]').count()===0);
+ const email=`browser.${Date.now()}@gmail.com`;
+ await form.getByLabel('Full name',{exact:true}).fill('Browser Activation User');
+ await form.getByLabel('Gmail address',{exact:true}).fill(email);
+ await page.screenshot({path:artifacts+'/desktop-request.png',fullPage:true});
+ await form.getByRole('button',{name:'Request account activation',exact:true}).click();
+ const status=page.locator('.account-request-section > p[role="status"]');await status.waitFor({state:'visible'});
+ check('Public submission explains pending approval and private activation',/administrator approves/.test(await status.innerText()));
+ check('Submission acknowledgement receives keyboard focus',await status.evaluate(e=>e===document.activeElement));
+ check('Request is listed only in Docker console',cli('list').includes(email));
+ const before=await page.request.get(base+'/api/auth/me');check('Pending requester remains unauthenticated',(await before.json()).user===null);
+ const approved=cli('approve',email,'host');
+ const link=approved.match(/http:\/\/localhost:18090\/staff\/activate#token=[a-f0-9]{64}/)?.[0];
+ check('Only Docker approval supplies the private activation link',!!link);
+ await page.goto(link.replace('http://localhost:18090',base));
+ const password='Browser account activation phrase 2030!';
+ await page.getByLabel('New password',{exact:true}).fill(password);
+ await page.getByLabel('Confirm new password',{exact:true}).fill(password);
+ await page.getByRole('button',{name:'Activate account',exact:true}).click();
+ await page.waitForURL('**/admin');await page.getByRole('heading',{name:'Service overview.',exact:true}).waitFor();
+ check('Approved activation opens the staff dashboard',new URL(page.url()).pathname==='/admin');
+ const me=await page.request.get(base+'/api/auth/me');const actor=(await me.json()).user;
+ check('Dashboard actor has the operator-selected host role',actor.role==='host' && actor.email===email);
+ check('Host cannot acquire account-management permissions',!actor.permissions.includes('staff.manage'));
+ await page.getByRole('button',{name:'Sign out',exact:true}).click();await page.waitForURL('**/staff/login');
+ await page.getByLabel('Staff email',{exact:true}).fill(email);await page.getByLabel('Password',{exact:true}).fill(password);
+ await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.waitForURL('**/admin');
+ check('Existing login still works after account activation',new URL(page.url()).pathname==='/admin');
+ const mobile=await browser.newContext({viewport:{width:320,height:900},isMobile:true});
+ const phone=await mobile.newPage();phone.on('pageerror',e=>errors.push(e.message));await phone.goto(base+'/staff/login');
+ await phone.getByRole('form',{name:'Request staff account activation'}).waitFor();
+ check('320px login and request section has no horizontal overflow',await phone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ check('Gmail field has an accessible label on mobile',await phone.getByLabel('Gmail address',{exact:true}).count()===1);
+ await phone.screenshot({path:artifacts+'/mobile-request.png',fullPage:true});
+ check('No browser JavaScript errors',errors.length===0);
+ console.log(`${passed} browser activation checks passed.`);
+}finally{await browser.close();}
